@@ -6,4 +6,4 @@
 > * 通过账号详情页面可以直接打开相应官网 
 > * 点击收藏可以在收藏页面更快捷地看到账号密码
 
-![1.png](ManyPasswords-UWP/好多密码 UWP/Assets/screenshot.jpg)
+![截图](/ManyPasswords/Assets/screenshot.jpg)
