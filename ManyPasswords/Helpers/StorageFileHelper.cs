@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace 好多密码_UWP
+namespace ManyPasswords
 {
     public class StorageFileHelper
     {

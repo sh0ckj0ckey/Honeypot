@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 好多密码_UWP.Helpers
+namespace ManyPasswords.Helpers
 {
     public static class RSAHelper
     {

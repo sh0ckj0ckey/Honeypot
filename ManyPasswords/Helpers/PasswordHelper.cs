@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using 好多密码_UWP.Helpers;
+using ManyPasswords.Helpers;
 
-namespace 好多密码_UWP
+namespace ManyPasswords
 {
     public class PasswordHelper
     {

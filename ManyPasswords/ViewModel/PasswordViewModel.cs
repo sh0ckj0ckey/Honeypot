@@ -1,49 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using System.Text;
+using System.Threading.Tasks;
 
-// https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
-
-namespace ManyPasswords
+namespace ManyPasswords.ViewModel
 {
-    /// <summary>
-    /// 可用于自身或导航至 Frame 内部的空白页。
-    /// </summary>
-    public sealed partial class MainPage : Page
+    public class PasswordViewModel
     {
-        public static List<OnePassword> BuildIn = null;
 
-        public MainPage()
+        public void InitManyPasswords()
         {
-            this.InitializeComponent();
-
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonInactiveForegroundColor = Colors.Gray;
-
-            ///将存储的账号读取出来
-            ReadFile();
-
-            ///在程序刚启动时加载好内置的账号
-            BuildIn = new List<OnePassword> {
+            try
+            {
+                var BuildIn = new List<OnePassword> {
                 new OnePassword("Apple", "苹果",
                                         "苹果公司（Apple Inc.）是美国的一家高科技公司，2007年由苹果电脑公司（Apple Computer, Inc.）更名而来，核心业务为电子科技产品，总部位于加利福尼亚州的库比蒂诺。（来自必应网典）",
                                         "https://www.apple.com/cn/",'P'),
@@ -141,21 +111,8 @@ namespace ManyPasswords
                                         "战网（Battle.net）是暴雪娱乐为旗下游戏提供的多人在线游戏服务，自1996年11月30日推出暗黑破坏神后运营。战网启动器于2017年3月24日更名为暴雪游戏平台（Blizzard App）。（来自必应网典）",
                                         "http://www.battlenet.com.cn/zh/",'Z')
                 };
-            if (App.AppSettingContainer.Values["Password"] == null)
-            {
-                MainFrame.Navigate(typeof(HomePage));
-                MainFrame.Navigate(typeof(HomePage));
             }
-            else
-            {
-                MainFrame.Navigate(typeof(HomePage));
-                MainFrame.Navigate(typeof(LoginPage));
-            }
-        }
-
-        public async void ReadFile()
-        {
-            await PasswordHelper.GetData();
+            catch { }
         }
     }
 }

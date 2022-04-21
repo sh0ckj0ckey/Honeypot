@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace 好多密码_UWP
+namespace ManyPasswords
 {
     public class OnePassword
     {

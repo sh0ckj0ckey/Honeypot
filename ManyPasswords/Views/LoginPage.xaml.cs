@@ -18,7 +18,7 @@ using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
-namespace 好多密码_UWP
+namespace ManyPasswords
 {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
@@ -307,9 +307,9 @@ namespace 好多密码_UWP
                     {
                         ////六个点左右震动一下并清空
 
-                        await InputStackPanel.Offset(offsetX: -4, offsetY: 0, duration: 20, delay: 0, easingType: EasingType.Linear).StartAsync();
-                        await InputStackPanel.Offset(offsetX: 4, offsetY: 0, duration: 40, delay: 20, easingType: EasingType.Linear).StartAsync();
-                        await InputStackPanel.Offset(offsetX: 0, offsetY: 0, duration: 20, delay: 60, easingType: EasingType.Linear).StartAsync();
+                        //await InputStackPanel.Offset(offsetX: -4, offsetY: 0, duration: 20, delay: 0, easingType: EasingType.Linear).StartAsync();
+                        //await InputStackPanel.Offset(offsetX: 4, offsetY: 0, duration: 40, delay: 20, easingType: EasingType.Linear).StartAsync();
+                        //await InputStackPanel.Offset(offsetX: 0, offsetY: 0, duration: 20, delay: 60, easingType: EasingType.Linear).StartAsync();
 
                         Ellipse0.Fill = new SolidColorBrush(Colors.Transparent);
                         Ellipse1.Fill = new SolidColorBrush(Colors.Transparent);
