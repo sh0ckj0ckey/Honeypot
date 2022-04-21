@@ -5,9 +5,6 @@
     xmlns:local="using:ManyPasswords"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
     mc:Ignorable="d"
     RequestedTheme="Light"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -83,6 +80,9 @@
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}"/>
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
+                                    </VisualState>
+                                    <VisualState>
+                                        
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
@@ -201,9 +201,9 @@
     </Page.Resources>
 
     <Grid x:Name="LoginGrid" Background="Transparent">
-        <Image Source="Assets/Background/background.jpg" Stretch="UniformToFill"/>
+        <Image Source="/Assets/Background/background.jpg" Stretch="UniformToFill"/>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="32">
-            <Image Source="Assets/Icon/pswd.png" Height="32" Margin="0,0,0,4"/>
+            <Image Source="/Assets/Icon/pswd.png" Height="32" Margin="0,0,0,4"/>
             <TextBlock Text="So Many Passwords" Margin="12,0" FontFamily="Arial" FontSize="21" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
         </StackPanel>
         <StackPanel VerticalAlignment="Bottom">
@@ -283,10 +283,11 @@
                 </Button>
             </Grid>
         </StackPanel>
-        <Grid x:Name="KeyboardTipGrid" Height="42" Width="156" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="32">
-            <Rectangle RadiusX="7" RadiusY="7" Fill="Black" Opacity="0.2"/>
-            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="21" Text="&#xE765;" VerticalAlignment="Center" Margin="16,0" Opacity="0.7"/>
-            <TextBlock Text="支持物理键盘输入" VerticalAlignment="Center" FontSize="12" Foreground="White" Margin="42,0,0,2" Opacity="0.7"/>
-        </Grid>
+        <StackPanel x:Name="KeyboardTipGrid" Orientation="Horizontal" Height="38" Width="Auto" 
+                    HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="32"
+                    CornerRadius="8" Background="#33000000">
+            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="21" Text="&#xE765;" VerticalAlignment="Center" Margin="16,0,4,0" Opacity="0.7"/>
+            <TextBlock Text="支持物理键盘输入" VerticalAlignment="Center" FontSize="12" Foreground="White" Margin="0,0,16,2" Opacity="0.7"/>
+        </StackPanel>
     </Grid>
 </Page>

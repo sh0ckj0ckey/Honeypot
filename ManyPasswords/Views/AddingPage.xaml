@@ -1,14 +1,12 @@
-﻿<Page
-    x:Class="ManyPasswords.AddingPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ManyPasswords"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+﻿<Page x:Class="ManyPasswords.AddingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:ManyPasswords"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <Storyboard x:Name="ShowErrorGrid">
             <DoubleAnimation Storyboard.TargetName="ErrorGrid"
@@ -26,21 +24,6 @@
         </Storyboard>
 
         <Style x:Key="RadiusTextBox" TargetType="TextBox">
-            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
-            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
-            <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
-            <Setter Property="Background" Value="#28808080"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
-            <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
-            <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}"/>
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
-            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
-            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
-            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
             <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}"/>
             <Setter Property="Template">
                 <Setter.Value>
@@ -527,13 +510,13 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <controls:DropShadowPanel x:Name="PhotoPanel" x:FieldModifier="Public" Grid.Column="0" BlurRadius="18" Color="Gray" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid x:Name="PhotoPanel" x:FieldModifier="Public" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Rectangle Width="128" Height="128"  HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Rectangle.Fill>
-                        <ImageBrush x:Name="PhotoImageBrush" Stretch="UniformToFill" ImageSource="Assets/BuildInIcon/default.jpg" Opacity="1"/>
+                        <ImageBrush x:Name="PhotoImageBrush" Stretch="UniformToFill" ImageSource="/Assets/BuildInIcon/default.jpg" Opacity="1"/>
                     </Rectangle.Fill>
                 </Rectangle>
-            </controls:DropShadowPanel>
+            </Grid>
             <Button Grid.Column="1" Margin="12,0" Style="{ThemeResource TextBlockButtonStyle}" VerticalAlignment="Bottom" Click="Button_Click_2Async">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
@@ -582,9 +565,9 @@
             </StackPanel>
         </ScrollViewer>
         <Grid Grid.RowSpan="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="64" Height="56" Width="56">
-            <controls:DropShadowPanel BlurRadius="12" Opacity="0.4" Height="56" Width="56" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid Opacity="0.4" Height="56" Width="56" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Ellipse Height="56" Width="56" Fill="Black"/>
-            </controls:DropShadowPanel>
+            </Grid>
             <Ellipse Height="56" Width="56" Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
             <Button BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource EllipseButton}" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="56" Width="56" Click="Button_Click_1" ToolTipService.ToolTip="添加">
                 <TextBlock Text="&#xE0E7;" FontSize="18" FontFamily="Segoe UI Symbol" Foreground="White"/>

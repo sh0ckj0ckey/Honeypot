@@ -6,10 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
     mc:Ignorable="d" RequestedTheme="Light">
     <Page.Resources>
-
         <Storyboard x:Name="ShowButton1Name">
             <DoubleAnimation From="0" To="1" Duration="00:00:0.3"
                              Storyboard.TargetName="ShowName1ScaleTransform"
@@ -283,14 +281,14 @@
             <RowDefinition Height="32"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Image Grid.ColumnSpan="3" Grid.RowSpan="2" Stretch="UniformToFill" Source="Assets/Background/Background.jpg"/>
+        <Image Grid.ColumnSpan="3" Grid.RowSpan="2" Stretch="UniformToFill" Source="/Assets/Background/Background.jpg"/>
         <Rectangle Grid.RowSpan="2">
             <Rectangle.Fill>
-                <version1803:AcrylicBrush x:Name="MenuAcrylic" TintColor="Transparent" TintOpacity="0.4" BackgroundSource="Backdrop"/>
+                <AcrylicBrush x:Name="MenuAcrylic" TintColor="Transparent" TintOpacity="0.4" BackgroundSource="Backdrop"/>
             </Rectangle.Fill>
         </Rectangle>
         <StackPanel Grid.RowSpan="2" Orientation="Horizontal" Height="56" VerticalAlignment="Top" Margin="12">
-            <!--<Image Source="Assets/Icon/logo_small.png" Width="26"/>-->
+            <!--<Image Source="/Assets/Icon/logo_small.png" Width="26"/>-->
             <TextBlock Text="好多密码" FontWeight="Bold" FontSize="18" Margin="14,14,0,0" Foreground="White"/>
         </StackPanel>
         <Grid Grid.Column="0" Grid.Row="1" Margin="0,48,0,32">
@@ -307,7 +305,7 @@
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="Assets/Icon/PasswordIcon.png" Height="16" Margin="0,0,2,0"/>
+                            <Image Source="/Assets/Icon/PasswordIcon.png" Height="16" Margin="0,0,2,0"/>
                             <TextBlock Grid.Column="1" 
                                        Text="所有账号"
                                        Foreground="White"
@@ -320,7 +318,7 @@
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="Assets/Icon/FavIcon.png" Height="14"/>
+                            <Image Source="/Assets/Icon/FavIcon.png" Height="14"/>
                             <TextBlock Grid.Column="1" 
                                        Text="我的收藏"
                                        Foreground="White"
@@ -333,7 +331,7 @@
                                 <ColumnDefinition Width="32"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="Assets/Icon/AddIcon.png" Height="14"/>
+                            <Image Source="/Assets/Icon/AddIcon.png" Height="14"/>
                             <TextBlock Grid.Column="1" 
                                        Text="添加"
                                        Foreground="White"
@@ -421,9 +419,9 @@
                 </Grid>
             </Grid>
         </Grid>
-        <controls:DropShadowPanel Grid.Column="1" Grid.RowSpan="2" BlurRadius="16" Opacity="0.7" Color="Black">
+        <Grid Grid.Column="1" Grid.RowSpan="2" Opacity="0.7">
             <Rectangle Fill="Black" Width="1024" HorizontalAlignment="Left"/>
-        </controls:DropShadowPanel>
+        </Grid>
         <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <Rectangle Fill="Gray" Opacity="0.3"/>
         </Grid>
@@ -441,7 +439,7 @@
                 </Storyboard>
             </Grid.Resources>
             <Rectangle Fill="Transparent" Tapped="Rectangle_Tapped"/>
-            <controls:DropShadowPanel x:Name="SettingPop" BlurRadius="36" Width="496" Height="512" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid x:Name="SettingPop" Width="496" Height="512" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid Width="496" Height="512" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="496"/>
@@ -565,39 +563,38 @@
                                                             <HyperlinkButton Content="yaoyiming123@live.com" ToolTipService.ToolTip="点击向我发送邮件" NavigateUri="mailto:yaoyiming123@live.com"/>
                                                         </Flyout>
                                                     </AppBarButton.Flyout>
-                                                    <Image Source="Assets/Feedback/MailIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
+                                                    <Image Source="/Assets/Feedback/MailIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
                                                 </AppBarButton>
                                                 <AppBarButton Height="36" Width="36" Background="Gray" Margin="12,0">
                                                     <AppBarButton.Flyout>
                                                         <Flyout>
                                                             <StackPanel>
-                                                                <Image Source="Assets/Feedback/MyQQ.png" Width="256"/>
+                                                                <Image Source="/Assets/Feedback/MyQQ.png" Width="256"/>
                                                                 <TextBlock Text="QQ：1095979350" FontFamily="Arial" Margin="4,8,4,-4" Opacity="0.8"/>
                                                             </StackPanel>
                                                         </Flyout>
                                                     </AppBarButton.Flyout>
-                                                    <Image Source="Assets/Feedback/QQIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
+                                                    <Image Source="/Assets/Feedback/QQIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
                                                 </AppBarButton>
                                                 <AppBarButton Height="36" Width="36" Background="Gray" Margin="12,0" ToolTipService.ToolTip="微信">
                                                     <AppBarButton.Flyout>
                                                         <Flyout>
                                                             <StackPanel>
-                                                                <Image Source="Assets/Feedback/MyWeChat.png" Width="256"/>
+                                                                <Image Source="/Assets/Feedback/MyWeChat.png" Width="256"/>
                                                             </StackPanel>
                                                         </Flyout>
                                                     </AppBarButton.Flyout>
-                                                    <Image Source="Assets/Feedback/WechatIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
+                                                    <Image Source="/Assets/Feedback/WechatIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
                                                 </AppBarButton>
                                                 <AppBarButton Height="36" Width="36" Background="Gray" Margin="12,0">
                                                     <AppBarButton.Flyout>
                                                         <Flyout>
-                                                            <Image Source="Assets/Feedback/MyWeibo.png" Width="256"/>
+                                                            <Image Source="/Assets/Feedback/MyWeibo.png" Width="256"/>
                                                         </Flyout>
                                                     </AppBarButton.Flyout>
-                                                    <Image Source="Assets/Feedback/WeiboIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
+                                                    <Image Source="/Assets/Feedback/WeiboIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
                                                 </AppBarButton>
                                             </StackPanel>
-                                            <version1803:RatingControl ValueChanged="RatingControl_ValueChanged" ToolTipService.ToolTip="打分评价" Margin="0,16"/>
                                         </StackPanel>
                                     </Grid>
                                 </ScrollViewer>
@@ -606,7 +603,7 @@
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <Grid>
                                         <StackPanel>
-                                            <Image Source="Assets/Background/Together_dark.png" Stretch="Uniform"/>
+                                            <Image Source="/Assets/Background/Together_dark.png" Stretch="Uniform"/>
                                             <TextBlock Text="So Many Passwords" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Opacity="0.2" FontFamily="Arial"/>
                                             <TextBlock Text="v 1.2.0" HorizontalAlignment="Center" Margin="0,12,0,0" Opacity="0.2" FontFamily="Arial"/>
                                         </StackPanel>
@@ -618,7 +615,7 @@
                         <AppBarButton Height="42" Width="42" HorizontalAlignment="Right" VerticalAlignment="Top" Content="&#xE10A;" FontFamily="Segoe MDL2 Assets" Click="AppBarButton_Click"/>
                     </Grid>
                 </Grid>
-            </controls:DropShadowPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

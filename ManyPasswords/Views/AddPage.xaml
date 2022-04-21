@@ -47,7 +47,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Apple.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Apple.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -64,7 +64,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/iQIYI.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/iQIYI.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -81,7 +81,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Baidu.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Baidu.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -98,7 +98,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/bilibili.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/bilibili.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -115,7 +115,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/DouYu.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/DouYu.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -132,7 +132,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Facebook.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Facebook.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -149,7 +149,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/GitHub.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/GitHub.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -166,7 +166,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Google.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Google.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -183,7 +183,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Instagram.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Instagram.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -200,7 +200,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/ITHome.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/ITHome.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -217,7 +217,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/JD.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/JD.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -234,7 +234,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Line.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Line.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -251,7 +251,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/LinkedIn.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/LinkedIn.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -268,7 +268,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Microsoft.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Microsoft.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -285,7 +285,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Naver.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Naver.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -302,7 +302,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/NetEase.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/NetEase.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -319,7 +319,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Pinterest.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Pinterest.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -336,7 +336,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/pixiv.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/pixiv.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -353,7 +353,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/SnapChat.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/SnapChat.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -370,7 +370,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Spotify.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Spotify.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -387,7 +387,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Steam.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Steam.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -404,7 +404,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/taobao.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/taobao.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -421,7 +421,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Tencent.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Tencent.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -438,7 +438,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Twitter.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Twitter.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -455,7 +455,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/twitch.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/twitch.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -472,7 +472,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/WeChat.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/WeChat.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -489,7 +489,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Weibo.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Weibo.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -506,7 +506,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Whatsapp.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Whatsapp.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -523,7 +523,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Yahoo.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Yahoo.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -540,7 +540,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Alipay.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Alipay.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -557,7 +557,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/Zhihu.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/Zhihu.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>
@@ -574,7 +574,7 @@
                         <Ellipse.Fill>
                             <ImageBrush>
                                 <ImageBrush.ImageSource>
-                                    <BitmapImage UriSource="Assets/BuildInIcon/BattleNet.jpg"
+                                    <BitmapImage UriSource="/Assets/BuildInIcon/BattleNet.jpg"
                                                  DecodePixelHeight="52"
                                                  DecodePixelWidth="52"
                                                  DecodePixelType="Logical"/>

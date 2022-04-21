@@ -17,7 +17,7 @@
             <version1803:AcrylicBrush FallbackColor="White" TintColor="White" TintOpacity="0.8" BackgroundSource="HostBackdrop"/>
         </Grid.Background>-->
         <StackPanel VerticalAlignment="Center">
-            <Image Source="Assets/Background/Together_dark.png" MaxHeight="298"/>
+            <Image Source="/Assets/Background/Together_dark.png" MaxHeight="298"/>
             <TextBlock Text="So Many Passwords" HorizontalAlignment="Center" FontSize="36" FontWeight="Bold" Opacity="0.1" FontFamily="Ink Free"/>
         </StackPanel>
     </Grid>

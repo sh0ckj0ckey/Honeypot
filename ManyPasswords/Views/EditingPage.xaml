@@ -530,7 +530,7 @@
             <controls:DropShadowPanel x:Name="PhotoPanel" x:FieldModifier="Public" Grid.Column="0" BlurRadius="18" Color="Gray" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Rectangle Width="128" Height="128"  HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Rectangle.Fill>
-                        <ImageBrush x:Name="PhotoImageBrush" Stretch="UniformToFill" ImageSource="Assets/BuildInIcon/default.jpg" Opacity="1"/>
+                        <ImageBrush x:Name="PhotoImageBrush" Stretch="UniformToFill" ImageSource="/Assets/BuildInIcon/default.jpg" Opacity="1"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </controls:DropShadowPanel>
