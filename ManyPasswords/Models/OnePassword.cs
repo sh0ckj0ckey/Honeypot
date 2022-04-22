@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace ManyPasswords
 {
-    public class OnePassword
+    public class OnePassword : ViewModel.RootViewModel
     {
         /// <summary>
         /// 名字的首字母
         /// </summary>
-        public char FirstLetter { get; set; }
+        private char _sFirstLetter = '0';
+        public char sFirstLetter
+        {
+            get { return _sFirstLetter; }
+            set { Set("sFirstLetter", ref _sFirstLetter, value); }
+        }
 
         /// <summary>
         /// 名字
@@ -78,7 +83,7 @@ namespace ManyPasswords
             this.IsFavorite = false;
             this.Priority = 0;
             this.Date = "创建于 " + DateTime.Now.ToLocalTime().ToString();
-            this.FirstLetter = 'W';
+            this.sFirstLetter = 'W';
         }
 
         /// <summary>
@@ -126,37 +131,7 @@ namespace ManyPasswords
             this.IsFavorite = false;
             this.Priority = 0;
             this.Date = "创建于 " + DateTime.Now.ToLocalTime().ToString();
-            this.FirstLetter = firstLetter;
+            this.sFirstLetter = firstLetter;
         }
-
-        //public char GetFirstLetter(string name)
-        //{
-        //    if (System.Text.RegularExpressions.Regex.IsMatch(name, "^[\\d\\W]"))
-        //    {
-        //        return '#';
-        //    }
-        //    else if (System.Text.RegularExpressions.Regex.IsMatch(name, "^[a-zA-Z]"))
-        //    {
-        //        return name.ToUpper()[0];
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            return PinYinConverter.GetFirst(name[0])[0];
-        //        }
-        //        catch
-        //        {
-        //            return '#';
-        //        }
-        //    }
-        //}
     }
-
-    public class PasswordsInGroup
-    {
-        public char Key { get; set; }
-        public List<OnePassword> PasswordsContent { get; set; }
-    }
-
 }

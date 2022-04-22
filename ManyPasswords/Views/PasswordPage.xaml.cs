@@ -35,7 +35,7 @@ namespace ManyPasswords
             PasswordFrame.Navigate(typeof(BlankPage));
             try
             {
-                itemList = (from item in PasswordHelper._data group item by item.FirstLetter into newItems select new PasswordsInGroup { Key = newItems.Key, PasswordsContent = newItems.ToList() }).OrderBy(x => x.Key).ToList();
+                itemList = (from item in PasswordHelper._data group item by item.sFirstLetter into newItems select new PasswordsInGroup { Key = newItems.Key, PasswordsContent = newItems.ToList() }).OrderBy(x => x.Key).ToList();
             }
             catch { }
             //PasswordsCollectionViewSource.Source = itemList;

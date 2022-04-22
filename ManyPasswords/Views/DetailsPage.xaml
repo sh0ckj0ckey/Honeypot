@@ -526,13 +526,13 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <controls:DropShadowPanel x:Name="PhotoPanel" x:FieldModifier="Public" Grid.Column="0" BlurRadius="18" Color="Gray" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <Grid x:Name="PhotoPanel" x:FieldModifier="Public" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center">
                         <Rectangle Width="96" Height="96" RadiusX="8" RadiusY="8" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Rectangle.Fill>
                                 <ImageBrush ImageSource="{x:Bind ShowPassword.Picture}" Stretch="UniformToFill" Opacity="1"/>
                             </Rectangle.Fill>
                         </Rectangle>
-                    </controls:DropShadowPanel>
+                    </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>

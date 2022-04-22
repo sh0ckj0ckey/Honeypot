@@ -68,7 +68,7 @@ namespace ManyPasswords
                     LinkTextBox.Text = creating.Website;
                     BioTextBox.Text = creating.Info;
                     TitleTextBlock.Text = creating.ImageName;
-                    this.typingFirstLetter = creating.FirstLetter;
+                    this.typingFirstLetter = creating.sFirstLetter;
                 }
             }
         }
@@ -169,16 +169,20 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // 数字
             if (NameTextBox.Text == "" || System.Text.RegularExpressions.Regex.IsMatch(NameTextBox.Text.Trim(), "^[0-9]"))
             {
                 this.typingFirstLetter = '#';
                 return;
             }
+
+            // 英文
             if (System.Text.RegularExpressions.Regex.IsMatch(NameTextBox.Text.Trim(), "^[a-zA-Z]"))
             {
                 this.typingFirstLetter = NameTextBox.Text[0].ToString().ToUpper()[0];
                 return;
             }
+
             var zhuyinProvider = new ImmPinyinConversionProvider();
             string[] pinyin;
             try
@@ -247,13 +251,5 @@ namespace ManyPasswords
                 this.typingFirstLetter = '#';
             }
         }
-
-        //private void NameTextBox_Paste(object sender, TextControlPasteEventArgs e)
-        //{
-        //    //ToastTextBlock.Text = "抱歉，不能粘贴";
-        //    //ErrorGrid.Visibility = Visibility.Visible;
-        //    //ShowErrorGrid.Begin();
-        //    //e.Handled = true;
-        //}
     }
 }
