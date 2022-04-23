@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManyPasswords.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -23,11 +24,11 @@ namespace ManyPasswords
     /// </summary>
     public sealed partial class PasswordPage : Page
     {
-        public List<PasswordsInGroup> itemList = new List<PasswordsInGroup>();
-        public List<OnePassword> list = new List<OnePassword>();
-        public static OnePassword Selected = null;
+        public List<PasswordsGroup> itemList = new List<PasswordsGroup>();
+        public List<PasswordItem> list = new List<PasswordItem>();
+        public static PasswordItem Selected = null;
         public static PasswordPage Password = null;
-        List<OnePassword> suggestions = new List<OnePassword>();
+        List<PasswordItem> suggestions = new List<PasswordItem>();
         public PasswordPage()
         {
             this.InitializeComponent();
@@ -35,12 +36,9 @@ namespace ManyPasswords
             PasswordFrame.Navigate(typeof(BlankPage));
             try
             {
-                itemList = (from item in PasswordHelper._data group item by item.sFirstLetter into newItems select new PasswordsInGroup { Key = newItems.Key, PasswordsContent = newItems.ToList() }).OrderBy(x => x.Key).ToList();
+                //itemList = (from item in PasswordHelper._data group item by item.sFirstLetter into newItems select new PasswordsInGroup { Key = newItems.Key, PasswordsContent = newItems.ToList() }).OrderBy(x => x.Key).ToList();
             }
             catch { }
-            //PasswordsCollectionViewSource.Source = itemList;
-            //OutView.ItemsSource = PasswordsCollectionViewSource.View.CollectionGroups;
-            //InView.ItemsSource = PasswordsCollectionViewSource.View;
             if (itemList.Count == 0)
             {
                 NullStackPanel.Visibility = Visibility.Visible;
@@ -50,7 +48,7 @@ namespace ManyPasswords
             {
                 foreach (var group in itemList)
                 {
-                    foreach (var password in group.PasswordsContent)
+                    foreach (var password in group.vPasswords)
                     {
                         list.Add(password);
                     }
@@ -90,7 +88,7 @@ namespace ManyPasswords
             //    PasswordFrame.Navigate(typeof(BlankPage));
             //    return;
             //}
-            Selected = (OnePassword)e.ClickedItem;
+            Selected = (PasswordItem)e.ClickedItem;
             //Selected = list[InView.SelectedIndex];
             PasswordFrame.Navigate(typeof(DetailsPage));
         }
@@ -107,9 +105,9 @@ namespace ManyPasswords
         /// <param name="args"></param>
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            suggestions.Clear();
-            suggestions = PasswordHelper._data.Where(p => (p.Name.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase) || p.Account.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase))).ToList();
-            SearchAutoSuggestBox.ItemsSource = suggestions;
+            //suggestions.Clear();
+            //suggestions = PasswordHelper._data.Where(p => (p.Name.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase) || p.Account.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase))).ToList();
+            //SearchAutoSuggestBox.ItemsSource = suggestions;
         }
 
         /// <summary>
@@ -119,8 +117,8 @@ namespace ManyPasswords
         /// <param name="args"></param>
         private void SearchAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            OnePassword onePassword = (OnePassword)args.SelectedItem;
-            SearchAutoSuggestBox.Text = onePassword.Name.StartsWith(SearchAutoSuggestBox.Text, StringComparison.CurrentCultureIgnoreCase) ? onePassword.Name : onePassword.Account;
+            PasswordItem onePassword = (PasswordItem)args.SelectedItem;
+            SearchAutoSuggestBox.Text = onePassword.sName.StartsWith(SearchAutoSuggestBox.Text, StringComparison.CurrentCultureIgnoreCase) ? onePassword.sName : onePassword.sAccount;
             Selected = onePassword;
             InView.SelectedIndex = -1;
             PasswordFrame.Navigate(typeof(DetailsPage));

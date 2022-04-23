@@ -5,11 +5,13 @@
     xmlns:local="using:ManyPasswords"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 5)"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    xmlns:converter="using:ManyPasswords.Converter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisible"/>
+
         <Style x:Key="AccountTextBoxStyle" TargetType="TextBox">
             <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
             <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
@@ -529,7 +531,7 @@
                     <Grid x:Name="PhotoPanel" x:FieldModifier="Public" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center">
                         <Rectangle Width="96" Height="96" RadiusX="8" RadiusY="8" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Rectangle.Fill>
-                                <ImageBrush ImageSource="{x:Bind ShowPassword.Picture}" Stretch="UniformToFill" Opacity="1"/>
+                                <ImageBrush ImageSource="{x:Bind ViewModel.CurrentPassword.sPicture}" Stretch="UniformToFill" Opacity="1"/>
                             </Rectangle.Fill>
                         </Rectangle>
                     </Grid>
@@ -538,40 +540,28 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="{x:Bind ShowPassword.Name}" FontWeight="Bold" FontSize="28" Margin="24,12,0,6"/>
-                        <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{x:Bind ShowPassword.Date}" Opacity="0.7" Margin="26,6"/>
-                        <!--<StackPanel Grid.Row="1" Margin="26,6" Orientation="Horizontal">
-                            --><!--实心星星 &#xE1CF;  \uE735    空心星星 \uE24A--><!--
-                            <TextBlock x:Name="Star1TextBlock" Text="&#xE1CF;" FontFamily="Segoe MDL2 Assets" Margin="0,0,4,0"/>
-                            <TextBlock x:Name="Star2TextBlock" Text="&#xE1CF;" FontFamily="Segoe MDL2 Assets" Margin="0,0,4,0"/>
-                            <TextBlock x:Name="Star3TextBlock" Text="&#xE1CF;" FontFamily="Segoe MDL2 Assets" Margin="0,0,4,0"/>
-                            <TextBlock x:Name="Star4TextBlock" Text="&#xE24A;" FontFamily="Segoe MDL2 Assets" Margin="0,0,4,0"/>
-                            <TextBlock x:Name="Star5TextBlock" Text="&#xE24A;" FontFamily="Segoe MDL2 Assets" Margin="0,0,4,0"/>
-                        </StackPanel>-->
-                        <!--<TextBlock Grid.Row="1" Text="创建于 2018/6/17 10:12" Opacity="0.7" Margin="16,4"/>-->
-                        <!--<ScrollViewer Grid.Row="1" MaxWidth="512" Height="96" HorizontalAlignment="Left" Style="{StaticResource ScrollViewerStyle1}">
-                            <TextBlock TextWrapping="WrapWholeWords" Margin="16,4,16,0" HorizontalAlignment="Left" Text="据媒体报道，我国相关产业厂家在2017年就已经向当时分管查处价格类限制竞争行为的国家发改委价格监督检查与反垄断局反映相关情况，我国反垄断执法机构也已经在2017年底就约谈了三星。因此，对DRAM内存市场的调查与2018年3月下旬才逐渐公开化的中美贸易纠纷没有直接关联。"/>
-                        </ScrollViewer>-->
+                        <TextBlock Grid.Row="0" Text="{x:Bind ViewModel.CurrentPassword.sName}" FontWeight="Bold" FontSize="28" Margin="24,12,0,6"/>
+                        <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{x:Bind ViewModel.CurrentPassword.sDate}" Opacity="0.7" Margin="26,6"/>
                     </Grid>
                 </Grid>
                 <TextBlock Text="账号" FontWeight="Black" Margin="4,48,0,8"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="AccountTextBox" Text="{x:Bind ShowPassword.Account}" AllowFocusOnInteraction="False" Style="{StaticResource AccountTextBoxStyle}" Background="#28808080" Margin="-4,0,0,0" BorderThickness="0" FontFamily="Book Antiqua" FontSize="17" Width="294" HorizontalAlignment="Left" IsReadOnly="True" Padding="8,0"/>
+                    <TextBox x:Name="AccountTextBox" Text="{x:Bind ViewModel.CurrentPassword.sAccount}" AllowFocusOnInteraction="False" Style="{StaticResource AccountTextBoxStyle}" Background="#28808080" Margin="-4,0,0,0" BorderThickness="0" FontFamily="Book Antiqua" FontSize="17" Width="294" HorizontalAlignment="Left" IsReadOnly="True" Padding="8,0"/>
                     <Button Content="复制" Style="{ThemeResource TextBlockButtonStyle}" FontWeight="Bold" Click="Button_Click"/>
                 </StackPanel>
                 <TextBlock Text="密码" FontWeight="Black" Margin="4,24,0,8"/>
                 <StackPanel Orientation="Horizontal">
-                    <PasswordBox x:Name="PasswordTextBox" Password="{x:Bind ShowPassword.Password}" Background="#28808080" AllowFocusOnInteraction="False" Style="{StaticResource PasswordBoxStyle}" Margin="-4,0,0,0" BorderThickness="0" FontFamily="Book Antiqua" FontSize="17" Width="294" HorizontalAlignment="Left" PasswordRevealMode="Visible" Padding="8,2,8,0"/>
+                    <PasswordBox x:Name="PasswordTextBox" Password="{x:Bind ViewModel.CurrentPassword.sPassword}" Background="#28808080" AllowFocusOnInteraction="False" Style="{StaticResource PasswordBoxStyle}" Margin="-4,0,0,0" BorderThickness="0" FontFamily="Book Antiqua" FontSize="17" Width="294" HorizontalAlignment="Left" PasswordRevealMode="Visible" Padding="8,2,8,0"/>
                     <Button Content="复制" Style="{ThemeResource TextBlockButtonStyle}" FontWeight="Bold" Click="Button_Click_1"/>
                 </StackPanel>
                 <StackPanel Margin="-4,28">
                     <!--<TextBlock FontFamily="Segoe UI Symbol" Text="&#xE134;" FontWeight="Bold" FontSize="18" VerticalAlignment="Top" Margin="18,4"/>-->
                     <TextBox x:Name="BioTextBox" 
-                             Text="{x:Bind ShowPassword.Info}"  Background="#28808080"
+                             Text="{x:Bind ViewModel.CurrentPassword.sNote}"  Background="#28808080"
                              AllowFocusOnInteraction="False" Style="{StaticResource BioTextBoxStyle}" PlaceholderText="未添加备注" MinHeight="128" Width="346" TextWrapping="Wrap" BorderThickness="0" HorizontalAlignment="Left" Padding="8"/>
                 </StackPanel>
                 <TextBlock Text="网址" FontWeight="Black" Margin="4,8,0,0"/>
-                <HyperlinkButton x:Name="WebsiteHyperlinkButton" Content="{x:Bind ShowPassword.Website}" Click="AppBarButton_Click_2" FontFamily="Arial" FontSize="17" />
+                <HyperlinkButton x:Name="WebsiteHyperlinkButton" Content="{x:Bind ViewModel.CurrentPassword.sWebsite}" Click="AppBarButton_Click_2" FontFamily="Arial" FontSize="17" />
             </StackPanel>
         </ScrollViewer>
         <Grid x:Name="AppBarGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,48">
@@ -588,7 +578,7 @@
                     <Rectangle Stretch="Fill" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
                     <!--<Rectangle Opacity="0.4" Fill="Gray"/>-->
                     <StackPanel Orientation="Horizontal">
-                        <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="访问网站" Click="AppBarButton_Click_2">
+                        <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="访问网站" Click="AppBarButton_Click_2" KeyTipPlacementMode="Hidden">
                             <TextBlock Text="&#xE12B;" FontSize="16" FontFamily="Segoe UI Symbol" FontWeight="Bold" VerticalAlignment="Center"/>
                             <AppBarButton.Flyout>
                                 <Flyout>
@@ -598,8 +588,8 @@
                         </AppBarButton>
                         <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="收藏" Click="AppBarButton_Click_3">
                             <Grid>
-                                <TextBlock x:Name="FavoriteIcon" Visibility="Visible" Text="&#xE006;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="UnFavoriteIcon" Visibility="Collapsed" Text="&#xE0A5;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FavoriteIcon" Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},ConverterParameter=-}" Text="&#xE006;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="UnFavoriteIcon" Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible}}" Text="&#xE0A5;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
                             </Grid>
                         </AppBarButton>
                         <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="编辑" Click="AppBarButton_Click_5">

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using NChinese;
 using NChinese.Imm;
+using ManyPasswords.Models;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -56,19 +57,19 @@ namespace ManyPasswords
             if (e.Parameter != null)
             {
                 //这个e.Parameter是获取传递过来的参数
-                OnePassword creating = (OnePassword)e.Parameter;
+                PasswordItem creating = (PasswordItem)e.Parameter;
                 if (creating != null)
                 {
-                    UploadPicName = creating.Picture;
-                    PhotoImageBrush.ImageSource = new BitmapImage(new Uri(UploadPicName, UriKind.Absolute));
-                    NameTextBox.Text = creating.Name;
-                    AccountTextBox.Text = creating.Account;
-                    PasswordTextBox.Text = creating.Password;
-                    FavoriteCheckBox.IsChecked = creating.IsFavorite;
-                    LinkTextBox.Text = creating.Website;
-                    BioTextBox.Text = creating.Info;
-                    TitleTextBlock.Text = creating.ImageName;
-                    this.typingFirstLetter = creating.sFirstLetter;
+                    //UploadPicName = creating.Picture;
+                    //PhotoImageBrush.ImageSource = new BitmapImage(new Uri(UploadPicName, UriKind.Absolute));
+                    //NameTextBox.Text = creating.Name;
+                    //AccountTextBox.Text = creating.Account;
+                    //PasswordTextBox.Text = creating.Password;
+                    //FavoriteCheckBox.IsChecked = creating.IsFavorite;
+                    //LinkTextBox.Text = creating.Website;
+                    //BioTextBox.Text = creating.Info;
+                    //TitleTextBlock.Text = creating.ImageName;
+                    //this.typingFirstLetter = creating.sFirstLetter;
                 }
             }
         }
@@ -100,20 +101,20 @@ namespace ManyPasswords
             }
             else
             {
-                OnePassword newPassword = new OnePassword(UploadPicName, NameTextBox.Text, BioTextBox.Text, LinkTextBox.Text, AccountTextBox.Text, PasswordTextBox.Text, /*PriorityRatingControl.Value*/0, typingFirstLetter);
-                if (FavoriteCheckBox.IsChecked == false)
-                {
-                    newPassword.IsFavorite = false;
-                }
-                else
-                {
-                    newPassword.IsFavorite = true;
-                }
-                PasswordHelper._data.Add(newPassword);
-                PasswordHelper.SaveData();
-                AddPage.Add.AddingGridView.SelectedIndex = -1;
-                desiredName = "";
-                this.Frame.Navigate(typeof(BlankPage));
+                //PasswordItem newPassword = new PasswordItem(UploadPicName, NameTextBox.Text, BioTextBox.Text, LinkTextBox.Text, AccountTextBox.Text, PasswordTextBox.Text, /*PriorityRatingControl.Value*/0, typingFirstLetter);
+                //if (FavoriteCheckBox.IsChecked == false)
+                //{
+                //    newPassword.IsFavorite = false;
+                //}
+                //else
+                //{
+                //    newPassword.IsFavorite = true;
+                //}
+                //PasswordHelper._data.Add(newPassword);
+                //PasswordHelper.SaveData();
+                //AddPage.Add.AddingGridView.SelectedIndex = -1;
+                //desiredName = "";
+                //this.Frame.Navigate(typeof(BlankPage));
             }
         }
         private void DoubleAnimation_Completed(object sender, object e)

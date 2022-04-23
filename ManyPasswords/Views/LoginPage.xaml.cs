@@ -58,7 +58,7 @@ namespace ManyPasswords
                 {
                     case Windows.System.VirtualKey.Back:
                     case Windows.System.VirtualKey.Delete:
-                        ShowBackground10.Begin();
+
                         if (InputPassword.Length <= 0)
                         {
                             return;
@@ -68,61 +68,61 @@ namespace ManyPasswords
                         break;
                     case Windows.System.VirtualKey.Number0:
                     case Windows.System.VirtualKey.NumberPad0:
-                        ShowBackground0.Begin();
+
                         InputPassword += "0";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number1:
                     case Windows.System.VirtualKey.NumberPad1:
-                        ShowBackground1.Begin();
+
                         InputPassword += "1";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number2:
                     case Windows.System.VirtualKey.NumberPad2:
-                        ShowBackground2.Begin();
+
                         InputPassword += "2";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number3:
                     case Windows.System.VirtualKey.NumberPad3:
-                        ShowBackground3.Begin();
+
                         InputPassword += "3";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number4:
                     case Windows.System.VirtualKey.NumberPad4:
-                        ShowBackground4.Begin();
+
                         InputPassword += "4";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number5:
                     case Windows.System.VirtualKey.NumberPad5:
-                        ShowBackground5.Begin();
+
                         InputPassword += "5";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number6:
                     case Windows.System.VirtualKey.NumberPad6:
-                        ShowBackground6.Begin();
+
                         InputPassword += "6";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number7:
                     case Windows.System.VirtualKey.NumberPad7:
-                        ShowBackground7.Begin();
+
                         InputPassword += "7";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number8:
                     case Windows.System.VirtualKey.NumberPad8:
-                        ShowBackground8.Begin();
+
                         InputPassword += "8";
                         ShowInput();
                         break;
                     case Windows.System.VirtualKey.Number9:
                     case Windows.System.VirtualKey.NumberPad9:
-                        ShowBackground9.Begin();
+
                         InputPassword += "9";
                         ShowInput();
                         break;
@@ -154,77 +154,66 @@ namespace ManyPasswords
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            ShowBackground1.Begin();
             InputPassword += "1";
             ShowInput();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            ShowBackground2.Begin();
             InputPassword += "2";
             ShowInput();
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            ShowBackground3.Begin();
             InputPassword += "3";
             ShowInput();
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            ShowBackground4.Begin();
             InputPassword += "4";
             ShowInput();
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            ShowBackground5.Begin();
             InputPassword += "5";
             ShowInput();
         }
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            ShowBackground6.Begin();
             InputPassword += "6";
             ShowInput();
         }
 
         private void Button_Click_7(object sender, RoutedEventArgs e)
         {
-            ShowBackground7.Begin();
             InputPassword += "7";
             ShowInput();
         }
 
         private void Button_Click_8(object sender, RoutedEventArgs e)
         {
-            ShowBackground8.Begin();
             InputPassword += "8";
             ShowInput();
         }
 
         private void Button_Click_9(object sender, RoutedEventArgs e)
         {
-            ShowBackground9.Begin();
             InputPassword += "9";
             ShowInput();
         }
 
-        private void Button_Click_10(object sender, RoutedEventArgs e)
+        private void Button_Click_0(object sender, RoutedEventArgs e)
         {
-            ShowBackground0.Begin();
             InputPassword += "0";
             ShowInput();
         }
 
         private void Button_Click_11(object sender, RoutedEventArgs e)
         {
-            ShowBackground10.Begin();
             if (InputPassword.Length <= 0)
             {
                 return;
@@ -296,11 +285,13 @@ namespace ManyPasswords
                     Ellipse4.Fill = new SolidColorBrush(Colors.White);
                     Ellipse5.Fill = new SolidColorBrush(Colors.White);
 
-                    if (InputPassword == App.AppSettingContainer.Values["Password"].ToString())
+                    if (App.AppSettingContainer.Values["Password"] == null || InputPassword == App.AppSettingContainer.Values["Password"].ToString())
                     {
                         //解锁成功
-                        //AtThisPage = false;
-                        this.Frame.GoBack();
+                        if (this.Frame.CanGoBack)
+                        {
+                            this.Frame.GoBack();
+                        }
                         Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
                     }
                     else
@@ -335,7 +326,11 @@ namespace ManyPasswords
             switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync("验证您的身份"))
             {
                 case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
-                    this.Frame.GoBack();
+                    if (this.Frame.CanGoBack)
+                        this.Frame.GoBack();
+                    else
+                        this.Frame.Navigate(typeof(HomePage));
+
                     Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
                     break;
                 case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceNotPresent:

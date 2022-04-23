@@ -1,4 +1,6 @@
-﻿using NChinese.Imm;
+﻿using ManyPasswords.Models;
+using ManyPasswords.ViewModel;
+using NChinese.Imm;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,14 +27,17 @@ namespace ManyPasswords
     /// </summary>
     public sealed partial class EditingPage : Page
     {
+        ViewModel.PasswordViewModel ViewModel = null;
+
         public static string UploadPicName = "ms-appx:///Assets/BuildInIcon/default.jpg";
         private string desiredName = "";
         private char typingFirstLetter = '#';
         public static EditingPage Editing = null;
-        public OnePassword ShowingPassword = null;
+        public PasswordItem ShowingPassword = null;
 
         public EditingPage()
         {
+            ViewModel = PasswordViewModel.Instance;
             this.InitializeComponent();
             Editing = this;
             if (App.AppSettingContainer.Values["Theme"] == null || App.AppSettingContainer.Values["Theme"].ToString() == "Light")
@@ -55,19 +60,18 @@ namespace ManyPasswords
             if (e.Parameter != null)
             {
                 //这个e.Parameter是获取传递过来的参数
-                ShowingPassword= (OnePassword)e.Parameter;
+                ShowingPassword= (PasswordItem)e.Parameter;
                 if (ShowingPassword != null)
                 {
-                    UploadPicName = ShowingPassword.Picture;
+                    UploadPicName = ViewModel.CurrentPassword.sPicture;
                     PhotoImageBrush.ImageSource = new BitmapImage(new Uri(UploadPicName, UriKind.Absolute));
-                    NameTextBox.Text = ShowingPassword.Name;
-                    AccountTextBox.Text = ShowingPassword.Account;
-                    PasswordTextBox.Text = ShowingPassword.Password;
-                    FavoriteCheckBox.IsChecked = ShowingPassword.IsFavorite;
-                    LinkTextBox.Text = ShowingPassword.Website;
-                    BioTextBox.Text = ShowingPassword.Info;
-                    TitleTextBlock.Text = ShowingPassword.ImageName;
-                    this.typingFirstLetter = ShowingPassword.FirstLetter;
+                    NameTextBox.Text = ViewModel.CurrentPassword.sName;
+                    AccountTextBox.Text = ViewModel.CurrentPassword.sAccount;
+                    PasswordTextBox.Text = ViewModel.CurrentPassword.sPassword;
+                    FavoriteCheckBox.IsChecked = ViewModel.CurrentPassword.bFavorite;
+                    LinkTextBox.Text = ViewModel.CurrentPassword.sWebsite;
+                    BioTextBox.Text = ViewModel.CurrentPassword.sNote;
+                    this.typingFirstLetter = ViewModel.CurrentPassword.sFirstLetter;
                 }
             }
         }
@@ -98,24 +102,24 @@ namespace ManyPasswords
             }
             else
             {
-                OnePassword newPassword = new OnePassword(UploadPicName, NameTextBox.Text, BioTextBox.Text, LinkTextBox.Text, AccountTextBox.Text, PasswordTextBox.Text, /*PriorityRatingControl.Value*/0, typingFirstLetter);
-                if (LinkTextBox.Text == "")
-                {
-                    newPassword.Website = "未添加";
-                }
-                if (FavoriteCheckBox.IsChecked == false)
-                {
-                    newPassword.IsFavorite = false;
-                }
-                else
-                {
-                    newPassword.IsFavorite = true;
-                }
-                PasswordHelper._data.Remove(ShowingPassword);
-                PasswordHelper._data.Add(newPassword);
-                PasswordHelper.SaveData();
-                desiredName = "";
-                HomePage.Home.HomeFrame.Navigate(typeof(PasswordPage));
+                //PasswordItem newPassword = new PasswordItem(UploadPicName, NameTextBox.Text, BioTextBox.Text, LinkTextBox.Text, AccountTextBox.Text, PasswordTextBox.Text, /*PriorityRatingControl.Value*/0, typingFirstLetter);
+                //if (LinkTextBox.Text == "")
+                //{
+                //    newPassword.sWebsite = "未添加";
+                //}
+                //if (FavoriteCheckBox.IsChecked == false)
+                //{
+                //    newPassword.bFavorite = false;
+                //}
+                //else
+                //{
+                //    newPassword.bFavorite = true;
+                //}
+                //PasswordHelper._data.Remove(ShowingPassword);
+                //PasswordHelper._data.Add(newPassword);
+                //PasswordHelper.SaveData();
+                //desiredName = "";
+                //HomePage.Home.HomeFrame.Navigate(typeof(PasswordPage));
             }
         }
         private void DoubleAnimation_Completed(object sender, object e)

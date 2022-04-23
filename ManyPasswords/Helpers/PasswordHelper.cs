@@ -6,62 +6,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ManyPasswords.Helpers;
+using System.Collections.ObjectModel;
 
 namespace ManyPasswords
 {
     public class PasswordHelper
     {
-        public static List<OnePassword> _data = null;
-
         /// <summary>
         /// 保存密码列表
         /// </summary>
-        public static async void SaveData()
+        public static async void SaveData(ObservableCollection<Models.PasswordItem> passwords)
         {
-            string data = JsonConvert.SerializeObject(_data);
-            string rsadata = RSAHelper.RSAEncrypt(data);
-            await StorageFileHelper.WriteAsync(rsadata, "Password.dat");
-        }
-
-        /// <summary>
-        /// 获取已经保存的密码数据，加载到_data中
-        /// </summary>
-        /// <returns></returns>
-        public static async Task<List<OnePassword>> GetData()
-        {
-            if (_data == null)
+            try
             {
-                bool isExist = await LoadFromFile();
-                if (!isExist)
-                {
-                    _data = new List<OnePassword>();
-                }
+                string data = JsonConvert.SerializeObject(passwords);
+                string rsadata = RSAHelper.RSAEncrypt(data);
+                await StorageFileHelper.WriteAsync(rsadata, "manypasswords.dat");
             }
-            return _data;
+            catch { }
         }
 
         /// <summary>
         /// 读取密码列表
         /// </summary>
         /// <returns></returns>
-        public static async Task<bool> LoadFromFile()
+        public static async Task<ObservableCollection<Models.PasswordItem>> LoadData()
         {
-            string load = await StorageFileHelper.ReadAsync<string>("Password.dat");
-            if (load == null)
+            ObservableCollection<Models.PasswordItem> passwordsList = new ObservableCollection<Models.PasswordItem>();
+            try
             {
-                PasswordHelper._data = await StorageFileHelper.ReadAsync<List<OnePassword>>("Password.dat");
-                return (PasswordHelper._data != null);
+                string data = await StorageFileHelper.ReadAsync<string>("manypasswords.dat");
+                if (!string.IsNullOrEmpty(data))
+                {
+                    data = RSAHelper.RSADecrypt(data);
+
+                    JsonSerializerSettings jss = new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        MissingMemberHandling = MissingMemberHandling.Ignore
+                    };
+                    passwordsList = JsonConvert.DeserializeObject<ObservableCollection<Models.PasswordItem>>(data, jss);
+                }
             }
-
-            load = RSAHelper.RSADecrypt(load);
-            JsonSerializer serializer = new JsonSerializer();
-            StringReader sr = new StringReader(load);
-            object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<OnePassword>));
-            List<OnePassword> list = o as List<OnePassword>;
-
-            PasswordHelper._data = list;
-
-            return (PasswordHelper._data != null);
+            catch (Exception e) { }
+            return passwordsList;
         }
 
     }

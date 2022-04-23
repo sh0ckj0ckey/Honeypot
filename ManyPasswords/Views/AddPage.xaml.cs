@@ -49,9 +49,9 @@ namespace ManyPasswords
         private void AddingGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (AddingGridView.SelectedIndex >= 0)
-            {
+            { 
 
-                AddFrame.Navigate(typeof(AddingPage), MainPage.BuildIn[AddingGridView.SelectedIndex]);
+                //AddFrame.Navigate(typeof(AddingPage), MainPage.BuildIn[AddingGridView.SelectedIndex]);
             }
             else
             {

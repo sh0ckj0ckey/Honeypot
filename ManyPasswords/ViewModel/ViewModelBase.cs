@@ -54,7 +54,7 @@ namespace ManyPasswords.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }
-    public class RootViewModel : ObservableObject
+    public class ViewModelBase : ObservableObject
     {
         public bool Set<T>(string propertyName, ref T field, T newValue = default(T))
         {

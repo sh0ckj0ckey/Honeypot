@@ -104,9 +104,9 @@ namespace ManyPasswords
             {
                 AddPage.Add.AddingGridView.Opacity = 1;
             }
-            if (DetailsPage.Details != null)
+            if (DetailsPage.Current != null)
             {
-                DetailsPage.Details.PhotoPanel.Opacity = 1;
+                DetailsPage.Current.PhotoPanel.Opacity = 1;
             }
             if (EditingPage.Editing != null)
             {
@@ -139,9 +139,9 @@ namespace ManyPasswords
             {
                 AddPage.Add.AddingGridView.Opacity = 0.8;
             }
-            if (DetailsPage.Details != null)
+            if (DetailsPage.Current != null)
             {
-                DetailsPage.Details.PhotoPanel.Opacity = 0.7;
+                DetailsPage.Current.PhotoPanel.Opacity = 0.7;
             }
             if (EditingPage.Editing != null)
             {

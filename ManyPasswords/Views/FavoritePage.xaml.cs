@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ManyPasswords.Models;
+using ManyPasswords.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -23,19 +25,17 @@ namespace ManyPasswords
     /// </summary>
     public sealed partial class FavoritePage : Page
     {
-        public ObservableCollection<OnePassword> FavoritesCollection = new ObservableCollection<OnePassword>();
-        public static FavoritePage Favorite = null;
+        public PasswordViewModel ViewModel = null;
+        public static FavoritePage Current = null;
         public FavoritePage()
         {
-            this.InitializeComponent();
-            Favorite = this;
-            foreach (OnePassword item in PasswordHelper._data)
+            try
             {
-                if (item.IsFavorite)
-                {
-                    FavoritesCollection.Add(item);
-                }
+                ViewModel = PasswordViewModel.Instance;
+                this.InitializeComponent();
+                Current = this;
             }
+            catch { }
         }
 
         /// <summary>
@@ -45,10 +45,14 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            OnePassword clickedPassword = (OnePassword)btn.DataContext;
-            btn.Content = clickedPassword.IsFavorite == true ? "\uE006" : "\uE007";
-            clickedPassword.IsFavorite = clickedPassword.IsFavorite == true ? false : true;
+            try
+            {
+                if (sender is Button btn && btn.DataContext is PasswordItem password)
+                {
+                    ViewModel.RemoveFavorite(password);
+                }
+            }
+            catch { }
         }
     }
 }
