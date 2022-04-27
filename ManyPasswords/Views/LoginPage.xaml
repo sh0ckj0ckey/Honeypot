@@ -18,92 +18,12 @@
             </NavigationThemeTransition>
         </TransitionCollection>
     </Page.Transitions>
-    <Page.Resources>
-        <Storyboard x:Name="BackgroundColorStoryboard"
-                AutoReverse="True">
-            <ColorAnimation Duration="0:0:0.6"
-                            From="#8CFFFFFF"
-                            To="Red"
-                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)"
-                            Storyboard.TargetName="Start"
-                            d:IsOptimized="True" />
-        </Storyboard>
-    </Page.Resources>
 
     <Grid x:Name="LoginGrid" Background="Transparent">
         <Image Source="/Assets/Background/background.jpg" Stretch="UniformToFill"/>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="32">
             <Image Source="/Assets/Icon/pswd.png" Height="32" Margin="0,0,0,4"/>
             <TextBlock Text="So Many Passwords" Margin="12,0" FontFamily="Arial" FontSize="21" VerticalAlignment="Center" Foreground="White" FontWeight="Bold"/>
-        </StackPanel>
-        <StackPanel VerticalAlignment="Bottom">
-            <Button x:Name="WindowsHelloButton" Click="WindowsHelloButton_Click" CornerRadius="4" Height="36" Width="196" HorizontalAlignment="Center" ToolTipService.ToolTip="使用 Windows Hello 解锁">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Foreground="LightGray" Text="&#xEB68;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
-                    <TextBlock Text="Windows Hello" Foreground="LightGray" VerticalAlignment="Center" FontSize="12" Margin="6,0,0,2"/>
-                </StackPanel>
-            </Button>
-
-            <StackPanel x:Name="InputStackPanel" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal" Margin="0,48">
-                <Rectangle x:Name="LeftRectangle" Width="0" Height="0"/>
-                <Ellipse x:Name="Ellipse0" Height="16" Width="16" Stroke="Snow" Fill="Transparent" Margin="6,0"/>
-                <Ellipse x:Name="Ellipse1" Height="16" Width="16" Stroke="Snow" Fill="Transparent" Margin="6,0"/>
-                <Ellipse x:Name="Ellipse2" Height="16" Width="16" Stroke="Snow" Fill="Transparent" Margin="6,0"/>
-                <Ellipse x:Name="Ellipse3" Height="16" Width="16" Stroke="Snow" Fill="Transparent" Margin="6,0"/>
-                <Ellipse x:Name="Ellipse4" Height="16" Width="16" Stroke="Snow" Fill="Transparent" Margin="6,0"/>
-                <Ellipse x:Name="Ellipse5" Height="16" Width="16" Stroke="Snow" Fill="Transparent" Margin="6,0"/>
-                <Rectangle x:Name="RightRectangle" Width="0" Height="0"/>
-            </StackPanel>
-            <Grid Grid.Row="1" Width="272" Height="334" VerticalAlignment="Bottom" Margin="0,0,0,64">
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_1"
-                        CornerRadius="32" Content="1" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_2"
-                        CornerRadius="32" Content="2" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_3"
-                        CornerRadius="32" Content="3" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"  Height="64" Width="64" Click="Button_Click_4"
-                        CornerRadius="32" Content="4" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_5"
-                        CornerRadius="32" Content="5" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_6"
-                        CornerRadius="32" Content="6" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_7"
-                        CornerRadius="32" Content="7" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_8"
-                        CornerRadius="32" Content="8" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_9"
-                        CornerRadius="32" Content="9" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" Height="64" Width="64" Click="Button_Click_0"
-                        CornerRadius="32" Content="0" FontWeight="Bold" FontSize="18"/>
-                <Button Grid.Row="3" Grid.Column="2" CornerRadius="24" HorizontalAlignment="Center" Height="48" Width="48" Margin="8,0" Click="Button_Click_11">
-                    <TextBlock Text="&#xE750;" FontFamily="Segoe MDL2 Assets" FontWeight="Bold" FontSize="14" Margin="0,0,2,0"/>
-                </Button>
-
-                <Button x:Name="Start">
-                    <Interactivity:Interaction.Behaviors>
-                        <Core:EventTriggerBehavior EventName="PointerReleased">
-                            <Media:ControlStoryboardAction Storyboard="{StaticResource BackgroundColorStoryboard}" />
-                        </Core:EventTriggerBehavior>
-                    </Interactivity:Interaction.Behaviors>
-                </Button>
-            </Grid>
-        </StackPanel>
-        <StackPanel x:Name="KeyboardTipGrid" Orientation="Horizontal" Height="38" Width="Auto" 
-                    HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="32"
-                    CornerRadius="8" Background="#33000000">
-            <TextBlock FontFamily="Segoe MDL2 Assets" Foreground="White" FontSize="21" Text="&#xE765;" VerticalAlignment="Center" Margin="16,0,4,0" Opacity="0.7"/>
-            <TextBlock Text="支持物理键盘输入" VerticalAlignment="Center" FontSize="12" Foreground="White" Margin="0,0,16,2" Opacity="0.7"/>
         </StackPanel>
     </Grid>
 </Page>

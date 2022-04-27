@@ -10,5 +10,11 @@
 
     <Grid>
         <Frame x:Name="MainFrame"/>
+
+        <Grid x:Name="WindowsHelloBlurGrid">
+            <Grid.Background>
+                <AcrylicBrush />
+            </Grid.Background>
+        </Grid>
     </Grid>
 </Page>
