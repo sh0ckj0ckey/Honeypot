@@ -73,7 +73,7 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            HomePage.Home.MenuListView.SelectedIndex = 2;
+            HomePage.Current.MenuListView.SelectedIndex = 2;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManyPasswords.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,8 +26,11 @@ namespace ManyPasswords
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public PasswordViewModel ViewModel = null;
         public MainPage()
         {
+            ViewModel = PasswordViewModel.Instance;
+
             this.InitializeComponent();
 
             // 修改标题栏样式
@@ -38,16 +42,7 @@ namespace ManyPasswords
             titleBar.ButtonForegroundColor = Colors.Black;
             titleBar.ButtonInactiveForegroundColor = Colors.Gray;
 
-            if (App.AppSettingContainer.Values["Password"] != null)
-            {
-                // 如果设置了密码，则启动后先进入解锁界面
-                MainFrame.Navigate(typeof(LoginPage));
-            }
-            else
-            {
-                //MainFrame.Navigate(typeof(HomePage));
-                MainFrame.Navigate(typeof(LoginPage));
-            }
+            MainFrame.Navigate(typeof(HomePage));
         }
     }
 }

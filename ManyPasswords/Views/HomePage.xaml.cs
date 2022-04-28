@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManyPasswords.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,13 +27,13 @@ namespace ManyPasswords
     /// </summary>
     public sealed partial class HomePage : Page
     {
-        public static HomePage Home = null;
+        public static HomePage Current = null;
+        PasswordViewModel ViewModel = null;
 
         public HomePage()
         {
             this.InitializeComponent();
-            Home = this;
-            LockAppButton.IsEnabled = App.AppSettingContainer.Values["Password"] == null ? false : true;
+            Current = this;
             ShowKeyboardTipCheckBox.IsChecked = App.AppSettingContainer.Values["KeyboardTip"] == null || App.AppSettingContainer.Values["KeyboardTip"].ToString() == "true" ? true : false;
             WindowsHelloToggleSwitch.IsOn = App.AppSettingContainer.Values["WindowsHello"] == null || App.AppSettingContainer.Values["WindowsHello"].ToString() == "off" ? false : true;
             //ShowWelcomeCheckBox.IsChecked = App.AppSettingContainer.Values["WelcomePage"] == null || App.AppSettingContainer.Values["WelcomePage"].ToString() == "true" ? true : false;
@@ -44,6 +45,8 @@ namespace ManyPasswords
             {
                 Switch2Dark();
             }
+
+            ViewModel = PasswordViewModel.Instance;
 
             MenuListView.SelectedIndex = 0;
 
@@ -65,7 +68,11 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(LoginPage));
+            try
+            {
+                ViewModel.LockApp();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -93,7 +100,6 @@ namespace ManyPasswords
             this.RequestedTheme = ElementTheme.Light;
             MenuAcrylic.TintColor = Colors.Transparent;
             LightTitleBarButton();
-            Name2TextBlock.Text = "夜晚";
             SwitchDarkTextBlock.Visibility = Visibility.Visible;
             SwitchLightTextBlock.Visibility = Visibility.Collapsed;
             if (AddingPage.Adding != null)
@@ -128,7 +134,6 @@ namespace ManyPasswords
             this.RequestedTheme = ElementTheme.Dark;
             MenuAcrylic.TintColor = Colors.Black;
             DarkTitleBarButton();
-            Name2TextBlock.Text = "白天";
             SwitchDarkTextBlock.Visibility = Visibility.Collapsed;
             SwitchLightTextBlock.Visibility = Visibility.Visible;
             if (AddingPage.Adding != null)
@@ -218,41 +223,6 @@ namespace ManyPasswords
             await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:signinoptions"));
         }
 
-        #region 显示按钮名字的动画
-        private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            Name1TextBlock.Visibility = Visibility.Visible;
-            ShowButton1Name.Begin();
-        }
-
-        private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            HideButton1Name.Begin();
-        }
-
-        private void Button_PointerEntered_1(object sender, PointerRoutedEventArgs e)
-        {
-            Name2TextBlock.Visibility = Visibility.Visible;
-            ShowButton2Name.Begin();
-        }
-
-        private void Button_PointerExited_1(object sender, PointerRoutedEventArgs e)
-        {
-            HideButton2Name.Begin();
-        }
-
-        private void Button_PointerEntered_2(object sender, PointerRoutedEventArgs e)
-        {
-            Name3TextBlock.Visibility = Visibility.Visible;
-            ShowButton3Name.Begin();
-        }
-
-        private void Button_PointerExited_2(object sender, PointerRoutedEventArgs e)
-        {
-            HideButton3Name.Begin();
-        }
-        #endregion
-
         private async void RatingControl_ValueChanged(RatingControl sender, object args)
         {
             await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9NLZPBCS0F5C"));
@@ -284,7 +254,6 @@ namespace ManyPasswords
                 App.AppSettingContainer.Values["Password"] = NewLockPasswordBox.Text;
                 SuccessNewPasswordTextBlock.Visibility = Visibility.Visible;
                 FailNewPasswordTextBlock.Visibility = Visibility.Collapsed;
-                LockAppButton.IsEnabled = true;
             }
             else
             {

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 namespace ManyPasswords.ViewModel
 {
@@ -47,11 +48,73 @@ namespace ManyPasswords.ViewModel
             set { Set("bToolBarVisible", ref _bToolBarVisible, value); }
         }
 
+        // 是否启用了Windows Hello锁定功能
+        private bool _bLockEnabled = true;
+        public bool bLockEnabled
+        {
+            get { return _bLockEnabled; }
+            set { Set("bLockEnabled", ref _bLockEnabled, value); }
+        }
+
+        // 锁定App
+        private bool _bAppLocked = true;
+        public bool bAppLocked
+        {
+            get { return _bAppLocked; }
+            set { Set("bAppLocked", ref _bAppLocked, value); }
+        }
+
+        // 应用程序的主题
+        private ElementTheme _eAppTheme = ElementTheme.Light;
+        public ElementTheme eAppTheme
+        {
+            get { return _eAppTheme; }
+            set { Set("eAppTheme", ref _eAppTheme, value); }
+        }
+
         public PasswordViewModel()
         {
             try
             {
+                LoadSettingContainer();
                 InitManyPasswords();
+            }
+            catch { }
+        }
+
+        public void LoadSettingContainer()
+        {
+            try
+            {
+                // 读取设置是否启用了密码锁定
+                if (App.AppSettingContainer.Values["bAppLockEnabled"] != null)
+                {
+                    bLockEnabled = true;
+                    bAppLocked = true;
+                }
+                else
+                {
+                    bLockEnabled = false;
+                    bAppLocked = false;
+                }
+
+                // 读取设置的应用程序主题
+                if (App.AppSettingContainer?.Values["Theme"] == null)
+                {
+                    this.eAppTheme = ElementTheme.Light;
+                }
+                else if (App.AppSettingContainer?.Values["Theme"]?.ToString() == "Light")
+                {
+                    this.eAppTheme = ElementTheme.Light;
+                }
+                else if (App.AppSettingContainer?.Values["Theme"]?.ToString() == "Dark")
+                {
+                    this.eAppTheme = ElementTheme.Dark;
+                }
+                else
+                {
+                    this.eAppTheme = ElementTheme.Light;
+                }
             }
             catch { }
         }
@@ -257,6 +320,48 @@ namespace ManyPasswords.ViewModel
                     {
                         vFavoritePasswords.Add(passwordsList[i]);
                     }
+                }
+            }
+            catch { }
+        }
+
+        public void LockApp()
+        {
+            try
+            {
+                this.bAppLocked = true;
+            }
+            catch { }
+        }
+
+        public async void UnlockApp()
+        {
+            try
+            {
+                if (this.bLockEnabled == false)
+                {
+                    this.bAppLocked = false;
+                    return;
+                }
+
+                switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync("验证您的身份"))
+                {
+                    case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
+                        this.bAppLocked = false;
+                        break;
+                    case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceNotPresent:
+                    case Windows.Security.Credentials.UI.UserConsentVerificationResult.NotConfiguredForUser:
+                    case Windows.Security.Credentials.UI.UserConsentVerificationResult.DisabledByPolicy:
+                        await new Windows.UI.Popups.MessageDialog("当前识别设备未配置或被系统策略禁用，请尝试使用密码解锁").ShowAsync();
+                        break;
+                    case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceBusy:
+                        await new Windows.UI.Popups.MessageDialog("当前识别设备不可用，请尝试使用密码解锁").ShowAsync();
+                        break;
+                    case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
+                        await new Windows.UI.Popups.MessageDialog("验证失败，请尝试使用密码解锁").ShowAsync();
+                        break;
+                    default:
+                        break;
                 }
             }
             catch { }

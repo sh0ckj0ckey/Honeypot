@@ -5,16 +5,29 @@
     xmlns:local="using:ManyPasswords"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vt="using:ManyPasswords.Converter"
     mc:Ignorable="d" NavigationCacheMode="Required"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    RequestedTheme="{x:Bind ViewModel.eAppTheme}">
+    <Page.Resources>
+        <vt:BoolToVisibilityConverter x:Key="vtBool2Visible"/>
+    </Page.Resources>
 
     <Grid>
         <Frame x:Name="MainFrame"/>
-
-        <Grid x:Name="WindowsHelloBlurGrid">
+        <Grid x:Name="WindowsHelloBlurGrid" Visibility="{x:Bind ViewModel.bAppLocked,Converter={StaticResource vtBool2Visible},Mode=OneWay}">
             <Grid.Background>
-                <AcrylicBrush />
+                <AcrylicBrush BackgroundSource="Backdrop" TintOpacity="0.1" TintLuminosityOpacity="0.1" TintColor="Transparent" FallbackColor="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
             </Grid.Background>
+            <Button x:Name="WindowsHelloButton" CornerRadius="6" Height="56" Width="176"
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Click="{x:Bind ViewModel.UnlockApp}"
+                    ToolTipService.ToolTip="使用 Windows Hello 解锁">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xEB68;" FontSize="16" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                    <TextBlock Text="Windows Hello" VerticalAlignment="Center" FontSize="14" Margin="6,0,0,2"/>
+                </StackPanel>
+            </Button>
         </Grid>
     </Grid>
 </Page>
