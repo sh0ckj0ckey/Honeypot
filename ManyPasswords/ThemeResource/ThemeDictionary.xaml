@@ -6,8 +6,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <Color x:Key="HEADER_FR">#E6FFFFFF</Color>
-                    <BitmapImage x:Key="LARGETITLE_IMAGE"
-                                 UriSource="ms-appx:///Assets/Background/large_title_dark.png" />
+                    <Color x:Key="SETTING_WALLPAPER_BD">#E6FFFFFF</Color>
+                    <BitmapImage x:Key="LARGETITLE_IMAGE" UriSource="ms-appx:///Assets/Background/large_title_dark.png"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -15,8 +15,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <Color x:Key="HEADER_FR">#E6000000</Color>
-                    <BitmapImage x:Key="LARGETITLE_IMAGE"
-                                 UriSource="ms-appx:///Assets/Background/large_title_light.png" />
+                    <Color x:Key="SETTING_WALLPAPER_BD">#E6000000</Color>
+                    <BitmapImage x:Key="LARGETITLE_IMAGE" UriSource="ms-appx:///Assets/Background/large_title_light.png"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

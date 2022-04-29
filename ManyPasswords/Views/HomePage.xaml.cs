@@ -34,19 +34,17 @@ namespace ManyPasswords
         {
             this.InitializeComponent();
             Current = this;
-            ShowKeyboardTipCheckBox.IsChecked = App.AppSettingContainer.Values["KeyboardTip"] == null || App.AppSettingContainer.Values["KeyboardTip"].ToString() == "true" ? true : false;
+            //ShowKeyboardTipCheckBox.IsChecked = App.AppSettingContainer.Values["KeyboardTip"] == null || App.AppSettingContainer.Values["KeyboardTip"].ToString() == "true" ? true : false;
             WindowsHelloToggleSwitch.IsOn = App.AppSettingContainer.Values["WindowsHello"] == null || App.AppSettingContainer.Values["WindowsHello"].ToString() == "off" ? false : true;
             //ShowWelcomeCheckBox.IsChecked = App.AppSettingContainer.Values["WelcomePage"] == null || App.AppSettingContainer.Values["WelcomePage"].ToString() == "true" ? true : false;
-            if (App.AppSettingContainer.Values["Theme"] == null || App.AppSettingContainer.Values["Theme"].ToString() == "Light")
-            {
-                Switch2Light();
-            }
-            else
-            {
-                Switch2Dark();
-            }
 
             ViewModel = PasswordViewModel.Instance;
+
+            FrameShadow.Receivers.Add(SideMenuGrid);
+            HomeFrame.Translation += new System.Numerics.Vector3(0, 0, 36);
+
+            SettingShadow.Receivers.Add(BackgroundRectangle);
+            SettingPop.Translation += new System.Numerics.Vector3(0, 0, 36);
 
             MenuListView.SelectedIndex = 0;
 
@@ -82,7 +80,7 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (this.RequestedTheme == ElementTheme.Dark)
+            if (ViewModel.eAppTheme == ElementTheme.Dark)
             {
                 Switch2Light();
             }
@@ -90,74 +88,44 @@ namespace ManyPasswords
             {
                 Switch2Dark();
             }
+            ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ?
+                            "夜间模式：已关闭" : "夜间模式：已打开";
         }
 
         /// <summary>
-        /// 切换到白天主题的方法
+        /// 切换到白天主题
         /// </summary>
         public void Switch2Light()
         {
-            this.RequestedTheme = ElementTheme.Light;
-            MenuAcrylic.TintColor = Colors.Transparent;
-            LightTitleBarButton();
-            SwitchDarkTextBlock.Visibility = Visibility.Visible;
-            SwitchLightTextBlock.Visibility = Visibility.Collapsed;
-            if (AddingPage.Adding != null)
+            try
             {
-                AddingPage.Adding.PhotoPanel.Opacity = 1;
+                ViewModel.eAppTheme = ElementTheme.Light;
+                MenuAcrylic.TintColor = Colors.Transparent;
+
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonForegroundColor = Colors.Black;
+
+                App.AppSettingContainer.Values["Theme"] = "Light";
             }
-            if (AddPage.Add != null)
-            {
-                AddPage.Add.AddingGridView.Opacity = 1;
-            }
-            if (DetailsPage.Current != null)
-            {
-                DetailsPage.Current.PhotoPanel.Opacity = 1;
-            }
-            if (EditingPage.Editing != null)
-            {
-                EditingPage.Editing.PhotoPanel.Opacity = 1;
-            }
-            if (PasswordPage.Password != null)
-            {
-                PasswordPage.Password.PasswordsSemanticZoom.Opacity = 1;
-            }
-            ThemeLighRadioButtont.IsChecked = true;
-            App.AppSettingContainer.Values["Theme"] = "Light";
+            catch { }
         }
 
         /// <summary>
-        /// 切换到夜间主题的方法
+        /// 切换到夜间主题
         /// </summary>
         public void Switch2Dark()
         {
-            this.RequestedTheme = ElementTheme.Dark;
-            MenuAcrylic.TintColor = Colors.Black;
-            DarkTitleBarButton();
-            SwitchDarkTextBlock.Visibility = Visibility.Collapsed;
-            SwitchLightTextBlock.Visibility = Visibility.Visible;
-            if (AddingPage.Adding != null)
+            try
             {
-                AddingPage.Adding.PhotoPanel.Opacity = 0.7;
+                ViewModel.eAppTheme = ElementTheme.Dark;
+                MenuAcrylic.TintColor = Colors.Black;
+
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonForegroundColor = Colors.White;
+
+                App.AppSettingContainer.Values["Theme"] = "Dark";
             }
-            if (AddPage.Add != null)
-            {
-                AddPage.Add.AddingGridView.Opacity = 0.8;
-            }
-            if (DetailsPage.Current != null)
-            {
-                DetailsPage.Current.PhotoPanel.Opacity = 0.7;
-            }
-            if (EditingPage.Editing != null)
-            {
-                EditingPage.Editing.PhotoPanel.Opacity = 0.7;
-            }
-            if (PasswordPage.Password != null)
-            {
-                PasswordPage.Password.PasswordsSemanticZoom.Opacity = 0.8;
-            }
-            ThemeDarkRadioButton.IsChecked = true;
-            App.AppSettingContainer.Values["Theme"] = "Dark";
+            catch { }
         }
 
         /// <summary>
@@ -223,57 +191,6 @@ namespace ManyPasswords
             await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:signinoptions"));
         }
 
-        private async void RatingControl_ValueChanged(RatingControl sender, object args)
-        {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store://review/?ProductId=9NLZPBCS0F5C"));
-        }
-
-        /// <summary>
-        /// 修改标题栏按钮字体颜色
-        /// </summary>
-        public void DarkTitleBarButton()
-        {
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonForegroundColor = Colors.White;
-        }
-        public void LightTitleBarButton()
-        {
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonForegroundColor = Colors.Black;
-        }
-
-        /// <summary>
-        /// 确定修改密码
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            if (Regex.IsMatch(NewLockPasswordBox.Text, "^[0-9]{6}$"))
-            {
-                App.AppSettingContainer.Values["Password"] = NewLockPasswordBox.Text;
-                SuccessNewPasswordTextBlock.Visibility = Visibility.Visible;
-                FailNewPasswordTextBlock.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                SuccessNewPasswordTextBlock.Visibility = Visibility.Collapsed;
-                FailNewPasswordTextBlock.Visibility = Visibility.Visible;
-            }
-        }
-
-        /// <summary>
-        /// 取消修改密码
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Click_4(object sender, RoutedEventArgs e)
-        {
-            NewLockPasswordBox.Text = "";
-            SuccessNewPasswordTextBlock.Visibility = Visibility.Collapsed;
-            FailNewPasswordTextBlock.Visibility = Visibility.Collapsed;
-        }
-
         private void ThemeLighRadioButtont_Checked(object sender, RoutedEventArgs e)
         {
             Switch2Light();
@@ -284,26 +201,6 @@ namespace ManyPasswords
             Switch2Dark();
         }
 
-        private void ShowKeyboardTipCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            App.AppSettingContainer.Values["KeyboardTip"] = "true";
-        }
-
-        private void ShowWelcomeCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            App.AppSettingContainer.Values["WelcomePage"] = "true";
-        }
-
-        private void ShowKeyboardTipCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            App.AppSettingContainer.Values["KeyboardTip"] = "false";
-        }
-
-        private void ShowWelcomeCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            App.AppSettingContainer.Values["WelcomePage"] = "false";
-        }
-
         /// <summary>
         /// 开关 Windows Hello 验证
         /// </summary>
@@ -311,24 +208,64 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            if (WindowsHelloToggleSwitch.IsOn)
+            //if (WindowsHelloToggleSwitch.IsOn)
+            //{
+            //    if (App.AppSettingContainer.Values["Password"] != null && App.AppSettingContainer.Values["Password"].ToString().Length == 6)
+            //    {
+            //        DidntSetPasswordTextBlock.Visibility = Visibility.Collapsed;
+            //        App.AppSettingContainer.Values["WindowsHello"] = "on";
+            //    }
+            //    else
+            //    {
+            //        DidntSetPasswordTextBlock.Visibility = Visibility.Visible;
+            //        App.AppSettingContainer.Values["WindowsHello"] = "off";
+            //    }
+            //}
+            //else
+            //{
+            //    DidntSetPasswordTextBlock.Visibility = Visibility.Collapsed;
+            //    App.AppSettingContainer.Values["WindowsHello"] = "off";
+            //}
+        }
+
+        /// <summary>
+        /// 侧边栏下方按钮 Hover
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnPointerEnter(object sender, PointerRoutedEventArgs e)
+        {
+            try
             {
-                if (App.AppSettingContainer.Values["Password"] != null && App.AppSettingContainer.Values["Password"].ToString().Length == 6)
+                if (sender is Button btn)
                 {
-                    DidntSetPasswordTextBlock.Visibility = Visibility.Collapsed;
-                    App.AppSettingContainer.Values["WindowsHello"] = "on";
+                    string tag = btn.Tag?.ToString();
+                    if (tag == "lock")
+                    {
+                        ViewModel.sHoverTipsText = "锁定";
+                    }
+                    else if (tag == "theme")
+                    {
+                        ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ?
+                            "夜间模式：已关闭" : "夜间模式：已打开";
+                    }
+                    else if (tag == "setting")
+                    {
+                        ViewModel.sHoverTipsText = "设置";
+                    }
                 }
-                else
-                {
-                    DidntSetPasswordTextBlock.Visibility = Visibility.Visible;
-                    App.AppSettingContainer.Values["WindowsHello"] = "off";
-                }
+                EnterButtonStoryboard.Begin();
             }
-            else
+            catch { }
+        }
+
+        private void OnPointerExit(object sender, PointerRoutedEventArgs e)
+        {
+            try
             {
-                DidntSetPasswordTextBlock.Visibility = Visibility.Collapsed;
-                App.AppSettingContainer.Values["WindowsHello"] = "off";
+                LeaveButtonStoryboard.Begin();
             }
+            catch { }
         }
     }
 }

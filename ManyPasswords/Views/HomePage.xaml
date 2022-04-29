@@ -6,126 +6,138 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:vt="using:ManyPasswords.Converter"
+    xmlns:vt="using:ManyPasswords.Converter" RequestedTheme="{x:Bind ViewModel.eAppTheme}"
     mc:Ignorable="d">
     <Page.Resources>
         <vt:BoolToVisibilityConverter x:Key="vtBool2Visible"/>
+        <vt:EqualToVisibilityConverter x:Key="vtEqual2Visible"/>
+        <vt:UnequalToVisibilityConverter x:Key="vtUnequal2Visible"/>
+        <vt:EqualToBoolConverter x:Key="vtEqual2Bool"/>
+
+        <ThemeShadow x:Name="FrameShadow"/>
+        <ThemeShadow x:Name="SettingShadow"/>
+
+        <Storyboard x:Name="EnterButtonStoryboard">
+            <DoubleAnimation Storyboard.TargetName="HoverTipTextBlock"
+                             Storyboard.TargetProperty="Opacity"
+                             To="1" Duration="0:0:0.2">
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="LeaveButtonStoryboard">
+            <DoubleAnimation Storyboard.TargetName="HoverTipTextBlock"
+                             Storyboard.TargetProperty="Opacity"
+                             To="0" Duration="0:0:0.2">
+            </DoubleAnimation>
+        </Storyboard>
     </Page.Resources>
+
     <Grid>
-        <Grid.Background>
-            <SolidColorBrush Color="Gray" Opacity="0.3"/>
-        </Grid.Background>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="196"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="32"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Image Grid.ColumnSpan="3" Grid.RowSpan="2" Stretch="UniformToFill" Source="/Assets/Background/Background.jpg"/>
-        <Rectangle Grid.RowSpan="2">
-            <Rectangle.Fill>
-                <AcrylicBrush x:Name="MenuAcrylic" TintColor="Transparent" TintOpacity="0.4" BackgroundSource="Backdrop"/>
-            </Rectangle.Fill>
-        </Rectangle>
-        <StackPanel Grid.RowSpan="2" Orientation="Horizontal" Height="56" VerticalAlignment="Top" Margin="12">
-            <!--<Image Source="/Assets/Icon/logo_small.png" Width="26"/>-->
-            <TextBlock Text="好多密码" FontWeight="Bold" FontSize="18" Margin="14,14,0,0" Foreground="White"/>
-        </StackPanel>
-        <Grid Grid.Column="0" Grid.Row="1" Margin="0,48,0,32">
+        <Image Grid.ColumnSpan="2" Stretch="UniformToFill" Source="/Assets/Background/Background.jpg"/>
+        <Grid x:Name="SideMenuGrid" Grid.Column="0">
+            <Grid.Background>
+                <AcrylicBrush x:Name="MenuAcrylic" TintColor="Transparent" TintOpacity="0.3" BackgroundSource="Backdrop"/>
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="128"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="56"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <ListView x:Name="MenuListView" x:FieldModifier="public" Margin="18,0,0,0" SelectionChanged="ListView_SelectionChanged">
-                    <ListViewItem Height="56" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
-                        <Grid Height="48">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="/Assets/Icon/PasswordIcon.png" Height="16" Margin="0,0,2,0"/>
-                            <TextBlock Grid.Column="1" 
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Height="56" VerticalAlignment="Top" Margin="12">
+                <Image Source="/Assets/Icon/logo.png" Width="32"/>
+                <TextBlock Text="好多密码" FontWeight="Bold" FontSize="18" Margin="10,18,0,0" Foreground="White"/>
+            </StackPanel>
+            <ListView x:Name="MenuListView" Grid.Row="1" x:FieldModifier="public" Margin="0,6,0,0" SelectionChanged="ListView_SelectionChanged">
+                <ListViewItem Style="{StaticResource SideMenuListViewItemStyle}" HorizontalAlignment="Center" Width="180" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                    <Grid Height="48">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Assets/Icon/PasswordIcon.png" Height="18" Margin="0,0,2,0"/>
+                        <TextBlock Grid.Column="1" 
                                        Text="所有账号"
                                        Foreground="White"
                                        VerticalAlignment="Center"/>
-                        </Grid>
-                    </ListViewItem>
-                    <ListViewItem Height="56" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
-                        <Grid Height="48">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="/Assets/Icon/FavIcon.png" Height="14"/>
-                            <TextBlock Grid.Column="1" 
+                    </Grid>
+                </ListViewItem>
+                <ListViewItem Style="{StaticResource SideMenuListViewItemStyle}" HorizontalAlignment="Center" Width="180" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                    <Grid Height="48">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Assets/Icon/FavIcon.png" Height="22"/>
+                        <TextBlock Grid.Column="1" 
                                        Text="我的收藏"
                                        Foreground="White"
                                        VerticalAlignment="Center"/>
-                        </Grid>
-                    </ListViewItem>
-                    <ListViewItem Height="56" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
-                        <Grid Height="48">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="32"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="/Assets/Icon/AddIcon.png" Height="14"/>
-                            <TextBlock Grid.Column="1" 
+                    </Grid>
+                </ListViewItem>
+                <ListViewItem Style="{StaticResource SideMenuListViewItemStyle}" HorizontalAlignment="Center" Width="180" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                    <Grid Height="48">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Assets/Icon/AddIcon.png" Height="16"/>
+                        <TextBlock Grid.Column="1" 
                                        Text="添加"
                                        Foreground="White"
                                        VerticalAlignment="Center"/>
-                        </Grid>
-                    </ListViewItem>
-                </ListView>
-            </Grid>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="24" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Height="38" Width="38" CornerRadius="19"
-                        ToolTipService.ToolTip="锁定"
+                    </Grid>
+                </ListViewItem>
+            </ListView>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="18" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Height="36" Width="36" CornerRadius="18"
                         FocusVisualPrimaryThickness="0" 
                         FocusVisualSecondaryThickness="0"
-                        Visibility="{x:Bind ViewModel.bLockEnabled,Converter={StaticResource vtBool2Visible}}"
-                        Click="{x:Bind ViewModel.LockApp}">
+                        Click="{x:Bind ViewModel.LockApp}"
+                        PointerEntered="OnPointerEnter"
+                        PointerExited="OnPointerExit"
+                        Tag="lock">
                     <Button.Content>
                         <TextBlock Text="&#xE1F6;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="12"/>
                     </Button.Content>
                 </Button>
-                <Button Height="38" Width="38" CornerRadius="19"
-                        ToolTipService.ToolTip="主题"
+                <Button Height="36" Width="36" CornerRadius="18"
                         FocusVisualPrimaryThickness="0" 
                         FocusVisualSecondaryThickness="0"
-                        Click="Button_Click_1">
+                        Click="Button_Click_1"
+                        PointerEntered="OnPointerEnter"
+                        PointerExited="OnPointerExit"
+                        Tag="theme">
                     <Button.Content>
                         <Grid>
                             <TextBlock Text="&#xE28C;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="16"
-                                       Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,4"/>
+                                       Visibility="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Visible},ConverterParameter=Light,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,4"/>
                             <TextBlock Text="&#xE284;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14" 
-                                       Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                       Visibility="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Visible},ConverterParameter=Dark,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </Button.Content>
                 </Button>
-                <Button Height="38" Width="38" CornerRadius="19"
-                        ToolTipService.ToolTip="设置"
+                <Button Height="36" Width="36" CornerRadius="18"
                         FocusVisualPrimaryThickness="0"
                         FocusVisualSecondaryThickness="0"
-                        Content="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White"
-                        Click="Button_Click_2"/>
+                        Click="Button_Click_2" Foreground="White"
+                        PointerEntered="OnPointerEnter"
+                        PointerExited="OnPointerExit"
+                        Tag="setting">
+                    <Button.Content>
+                        <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="13"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"/>
+                    </Button.Content>
+                </Button>
             </StackPanel>
+            <TextBlock x:Name="HoverTipTextBlock" Grid.Row="3" Text="{x:Bind ViewModel.sHoverTipsText,Mode=OneWay}" FontSize="12"
+                       Foreground="#E6FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.RowSpan="2" Opacity="0.7">
-            <Rectangle Fill="Black" Width="1024" HorizontalAlignment="Left"/>
-        </Grid>
-        <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <Rectangle Fill="Gray" Opacity="0.3"/>
-        </Grid>
-        <Frame x:Name="HomeFrame" x:FieldModifier="Public" Grid.Column="1" Grid.RowSpan="2"/>
-        <Grid x:Name="SettingGrid" Grid.ColumnSpan="2" Grid.RowSpan="2" Visibility="Collapsed">
-            <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity="0.3"/>
-            </Grid.Background>
+        <Frame x:Name="HomeFrame" x:FieldModifier="Public" Grid.Column="1" Background="Transparent" Shadow="{StaticResource FrameShadow}"/>
+        <Grid x:Name="SettingGrid" Grid.ColumnSpan="2" Visibility="Visible">
             <Grid.Resources>
                 <Storyboard x:Name="SettingGridPopIn">
                     <PopInThemeAnimation FromHorizontalOffset="0" FromVerticalOffset="320" Storyboard.TargetName="SettingPop" Duration="00:00:1"/>
@@ -134,183 +146,133 @@
                     <PopOutThemeAnimation Storyboard.TargetName="SettingPop" Duration="00:00:0.1"/>
                 </Storyboard>
             </Grid.Resources>
-            <Rectangle Fill="Transparent" Tapped="Rectangle_Tapped"/>
-            <Grid x:Name="SettingPop" Width="496" Height="512" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Grid Width="496" Height="512" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="496"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.Background>
-                            <SolidColorBrush Color="Gray" Opacity="0.3"/>
-                        </Grid.Background>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="48"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Opacity="0.9">
-                            <TextBlock Text="应用设置" FontWeight="Bold" FontSize="24" VerticalAlignment="Center" Margin="8"/>
-                        </Grid>
-                        <Pivot x:Name="SettingPivot" Grid.Row="1">
-                            <Pivot.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" FontSize="21" FontWeight="Bold"/>
-                                </DataTemplate>
-                            </Pivot.HeaderTemplate>
-                            <PivotItem Header="通用">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                    <Grid Margin="8,0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0"
-                                                   Text="个性化"
-                                                   FontSize="18"
-                                                   FontWeight="Black"
-                                                   Margin="0,12,0,8"/>
-                                        <StackPanel Margin="0,36,0,0">
-                                            <TextBlock Grid.Row="0" Text="选择应用的主题" Margin="0,16,0,4"/>
-                                            <RadioButton x:Name="ThemeLighRadioButtont" GroupName="Theme" Content="浅色" Checked="ThemeLighRadioButtont_Checked"/>
-                                            <RadioButton x:Name="ThemeDarkRadioButton" GroupName="Theme" Content="深色" Checked="ThemeDarkRadioButton_Checked"/>
-                                            <CheckBox x:Name="ShowKeyboardTipCheckBox" Content="显示锁定页面&quot;物理键盘可用&quot;提示" Margin="4,12,0,0" Checked="ShowKeyboardTipCheckBox_Checked" Unchecked="ShowKeyboardTipCheckBox_Unchecked"/>
-                                            <!--<CheckBox x:Name="ShowWelcomeCheckBox" Content="解锁后进入欢迎页" Margin="4,6,0,0" Checked="ShowWelcomeCheckBox_Checked" Unchecked="ShowWelcomeCheckBox_Unchecked"/>-->
-                                        </StackPanel>
-                                        <StackPanel Grid.Row="4">
-                                            <TextBlock Text="安全"
-                                               FontSize="18"
-                                               FontWeight="Black"
-                                               Margin="0,16,0,0"/>
-                                        </StackPanel>
-                                        <StackPanel Grid.Row="5">
-                                            <TextBlock x:Name="LockCheckBox"
-                                                   Text="设置6位数字密码"
-                                                   Margin="0,16,0,4"/>
-                                            <Grid>
-                                                <TextBlock Text="&#xE75F;" FontFamily="Segoe MDL2 Assets" FontWeight="Bold" FontSize="21" VerticalAlignment="Center"/>
-                                                <TextBox Style="{StaticResource RadiusTextBox}"
-                                                         x:Name="NewLockPasswordBox"
-                                                         BorderThickness="1.5"
-                                                         HorizontalAlignment="Left"
-                                                         VerticalAlignment="Center"
-                                                         Margin="32,8,0,8" Height="28" Width="280"
-                                                         PlaceholderText="下次解锁将使用新的密码"/>
-                                            </Grid>
-                                            <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                                <Button Background="DodgerBlue"
-                                                        Content="确定"
-                                                        Foreground="White"
-                                                        Click="Button_Click_3"/>
-                                                <Button Content="取消"
-                                                        Margin="8,0,12,0"
-                                                        Click="Button_Click_4"/>
-                                                <TextBlock x:Name="SuccessNewPasswordTextBlock"
-                                                           FontSize="14"
-                                                           Foreground="Green"
-                                                           Text="修改成功,不要忘记这个密码"
-                                                           VerticalAlignment="Center"
-                                                           Visibility="Collapsed"/>
-                                                <TextBlock x:Name="FailNewPasswordTextBlock"
-                                                           FontSize="14"
-                                                           Foreground="Red"
-                                                           Text="请设置六位数字密码"
-                                                           VerticalAlignment="Center"
-                                                           Visibility="Collapsed"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Grid.Row="6">
-                                            <ToggleSwitch x:Name="WindowsHelloToggleSwitch"
-                                                          Margin="0,16,0,0"
-                                                          VerticalAlignment="Top"
-                                                          Header="Windows Hello"
-                                                          Toggled="ToggleSwitch_Toggled"/>
-                                            <TextBlock x:Name="DidntSetPasswordTextBlock"
-                                                       FontSize="14"
-                                                       Foreground="Red"
-                                                       Text="需要先设置六位数字密码"
-                                                       VerticalAlignment="Center"
-                                                       Visibility="Collapsed"/>
-                                            <HyperlinkButton Grid.Row="6"
-                                                     Content="在&quot;设置&quot;中查看"
-                                                     FontSize="14"
-                                                     VerticalAlignment="Bottom"
-                                                     Click="HyperlinkButton_Click"/>
-                                        </StackPanel>
+            <Rectangle x:Name="BackgroundRectangle" Fill="#33000000" Tapped="Rectangle_Tapped"/>
+            <Grid x:Name="SettingPop" Width="496" Height="512" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="6"
+                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Shadow="{StaticResource SettingShadow}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0" Opacity="0.8">
+                    <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" FontSize="18" VerticalAlignment="Center" Margin="0,2,4,0"/>
+                    <TextBlock Text="应用设置" FontWeight="Bold" FontSize="18" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Pivot x:Name="SettingPivot" Grid.Row="1">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <PivotItem Header="通用">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <StackPanel Orientation="Vertical" Margin="8,0">
+                                <TextBlock Text="个性化"
+                                           FontSize="15"
+                                           FontWeight="Bold"/>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Grid.Row="0" Text="更换应用程序背景图片" Margin="0,8,0,4"/>
+                                    <Grid BorderBrush="{ThemeResource SETTING_WALLPAPER_BD}" BorderThickness="2"
+                                          HorizontalAlignment="Left" Width="192" Height="108" CornerRadius="4">
+                                        <Grid.Background>
+                                            <ImageBrush>
+                                                <ImageBrush.ImageSource>
+                                                    <BitmapImage UriSource="/Assets/Background/Background.jpg" DecodePixelHeight="84" DecodePixelWidth="128" DecodePixelType="Logical"/>
+                                                </ImageBrush.ImageSource>
+                                            </ImageBrush>
+                                        </Grid.Background>
                                     </Grid>
-                                </ScrollViewer>
-                            </PivotItem>
-                            <PivotItem Header="反馈">
-                                <ScrollViewer>
-                                    <Grid>
-                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                                            <TextBlock Text="&#xED54;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" FontSize="36" FontWeight="Bold" Margin="0,-48,0,0"/>
-                                            <TextBlock Text="有任何建议或者问题请联系我，不胜感激！" FontWeight="Bold" Opacity="0.7" Margin="0,8,0,32" HorizontalAlignment="Center"/>
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
-                                                <AppBarButton Height="36" Width="36" Background="Gray" Margin="12,0" ToolTipService.ToolTip="OutLook">
-                                                    <AppBarButton.Flyout>
-                                                        <Flyout>
-                                                            <HyperlinkButton Content="yaoyiming123@live.com" ToolTipService.ToolTip="点击向我发送邮件" NavigateUri="mailto:yaoyiming123@live.com"/>
-                                                        </Flyout>
-                                                    </AppBarButton.Flyout>
-                                                    <Image Source="/Assets/Feedback/MailIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
-                                                </AppBarButton>
-                                                <AppBarButton Height="36" Width="36" Background="Gray" Margin="12,0">
-                                                    <AppBarButton.Flyout>
-                                                        <Flyout>
-                                                            <StackPanel>
-                                                                <Image Source="/Assets/Feedback/MyQQ.png" Width="256"/>
-                                                                <TextBlock Text="QQ：1095979350" FontFamily="Arial" Margin="4,8,4,-4" Opacity="0.8"/>
-                                                            </StackPanel>
-                                                        </Flyout>
-                                                    </AppBarButton.Flyout>
-                                                    <Image Source="/Assets/Feedback/QQIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
-                                                </AppBarButton>
-                                                <AppBarButton Height="36" Width="36" Background="Gray" Margin="12,0" ToolTipService.ToolTip="微信">
-                                                    <AppBarButton.Flyout>
-                                                        <Flyout>
-                                                            <StackPanel>
-                                                                <Image Source="/Assets/Feedback/MyWeChat.png" Width="256"/>
-                                                            </StackPanel>
-                                                        </Flyout>
-                                                    </AppBarButton.Flyout>
-                                                    <Image Source="/Assets/Feedback/WechatIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
-                                                </AppBarButton>
-                                                <AppBarButton Height="36" Width="36" Background="Gray" Margin="12,0">
-                                                    <AppBarButton.Flyout>
-                                                        <Flyout>
-                                                            <Image Source="/Assets/Feedback/MyWeibo.png" Width="256"/>
-                                                        </Flyout>
-                                                    </AppBarButton.Flyout>
-                                                    <Image Source="/Assets/Feedback/WeiboIcon.png" Width="18" Height="18" Margin="0,-12,0,0"/>
-                                                </AppBarButton>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                </ScrollViewer>
-                            </PivotItem>
-                            <PivotItem x:Name="AboutPivotItem" Header="关于">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                    <Grid>
-                                        <StackPanel>
-                                            <Image Source="/Assets/Background/Together_dark.png" Stretch="Uniform"/>
-                                            <TextBlock Text="So Many Passwords" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Opacity="0.2" FontFamily="Arial"/>
-                                            <TextBlock Text="v 1.2.0" HorizontalAlignment="Center" Margin="0,12,0,0" Opacity="0.2" FontFamily="Arial"/>
-                                        </StackPanel>
-                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="2016-2019 NoMewing." FontFamily="Consolas" Margin="0,12" Opacity="0.5"/>
-                                    </Grid>
-                                </ScrollViewer>
-                            </PivotItem>
-                        </Pivot>
-                        <AppBarButton Height="42" Width="42" HorizontalAlignment="Right" VerticalAlignment="Top" Content="&#xE10A;" FontFamily="Segoe MDL2 Assets" Click="AppBarButton_Click"/>
-                    </Grid>
-                </Grid>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Grid.Row="0" Text="选择应用的主题" Margin="0,8,0,4"/>
+                                    <RadioButton IsChecked="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Bool},ConverterParameter=Light,Mode=OneWay}"
+                                                 Content="浅色" Checked="ThemeLighRadioButtont_Checked"/>
+                                    <RadioButton IsChecked="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Bool},ConverterParameter=Dark,Mode=OneWay}"
+                                                 Content="深色" Checked="ThemeDarkRadioButton_Checked"/>
+                                </StackPanel>
+                                <TextBlock Text="安全"
+                                           FontSize="15"
+                                           FontWeight="Bold"
+                                           Margin="0,16,0,0"/>
+                                <ToggleSwitch x:Name="WindowsHelloToggleSwitch"
+                                              Margin="0,16,0,0"
+                                              VerticalAlignment="Top"
+                                              Header="Windows Hello"
+                                              Toggled="ToggleSwitch_Toggled"/>
+                                <HyperlinkButton Grid.Row="6"
+                                                 Content="在&quot;设置&quot;中查看"
+                                                 FontSize="14"
+                                                 VerticalAlignment="Bottom"
+                                                 Click="HyperlinkButton_Click"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="反馈">
+                        <ScrollViewer>
+                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                <Image Source="/Assets/Icon/photo.png" Height="72" Width="72" HorizontalAlignment="Center"/>
+                                <TextBlock Text="有任何建议或问题请联系我" FontWeight="Bold" Opacity="0.7" Margin="0,16,0,4" HorizontalAlignment="Center"/>
+                                <TextBlock Text="不胜感激！" FontWeight="Bold" Opacity="0.7" Margin="0,0,0,32" HorizontalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="18" Margin="0,0,0,96">
+                                    <Button Height="48" Width="48" CornerRadius="18">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <HyperlinkButton Content="yaoyiming123@live.com" ToolTipService.ToolTip="点击向我发送邮件" NavigateUri="mailto:yaoyiming123@live.com"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                        <Image Source="/Assets/Feedback/icon_mail.png" Width="24" Height="24" Margin="0,0,0,0"/>
+                                    </Button>
+                                    <Button Height="48" Width="48" CornerRadius="18">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <StackPanel>
+                                                    <Image Source="/Assets/Feedback/MyQQ.jpg" Width="256"/>
+                                                    <TextBlock Text="QQ：1095979350" FontFamily="Arial" Margin="4,8,4,-4" Opacity="0.8"/>
+                                                </StackPanel>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                        <Image Source="/Assets/Feedback/icon_qq.png" Width="24" Height="24" Margin="0,0,0,0"/>
+                                    </Button>
+                                    <Button Height="48" Width="48" CornerRadius="18">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <StackPanel>
+                                                    <Image Source="/Assets/Feedback/MyWechat.jpg" Width="256"/>
+                                                </StackPanel>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                        <Image Source="/Assets/Feedback/icon_wechat.png" Width="24" Height="24" Margin="0,0,0,0"/>
+                                    </Button>
+                                    <Button Height="48" Width="48" CornerRadius="18">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <Image Source="/Assets/Feedback/MyWeibo.jpg" Width="256"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                        <Image Source="/Assets/Feedback/icon_weibo.png" Width="24" Height="24" Margin="0,0,0,0"/>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </PivotItem>
+                    <PivotItem Header="关于">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="/Assets/Icon/logo.png" Stretch="Uniform" Height="96"/>
+                                <TextBlock Grid.Row="1" Text="好多密码" CharacterSpacing="96" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Opacity="0.5"/>
+                                <TextBlock Grid.Row="2" Text="v 2.0.0" HorizontalAlignment="Center" Opacity="0.3" FontSize="16"/>
+                                <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="2016-2022 sh0ckj0ckey." FontFamily="Consolas" Margin="0,12" Opacity="0.5"/>
+                            </Grid>
+                        </ScrollViewer>
+                    </PivotItem>
+                </Pivot>
+                <AppBarButton Height="42" Width="42" HorizontalAlignment="Right" VerticalAlignment="Top" Content="&#xE10A;" FontFamily="Segoe MDL2 Assets" Click="AppBarButton_Click"/>
             </Grid>
         </Grid>
     </Grid>

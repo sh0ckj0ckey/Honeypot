@@ -518,7 +518,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Grid.Row="1" Style="{StaticResource EllipseButton}" Width="48" Height="48" Margin="12,8" Click="Button_Click">
+        <Button Grid.Row="1" Width="48" Height="48" Margin="12,8" Click="Button_Click">
             <TextBlock Text="&#xE0D5;" FontFamily="Segoe UI Symbol"/>
         </Button>
         <TextBlock x:Name="TitleTextBlock" Grid.Row="1" Margin="76,0,0,0" Text="自定义" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
@@ -588,7 +588,7 @@
                 <Ellipse Height="56" Width="56" Fill="Black"/>
             </controls:DropShadowPanel>
             <Ellipse Height="56" Width="56" Fill="{ThemeResource SystemControlBackgroundAccentBrush}"/>
-            <Button BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource EllipseButton}" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="56" Width="56" Click="Button_Click_1" ToolTipService.ToolTip="保存更改">
+            <Button BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundAccentBrush}" Height="56" Width="56" Click="Button_Click_1" ToolTipService.ToolTip="保存更改">
                 <TextBlock Text="&#xE28F;" FontSize="18" FontFamily="Segoe UI Symbol" Foreground="White"/>
             </Button>
         </Grid>

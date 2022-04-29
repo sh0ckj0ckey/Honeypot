@@ -72,6 +72,14 @@ namespace ManyPasswords.ViewModel
             set { Set("eAppTheme", ref _eAppTheme, value); }
         }
 
+        // 侧边栏底部按钮Hover文案
+        private string _sHoverTipsText = "";
+        public string sHoverTipsText
+        {
+            get { return _sHoverTipsText; }
+            set { Set("sHoverTipsText", ref _sHoverTipsText, value); }
+        }
+
         public PasswordViewModel()
         {
             try
