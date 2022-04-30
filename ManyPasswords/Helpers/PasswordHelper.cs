@@ -30,9 +30,9 @@ namespace ManyPasswords
         /// 读取密码列表
         /// </summary>
         /// <returns></returns>
-        public static async Task<ObservableCollection<Models.PasswordItem>> LoadData()
+        public static async Task<List<Models.PasswordItem>> LoadData()
         {
-            ObservableCollection<Models.PasswordItem> passwordsList = new ObservableCollection<Models.PasswordItem>();
+            List<Models.PasswordItem> passwordsList = new List<Models.PasswordItem>();
             try
             {
                 string data = await StorageFileHelper.ReadAsync<string>("manypasswords.dat");
@@ -45,7 +45,7 @@ namespace ManyPasswords
                         NullValueHandling = NullValueHandling.Ignore,
                         MissingMemberHandling = MissingMemberHandling.Ignore
                     };
-                    passwordsList = JsonConvert.DeserializeObject<ObservableCollection<Models.PasswordItem>>(data, jss);
+                    passwordsList = JsonConvert.DeserializeObject<List<Models.PasswordItem>>(data, jss);
                 }
             }
             catch (Exception e) { }

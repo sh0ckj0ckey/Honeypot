@@ -8,6 +8,9 @@
                     <Color x:Key="HEADER_FR">#E6FFFFFF</Color>
                     <Color x:Key="SETTING_WALLPAPER_BD">#E6FFFFFF</Color>
                     <BitmapImage x:Key="LARGETITLE_IMAGE" UriSource="ms-appx:///Assets/Background/large_title_dark.png"/>
+                    <BitmapImage x:Key="SETTING_WALLPAPER_MASK_IMAGE" UriSource="ms-appx:///Assets/Background/wallpaper_preview_dark.png"/>
+                    <BitmapImage x:Key="LISTEMPTY_IMAGE" UriSource="ms-appx:///Assets/Icon/empty_light.png"/>
+                    <Color x:Key="SIDEMENU_ACRYLIC_BK">#000000</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -17,6 +20,9 @@
                     <Color x:Key="HEADER_FR">#E6000000</Color>
                     <Color x:Key="SETTING_WALLPAPER_BD">#E6000000</Color>
                     <BitmapImage x:Key="LARGETITLE_IMAGE" UriSource="ms-appx:///Assets/Background/large_title_light.png"/>
+                    <BitmapImage x:Key="SETTING_WALLPAPER_MASK_IMAGE" UriSource="ms-appx:///Assets/Background/wallpaper_preview_light.png"/>
+                    <BitmapImage x:Key="LISTEMPTY_IMAGE" UriSource="ms-appx:///Assets/Icon/empty_light.png"/>
+                    <Color x:Key="SIDEMENU_ACRYLIC_BK">#00FFFFFF</Color>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

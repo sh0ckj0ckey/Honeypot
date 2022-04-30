@@ -5,11 +5,24 @@
     xmlns:local="using:ManyPasswords"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:vt="using:ManyPasswords.Converter"
+    mc:Ignorable="d" NavigationCacheMode="Required"
+    Background="Transparent">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ThemeResource/ThemeDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <vt:EqualToVisibilityConverter x:Key="Equal2Visible"/>
+            <vt:UnequalToVisibilityConverter x:Key="Unequal2Visible"/>
+        </ResourceDictionary>
+    </Page.Resources>
 
-    <Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.BackgroundTransition>
+            <BrushTransition />
+        </Grid.BackgroundTransition>
         <Rectangle Fill="Gray" Opacity="0.2"/>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -18,8 +31,21 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="收藏夹" Margin="16,24,0,16" FontWeight="Bold" FontSize="28"/>
-            <TextBlock Grid.Row="1" Text="你可以在此处查看收藏的密码" Margin="16,12,0,12" FontWeight="Black" FontSize="18" Opacity="0.6"/>
-            <GridView x:Name="FavoriteGridView" x:FieldModifier="Public" Grid.Row="2" Margin="8" IsFocusEngagementEnabled="True" IsItemClickEnabled="False" SelectionMode="None" ItemsSource="{x:Bind ViewModel.vFavoritePasswords}" Padding="8">
+            <TextBlock Grid.Row="1" Text="你可以在此处查看收藏的密码" Margin="16,0,0,12" FontWeight="Black" FontSize="18" Opacity="0.6"/>
+            <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical"
+                        Visibility="{x:Bind ViewModel.vFavoritePasswords.Count,Converter={StaticResource Equal2Visible},ConverterParameter=0,Mode=OneWay}">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Source="{ThemeResource LISTEMPTY_IMAGE}" Height="128" Opacity="0.2"/>
+                <TextBlock Text="还没有收藏哦~" HorizontalAlignment="Center" FontSize="16" Foreground="Gray" Opacity="0.5" CharacterSpacing="32" Margin="0,4,0,42"/>
+            </StackPanel>
+            <GridView Grid.Row="2" Margin="8" IsFocusEngagementEnabled="True" IsItemClickEnabled="False" SelectionMode="None" 
+                      ItemsSource="{x:Bind ViewModel.vFavoritePasswords}" Padding="8"
+                      Visibility="{x:Bind ViewModel.vFavoritePasswords.Count,Converter={StaticResource Unequal2Visible},ConverterParameter=0,Mode=OneWay}">
+                <GridView.ItemContainerTransitions>
+                    <TransitionCollection>
+                        <AddDeleteThemeTransition/>
+                    </TransitionCollection>
+                </GridView.ItemContainerTransitions>
                 <GridView.ItemTemplate>
                     <DataTemplate>
                         <Grid Width="280" Height="84">

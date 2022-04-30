@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:converter="using:ManyPasswords.Converter"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d" NavigationCacheMode="Required"
+    Background="Transparent">
     <Page.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisible"/>
 
@@ -519,7 +519,11 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="Transparent">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.BackgroundTransition>
+            <BrushTransition />
+        </Grid.BackgroundTransition>
+
         <Rectangle Fill="Transparent" Tapped="Grid_Tapped"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Tapped="Grid_Tapped" Margin="0,32,0,0">
             <StackPanel Margin="32">
@@ -588,8 +592,8 @@
                         </AppBarButton>
                         <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="收藏" Click="AppBarButton_Click_3">
                             <Grid>
-                                <TextBlock x:Name="FavoriteIcon" Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},ConverterParameter=-}" Text="&#xE006;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="UnFavoriteIcon" Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible}}" Text="&#xE0A5;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FavoriteIcon" Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},ConverterParameter=-,Mode=OneWay}" Text="&#xE006;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="UnFavoriteIcon" Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},Mode=OneWay}" Text="&#xE0A5;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
                             </Grid>
                         </AppBarButton>
                         <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="编辑" Click="AppBarButton_Click_5">

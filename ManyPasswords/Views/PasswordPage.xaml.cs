@@ -1,4 +1,5 @@
 ﻿using ManyPasswords.Models;
+using ManyPasswords.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,46 +25,31 @@ namespace ManyPasswords
     /// </summary>
     public sealed partial class PasswordPage : Page
     {
-        public List<PasswordsGroup> itemList = new List<PasswordsGroup>();
+        PasswordViewModel ViewModel = null;
+
         public List<PasswordItem> list = new List<PasswordItem>();
-        public static PasswordItem Selected = null;
-        public static PasswordPage Password = null;
-        List<PasswordItem> suggestions = new List<PasswordItem>();
+        public static PasswordPage Current = null;
+
+        private DispatcherTimer timer = null;
+
+        // 搜索建议列表
+        private ObservableCollection<PasswordItem> vSearchSuggestions = new ObservableCollection<PasswordItem>();
+
         public PasswordPage()
         {
-            this.InitializeComponent();
-            Password = this;
-            PasswordFrame.Navigate(typeof(BlankPage));
             try
             {
-                //itemList = (from item in PasswordHelper._data group item by item.sFirstLetter into newItems select new PasswordsInGroup { Key = newItems.Key, PasswordsContent = newItems.ToList() }).OrderBy(x => x.Key).ToList();
+                this.InitializeComponent();
+                Current = this;
+
+                ViewModel = PasswordViewModel.Instance;
+
+                FrameShadow.Receivers.Add(PasswordsListGrid);
+                FrameGrid.Translation += new System.Numerics.Vector3(0, 0, 36);
+
+                PasswordFrame.Navigate(typeof(BlankPage));
             }
             catch { }
-            if (itemList.Count == 0)
-            {
-                NullStackPanel.Visibility = Visibility.Visible;
-                SemanticGrid.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                foreach (var group in itemList)
-                {
-                    foreach (var password in group.vPasswords)
-                    {
-                        list.Add(password);
-                    }
-                }
-                NullStackPanel.Visibility = Visibility.Collapsed;
-                SemanticGrid.Visibility = Visibility.Visible;
-            }
-            if (App.AppSettingContainer.Values["Theme"] == null || App.AppSettingContainer.Values["Theme"].ToString() == "Light")
-            {
-                PasswordsSemanticZoom.Opacity = 1;
-            }
-            else
-            {
-                PasswordsSemanticZoom.Opacity = 0.7;
-            }
         }
 
         /// <summary>   
@@ -73,7 +59,11 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            HomePage.Current.MenuListView.SelectedIndex = 2;
+            try
+            {
+                HomePage.Current.MenuListView.SelectedIndex = 2;
+            }
+            catch { }
         }
 
         /// <summary>
@@ -83,31 +73,15 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void InView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            //if (InView.SelectedIndex < 0)
-            //{
-            //    PasswordFrame.Navigate(typeof(BlankPage));
-            //    return;
-            //}
-            Selected = (PasswordItem)e.ClickedItem;
-            //Selected = list[InView.SelectedIndex];
-            PasswordFrame.Navigate(typeof(DetailsPage));
-        }
-
-        private void InView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            //ListViewFlyout.ShowAt(InView, e.GetPosition(this.InView));
-        }
-
-        /// <summary>
-        /// 搜索
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            //suggestions.Clear();
-            //suggestions = PasswordHelper._data.Where(p => (p.Name.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase) || p.Account.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase))).ToList();
-            //SearchAutoSuggestBox.ItemsSource = suggestions;
+            try
+            {
+                if (e.ClickedItem is PasswordItem password)
+                {
+                    ViewModel.CurrentPassword = password;
+                    PasswordFrame.Navigate(typeof(DetailsPage));
+                }
+            }
+            catch { }
         }
 
         /// <summary>
@@ -115,13 +89,60 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            try
+            {
+                if (timer == null)
+                {
+                    timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
+                    timer.Tick += (s, e) =>
+                    {
+                        SearchSuggestPasswords();
+                    };
+                }
+            }
+            catch { }
+        }
+
+        private void SearchSuggestPasswords()
+        {
+            try
+            {
+                vSearchSuggestions.Clear();
+                //suggestions = PasswordHelper._data.Where(p => (p.Name.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase) || p.Account.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase))).ToList();
+                SearchAutoSuggestBox.ItemsSource = vSearchSuggestions;
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// 选中搜索结果
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void SearchAutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            PasswordItem onePassword = (PasswordItem)args.SelectedItem;
-            SearchAutoSuggestBox.Text = onePassword.sName.StartsWith(SearchAutoSuggestBox.Text, StringComparison.CurrentCultureIgnoreCase) ? onePassword.sName : onePassword.sAccount;
-            Selected = onePassword;
-            InView.SelectedIndex = -1;
-            PasswordFrame.Navigate(typeof(DetailsPage));
+            try
+            {
+                if (args.SelectedItem is PasswordItem password)
+                {
+                    SearchAutoSuggestBox.Text = password.sName.StartsWith(SearchAutoSuggestBox.Text, StringComparison.CurrentCultureIgnoreCase) ? password.sName : password.sAccount;
+                    ViewModel.CurrentPassword = password;
+                    PasswordFrame.Navigate(typeof(DetailsPage));
+
+                    try
+                    {
+                        InView.SelectedItem = password;
+                        InView.ScrollIntoView(password);
+                    }
+                    catch
+                    {
+                        InView.SelectedIndex = -1;
+                    }
+                }
+            }
+            catch { }
         }
     }
 }

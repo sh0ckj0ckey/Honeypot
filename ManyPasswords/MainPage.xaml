@@ -8,7 +8,7 @@
     xmlns:vt="using:ManyPasswords.Converter"
     mc:Ignorable="d" NavigationCacheMode="Required"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    RequestedTheme="{x:Bind ViewModel.eAppTheme}">
+    RequestedTheme="{x:Bind ViewModel.eAppTheme,Mode=OneWay}">
     <Page.Resources>
         <vt:BoolToVisibilityConverter x:Key="vtBool2Visible"/>
     </Page.Resources>

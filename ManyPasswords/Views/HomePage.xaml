@@ -6,29 +6,57 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:vt="using:ManyPasswords.Converter" RequestedTheme="{x:Bind ViewModel.eAppTheme}"
-    mc:Ignorable="d">
+    xmlns:vt="using:ManyPasswords.Converter" 
+    RequestedTheme="{x:Bind ViewModel.eAppTheme,Mode=OneWay}"
+    mc:Ignorable="d" NavigationCacheMode="Required">
     <Page.Resources>
-        <vt:BoolToVisibilityConverter x:Key="vtBool2Visible"/>
-        <vt:EqualToVisibilityConverter x:Key="vtEqual2Visible"/>
-        <vt:UnequalToVisibilityConverter x:Key="vtUnequal2Visible"/>
-        <vt:EqualToBoolConverter x:Key="vtEqual2Bool"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ThemeResource/ThemeDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <ThemeShadow x:Name="FrameShadow"/>
-        <ThemeShadow x:Name="SettingShadow"/>
+            <vt:BoolToVisibilityConverter x:Key="vtBool2Visible"/>
+            <vt:EqualToVisibilityConverter x:Key="vtEqual2Visible"/>
+            <vt:UnequalToVisibilityConverter x:Key="vtUnequal2Visible"/>
+            <vt:EqualToBoolConverter x:Key="vtEqual2Bool"/>
 
-        <Storyboard x:Name="EnterButtonStoryboard">
-            <DoubleAnimation Storyboard.TargetName="HoverTipTextBlock"
-                             Storyboard.TargetProperty="Opacity"
-                             To="1" Duration="0:0:0.2">
-            </DoubleAnimation>
-        </Storyboard>
-        <Storyboard x:Name="LeaveButtonStoryboard">
-            <DoubleAnimation Storyboard.TargetName="HoverTipTextBlock"
-                             Storyboard.TargetProperty="Opacity"
-                             To="0" Duration="0:0:0.2">
-            </DoubleAnimation>
-        </Storyboard>
+            <ThemeShadow x:Name="FrameShadow"/>
+            <ThemeShadow x:Name="SettingShadow"/>
+
+            <Storyboard x:Name="EnterButtonStoryboard">
+                <DoubleAnimation Storyboard.TargetName="HoverTipTextBlock"
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1" Duration="0:0:0.3">
+                </DoubleAnimation>
+            </Storyboard>
+            <Storyboard x:Name="LeaveButtonStoryboard">
+                <DoubleAnimation Storyboard.TargetName="HoverTipTextBlock"
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="0" Duration="0:0:0.2">
+                </DoubleAnimation>
+            </Storyboard>
+
+            <Storyboard x:Name="ImportHoverStoryboard">
+                <DoubleAnimation Storyboard.TargetName="ImportHoverTranslation" Storyboard.TargetProperty="X" To="0" Duration="0:0:1">
+                    <DoubleAnimation.EasingFunction>
+                        <ExponentialEase Exponent="12" EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ImportHoverTextBlock"
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1" Duration="0:0:0.5"/>
+            </Storyboard>
+            <Storyboard x:Name="ImportLeaveStoryboard">
+                <DoubleAnimation Storyboard.TargetName="ImportHoverTranslation" Storyboard.TargetProperty="X" To="200" Duration="0:0:0.4">
+                    <DoubleAnimation.EasingFunction>
+                        <ExponentialEase Exponent="2" EasingMode="EaseIn" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="ImportHoverTextBlock"
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="0" Duration="0:0:0.2"/>
+            </Storyboard>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
@@ -39,7 +67,7 @@
         <Image Grid.ColumnSpan="2" Stretch="UniformToFill" Source="/Assets/Background/Background.jpg"/>
         <Grid x:Name="SideMenuGrid" Grid.Column="0">
             <Grid.Background>
-                <AcrylicBrush x:Name="MenuAcrylic" TintColor="Transparent" TintOpacity="0.3" BackgroundSource="Backdrop"/>
+                <AcrylicBrush x:Name="MenuAcrylic" TintColor="{ThemeResource SIDEMENU_ACRYLIC_BK}" TintOpacity="0.3" BackgroundSource="Backdrop"/>
             </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -47,9 +75,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="56"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Height="56" VerticalAlignment="Top" Margin="12">
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="12,30,0,14">
                 <Image Source="/Assets/Icon/logo.png" Width="32"/>
-                <TextBlock Text="好多密码" FontWeight="Bold" FontSize="18" Margin="10,18,0,0" Foreground="White"/>
+                <TextBlock Text="好多密码" FontWeight="Bold" FontSize="18" Margin="10,6,0,0" Foreground="White"/>
             </StackPanel>
             <ListView x:Name="MenuListView" Grid.Row="1" x:FieldModifier="public" Margin="0,6,0,0" SelectionChanged="ListView_SelectionChanged">
                 <ListViewItem Style="{StaticResource SideMenuListViewItemStyle}" HorizontalAlignment="Center" Width="180" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
@@ -92,25 +120,26 @@
                     </Grid>
                 </ListViewItem>
             </ListView>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="18" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Height="36" Width="36" CornerRadius="18"
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Height="36" Width="36" CornerRadius="18" Margin="0,0,16,0"
                         FocusVisualPrimaryThickness="0" 
                         FocusVisualSecondaryThickness="0"
                         Click="{x:Bind ViewModel.LockApp}"
+                        Visibility="{x:Bind ViewModel.bLockEnabled,Converter={StaticResource vtBool2Visible},Mode=OneWay}"
                         PointerEntered="OnPointerEnter"
                         PointerExited="OnPointerExit"
-                        Tag="lock">
+                        Tag="lock"  Style="{StaticResource ButtonRevealStyle}">
                     <Button.Content>
                         <TextBlock Text="&#xE1F6;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="12"/>
                     </Button.Content>
                 </Button>
-                <Button Height="36" Width="36" CornerRadius="18"
+                <Button Height="36" Width="36" CornerRadius="18" Margin="0,0,16,0"
                         FocusVisualPrimaryThickness="0" 
                         FocusVisualSecondaryThickness="0"
                         Click="Button_Click_1"
                         PointerEntered="OnPointerEnter"
                         PointerExited="OnPointerExit"
-                        Tag="theme">
+                        Tag="theme" Style="{StaticResource ButtonRevealStyle}">
                     <Button.Content>
                         <Grid>
                             <TextBlock Text="&#xE28C;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="16"
@@ -126,7 +155,7 @@
                         Click="Button_Click_2" Foreground="White"
                         PointerEntered="OnPointerEnter"
                         PointerExited="OnPointerExit"
-                        Tag="setting">
+                        Tag="setting" Style="{StaticResource ButtonRevealStyle}">
                     <Button.Content>
                         <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="13"
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"/>
@@ -137,7 +166,7 @@
                        Foreground="#E6FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <Frame x:Name="HomeFrame" x:FieldModifier="Public" Grid.Column="1" Background="Transparent" Shadow="{StaticResource FrameShadow}"/>
-        <Grid x:Name="SettingGrid" Grid.ColumnSpan="2" Visibility="Visible">
+        <Grid x:Name="SettingGrid" Grid.ColumnSpan="2" Visibility="Collapsed">
             <Grid.Resources>
                 <Storyboard x:Name="SettingGridPopIn">
                     <PopInThemeAnimation FromHorizontalOffset="0" FromVerticalOffset="320" Storyboard.TargetName="SettingPop" Duration="00:00:1"/>
@@ -147,62 +176,115 @@
                 </Storyboard>
             </Grid.Resources>
             <Rectangle x:Name="BackgroundRectangle" Fill="#33000000" Tapped="Rectangle_Tapped"/>
-            <Grid x:Name="SettingPop" Width="496" Height="512" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="6"
+            <Grid x:Name="SettingPop" Width="496" Height="546" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="6"
                   Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Shadow="{StaticResource SettingShadow}">
+                <Grid.BackgroundTransition>
+                    <BrushTransition />
+                </Grid.BackgroundTransition>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="48"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0,0,0" Opacity="0.8">
                     <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" FontSize="18" VerticalAlignment="Center" Margin="0,2,4,0"/>
-                    <TextBlock Text="应用设置" FontWeight="Bold" FontSize="18" VerticalAlignment="Center"/>
+                    <TextBlock Text="设置" FontWeight="Bold" FontSize="21" VerticalAlignment="Center"/>
                 </StackPanel>
                 <Pivot x:Name="SettingPivot" Grid.Row="1">
                     <Pivot.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding}" FontSize="18" FontWeight="Bold"/>
                         </DataTemplate>
                     </Pivot.HeaderTemplate>
                     <PivotItem Header="通用">
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <StackPanel Orientation="Vertical" Margin="8,0">
+                            <StackPanel Orientation="Vertical" Margin="0,0">
                                 <TextBlock Text="个性化"
-                                           FontSize="15"
-                                           FontWeight="Bold"/>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Grid.Row="0" Text="更换应用程序背景图片" Margin="0,8,0,4"/>
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="0,12,0,0"/>
+
+                                <TextBlock Grid.Row="0" Text="更换背景" FontSize="14" Margin="0,8,0,4"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,4,0,16">
                                     <Grid BorderBrush="{ThemeResource SETTING_WALLPAPER_BD}" BorderThickness="2"
-                                          HorizontalAlignment="Left" Width="192" Height="108" CornerRadius="4">
+                                          HorizontalAlignment="Left" Width="192" Height="108" CornerRadius="4" Margin="2,0,0,0" VerticalAlignment="Center">
                                         <Grid.Background>
                                             <ImageBrush>
                                                 <ImageBrush.ImageSource>
-                                                    <BitmapImage UriSource="/Assets/Background/Background.jpg" DecodePixelHeight="84" DecodePixelWidth="128" DecodePixelType="Logical"/>
+                                                    <BitmapImage x:Name="WallpaperPreviewImage" UriSource="/Assets/Background/Background.jpg" DecodePixelHeight="84" DecodePixelWidth="128" DecodePixelType="Logical"/>
                                                 </ImageBrush.ImageSource>
                                             </ImageBrush>
                                         </Grid.Background>
+                                        <Grid>
+                                            <Grid.Background>
+                                                <AcrylicBrush Opacity="0.3" TintColor="Transparent" TintOpacity="0.1" TintLuminosityOpacity="0" BackgroundSource="Backdrop"/>
+                                            </Grid.Background>
+                                            <Image Source="{ThemeResource SETTING_WALLPAPER_MASK_IMAGE}" Height="108" HorizontalAlignment="Right" Stretch="UniformToFill"/>
+                                        </Grid>
                                     </Grid>
+                                    <Button Height="28" Width="96" Margin="12,0,0,0" CornerRadius="4" VerticalAlignment="Bottom"
+                                            Style="{StaticResource ButtonRevealStyle}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xED25;" VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0"/>
+                                            <TextBlock Text="浏览图片" VerticalAlignment="Center" FontSize="12"/>
+                                        </StackPanel>
+                                    </Button>
                                 </StackPanel>
+
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Grid.Row="0" Text="选择应用的主题" Margin="0,8,0,4"/>
+                                    <TextBlock Grid.Row="0" Text="应用主题" FontSize="14" Margin="0,8,0,4"/>
                                     <RadioButton IsChecked="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Bool},ConverterParameter=Light,Mode=OneWay}"
-                                                 Content="浅色" Checked="ThemeLighRadioButtont_Checked"/>
+                                                 Content="浅色" Checked="ThemeLighRadioButtont_Checked" Margin="2,0,0,0"/>
                                     <RadioButton IsChecked="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Bool},ConverterParameter=Dark,Mode=OneWay}"
-                                                 Content="深色" Checked="ThemeDarkRadioButton_Checked"/>
+                                                 Content="深色" Checked="ThemeDarkRadioButton_Checked" Margin="2,0,0,0"/>
                                 </StackPanel>
                                 <TextBlock Text="安全"
-                                           FontSize="15"
+                                           FontSize="16"
                                            FontWeight="Bold"
                                            Margin="0,16,0,0"/>
                                 <ToggleSwitch x:Name="WindowsHelloToggleSwitch"
-                                              Margin="0,16,0,0"
+                                              Margin="0,8,0,0"
                                               VerticalAlignment="Top"
-                                              Header="Windows Hello"
+                                              Header="使用 Windows Hello 锁定"
+                                              IsOn="{x:Bind ViewModel.bLockEnabled,Mode=OneWay}"
                                               Toggled="ToggleSwitch_Toggled"/>
                                 <HyperlinkButton Grid.Row="6"
                                                  Content="在&quot;设置&quot;中查看"
                                                  FontSize="14"
                                                  VerticalAlignment="Bottom"
                                                  Click="HyperlinkButton_Click"/>
+                                <TextBlock Text="数据"
+                                           FontSize="16"
+                                           FontWeight="Bold"
+                                           Margin="0,12,0,0"/>
+                                <Grid Margin="0,12,0,16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Height="32" Width="96" Margin="0,0,12,0" CornerRadius="4" VerticalAlignment="Bottom"
+                                            Style="{StaticResource ButtonRevealStyle}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8A7;" VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0"/>
+                                            <TextBlock Text="导出密码" VerticalAlignment="Center" FontSize="12"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Grid.Column="1" Height="32" Width="96" CornerRadius="4" VerticalAlignment="Bottom"
+                                            Style="{StaticResource ButtonRevealStyle}"
+                                            PointerEntered="Button_PointerEntered"
+                                            PointerExited="Button_PointerExited">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xEA3C;" VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0"/>
+                                            <TextBlock Text="导入密码" VerticalAlignment="Center" FontSize="12"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <TextBlock x:Name="ImportHoverTextBlock" Grid.Column="2" Text="😀别担心，导入的密码会和现有密码共存" Margin="12,0,0,0" FontSize="12"
+                                               HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0" CharacterSpacing="48">
+                                        <TextBlock.RenderTransform>
+                                            <TranslateTransform x:Name="ImportHoverTranslation" X="200"/>
+                                        </TextBlock.RenderTransform>
+                                    </TextBlock>
+                                </Grid>
                             </StackPanel>
                         </ScrollViewer>
                     </PivotItem>
@@ -213,7 +295,7 @@
                                 <TextBlock Text="有任何建议或问题请联系我" FontWeight="Bold" Opacity="0.7" Margin="0,16,0,4" HorizontalAlignment="Center"/>
                                 <TextBlock Text="不胜感激！" FontWeight="Bold" Opacity="0.7" Margin="0,0,0,32" HorizontalAlignment="Center"/>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="18" Margin="0,0,0,96">
-                                    <Button Height="48" Width="48" CornerRadius="18">
+                                    <Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
                                             <Flyout>
                                                 <HyperlinkButton Content="yaoyiming123@live.com" ToolTipService.ToolTip="点击向我发送邮件" NavigateUri="mailto:yaoyiming123@live.com"/>
@@ -221,18 +303,17 @@
                                         </Button.Flyout>
                                         <Image Source="/Assets/Feedback/icon_mail.png" Width="24" Height="24" Margin="0,0,0,0"/>
                                     </Button>
-                                    <Button Height="48" Width="48" CornerRadius="18">
+                                    <Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
                                             <Flyout>
                                                 <StackPanel>
                                                     <Image Source="/Assets/Feedback/MyQQ.jpg" Width="256"/>
-                                                    <TextBlock Text="QQ：1095979350" FontFamily="Arial" Margin="4,8,4,-4" Opacity="0.8"/>
                                                 </StackPanel>
                                             </Flyout>
                                         </Button.Flyout>
                                         <Image Source="/Assets/Feedback/icon_qq.png" Width="24" Height="24" Margin="0,0,0,0"/>
                                     </Button>
-                                    <Button Height="48" Width="48" CornerRadius="18">
+                                    <Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
                                             <Flyout>
                                                 <StackPanel>
@@ -242,7 +323,7 @@
                                         </Button.Flyout>
                                         <Image Source="/Assets/Feedback/icon_wechat.png" Width="24" Height="24" Margin="0,0,0,0"/>
                                     </Button>
-                                    <Button Height="48" Width="48" CornerRadius="18">
+                                    <Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
                                             <Flyout>
                                                 <Image Source="/Assets/Feedback/MyWeibo.jpg" Width="256"/>
@@ -258,13 +339,13 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Image Grid.Row="0" Source="/Assets/Icon/logo.png" Stretch="Uniform" Height="96"/>
+                                <Image Grid.Row="0" Source="/Assets/Icon/logo.png" Stretch="Uniform" Height="96" Margin="0,48,0,4"/>
                                 <TextBlock Grid.Row="1" Text="好多密码" CharacterSpacing="96" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Opacity="0.5"/>
                                 <TextBlock Grid.Row="2" Text="v 2.0.0" HorizontalAlignment="Center" Opacity="0.3" FontSize="16"/>
                                 <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="2016-2022 sh0ckj0ckey." FontFamily="Consolas" Margin="0,12" Opacity="0.5"/>

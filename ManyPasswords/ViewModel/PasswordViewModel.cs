@@ -8,13 +8,16 @@ using Windows.UI.Xaml;
 
 namespace ManyPasswords.ViewModel
 {
-    public class PasswordViewModel : ViewModelBase
+    public partial class PasswordViewModel : ViewModelBase
     {
         private static readonly Lazy<PasswordViewModel> lazy = new Lazy<PasswordViewModel>(() => new PasswordViewModel());
         public static PasswordViewModel Instance { get { return lazy.Value; } }
 
         // 内置账号模板集合
         public ObservableCollection<Models.BuildinItem> vBuildinItems = null;
+
+        // 所有的账号集合
+        public List<Models.PasswordItem> vAllPasswords = null;
 
         // 按照首字母分组的账号集合
         private ObservableCollection<Models.PasswordsGroup> _vManyPasswords = null;
@@ -95,7 +98,7 @@ namespace ManyPasswords.ViewModel
             try
             {
                 // 读取设置是否启用了密码锁定
-                if (App.AppSettingContainer.Values["bAppLockEnabled"] != null)
+                if (App.AppSettingContainer.Values["bAppLockEnabled"]?.ToString() == "True")
                 {
                     bLockEnabled = true;
                     bAppLocked = true;
@@ -306,10 +309,10 @@ namespace ManyPasswords.ViewModel
         {
             try
             {
-                var passwordsList = await PasswordHelper.LoadData();
+                vAllPasswords = await PasswordHelper.LoadData();
 
                 // 分组
-                var orderedList = (from item in passwordsList
+                var orderedList = (from item in vAllPasswords
                                    group item by item.sFirstLetter into newItems
                                    select
                                    new Models.PasswordsGroup
@@ -322,17 +325,182 @@ namespace ManyPasswords.ViewModel
 
                 // 收藏
                 vFavoritePasswords = new ObservableCollection<Models.PasswordItem>();
-                for (int i = passwordsList.Count - 1; i >= 0; i--)
+                for (int i = vAllPasswords.Count - 1; i >= 0; i--)
                 {
-                    if (passwordsList[i].bFavorite)
+                    if (vAllPasswords[i].bFavorite)
                     {
-                        vFavoritePasswords.Add(passwordsList[i]);
+                        vFavoritePasswords.Add(vAllPasswords[i]);
                     }
                 }
             }
             catch { }
         }
 
+        public async void SavePasswordsFile()
+        {
+
+        }
+
+        // 添加账号密码
+        public void AddPassword(Models.PasswordItem add)
+        {
+            try
+            {
+                add.sFirstLetter = GetFirstLetter(add.sName);
+                vAllPasswords.Add(add);
+                SavePasswordsFile();
+                Models.PasswordsGroup addingGroup = null;
+                foreach (var group in vManyPasswords)
+                {
+                    if (group.Key == add.sFirstLetter)
+                    {
+                        addingGroup = group;
+                        break;
+                    }
+                }
+                if (addingGroup == null)
+                {
+                    addingGroup = new Models.PasswordsGroup();
+                    addingGroup.Key = add.sFirstLetter;
+                    addingGroup.vPasswords = new ObservableCollection<Models.PasswordItem>();
+                }
+                addingGroup.vPasswords.Add(add);
+                vManyPasswords.Add(addingGroup);
+                vManyPasswords.OrderBy(x => x.Key);
+            }
+            catch { }
+        }
+
+        // 删除账号密码
+        public void RemovePassword(Models.PasswordItem remove)
+        {
+            try
+            {
+                if (vAllPasswords != null && vAllPasswords.Contains(remove))
+                {
+                    vAllPasswords.Remove(remove);
+                    SavePasswordsFile();
+                }
+                Models.PasswordsGroup removingGroup = null;
+                foreach (var group in vManyPasswords)
+                {
+                    if (group.Key == remove.sFirstLetter)
+                    {
+                        removingGroup = group;
+                        break;
+                    }
+                }
+                if (removingGroup != null && removingGroup.vPasswords.Contains(remove))
+                {
+                    removingGroup.vPasswords.Remove(remove);
+                    if (removingGroup.vPasswords.Count <= 0 && vManyPasswords.Contains(removingGroup))
+                    {
+                        vManyPasswords.Remove(removingGroup);
+                    }
+                }
+            }
+            catch { }
+        }
+
+        // 添加收藏
+        public void AddFavorite(Models.PasswordItem add)
+        {
+            try
+            {
+                if (this.vFavoritePasswords == null)
+                {
+                    this.vFavoritePasswords = new ObservableCollection<Models.PasswordItem>();
+                }
+                add.bFavorite = true;
+                this.vFavoritePasswords.Insert(0, add);
+                SavePasswordsFile();
+            }
+            catch { }
+        }
+
+        // 取消收藏
+        public void RemoveFavorite(Models.PasswordItem remove)
+        {
+            try
+            {
+                if (this.vFavoritePasswords != null)
+                {
+                    remove.bFavorite = false;
+                    this.vFavoritePasswords.Remove(remove);
+                    SavePasswordsFile();
+                }
+            }
+            catch { }
+        }
+
+        // 取首字母
+        private char GetFirstLetter(string name)
+        {
+            try
+            {
+                // 数字
+                if (string.IsNullOrEmpty(name) || System.Text.RegularExpressions.Regex.IsMatch(name.Trim(), "^[0-9]"))
+                {
+                    return '#';
+                }
+
+                // 英文
+                if (System.Text.RegularExpressions.Regex.IsMatch(name.Trim(), "^[a-zA-Z]"))
+                {
+                    return name.ToUpper()[0];
+                }
+
+                // 特殊
+                switch (name[0])
+                {
+                    case 'ā':
+                    case 'á':
+                    case 'ǎ':
+                    case 'à':
+                        return 'A';
+                    case 'ō':
+                    case 'ó':
+                    case 'ǒ':
+                    case 'ò':
+                        return 'O';
+                    case 'ē':
+                    case 'é':
+                    case 'ě':
+                    case 'è':
+                    case 'ê':
+                        return 'E';
+                    case 'ī':
+                    case 'í':
+                    case 'ǐ':
+                    case 'ì':
+                        return 'I';
+                    case 'ū':
+                    case 'ú':
+                    case 'ǔ':
+                    case 'ù':
+                        return 'U';
+                    case 'ǖ':
+                    case 'ǘ':
+                    case 'ǚ':
+                    case 'ǜ':
+                    case 'ü':
+                        return 'V';
+                }
+
+                try
+                {
+                    char firstLetter = Helpers.PinyinHelper.GetFirstSpell(name);
+                    return firstLetter;
+                }
+                catch { }
+            }
+            catch { }
+            return name.Length > 0 ? name[0] : '#';
+        }
+
+        #region 应用的各种功能
+
+        // 锁定应用程序
         public void LockApp()
         {
             try
@@ -342,6 +510,7 @@ namespace ManyPasswords.ViewModel
             catch { }
         }
 
+        // 解锁应用程序
         public async void UnlockApp()
         {
             try
@@ -368,6 +537,8 @@ namespace ManyPasswords.ViewModel
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
                         await new Windows.UI.Popups.MessageDialog("验证失败，请尝试使用密码解锁").ShowAsync();
                         break;
+                    case Windows.Security.Credentials.UI.UserConsentVerificationResult.Canceled:
+                        break;
                     default:
                         break;
                 }
@@ -375,33 +546,40 @@ namespace ManyPasswords.ViewModel
             catch { }
         }
 
-        // 添加收藏
-        public void AddFavorite(Models.PasswordItem add)
+        // 开关WindowsHello
+        public async void SetWindowsHelloEnable(bool on)
         {
             try
             {
-                if (this.vFavoritePasswords == null)
+                if (this.bLockEnabled != on)
                 {
-                    this.vFavoritePasswords = new ObservableCollection<Models.PasswordItem>();
+                    this.bLockEnabled = !this.bLockEnabled;
+                    this.bLockEnabled = !this.bLockEnabled;
+                    switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync("验证您的身份"))
+                    {
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
+                            this.bLockEnabled = on;
+                            App.AppSettingContainer.Values["bAppLockEnabled"] = this.bLockEnabled ? "True" : "False";
+                            break;
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceNotPresent:
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.NotConfiguredForUser:
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DisabledByPolicy:
+                            await new Windows.UI.Popups.MessageDialog("当前识别设备未配置或被系统策略禁用").ShowAsync();
+                            break;
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceBusy:
+                            await new Windows.UI.Popups.MessageDialog("当前识别设备不可用").ShowAsync();
+                            break;
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
+                            await new Windows.UI.Popups.MessageDialog("验证失败").ShowAsync();
+                            break;
+                        default:
+                            break;
+                    }
                 }
-                add.bFavorite = true;
-                this.vFavoritePasswords.Insert(0, add);
             }
             catch { }
         }
 
-        // 取消收藏
-        public void RemoveFavorite(Models.PasswordItem remove)
-        {
-            try
-            {
-                if (this.vFavoritePasswords != null)
-                {
-                    remove.bFavorite = false;
-                    this.vFavoritePasswords.Remove(remove);
-                }
-            }
-            catch { }
-        }
+        #endregion
     }
 }

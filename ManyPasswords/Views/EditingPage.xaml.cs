@@ -1,6 +1,5 @@
 ﻿using ManyPasswords.Models;
 using ManyPasswords.ViewModel;
-using NChinese.Imm;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -175,92 +174,8 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (NameTextBox.Text == "")
-            {
-                this.typingFirstLetter = '#';
-                return;
-            }
-            if (System.Text.RegularExpressions.Regex.IsMatch(NameTextBox.Text.Trim(), "^[a-zA-Z]"))
-            {
-                this.typingFirstLetter = NameTextBox.Text[0].ToString().ToUpper()[0];
-                return;
-            }
-            var zhuyinProvider = new ImmPinyinConversionProvider();
-            string[] pinyin = { "" };
-            try
-            {
-                pinyin = zhuyinProvider.Convert(NameTextBox.Text.Trim());
-            }
-            catch
-            {
-                this.typingFirstLetter = '#';
-                return;
-            }
-            if (pinyin.Length <= 0)
-            {
-                this.typingFirstLetter = '#';
-                return;
-            }
-            try
-            {
-                switch (pinyin[0])
-                {
-                    case "ā":
-                    case "á":
-                    case "ǎ":
-                    case "à":
-                        this.typingFirstLetter = 'A';
-                        break;
-                    case "ō":
-                    case "ó":
-                    case "ǒ":
-                    case "ò":
-                        this.typingFirstLetter = 'O';
-                        break;
-                    case "ē":
-                    case "é":
-                    case "ě":
-                    case "è":
-                    case "ê":
-                        this.typingFirstLetter = 'E';
-                        break;
-                    case "ī":
-                    case "í":
-                    case "ǐ":
-                    case "ì":
-                        this.typingFirstLetter = 'I';
-                        break;
-                    case "ū":
-                    case "ú":
-                    case "ǔ":
-                    case "ù":
-                        this.typingFirstLetter = 'U';
-                        break;
-                    case "ǖ":
-                    case "ǘ":
-                    case "ǚ":
-                    case "ǜ":
-                    case "ü":
-                        this.typingFirstLetter = 'V';
-                        break;
-                    default:
-                        this.typingFirstLetter = pinyin[0][0].ToString().ToUpper()[0];
-                        break;
-                }
-            }
-            catch
-            {
-                this.typingFirstLetter = '#';
-            }
+            
         }
-
-        //private void NameTextBox_Paste(object sender, TextControlPasteEventArgs e)
-        //{
-        //    //ToastTextBlock.Text = "抱歉，不能粘贴";
-        //    //ErrorGrid.Visibility = Visibility.Visible;
-        //    //ShowErrorGrid.Begin();
-        //    //e.Handled = true;
-        //}
     }
 }
 

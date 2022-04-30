@@ -32,31 +32,21 @@ namespace ManyPasswords
 
         public HomePage()
         {
-            this.InitializeComponent();
-            Current = this;
-            //ShowKeyboardTipCheckBox.IsChecked = App.AppSettingContainer.Values["KeyboardTip"] == null || App.AppSettingContainer.Values["KeyboardTip"].ToString() == "true" ? true : false;
-            WindowsHelloToggleSwitch.IsOn = App.AppSettingContainer.Values["WindowsHello"] == null || App.AppSettingContainer.Values["WindowsHello"].ToString() == "off" ? false : true;
-            //ShowWelcomeCheckBox.IsChecked = App.AppSettingContainer.Values["WelcomePage"] == null || App.AppSettingContainer.Values["WelcomePage"].ToString() == "true" ? true : false;
+            try
+            {
+                this.InitializeComponent();
+                Current = this;
+                ViewModel = PasswordViewModel.Instance;
 
-            ViewModel = PasswordViewModel.Instance;
+                FrameShadow.Receivers.Add(SideMenuGrid);
+                HomeFrame.Translation += new System.Numerics.Vector3(0, 0, 36);
 
-            FrameShadow.Receivers.Add(SideMenuGrid);
-            HomeFrame.Translation += new System.Numerics.Vector3(0, 0, 36);
+                SettingShadow.Receivers.Add(BackgroundRectangle);
+                SettingPop.Translation += new System.Numerics.Vector3(0, 0, 36);
 
-            SettingShadow.Receivers.Add(BackgroundRectangle);
-            SettingPop.Translation += new System.Numerics.Vector3(0, 0, 36);
-
-            MenuListView.SelectedIndex = 0;
-
-            //if (App.AppSettingContainer.Values["WelcomePage"] == null || App.AppSettingContainer.Values["WelcomePage"].ToString() == "true")
-            //{
-            //    HomeFrame.Navigate(typeof(WelcomePage));
-            //}
-            //else
-            //{
-            //    MenuListView.SelectedIndex = 0;
-            //    //HomeFrame.Navigate(typeof(PasswordPage));
-            //}
+                MenuListView.SelectedIndex = 0;
+            }
+            catch { }
         }
 
         /// <summary>
@@ -80,16 +70,19 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.eAppTheme == ElementTheme.Dark)
+            try
             {
-                Switch2Light();
+                if (ViewModel.eAppTheme == ElementTheme.Dark)
+                {
+                    Switch2Light();
+                }
+                else
+                {
+                    Switch2Dark();
+                }
+                ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ? "夜间模式：已关闭" : "夜间模式：已打开";
             }
-            else
-            {
-                Switch2Dark();
-            }
-            ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ?
-                            "夜间模式：已关闭" : "夜间模式：已打开";
+            catch { }
         }
 
         /// <summary>
@@ -100,7 +93,6 @@ namespace ManyPasswords
             try
             {
                 ViewModel.eAppTheme = ElementTheme.Light;
-                MenuAcrylic.TintColor = Colors.Transparent;
 
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ButtonForegroundColor = Colors.Black;
@@ -118,7 +110,6 @@ namespace ManyPasswords
             try
             {
                 ViewModel.eAppTheme = ElementTheme.Dark;
-                MenuAcrylic.TintColor = Colors.Black;
 
                 var titleBar = ApplicationView.GetForCurrentView().TitleBar;
                 titleBar.ButtonForegroundColor = Colors.White;
@@ -135,9 +126,13 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            SettingGrid.Visibility = Visibility.Visible;
-            SettingGridPopIn.Begin();
-            SettingPivot.SelectedIndex = 0;
+            try
+            {
+                SettingGrid.Visibility = Visibility.Visible;
+                SettingGridPopIn.Begin();
+                SettingPivot.SelectedIndex = 0;
+            }
+            catch { }
         }
 
         /// <summary>
@@ -147,15 +142,27 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Rectangle_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            SettingGridPopOut.Begin();
+            try
+            {
+                SettingGridPopOut.Begin();
+            }
+            catch { }
         }
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingGridPopOut.Begin();
+            try
+            {
+                SettingGridPopOut.Begin();
+            }
+            catch { }
         }
         private void SettingGridFadeOut_Completed(object sender, object e)
         {
-            SettingGrid.Visibility = Visibility.Collapsed;
+            try
+            {
+                SettingGrid.Visibility = Visibility.Collapsed;
+            }
+            catch { }
         }
 
         /// <summary>
@@ -165,20 +172,24 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (MenuListView.SelectedIndex)
+            try
             {
-                case 0:
-                    HomeFrame.Navigate(typeof(PasswordPage));
-                    break;
-                case 1:
-                    HomeFrame.Navigate(typeof(FavoritePage));
-                    break;
-                case 2:
-                    HomeFrame.Navigate(typeof(AddPage));
-                    break;
-                default:
-                    break;
+                switch (MenuListView.SelectedIndex)
+                {
+                    case 0:
+                        HomeFrame.Navigate(typeof(PasswordPage));
+                        break;
+                    case 1:
+                        HomeFrame.Navigate(typeof(FavoritePage));
+                        break;
+                    case 2:
+                        HomeFrame.Navigate(typeof(AddPage));
+                        break;
+                    default:
+                        break;
+                }
             }
+            catch { }
         }
 
         /// <summary>
@@ -188,17 +199,29 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:signinoptions"));
+            try
+            {
+                await Windows.System.Launcher.LaunchUriAsync(new Uri("ms-settings:signinoptions"));
+            }
+            catch { }
         }
 
         private void ThemeLighRadioButtont_Checked(object sender, RoutedEventArgs e)
         {
-            Switch2Light();
+            try
+            {
+                Switch2Light();
+            }
+            catch { }
         }
 
         private void ThemeDarkRadioButton_Checked(object sender, RoutedEventArgs e)
         {
-            Switch2Dark();
+            try
+            {
+                Switch2Dark();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -208,24 +231,11 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            //if (WindowsHelloToggleSwitch.IsOn)
-            //{
-            //    if (App.AppSettingContainer.Values["Password"] != null && App.AppSettingContainer.Values["Password"].ToString().Length == 6)
-            //    {
-            //        DidntSetPasswordTextBlock.Visibility = Visibility.Collapsed;
-            //        App.AppSettingContainer.Values["WindowsHello"] = "on";
-            //    }
-            //    else
-            //    {
-            //        DidntSetPasswordTextBlock.Visibility = Visibility.Visible;
-            //        App.AppSettingContainer.Values["WindowsHello"] = "off";
-            //    }
-            //}
-            //else
-            //{
-            //    DidntSetPasswordTextBlock.Visibility = Visibility.Collapsed;
-            //    App.AppSettingContainer.Values["WindowsHello"] = "off";
-            //}
+            try
+            {
+                ViewModel.SetWindowsHelloEnable(WindowsHelloToggleSwitch.IsOn);
+            }
+            catch { }
         }
 
         /// <summary>
@@ -246,8 +256,7 @@ namespace ManyPasswords
                     }
                     else if (tag == "theme")
                     {
-                        ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ?
-                            "夜间模式：已关闭" : "夜间模式：已打开";
+                        ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ? "夜间模式：已关闭" : "夜间模式：已打开";
                     }
                     else if (tag == "setting")
                     {
@@ -264,6 +273,24 @@ namespace ManyPasswords
             try
             {
                 LeaveButtonStoryboard.Begin();
+            }
+            catch { }
+        }
+
+        private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                ImportHoverStoryboard.Begin();
+            }
+            catch { }
+        }
+
+        private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                ImportLeaveStoryboard.Begin();
             }
             catch { }
         }
