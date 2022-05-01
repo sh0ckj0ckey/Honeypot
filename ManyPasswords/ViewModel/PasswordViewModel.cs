@@ -35,6 +35,14 @@ namespace ManyPasswords.ViewModel
             set { Set("vFavoritePasswords", ref _vFavoritePasswords, value); }
         }
 
+        // 搜索建议列表
+        private List<Models.PasswordItem> _vSearchSuggestions = null;
+        public List<Models.PasswordItem> vSearchSuggestions
+        {
+            get { return _vSearchSuggestions; }
+            set { Set("vSearchSuggestions", ref _vSearchSuggestions, value); }
+        }
+
         // 当前选中的密码
         private Models.PasswordItem _CurrentPassword = null;
         public Models.PasswordItem CurrentPassword
@@ -75,6 +83,14 @@ namespace ManyPasswords.ViewModel
             set { Set("eAppTheme", ref _eAppTheme, value); }
         }
 
+        // 夜间模式降低图片透明度
+        private bool _bTranslucentDark = false;
+        public bool bTranslucentDark
+        {
+            get { return _bTranslucentDark; }
+            set { Set("bTranslucentDark", ref _bTranslucentDark, value); }
+        }
+
         // 侧边栏底部按钮Hover文案
         private string _sHoverTipsText = "";
         public string sHoverTipsText
@@ -97,8 +113,8 @@ namespace ManyPasswords.ViewModel
         {
             try
             {
-                // 读取设置是否启用了密码锁定
-                if (App.AppSettingContainer.Values["bAppLockEnabled"]?.ToString() == "True")
+                // 读取设置是否启用了密码锁定(第二个条件是为了兼容旧版本)
+                if (App.AppSettingContainer.Values["bAppLockEnabled"]?.ToString() == "True" || App.AppSettingContainer.Values["Password"] != null)
                 {
                     bLockEnabled = true;
                     bAppLocked = true;
@@ -125,6 +141,17 @@ namespace ManyPasswords.ViewModel
                 else
                 {
                     this.eAppTheme = ElementTheme.Light;
+                }
+
+                // 读取设置是否启用夜间模式降低透明度
+                if (App.AppSettingContainer?.Values["bTranslucentInDarkMode"] == null ||
+                    App.AppSettingContainer?.Values["bTranslucentInDarkMode"].ToString() == "False")
+                {
+                    bTranslucentDark = false;
+                }
+                else
+                {
+                    bTranslucentDark = true;
                 }
             }
             catch { }
@@ -159,6 +186,11 @@ namespace ManyPasswords.ViewModel
                                        "bilibili是中国大陆一个ACG相关的弹幕视频分享网站，也被称为哔哩哔哩、B站，其前身为视频分享网站Mikufans。该网站相比其他国内的视频网站最大的特点是悬浮于视频上方的实时评论功能。（来自必应网典）",
                                        "http://www.bilibili.com/",
                                        'B'),
+                new Models.BuildinItem("douyin",
+                                       "抖音",
+                                       "抖音是一款可在智能手机上浏览的短视频社交应用程序，由中国大陆字节跳动公司所创办运营。用户可录制15秒至1分钟3分钟或者更长的视频，也能上传视频、照片等。自2016年9月于今日头条孵化上线，定位为适合中国大陆年轻人的音乐短视频社区，应用为垂直音乐的UGC短视频，2017年以来获得用户规模快速增长。另外抖音上也有电商平台。（来自维基百科）",
+                                       "https://www.douyin.com",
+                                       'D'),
                 new Models.BuildinItem("DouYu",
                                        "斗鱼TV",
                                        "斗鱼TV是一家弹幕式直播分享网站，是国内直播分享网站中的一员。斗鱼TV的前身为ACFUN生放送直播，于2014年1月1日起正式更名为斗鱼TV。斗鱼TV以游戏直播为主，涵盖了体育、综艺、娱乐等多种直播内容。（来自必应网典）",
@@ -179,6 +211,11 @@ namespace ManyPasswords.ViewModel
                                        "Google公司，是一家美国的跨国科技企业，业务范围涵盖互联网搜索、云计算、广告技术等领域，开发并提供大量基于互联网的产品与服务，其主要利润来自于AdWords等广告服务。（来自必应网典）",
                                        "https://www.google.com.hk/",
                                        'G'),
+                new Models.BuildinItem("Huya",
+                                       "虎牙直播",
+                                       "虎牙直播是以游戏直播为主的弹幕式互动直播平台，累计注册用户2亿，提供热门游戏直播、电竞赛事直播与游戏赛事直播，手游直播等。包含英雄联盟lol，王者荣耀，绝地求生，和平精英等游戏直播，lol、dota2、dnf等热门游戏直播以及单机游戏、手游等游戏直播。（来自官网）",
+                                       "https://www.huya.com/",
+                                       'H'),
                 new Models.BuildinItem("Instagram",
                                        "Instagram",
                                        "Instnstagram是一个免费提供在线图片及短视频分享的社交应用，于2010年10月发布。Instagram的名称取自“即时”（英语：instant）与“电报”（英语：telegram）两个单词的结合。（来自必应网典）",
@@ -229,21 +266,31 @@ namespace ManyPasswords.ViewModel
                                        "Pixiv是一个主要由日本艺术家所组成的虚拟社群，主体为由pixiv股份有限公司所运营的为插画艺术特化的社交网络服务网站。Pixiv目的是提供一个能让艺术家发表他们的插图，并透过评级系统反应其他用户意见之处。（来自必应网典）",
                                        "https://www.pixiv.net/",
                                        'P'),
+                new Models.BuildinItem("PSN",
+                                       "PlayStation",
+                                       "PlayStation Network是2006年11月11日SONY PS3发售的同时开始正式提供PS3的网络服务。（来自百度百科）",
+                                       "https://www.playstation.com/",
+                                       'P'),
+                new Models.BuildinItem("Reddit",
+                                       "Reddit",
+                                       "Reddit是个社交新闻站点，口号：提前于新闻发声，来自互联网的声音。其拥有者是Condé Nast Digital公司（Advance Magazine Publishers Inc的子公司）。用户（也叫redditors）能够浏览并且可以提交因特网上内容的链接或发布自己的原创或有关用户提交文本的帖子。其他的用户可对发布的链接进行高分或低分的投票，得分突出的链接会被放到首页。另外，用户可对发布的链接进行评论以及回复其他评论者，这样就形成了一个在线社区。Reddit用户可以创造他们自己的论题部分，对发布链接和评论的人来说，既像Reddit用户提交的非正式的，也像社团的正式的。（来自百度百科）",
+                                       "https://www.reddit.com/",
+                                       'R'),
                 new Models.BuildinItem("SnapChat",
-                "SnapChat",
-                                        "Snapchat是一款由斯坦福大学学生开发的图片分享（英语：Photo sharing）软件应用。利用该应用程序，用户可以拍照、录制影片、写文字和图画，并发送到自己在该应用上的好友列表。（来自必应网典）",
-                                        "https://www.snapchat.com",
-                                        'S'),
+                                       "SnapChat",
+                                       "Snapchat是一款由斯坦福大学学生开发的图片分享（英语：Photo sharing）软件应用。利用该应用程序，用户可以拍照、录制影片、写文字和图画，并发送到自己在该应用上的好友列表。（来自必应网典）",
+                                       "https://www.snapchat.com",
+                                       'S'),
                 new Models.BuildinItem("Spotify",
-                "Spotify",
-                                        "Spotify是一个起源于瑞典的音乐流服务，是全球最大的流音乐服务商，提供包括Sony Music、EMI、Warner Music Group和Universal四大唱片公司及众多独立厂牌所授权、由数字版权管理（DRM）保护的音乐，使用用户在2016年6月已经达到1亿以上。(来自必应网典)",
-                                        "https://www.spotify.com/",
-                                        'S'),
+                                       "Spotify",
+                                       "Spotify是一个起源于瑞典的音乐流服务，是全球最大的流音乐服务商，提供包括Sony Music、EMI、Warner Music Group和Universal四大唱片公司及众多独立厂牌所授权、由数字版权管理（DRM）保护的音乐，使用用户在2016年6月已经达到1亿以上。(来自必应网典)",
+                                       "https://www.spotify.com/",
+                                       'S'),
                 new Models.BuildinItem("Steam",
-                "Steam",
-                                        "Steam平台是Valve公司聘请的BitTorrent协议(BT下载)发明者Bram·Cohen亲自开发设计的全球最大的综合性数字游戏软件发行平台。玩家可以在该平台购买游戏、软件、下载、讨论、上传、分享。（来自必应网典）",
-                                        "http://store.steampowered.com/",
-                                        'S'),
+                                       "Steam",
+                                       "Steam平台是Valve公司聘请的BitTorrent协议(BT下载)发明者Bram·Cohen亲自开发设计的全球最大的综合性数字游戏软件发行平台。玩家可以在该平台购买游戏、软件、下载、讨论、上传、分享。（来自必应网典）",
+                                       "http://store.steampowered.com/",
+                                       'S'),
                 new Models.BuildinItem("Taobao",
                                        "淘宝",
                                        "淘宝网是亚太地区较大的网络零售、商圈，由阿里巴巴集团在2003年5月创立。目前已经成为世界范围的电子商务交易平台之一。（来自必应网典）",
@@ -429,6 +476,21 @@ namespace ManyPasswords.ViewModel
                     this.vFavoritePasswords.Remove(remove);
                     SavePasswordsFile();
                 }
+            }
+            catch { }
+        }
+
+        public void SearchSuggestPasswords(string search)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(search))
+                {
+                    return;
+                }
+                vSearchSuggestions?.Clear();
+                vSearchSuggestions = null;
+                vSearchSuggestions = vAllPasswords.Where(p => (p.sName.StartsWith(search, StringComparison.CurrentCultureIgnoreCase) || p.sAccount.StartsWith(search, StringComparison.CurrentCultureIgnoreCase))).ToList();
             }
             catch { }
         }

@@ -29,20 +29,24 @@ namespace ManyPasswords
         public PasswordViewModel ViewModel = null;
         public MainPage()
         {
-            ViewModel = PasswordViewModel.Instance;
+            try
+            {
+                ViewModel = PasswordViewModel.Instance;
 
-            this.InitializeComponent();
+                this.InitializeComponent();
 
-            // 修改标题栏样式
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonInactiveForegroundColor = Colors.Gray;
+                // 修改标题栏样式
+                var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+                coreTitleBar.ExtendViewIntoTitleBar = true;
+                var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                titleBar.ButtonForegroundColor = Colors.Black;
+                titleBar.ButtonInactiveForegroundColor = Colors.Gray;
 
-            MainFrame.Navigate(typeof(HomePage));
+                MainFrame.Navigate(typeof(HomePage));
+            }
+            catch { }
         }
     }
 }

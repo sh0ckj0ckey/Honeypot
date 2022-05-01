@@ -32,9 +32,6 @@ namespace ManyPasswords
 
         private DispatcherTimer timer = null;
 
-        // 搜索建议列表
-        private ObservableCollection<PasswordItem> vSearchSuggestions = new ObservableCollection<PasswordItem>();
-
         public PasswordPage()
         {
             try
@@ -95,23 +92,19 @@ namespace ManyPasswords
             {
                 if (timer == null)
                 {
-                    timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
+                    timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.7) };
                     timer.Tick += (s, e) =>
                     {
-                        SearchSuggestPasswords();
+                        timer.Stop();
+                        ViewModel.SearchSuggestPasswords(SearchAutoSuggestBox.Text.Trim());
                     };
                 }
-            }
-            catch { }
-        }
 
-        private void SearchSuggestPasswords()
-        {
-            try
-            {
-                vSearchSuggestions.Clear();
-                //suggestions = PasswordHelper._data.Where(p => (p.Name.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase) || p.Account.StartsWith(sender.Text, StringComparison.CurrentCultureIgnoreCase))).ToList();
-                SearchAutoSuggestBox.ItemsSource = vSearchSuggestions;
+                if (timer.IsEnabled)
+                {
+                    timer.Stop();
+                }
+                timer.Start();
             }
             catch { }
         }

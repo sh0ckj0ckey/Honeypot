@@ -80,7 +80,7 @@ namespace ManyPasswords
                 {
                     Switch2Dark();
                 }
-                ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ? "夜间模式：已关闭" : "夜间模式：已打开";
+                ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ? "深色模式：已关闭" : "深色模式：已打开";
             }
             catch { }
         }
@@ -256,7 +256,7 @@ namespace ManyPasswords
                     }
                     else if (tag == "theme")
                     {
-                        ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ? "夜间模式：已关闭" : "夜间模式：已打开";
+                        ViewModel.sHoverTipsText = ViewModel.eAppTheme == ElementTheme.Light ? "深色模式：已关闭" : "深色模式：已打开";
                     }
                     else if (tag == "setting")
                     {
@@ -291,6 +291,28 @@ namespace ManyPasswords
             try
             {
                 ImportLeaveStoryboard.Begin();
+            }
+            catch { }
+        }
+
+        // 选中深色模式降低透明度
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ViewModel.bTranslucentDark = true;
+                App.AppSettingContainer.Values["bTranslucentInDarkMode"] = "True";
+            }
+            catch { }
+        }
+
+        // 取消选中深色模式降低透明度
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ViewModel.bTranslucentDark = false;
+                App.AppSettingContainer.Values["bTranslucentInDarkMode"] = "False";
             }
             catch { }
         }
