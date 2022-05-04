@@ -13,9 +13,21 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ThemeResource/ThemeDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <vt:EqualToVisibilityConverter x:Key="Equal2Visible"/>
             <vt:UnequalToVisibilityConverter x:Key="Unequal2Visible"/>
+
+            <Style x:Name="GridViewItemNoneStyle" TargetType="GridViewItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GridViewItem">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -23,14 +35,13 @@
         <Grid.BackgroundTransition>
             <BrushTransition />
         </Grid.BackgroundTransition>
-        <Rectangle Fill="Gray" Opacity="0.2"/>
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Background="#33808080">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="收藏夹" Margin="16,24,0,16" FontWeight="Bold" FontSize="28"/>
+            <TextBlock Grid.Row="0" Text="收藏夹" Margin="16,34,0,4" FontWeight="Bold" FontSize="24"/>
             <TextBlock Grid.Row="1" Text="你可以在此处查看收藏的密码" Margin="16,0,0,12" FontWeight="Black" FontSize="18" Opacity="0.6"/>
             <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical"
                         Visibility="{x:Bind ViewModel.vFavoritePasswords.Count,Converter={StaticResource Equal2Visible},ConverterParameter=0,Mode=OneWay}">
@@ -38,8 +49,8 @@
                        Source="{ThemeResource LISTEMPTY_IMAGE}" Height="128" Opacity="0.2"/>
                 <TextBlock Text="还没有收藏哦~" HorizontalAlignment="Center" FontSize="16" Foreground="Gray" Opacity="0.5" CharacterSpacing="32" Margin="0,4,0,42"/>
             </StackPanel>
-            <GridView Grid.Row="2" Margin="8" IsFocusEngagementEnabled="True" IsItemClickEnabled="False" SelectionMode="None" 
-                      ItemsSource="{x:Bind ViewModel.vFavoritePasswords}" Padding="8"
+            <GridView Grid.Row="2" Margin="16,8" IsFocusEngagementEnabled="True" IsItemClickEnabled="False" SelectionMode="None" 
+                      ItemsSource="{x:Bind ViewModel.vFavoritePasswords}" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}"
                       Visibility="{x:Bind ViewModel.vFavoritePasswords.Count,Converter={StaticResource Unequal2Visible},ConverterParameter=0,Mode=OneWay}">
                 <GridView.ItemContainerTransitions>
                     <TransitionCollection>
@@ -48,42 +59,53 @@
                 </GridView.ItemContainerTransitions>
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="280" Height="84">
+                        <Grid Width="280" Height="94" CornerRadius="6" BorderThickness="1.5" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                              BorderBrush="{ThemeResource REVEAL_BORDER_BRUSH}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="24"/>
+                                <RowDefinition Height="4"/>
                             </Grid.RowDefinitions>
-                            <Grid Grid.RowSpan="3">
-                                <Rectangle Height="84" Width="128" HorizontalAlignment="Right" VerticalAlignment="Center" Stretch="UniformToFill">
+                            <Grid Grid.RowSpan="4" CornerRadius="6" Height="91" VerticalAlignment="Center">
+                                <Rectangle Height="91" Width="128" HorizontalAlignment="Right" VerticalAlignment="Center" Stretch="UniformToFill">
                                     <Rectangle.Fill>
-                                        <ImageBrush>
+                                        <ImageBrush Stretch="UniformToFill" AlignmentY="Center" AlignmentX="Center">
                                             <ImageBrush.ImageSource>
-                                                <BitmapImage UriSource="{Binding sPicture}" DecodePixelHeight="84" DecodePixelWidth="128" DecodePixelType="Logical"/>
+                                                <BitmapImage UriSource="{Binding sPicture,Mode=OneWay}" DecodePixelWidth="128" DecodePixelType="Logical"/>
                                             </ImageBrush.ImageSource>
                                         </ImageBrush>
                                     </Rectangle.Fill>
                                 </Rectangle>
-                                <Rectangle>
-                                    <Rectangle.Fill>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1" Opacity="1">
-                                            <GradientStop Offset="0.0" Color="#FFf0f0f0"/>
-                                            <GradientStop Offset="0.6" Color="#FFf0f0f0"/>
-                                            <GradientStop Offset="1" Color="#AAf0f0f0"/>
-                                        </LinearGradientBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
+                                <Rectangle Fill="{ThemeResource FAVORITE_ITEM_MASK}"/>
                             </Grid>
-                            <TextBlock Grid.Row="0" Text="{Binding sName}" FontWeight="Bold" Opacity="0.7" FontSize="21" Margin="8,4" Foreground="Black"/>
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8,4,0,2">
-                                <TextBlock Text="账号：" FontSize="14" FontWeight="Black" Foreground="Black"/>
-                                <TextBlock Text="{Binding sAccount}" FontFamily="Arial" Opacity="0.8" VerticalAlignment="Center" Foreground="Black"/>
+                            <TextBlock Grid.Row="0" Text="{Binding sName,Mode=OneWay}" FontWeight="Bold" Opacity="0.8" HorizontalAlignment="Left"
+                                       FontSize="17" Margin="8,12,8,0" TextTrimming="CharacterEllipsis" MaxWidth="236"/>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8,0,0,0" HorizontalAlignment="Left" Height="24">
+                                <TextBlock Text="账号：" FontSize="14" Opacity="0.8" VerticalAlignment="Center"/>
+                                <Button Style="{StaticResource TextBlockButtonStyle}" 
+                                        Background="Transparent" Height="24" Margin="-10,0,0,0"
+                                        ToolTipService.ToolTip="点击复制" Click="OnClickCopy" Tag="{Binding sAccount,Mode=OneWay}">
+                                    <Button.Content>
+                                        <TextBlock Text="{Binding sAccount,Mode=OneWay}" VerticalAlignment="Center" FontSize="14"
+                                                   MaxWidth="220" TextTrimming="CharacterEllipsis"/>
+                                    </Button.Content>
+                                </Button>
                             </StackPanel>
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,-2,0,4">
-                                <TextBlock Text="密码：" FontSize="14" FontWeight="Black" Foreground="Black"/>
-                                <TextBlock Text="{Binding sPassword}" FontFamily="Arial" Opacity="0.8" VerticalAlignment="Center" Foreground="Black"/>
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,0,0" HorizontalAlignment="Left" Height="24">
+                                <TextBlock Text="密码：" FontSize="14" Opacity="0.8" VerticalAlignment="Center"/>
+                                <Button x:Name="PasswordTextBlock" Style="{StaticResource TextBlockButtonStyle}" 
+                                        Background="Transparent" Height="24" Margin="-10,0,0,0" Visibility="Collapsed"
+                                        ToolTipService.ToolTip="点击复制" Click="OnClickCopy" Tag="{Binding sPassword,Mode=OneWay}">
+                                    <Button.Content>
+                                        <TextBlock Text="{Binding sPassword,Mode=OneWay}" FontSize="14"
+                                                   VerticalAlignment="Center" MaxWidth="220" TextTrimming="CharacterEllipsis"/>
+                                    </Button.Content>
+                                </Button>
+                                <TextBlock x:Name="HiddenPasswordTextBlock" Visibility="Visible" Margin="0,8,0,0" Height="24" FontSize="16"
+                                           Text="********" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <Button Style="{StaticResource TextBlockButtonStyle}" Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.RowSpan="3" Content="&#xE007;" FontFamily="Segoe MDL2 Assets" FontSize="21" Margin="4" ToolTipService.ToolTip="取消收藏"/>
+                            <Button Style="{StaticResource TextBlockButtonStyle}" Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.RowSpan="3" Content="&#xE007;" FontFamily="Segoe MDL2 Assets" FontSize="18" Margin="6" ToolTipService.ToolTip="取消收藏"/>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>

@@ -99,16 +99,14 @@ namespace ManyPasswords.Models
         }
 
         /// <summary>
-        /// 完整信息后的账户,所有属性都将有值
+        /// 完整信息后的账户
         /// </summary>
-        public PasswordItem(string account = "未添加", string password = "0", char firstLetter = 'W', string name = "未命名",
-            string picture = "ms-appx:///Assets/BuildInIcon/default.jpg", string website = "", string note = "没有填写备注哦~", bool favorite = false)
+        public PasswordItem(string account, string password, string name, string picture, string website, string note, bool favorite)
         {
             try
             {
                 this.sAccount = account;
                 this.sPassword = password;
-                this.sFirstLetter = firstLetter;
                 this.sName = name;
                 this.sDate = "创建于 " + DateTime.Now.ToLocalTime().ToString();
                 this.sPicture = picture;

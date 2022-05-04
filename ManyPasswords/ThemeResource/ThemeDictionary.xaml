@@ -15,6 +15,21 @@
                     <Color x:Key="SEARCHTEXTBOX_FOCUS_BK">#000000</Color>
                     <Color x:Key="SEARCHTEXTBOX_FOCUS_FR">#FFFFFF</Color>
                     <Color x:Key="SEARCHTEXTBOX_PLACEHOLDER_FR">#33FFFFFF</Color>
+                    <Color x:Key="ADDINGPAGE_CANCELBTN_BK">#66666666</Color>
+                    <Color x:Key="ADDINGTEXTBOX_NORMAL_BK">#16FFFFFF</Color>
+                    <Color x:Key="ADDINGTEXTBOX_HOVER_BK">#20FFFFFF</Color>
+                    <Color x:Key="ADDINGTEXTBOX_FOCUS_BK">#20FFFFFF</Color>
+
+                    <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH"
+                                       FallbackColor="White"
+                                       TargetTheme="Dark"
+                                       Color="Transparent"/>
+
+                    <LinearGradientBrush x:Key="FAVORITE_ITEM_MASK" StartPoint="0,0" EndPoint="1,1" Opacity="1">
+                        <GradientStop Offset="0.0" Color="#FF000000"/>
+                        <GradientStop Offset="0.5" Color="#FF000000"/>
+                        <GradientStop Offset="1" Color="#AA000000"/>
+                    </LinearGradientBrush>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -31,6 +46,21 @@
                     <Color x:Key="SEARCHTEXTBOX_FOCUS_BK">#FFFFFF</Color>
                     <Color x:Key="SEARCHTEXTBOX_FOCUS_FR">#000000</Color>
                     <Color x:Key="SEARCHTEXTBOX_PLACEHOLDER_FR">#66000000</Color>
+                    <Color x:Key="ADDINGPAGE_CANCELBTN_BK">#80222222</Color>
+                    <Color x:Key="ADDINGTEXTBOX_NORMAL_BK">#8CE6E6E6</Color>
+                    <Color x:Key="ADDINGTEXTBOX_HOVER_BK">#50E6E6E6</Color>
+                    <Color x:Key="ADDINGTEXTBOX_FOCUS_BK">#50E6E6E6</Color>
+
+                    <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH"
+                                       FallbackColor="Black"
+                                       TargetTheme="Light"
+                                       Color="Transparent"/>
+
+                    <LinearGradientBrush x:Key="FAVORITE_ITEM_MASK" StartPoint="0,0" EndPoint="1,1" Opacity="1">
+                        <GradientStop Offset="0.0" Color="#FFf0f0f0"/>
+                        <GradientStop Offset="0.6" Color="#FFf0f0f0"/>
+                        <GradientStop Offset="1" Color="#AAf0f0f0"/>
+                    </LinearGradientBrush>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

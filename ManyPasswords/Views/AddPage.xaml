@@ -4,52 +4,79 @@
       xmlns:local="using:ManyPasswords"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+      xmlns:local1="using:ManyPasswords.Models"
       mc:Ignorable="d" NavigationCacheMode="Required"
       Background="Transparent">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ThemeResource/ThemeDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Name="GridViewItemNoneStyle" TargetType="GridViewItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GridViewItem">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <ThemeShadow x:Name="FrameShadow"/>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.BackgroundTransition>
             <BrushTransition />
         </Grid.BackgroundTransition>
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.6*" MaxWidth="420"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Rectangle Fill="Gray" Opacity="0.2"/>
-        <Grid Grid.Column="0">
+        <Grid x:Name="AddGrid" Grid.Column="0" Background="#33808080">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="添加" Margin="16,24,0,16" FontWeight="Bold" FontSize="28"/>
-            <Button Grid.Row="1" Style="{ThemeResource TextBlockButtonStyle}" Margin="8,-8,0,0" Click="Button_Click">
+            <TextBlock Grid.Row="0" Text="添加" Margin="16,34,0,14" FontWeight="Bold" FontSize="24"/>
+            <Button Grid.Row="1" Margin="12,0,12,12" CornerRadius="12" Height="42" Width="Auto" HorizontalAlignment="Stretch" Click="Button_Click"
+                    Style="{StaticResource ButtonRevealStyle}" Background="{ThemeResource ADDPASSWORD_BUTTON_BK}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" FontFamily="Segoe MDL2 Assets" Text="&#xECC8;" FontWeight="Bold" FontSize="24" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="1" Text="添加自定义" VerticalAlignment="Center" Margin="8" FontWeight="Bold" FontSize="18"/>
+                    <TextBlock Grid.Column="0" FontFamily="Segoe MDL2 Assets" Text="&#xECC8;" FontWeight="Normal" FontSize="16" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" Text="添加自定义" VerticalAlignment="Center" Margin="6,-1,8,1" FontWeight="Normal" FontSize="14" CharacterSpacing="36"/>
                 </Grid>
             </Button>
-            <!--<TextBlock Grid.Row="2" Text="使用内置" FontWeight="Bold" Margin="12,6"/>-->
-            <Rectangle Grid.Row="2" Height="1" Margin="18,0" Fill="White" Opacity="0.6"/>
             <GridView x:Name="AddingGridView"
-                      x:FieldModifier="Public"
-                      Grid.Row="3"
-                      Margin="12"
-                      SelectionChanged="AddingGridView_SelectionChanged">
+                      Grid.Row="3" HorizontalAlignment="Center"
+                      Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"
+                      ItemsSource="{x:Bind ViewModel.vBuildinItems,Mode=OneWay}"
+                      ItemContainerStyle="{StaticResource GridViewItemNoneStyle}"
+                      SelectionMode="None">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="local1:BuildinItem">
+                        <Grid Height="56" Width="56" Margin="5,4" ToolTipService.ToolTip="{x:Bind sName,Mode=OneWay}">
+                            <Ellipse Height="56" Width="56">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{x:Bind sCoverImage,Mode=OneWay}"/>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Button Style="{StaticResource ButtonRevealStyle}" 
+                                    Height="56" Width="56" CornerRadius="28" Background="Transparent"
+                                    Click="Button_Click_1"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
             </GridView>
-
         </Grid>
-        <controls:DropShadowPanel Grid.Column="1" Grid.RowSpan="2" BlurRadius="16" Opacity="0.7" Color="Black">
-            <Rectangle Fill="Gray" Width="6" HorizontalAlignment="Left"/>
-        </controls:DropShadowPanel>
-        <Grid Grid.Column="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <Rectangle Fill="Gray" Opacity="0.3"/>
+        <Grid x:Name="AddingGrid" Grid.Column="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Shadow="{StaticResource FrameShadow}">
             <Frame x:Name="AddFrame"/>
         </Grid>
     </Grid>

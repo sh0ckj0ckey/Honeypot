@@ -535,7 +535,7 @@
                     <Grid x:Name="PhotoPanel" x:FieldModifier="Public" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center">
                         <Rectangle Width="96" Height="96" RadiusX="8" RadiusY="8" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Rectangle.Fill>
-                                <ImageBrush ImageSource="{x:Bind ViewModel.CurrentPassword.sPicture}" Stretch="UniformToFill" Opacity="1"/>
+                                <ImageBrush ImageSource="{x:Bind ViewModel.CurrentPassword.sPicture,Mode=OneWay}" Stretch="UniformToFill" Opacity="1"/>
                             </Rectangle.Fill>
                         </Rectangle>
                     </Grid>
@@ -544,28 +544,28 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="{x:Bind ViewModel.CurrentPassword.sName}" FontWeight="Bold" FontSize="28" Margin="24,12,0,6"/>
-                        <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{x:Bind ViewModel.CurrentPassword.sDate}" Opacity="0.7" Margin="26,6"/>
+                        <TextBlock Grid.Row="0" Text="{x:Bind ViewModel.CurrentPassword.sName,Mode=OneWay}" FontWeight="Bold" FontSize="28" Margin="24,12,0,6"/>
+                        <TextBlock x:Name="DateTextBlock" Grid.Row="1" Text="{x:Bind ViewModel.CurrentPassword.sDate,Mode=OneWay}" Opacity="0.7" Margin="26,6"/>
                     </Grid>
                 </Grid>
                 <TextBlock Text="账号" FontWeight="Black" Margin="4,48,0,8"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="AccountTextBox" Text="{x:Bind ViewModel.CurrentPassword.sAccount}" AllowFocusOnInteraction="False" Style="{StaticResource AccountTextBoxStyle}" Background="#28808080" Margin="-4,0,0,0" BorderThickness="0" FontFamily="Book Antiqua" FontSize="17" Width="294" HorizontalAlignment="Left" IsReadOnly="True" Padding="8,0"/>
+                    <TextBox x:Name="AccountTextBox" Text="{x:Bind ViewModel.CurrentPassword.sAccount,Mode=OneWay}" AllowFocusOnInteraction="False" Style="{StaticResource AccountTextBoxStyle}" Background="#28808080" Margin="-4,0,0,0" BorderThickness="0" FontFamily="Book Antiqua" FontSize="17" Width="294" HorizontalAlignment="Left" IsReadOnly="True" Padding="8,0"/>
                     <Button Content="复制" Style="{ThemeResource TextBlockButtonStyle}" FontWeight="Bold" Click="Button_Click"/>
                 </StackPanel>
                 <TextBlock Text="密码" FontWeight="Black" Margin="4,24,0,8"/>
                 <StackPanel Orientation="Horizontal">
-                    <PasswordBox x:Name="PasswordTextBox" Password="{x:Bind ViewModel.CurrentPassword.sPassword}" Background="#28808080" AllowFocusOnInteraction="False" Style="{StaticResource PasswordBoxStyle}" Margin="-4,0,0,0" BorderThickness="0" FontFamily="Book Antiqua" FontSize="17" Width="294" HorizontalAlignment="Left" PasswordRevealMode="Visible" Padding="8,2,8,0"/>
+                    <PasswordBox x:Name="PasswordTextBox" Password="{x:Bind ViewModel.CurrentPassword.sPassword,Mode=OneWay}" Background="#28808080" AllowFocusOnInteraction="False" Style="{StaticResource PasswordBoxStyle}" Margin="-4,0,0,0" BorderThickness="0" FontFamily="Book Antiqua" FontSize="17" Width="294" HorizontalAlignment="Left" PasswordRevealMode="Visible" Padding="8,2,8,0"/>
                     <Button Content="复制" Style="{ThemeResource TextBlockButtonStyle}" FontWeight="Bold" Click="Button_Click_1"/>
                 </StackPanel>
                 <StackPanel Margin="-4,28">
                     <!--<TextBlock FontFamily="Segoe UI Symbol" Text="&#xE134;" FontWeight="Bold" FontSize="18" VerticalAlignment="Top" Margin="18,4"/>-->
                     <TextBox x:Name="BioTextBox" 
-                             Text="{x:Bind ViewModel.CurrentPassword.sNote}"  Background="#28808080"
+                             Text="{x:Bind ViewModel.CurrentPassword.sNote,Mode=OneWay}"  Background="#28808080"
                              AllowFocusOnInteraction="False" Style="{StaticResource BioTextBoxStyle}" PlaceholderText="未添加备注" MinHeight="128" Width="346" TextWrapping="Wrap" BorderThickness="0" HorizontalAlignment="Left" Padding="8"/>
                 </StackPanel>
                 <TextBlock Text="网址" FontWeight="Black" Margin="4,8,0,0"/>
-                <HyperlinkButton x:Name="WebsiteHyperlinkButton" Content="{x:Bind ViewModel.CurrentPassword.sWebsite}" Click="AppBarButton_Click_2" FontFamily="Arial" FontSize="17" />
+                <HyperlinkButton x:Name="WebsiteHyperlinkButton" Content="{x:Bind ViewModel.CurrentPassword.sWebsite,Mode=OneWay}" Click="AppBarButton_Click_2" FontFamily="Arial" FontSize="17" />
             </StackPanel>
         </ScrollViewer>
         <Grid x:Name="AppBarGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,48">

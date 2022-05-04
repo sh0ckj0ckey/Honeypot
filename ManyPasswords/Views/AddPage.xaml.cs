@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ManyPasswords.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -22,41 +24,44 @@ namespace ManyPasswords
     /// </summary>
     public sealed partial class AddPage : Page
     {
-        public static AddPage Add = null;
+        PasswordViewModel ViewModel = null;
 
         public AddPage()
         {
-            this.InitializeComponent();
-            Add = this;
-            AddFrame.Navigate(typeof(BlankPage));
-            if (App.AppSettingContainer.Values["Theme"] == null || App.AppSettingContainer.Values["Theme"].ToString() == "Light")
+            try
             {
-                AddingGridView.Opacity = 1;
-            }
-            else
-            {
-                AddingGridView.Opacity = 0.7;
-            }
+                this.InitializeComponent();
+                ViewModel = PasswordViewModel.Instance;
+                AddFrame.Navigate(typeof(BlankPage));
 
+                FrameShadow.Receivers.Add(AddGrid);
+                AddingGrid.Translation += new System.Numerics.Vector3(0, 0, 36);
+            }
+            catch { }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AddingGridView.SelectedIndex = -1;
-            AddFrame.Navigate(typeof(AddingPage), null);
-        }
-
-        private void AddingGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (AddingGridView.SelectedIndex >= 0)
-            { 
-
-                //AddFrame.Navigate(typeof(AddingPage), MainPage.BuildIn[AddingGridView.SelectedIndex]);
-            }
-            else
+            try
             {
                 AddFrame.Navigate(typeof(AddingPage), null);
             }
+            catch { }
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button btn)
+                {
+                    if (btn.DataContext is Models.BuildinItem item)
+                    {
+                        AddFrame.Navigate(typeof(AddingPage), item);
+                    }
+                }
+            }
+            catch { }
         }
     }
 }

@@ -26,6 +26,7 @@ namespace ManyPasswords
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private static bool _StartUp = true;
         public PasswordViewModel ViewModel = null;
         public MainPage()
         {
@@ -45,6 +46,19 @@ namespace ManyPasswords
                 titleBar.ButtonInactiveForegroundColor = Colors.Gray;
 
                 MainFrame.Navigate(typeof(HomePage));
+            }
+            catch { }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (_StartUp)
+                {
+                    _StartUp = false;
+                    ViewModel.UnlockApp();
+                }
             }
             catch { }
         }

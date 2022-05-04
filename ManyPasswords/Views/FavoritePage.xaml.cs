@@ -54,5 +54,65 @@ namespace ManyPasswords
             }
             catch { }
         }
+
+        private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Grid grid)
+                {
+                    var tb = grid.FindName("PasswordTextBlock");
+                    if (tb is Button textBlock)
+                    {
+                        textBlock.Visibility = Visibility.Visible;
+                    }
+
+                    var tb2 = grid.FindName("HiddenPasswordTextBlock");
+                    if (tb2 is TextBlock textBlock2)
+                    {
+                        textBlock2.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void Grid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Grid grid)
+                {
+                    var tb = grid.FindName("PasswordTextBlock");
+                    if (tb is Button textBlock)
+                    {
+                        textBlock.Visibility = Visibility.Collapsed;
+                    }
+
+                    var tb2 = grid.FindName("HiddenPasswordTextBlock");
+                    if (tb2 is TextBlock textBlock2)
+                    {
+                        textBlock2.Visibility = Visibility.Visible;
+                    }
+                }
+            }
+            catch { }
+        }
+
+        private void OnClickCopy(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button btn && btn.Tag != null)
+                {
+                    string text = btn.Tag.ToString();
+
+                    Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new Windows.ApplicationModel.DataTransfer.DataPackage();
+                    dataPackage.SetText(text);
+                    Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
+                }
+            }
+            catch { }
+        }
     }
 }

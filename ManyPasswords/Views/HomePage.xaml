@@ -47,7 +47,7 @@
                                  To="1" Duration="0:0:0.5"/>
             </Storyboard>
             <Storyboard x:Name="ImportLeaveStoryboard">
-                <DoubleAnimation Storyboard.TargetName="ImportHoverTranslation" Storyboard.TargetProperty="X" To="200" Duration="0:0:0.4">
+                <DoubleAnimation Storyboard.TargetName="ImportHoverTranslation" Storyboard.TargetProperty="X" To="60" Duration="0:0:0.4">
                     <DoubleAnimation.EasingFunction>
                         <ExponentialEase Exponent="2" EasingMode="EaseIn" />
                     </DoubleAnimation.EasingFunction>
@@ -64,7 +64,11 @@
             <ColumnDefinition Width="196"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Image Grid.ColumnSpan="2" Stretch="UniformToFill" Source="/Assets/Background/Background.jpg"/>
+        <Image Grid.ColumnSpan="2" Stretch="UniformToFill">
+            <Image.Source>
+                <BitmapImage UriSource="{x:Bind ViewModel.sAppWallpaper,Mode=OneWay}" DecodePixelType="Logical" DecodePixelHeight="800"/>
+            </Image.Source>
+        </Image>
         <Grid x:Name="SideMenuGrid" Grid.Column="0">
             <Grid.Background>
                 <AcrylicBrush x:Name="MenuAcrylic" TintColor="{ThemeResource SIDEMENU_ACRYLIC_BK}" TintOpacity="0.3" BackgroundSource="Backdrop"/>
@@ -80,7 +84,7 @@
                 <TextBlock Text="好多密码" FontWeight="Bold" FontSize="18" Margin="10,6,0,0" Foreground="White"/>
             </StackPanel>
             <ListView x:Name="MenuListView" Grid.Row="1" x:FieldModifier="public" Margin="0,6,0,0" SelectionChanged="ListView_SelectionChanged">
-                <ListViewItem Style="{StaticResource SideMenuListViewItemStyle}" HorizontalAlignment="Center" Width="180" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                <ListViewItem Style="{StaticResource CornerListViewItemStyle}" HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
                     <Grid Height="48">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32"/>
@@ -88,12 +92,12 @@
                         </Grid.ColumnDefinitions>
                         <Image Source="/Assets/Icon/PasswordIcon.png" Height="18" Margin="0,0,2,0"/>
                         <TextBlock Grid.Column="1" 
-                                       Text="所有账号"
-                                       Foreground="White"
-                                       VerticalAlignment="Center"/>
+                                   Text="所有账号"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
                     </Grid>
                 </ListViewItem>
-                <ListViewItem Style="{StaticResource SideMenuListViewItemStyle}" HorizontalAlignment="Center" Width="180" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                <ListViewItem Style="{StaticResource CornerListViewItemStyle}" HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
                     <Grid Height="48">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32"/>
@@ -106,7 +110,7 @@
                                        VerticalAlignment="Center"/>
                     </Grid>
                 </ListViewItem>
-                <ListViewItem Style="{StaticResource SideMenuListViewItemStyle}" HorizontalAlignment="Center" Width="180" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                <ListViewItem Style="{StaticResource CornerListViewItemStyle}" HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
                     <Grid Height="48">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32"/>
@@ -210,7 +214,9 @@
                                         <Grid.Background>
                                             <ImageBrush>
                                                 <ImageBrush.ImageSource>
-                                                    <BitmapImage x:Name="WallpaperPreviewImage" UriSource="/Assets/Background/Background.jpg" DecodePixelHeight="84" DecodePixelWidth="128" DecodePixelType="Logical"/>
+                                                    <BitmapImage x:Name="WallpaperPreviewImage" 
+                                                                 UriSource="{x:Bind ViewModel.sAppWallpaper,Mode=OneWay}"
+                                                                 DecodePixelHeight="84" DecodePixelWidth="128" DecodePixelType="Logical"/>
                                                 </ImageBrush.ImageSource>
                                             </ImageBrush>
                                         </Grid.Background>
@@ -222,7 +228,7 @@
                                         </Grid>
                                     </Grid>
                                     <Button Height="28" Width="96" Margin="12,0,0,0" CornerRadius="4" VerticalAlignment="Bottom"
-                                            Style="{StaticResource ButtonRevealStyle}">
+                                            Style="{StaticResource ButtonRevealStyle}" Click="{x:Bind ViewModel.ChangeWallPaper}">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xED25;" VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0"/>
                                             <TextBlock Text="浏览图片" VerticalAlignment="Center" FontSize="12"/>
@@ -287,7 +293,7 @@
                                     <TextBlock x:Name="ImportHoverTextBlock" Grid.Column="2" Text="😀别担心，导入的密码会和现有密码共存" Margin="12,0,0,0" FontSize="12"
                                                HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0" CharacterSpacing="48">
                                         <TextBlock.RenderTransform>
-                                            <TranslateTransform x:Name="ImportHoverTranslation" X="200"/>
+                                            <TranslateTransform x:Name="ImportHoverTranslation" X="60"/>
                                         </TextBlock.RenderTransform>
                                     </TextBlock>
                                 </Grid>

@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using ManyPasswords.Models;
+using ManyPasswords.ViewModel;
+using System.Runtime.CompilerServices;
+using System.ComponentModel;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -23,26 +26,39 @@ namespace ManyPasswords
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class AddingPage : Page
+    public sealed partial class AddingPage : Page, INotifyPropertyChanged
     {
-        public static string UploadPicName = "ms-appx:///Assets/BuildInIcon/default.jpg";
-        private string desiredName = "";
-        private char typingFirstLetter = '#';
-        public static AddingPage Adding = null;
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        PasswordViewModel ViewModel = null;
+
+        private Models.PasswordItem _AddingItem = null;
+        public Models.PasswordItem AddingItem
+        {
+            get => _AddingItem;
+            set
+            {
+                if (_AddingItem != value)
+                {
+                    _AddingItem = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public AddingPage()
         {
-            this.InitializeComponent();
-            Adding = this;
-            if (App.AppSettingContainer.Values["Theme"] == null || App.AppSettingContainer.Values["Theme"].ToString() == "Light")
+            try
             {
-                PhotoPanel.Opacity = 1;
+                this.InitializeComponent();
+                ViewModel = PasswordViewModel.Instance;
+
+                PhotoShadow.Receivers.Add(ImageGrid);
+                AddingImageGrid.Translation += new System.Numerics.Vector3(0, 0, 32);
             }
-            else
-            {
-                PhotoPanel.Opacity = 0.7;
-            }
-            UploadPicName = "ms-appx:///Assets/BuildInIcon/default.jpg";
+            catch { }
         }
 
         /// <summary>
@@ -51,25 +67,22 @@ namespace ManyPasswords
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
-            if (e.Parameter != null)
+            try
             {
-                //这个e.Parameter是获取传递过来的参数
-                PasswordItem creating = (PasswordItem)e.Parameter;
-                if (creating != null)
+                base.OnNavigatedTo(e);
+                AddingItem = null;
+                AddingItem = new PasswordItem("", "", "", "ms-appx:///Assets/BuildInIcon/default.jpg", "", "", false);
+
+                if (e.Parameter != null && e.Parameter is Models.BuildinItem buildin)
                 {
-                    //UploadPicName = creating.Picture;
-                    //PhotoImageBrush.ImageSource = new BitmapImage(new Uri(UploadPicName, UriKind.Absolute));
-                    //NameTextBox.Text = creating.Name;
-                    //AccountTextBox.Text = creating.Account;
-                    //PasswordTextBox.Text = creating.Password;
-                    //FavoriteCheckBox.IsChecked = creating.IsFavorite;
-                    //LinkTextBox.Text = creating.Website;
-                    //BioTextBox.Text = creating.Info;
-                    //TitleTextBlock.Text = creating.ImageName;
-                    //this.typingFirstLetter = creating.sFirstLetter;
+                    //这个e.Parameter是获取传递过来的参数
+                    AddingItem.sName = buildin.sName;
+                    AddingItem.sNote = buildin.sNote;
+                    AddingItem.sWebsite = buildin.sWebsite;
+                    AddingItem.sPicture = buildin.sCoverImage;
                 }
             }
+            catch { }
         }
 
         /// <summary>
@@ -79,9 +92,13 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            UploadPicName = "ms-appx:///Assets/BuildInIcon/default.jpg";
-            AddPage.Add.AddingGridView.SelectedIndex = -1;
-            this.Frame.Navigate(typeof(BlankPage));
+            try
+            {
+                AddingItem = null;
+
+                this.Frame.Navigate(typeof(BlankPage));
+            }
+            catch { }
         }
 
         /// <summary>
@@ -89,39 +106,23 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void OnClickAdd(object sender, RoutedEventArgs e)
         {
-            if (PasswordTextBox.Text == "" || AccountTextBox.Text == "")
+            try
             {
-                ToastTextBlock.Text = "账号或者密码不能为空";
-                ErrorGrid.Visibility = Visibility.Visible;
-                ShowErrorGrid.Begin();
+                if (string.IsNullOrEmpty(AddingItem.sName) || string.IsNullOrEmpty(AddingItem.sAccount) || string.IsNullOrEmpty(AddingItem.sPassword))
+                {
+                    ShowEmptyToastGrid.Begin();
+                }
+                else
+                {
+                    ViewModel.AddPassword(AddingItem);
+                    AddingItem = null;
+
+                    this.Frame.Navigate(typeof(BlankPage));
+                }
             }
-            else
-            {
-                //PasswordItem newPassword = new PasswordItem(UploadPicName, NameTextBox.Text, BioTextBox.Text, LinkTextBox.Text, AccountTextBox.Text, PasswordTextBox.Text, /*PriorityRatingControl.Value*/0, typingFirstLetter);
-                //if (FavoriteCheckBox.IsChecked == false)
-                //{
-                //    newPassword.IsFavorite = false;
-                //}
-                //else
-                //{
-                //    newPassword.IsFavorite = true;
-                //}
-                //PasswordHelper._data.Add(newPassword);
-                //PasswordHelper.SaveData();
-                //AddPage.Add.AddingGridView.SelectedIndex = -1;
-                //desiredName = "";
-                //this.Frame.Navigate(typeof(BlankPage));
-            }
-        }
-        private void DoubleAnimation_Completed(object sender, object e)
-        {
-            HideErrorGrid.Begin();
-        }
-        private void DoubleAnimation_Completed_1(object sender, object e)
-        {
-            ErrorGrid.Visibility = Visibility.Collapsed;
+            catch { }
         }
 
         /// <summary>
@@ -129,46 +130,76 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void Button_Click_2Async(object sender, RoutedEventArgs e)
+        private async void OnChangeImageClick(object sender, RoutedEventArgs e)
         {
-            //创建和自定义 FileOpenPicker
-            var picker = new Windows.Storage.Pickers.FileOpenPicker
-            {
-                ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
-                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
-            };
-            picker.FileTypeFilter.Add(".jpg");
-            picker.FileTypeFilter.Add(".jpeg");
-            picker.FileTypeFilter.Add(".png");
-
-            //选取单个文件  
-            StorageFile file = await picker.PickSingleFileAsync();
-            if (desiredName == "")
-            {
-                desiredName = DateTime.Now.Ticks + ".jpg";
-            }
-            StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
-            StorageFolder folder = await applicationFolder.CreateFolderAsync("Pic", CreationCollisionOption.OpenIfExists);
             try
             {
-                StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.ReplaceExisting);
+                //创建和自定义 FileOpenPicker
+                var picker = new Windows.Storage.Pickers.FileOpenPicker
+                {
+                    ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+                };
+                picker.FileTypeFilter.Add(".jpg");
+                picker.FileTypeFilter.Add(".jpeg");
+                picker.FileTypeFilter.Add(".png");
+
+                //选取单个文件
+                var file = await picker.PickSingleFileAsync();
+
+                if (file != null)
+                {
+                    string desiredName = "password_icon_" + DateTime.Now.Ticks + file.FileType;
+
+                    StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+                    StorageFolder folder = await applicationFolder.CreateFolderAsync("Pic", CreationCollisionOption.OpenIfExists);
+
+                    try
+                    {
+                        StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.ReplaceExisting);
+                        try
+                        {
+                            if (File.Exists(AddingItem.sPicture) && AddingItem.sPicture != saveFile.Path)
+                            {
+                                File.Delete(AddingItem.sPicture);
+                            }
+                        }
+                        catch { }
+                        AddingItem.sPicture = saveFile.Path;
+                    }
+                    catch
+                    {
+                        ShowNoFileToastGrid.Begin();
+                        return;
+                    }
+                }
             }
             catch
             {
-                return;
+                try
+                {
+                    ShowNoFileToastGrid.Begin();
+                }
+                catch { }
             }
-            UploadPicName = "ms-appdata:///local/Pic/" + desiredName;
-            PhotoImageBrush.ImageSource = new BitmapImage(new Uri(UploadPicName, UriKind.Absolute));
         }
 
-        /// <summary>
-        /// 用户输入时记录下第一个字母
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void NameTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void OnCompleteShowEmptyToast(object sender, object e)
         {
-            
+            try
+            {
+                HideEmptyToastGrid.Begin();
+            }
+            catch { }
+        }
+
+        private void OnCompleteShowNoFileToast(object sender, object e)
+        {
+            try
+            {
+                HideNoFileToastGrid.Begin();
+            }
+            catch { }
         }
     }
 }
