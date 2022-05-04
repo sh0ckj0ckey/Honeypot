@@ -145,7 +145,7 @@
                                         <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushFocused}"/>
                                     </ObjectAnimationUsingKeyFrames>
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundFocused}"/>
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SEARCHTEXTBOX_FOCUS_FR}"/>
                                     </ObjectAnimationUsingKeyFrames>
                                 </Storyboard>
                             </VisualState>
@@ -183,7 +183,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="168"/>
+            <RowDefinition Height="158"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -195,7 +195,7 @@
         <TextBlock Grid.Row="1" Margin="76,0,0,0" Text="{x:Bind AddingItem.sName,Mode=OneWay}" VerticalAlignment="Center" FontSize="24" FontWeight="Bold"/>
         <Grid Grid.Row="2">
             <Grid x:Name="ImageGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"/>
-            <Grid x:Name="AddingImageGrid" Grid.Column="0" Height="108" Width="108" CornerRadius="6"
+            <Grid x:Name="AddingImageGrid" Grid.Column="0" Height="96" Width="96" CornerRadius="6"
                   VerticalAlignment="Center" HorizontalAlignment="Left" Margin="32,0,0,0"
                   Shadow="{StaticResource PhotoShadow}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -203,14 +203,14 @@
                         <ImageBrush Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"
                                     Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}">
                             <ImageBrush.ImageSource>
-                                <BitmapImage DecodePixelType="Logical" DecodePixelHeight="108"
+                                <BitmapImage DecodePixelType="Logical" DecodePixelHeight="96"
                                              UriSource="{x:Bind AddingItem.sPicture,Mode=OneWay}"/>
                             </ImageBrush.ImageSource>
                         </ImageBrush>
                     </Grid.Background>
                 </Grid>
                 <Button Margin="0,0" Style="{StaticResource ButtonRevealStyle}" Background="#80000000"
-                        VerticalAlignment="Bottom" Width="108" Height="24" CornerRadius="0,0,6,6" Click="OnChangeImageClick">
+                        VerticalAlignment="Bottom" Width="96" Height="24" CornerRadius="0,0,6,6" Click="OnChangeImageClick">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE104;" FontSize="12" Foreground="#E6FFFFFF" VerticalAlignment="Center"/>
