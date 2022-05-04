@@ -63,9 +63,9 @@
                               BorderBrush="{ThemeResource REVEAL_BORDER_BRUSH}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="24"/>
-                                <RowDefinition Height="24"/>
-                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="28"/>
+                                <RowDefinition Height="28"/>
+                                <RowDefinition Height="2"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.RowSpan="4" CornerRadius="6" Height="91" VerticalAlignment="Center">
                                 <Rectangle Height="91" Width="128" HorizontalAlignment="Right" VerticalAlignment="Center" Stretch="UniformToFill">
@@ -80,11 +80,11 @@
                                 <Rectangle Fill="{ThemeResource FAVORITE_ITEM_MASK}"/>
                             </Grid>
                             <TextBlock Grid.Row="0" Text="{Binding sName,Mode=OneWay}" FontWeight="Bold" Opacity="0.8" HorizontalAlignment="Left"
-                                       FontSize="17" Margin="8,12,8,0" TextTrimming="CharacterEllipsis" MaxWidth="236"/>
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8,0,0,0" HorizontalAlignment="Left" Height="24">
+                                       FontSize="18" Margin="8,10,8,0" TextTrimming="CharacterEllipsis" MaxWidth="236"/>
+                            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8,0,0,0" HorizontalAlignment="Left" Height="28">
                                 <TextBlock Text="账号：" FontSize="14" Opacity="0.8" VerticalAlignment="Center"/>
                                 <Button Style="{StaticResource TextBlockButtonStyle}" 
-                                        Background="Transparent" Height="24" Margin="-10,0,0,0"
+                                        Background="Transparent" Height="28" Margin="-10,0,0,0"
                                         ToolTipService.ToolTip="点击复制" Click="OnClickCopy" Tag="{Binding sAccount,Mode=OneWay}">
                                     <Button.Content>
                                         <TextBlock Text="{Binding sAccount,Mode=OneWay}" VerticalAlignment="Center" FontSize="14"
@@ -92,17 +92,17 @@
                                     </Button.Content>
                                 </Button>
                             </StackPanel>
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,0,0" HorizontalAlignment="Left" Height="24">
+                            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="8,0,0,0" HorizontalAlignment="Left" Height="28">
                                 <TextBlock Text="密码：" FontSize="14" Opacity="0.8" VerticalAlignment="Center"/>
                                 <Button x:Name="PasswordTextBlock" Style="{StaticResource TextBlockButtonStyle}" 
-                                        Background="Transparent" Height="24" Margin="-10,0,0,0" Visibility="Collapsed"
+                                        Background="Transparent" Height="28" Margin="-10,0,0,0" Visibility="Collapsed"
                                         ToolTipService.ToolTip="点击复制" Click="OnClickCopy" Tag="{Binding sPassword,Mode=OneWay}">
                                     <Button.Content>
                                         <TextBlock Text="{Binding sPassword,Mode=OneWay}" FontSize="14"
                                                    VerticalAlignment="Center" MaxWidth="220" TextTrimming="CharacterEllipsis"/>
                                     </Button.Content>
                                 </Button>
-                                <TextBlock x:Name="HiddenPasswordTextBlock" Visibility="Visible" Margin="0,8,0,0" Height="24" FontSize="16"
+                                <TextBlock x:Name="HiddenPasswordTextBlock" Visibility="Visible" Margin="0,8,0,0" Height="28" FontSize="16"
                                            Text="********" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Button Style="{StaticResource TextBlockButtonStyle}" Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.RowSpan="3" Content="&#xE007;" FontFamily="Segoe MDL2 Assets" FontSize="18" Margin="6" ToolTipService.ToolTip="取消收藏"/>
