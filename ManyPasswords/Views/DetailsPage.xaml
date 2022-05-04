@@ -523,13 +523,12 @@
         <Grid.BackgroundTransition>
             <BrushTransition />
         </Grid.BackgroundTransition>
-
-        <Rectangle Fill="Transparent" Tapped="Grid_Tapped"/>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" Tapped="Grid_Tapped"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Tapped="Grid_Tapped" Margin="0,32,0,0">
             <StackPanel Margin="32">
                 <Grid Background="Transparent" Margin="0,24,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid x:Name="PhotoPanel" x:FieldModifier="Public" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Center">
@@ -538,6 +537,18 @@
                                 <ImageBrush ImageSource="{x:Bind ViewModel.CurrentPassword.sPicture,Mode=OneWay}" Stretch="UniformToFill" Opacity="1"/>
                             </Rectangle.Fill>
                         </Rectangle>
+                        <Button Height="32" Width="32" CornerRadius="16" Margin="0,0,-4,-4" BorderThickness="0" 
+                                Style="{StaticResource ButtonRevealStyle}" Background="#ff317a"
+                                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},ConverterParameter=-,Mode=OneWay}"
+                                Content="&#xE006;" FontSize="12" FontFamily="Segoe MDL2 Assets"
+                                ToolTipService.ToolTip="收藏" Click="OnClickFavorite"/>
+                        <Button Height="32" Width="32" CornerRadius="16" Margin="0,0,-4,-4" BorderThickness="0" 
+                                Style="{StaticResource ButtonRevealStyle}" Background="#ff317a"
+                                HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},Mode=OneWay}"
+                                Content="&#xE00B;" FontSize="12" FontFamily="Segoe MDL2 Assets"
+                                ToolTipService.ToolTip="取消收藏" Click="OnClickDelFavorite"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -565,7 +576,7 @@
                              AllowFocusOnInteraction="False" Style="{StaticResource BioTextBoxStyle}" PlaceholderText="未添加备注" MinHeight="128" Width="346" TextWrapping="Wrap" BorderThickness="0" HorizontalAlignment="Left" Padding="8"/>
                 </StackPanel>
                 <TextBlock Text="网址" FontWeight="Black" Margin="4,8,0,0"/>
-                <HyperlinkButton x:Name="WebsiteHyperlinkButton" Content="{x:Bind ViewModel.CurrentPassword.sWebsite,Mode=OneWay}" Click="AppBarButton_Click_2" FontFamily="Arial" FontSize="17" />
+                <HyperlinkButton x:Name="WebsiteHyperlinkButton" Content="{x:Bind ViewModel.CurrentPassword.sWebsite,Mode=OneWay}" Click="OnClickGotoWebsite" FontFamily="Arial" FontSize="17" />
             </StackPanel>
         </ScrollViewer>
         <Grid x:Name="AppBarGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,48">
@@ -577,59 +588,40 @@
                     <PopOutThemeAnimation Storyboard.TargetName="AppBarGrid" Duration="00:00:1"/>
                 </Storyboard>
             </Grid.Resources>
-            <controls:DropShadowPanel BlurRadius="14" ShadowOpacity="0.4" Width="auto">
-                <Grid Width="auto" Height="48" Background="White">
-                    <Rectangle Stretch="Fill" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
-                    <!--<Rectangle Opacity="0.4" Fill="Gray"/>-->
-                    <StackPanel Orientation="Horizontal">
-                        <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="访问网站" Click="AppBarButton_Click_2" KeyTipPlacementMode="Hidden">
-                            <TextBlock Text="&#xE12B;" FontSize="16" FontFamily="Segoe UI Symbol" FontWeight="Bold" VerticalAlignment="Center"/>
-                            <AppBarButton.Flyout>
-                                <Flyout>
-                                    <TextBlock x:Name="WrongWebsiteTextBlock" Text="网址错误，请检查输入的是否正确"/>
-                                </Flyout>
-                            </AppBarButton.Flyout>
-                        </AppBarButton>
-                        <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="收藏" Click="AppBarButton_Click_3">
-                            <Grid>
-                                <TextBlock x:Name="FavoriteIcon" Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},ConverterParameter=-,Mode=OneWay}" Text="&#xE006;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="UnFavoriteIcon" Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},Mode=OneWay}" Text="&#xE0A5;" FontWeight="Bold" FontSize="18" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
-                            </Grid>
-                        </AppBarButton>
-                        <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="编辑" Click="AppBarButton_Click_5">
-                            <TextBlock Text="&#xE104;" FontSize="16" FontFamily="Segoe MDL2 Assets" FontWeight="Bold" VerticalAlignment="Center"/>
-                        </AppBarButton>
-                        <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="隐藏密码" Click="AppBarButton_Click_1">
-                            <Grid Margin="0,4,0,0">
-                                <TextBlock x:Name="HidePasswordIcon" Visibility="Visible" Text="&#xE052;" FontSize="18" FontFamily="Segoe MDL2 Assets" FontWeight="Bold" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="ShowPasswordIcon" Visibility="Collapsed" Text="&#xEB67;" FontSize="18" FontFamily="Segoe MDL2 Assets" FontWeight="Bold" VerticalAlignment="Center"/>
-                            </Grid>
-                        </AppBarButton>
-                        <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="删除" Click="AppBarButton_Click_4">
-                            <TextBlock Text="&#xE0E0;" FontSize="26" FontFamily="Segoe UI Symbol" Margin="0,-10,0,0"/>
-                            <FlyoutBase.AttachedFlyout>
-                                <Flyout x:Name="DeleteFlyout">
-                                    <Grid Width="120">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition Height="8"/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" Text="确定要删除吗？" VerticalAlignment="Center"/>
-                                        <Grid Grid.Row="2">
-                                            <Button x:Name="DeleteButton" Grid.Column="0" Content="确定" HorizontalAlignment="Right" Click="DeleteButton_Click"/>
-                                        </Grid>
+            <Grid Width="Auto" Height="48" Background="White">
+                <Rectangle Stretch="Fill" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+                <StackPanel Orientation="Horizontal">
+                    <AppBarButton Width="42" Height="42" CornerRadius="6" ToolTipService.ToolTip="编辑" Click="AppBarButton_Click_5">
+                        <TextBlock Text="&#xE1C2;" FontSize="10" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                    </AppBarButton>
+                    <AppBarButton Width="42" Height="42" CornerRadius="6" ToolTipService.ToolTip="隐藏密码" Click="OnClickHidePassword">
+                        <Grid Margin="0,4,0,0">
+                            <TextBlock x:Name="HidePasswordIcon" Visibility="Visible" Text="&#xE052;" FontSize="24" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="ShowPasswordIcon" Visibility="Collapsed" Text="&#xEB67;" FontSize="24" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </AppBarButton>
+                    <Button Width="42" Height="42" CornerRadius="6" ToolTipService.ToolTip="删除" Click="AppBarButton_Click_4">
+                        <TextBlock Text="&#xE107;" FontSize="14" FontFamily="Segoe MDL2 Assets"/>
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout x:Name="DeleteFlyout" Placement="Top">
+                                <Grid Width="180">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" FontSize="14" Text="确定要删除吗？" VerticalAlignment="Center"/>
+                                    <Grid Grid.Row="2">
+                                        <Button x:Name="DeleteButton" Height="32" Width="72" CornerRadius="6"
+                                                Grid.Column="0" Content="确定" FontSize="14" HorizontalAlignment="Right"
+                                                Style="{StaticResource ButtonRevealStyle}" Click="DeleteButton_Click"/>
                                     </Grid>
-                                </Flyout>
-                            </FlyoutBase.AttachedFlyout>
-                        </AppBarButton>
-                        <AppBarSeparator VerticalAlignment="Center" Margin="0,2,0,0"/>
-                        <AppBarButton Width="48" Height="48" ToolTipService.ToolTip="隐藏" Click="AppBarButton_Click">
-                            <TextBlock Text="&#xE2A3;" FontSize="18" FontWeight="Bold" FontFamily="Segoe UI Symbol" VerticalAlignment="Center"/>
-                        </AppBarButton>
-                    </StackPanel>
-                </Grid>
-            </controls:DropShadowPanel>
+                                </Grid>
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
+                    </Button>
+                </StackPanel>
+            </Grid>
         </Grid>
 
     </Grid>

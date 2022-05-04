@@ -105,19 +105,23 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AppBarButton_Click_1(object sender, RoutedEventArgs e)
+        private void OnClickHidePassword(object sender, RoutedEventArgs e)
         {
-            PasswordTextBox.PasswordRevealMode = PasswordTextBox.PasswordRevealMode == PasswordRevealMode.Visible ? PasswordRevealMode.Hidden : PasswordRevealMode.Visible;
-            if (PasswordTextBox.PasswordRevealMode==PasswordRevealMode.Visible)
+            try
             {
-                HidePasswordIcon.Visibility = Visibility.Visible;
-                ShowPasswordIcon.Visibility = Visibility.Collapsed;
+                PasswordTextBox.PasswordRevealMode = PasswordTextBox.PasswordRevealMode == PasswordRevealMode.Visible ? PasswordRevealMode.Hidden : PasswordRevealMode.Visible;
+                if (PasswordTextBox.PasswordRevealMode == PasswordRevealMode.Visible)
+                {
+                    HidePasswordIcon.Visibility = Visibility.Visible;
+                    ShowPasswordIcon.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    HidePasswordIcon.Visibility = Visibility.Collapsed;
+                    ShowPasswordIcon.Visibility = Visibility.Visible;
+                }
             }
-            else
-            {
-                HidePasswordIcon.Visibility = Visibility.Collapsed;
-                ShowPasswordIcon.Visibility = Visibility.Visible;
-            }
+            catch { }
         }
 
         /// <summary>
@@ -125,24 +129,24 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void AppBarButton_Click_2(object sender, RoutedEventArgs e)
+        private async void OnClickGotoWebsite(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.CurrentPassword.sWebsite != "")
-            {
-                try
-                {
-                    WrongWebsiteTextBlock.Text = "正在跳转";
-                    await Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentPassword.sWebsite));
-                }
-                catch
-                {
-                    WrongWebsiteTextBlock.Text = "网址错误，请检查输入网址的是否完整";
-                }
-            }
-            else
-            {
-                WrongWebsiteTextBlock.Text = "没有添加网址";
-            }
+            //if (!string.IsNullOrEmpty(ViewModel.CurrentPassword.sWebsite.Trim()))
+            //{
+            //    try
+            //    {
+            //        WebsiteTipTextBlock.Text = "正在跳转...";
+            //        await Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentPassword.sWebsite));
+            //    }
+            //    catch
+            //    {
+            //        WebsiteTipTextBlock.Text = "网址错误，请检查输入网址的是否完整";
+            //    }
+            //}
+            //else
+            //{
+            //    WebsiteTipTextBlock.Text = "没有添加网址";
+            //}
         }
 
         /// <summary>
@@ -150,21 +154,27 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AppBarButton_Click_3(object sender, RoutedEventArgs e)
+        private void OnClickFavorite(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.CurrentPassword.bFavorite == true)
+            try
             {
-                FavoriteIcon.Visibility = Visibility.Visible;
-                UnFavoriteIcon.Visibility = Visibility.Collapsed;
-                ViewModel.CurrentPassword.bFavorite = false;
+                ViewModel.AddFavorite(ViewModel.CurrentPassword);
             }
-            else
+            catch { }
+        }
+
+        /// <summary>
+        /// 点击取消收藏
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickDelFavorite(object sender, RoutedEventArgs e)
+        {
+            try
             {
-                FavoriteIcon.Visibility = Visibility.Collapsed;
-                UnFavoriteIcon.Visibility = Visibility.Visible;
-                ViewModel.CurrentPassword.bFavorite = true;
+                ViewModel.RemoveFavorite(ViewModel.CurrentPassword);
             }
-            //PasswordHelper.SaveData();
+            catch { }
         }
 
         /// <summary>

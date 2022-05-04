@@ -49,7 +49,7 @@ namespace ManyPasswords
             catch { }
         }
 
-        /// <summary>   
+        /// <summary>
         /// 添加账号
         /// </summary>
         /// <param name="sender"></param>
@@ -92,7 +92,7 @@ namespace ManyPasswords
             {
                 if (timer == null)
                 {
-                    timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.7) };
+                    timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     timer.Tick += (s, e) =>
                     {
                         timer.Stop();
