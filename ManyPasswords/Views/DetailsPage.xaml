@@ -343,11 +343,11 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
         <Grid.BackgroundTransition>
             <BrushTransition/>
         </Grid.BackgroundTransition>
-        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,32,0,0">
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
             <StackPanel>
                 <Grid Background="Transparent" Margin="0,51,0,0" Height="168">
                     <Grid.ColumnDefinitions>
@@ -380,86 +380,83 @@
                         </Grid>
                     </Grid>
                     <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Top" Margin="0,26,0,0">
-                        <TextBlock Text="{x:Bind ViewModel.CurrentPassword.sName,Mode=OneWay}" FontWeight="Bold" FontSize="28" Margin="0,0,0,4"/>
-                        <TextBlock Text="{x:Bind ViewModel.CurrentPassword.sDate,Mode=OneWay}" Opacity="0.7"/>
+                        <TextBlock Text="{x:Bind ViewModel.CurrentPassword.sName,Mode=OneWay}" FontWeight="Bold" TextTrimming="CharacterEllipsis"
+                                   FontSize="28" Margin="0,0,0,4"/>
+                        <TextBlock Text="{x:Bind ViewModel.CurrentPassword.sDate,Mode=OneWay}" TextTrimming="CharacterEllipsis" Opacity="0.7"/>
                     </StackPanel>
                 </Grid>
                 <TextBlock Text="账号" FontWeight="Bold" Margin="34,0,0,8"/>
                 <StackPanel Orientation="Horizontal" Margin="32,0,4,0">
-                    <Border Background="Transparent" Height="36" BorderThickness="1.5" CornerRadius="6" BorderBrush="{ThemeResource DETAIL_NORMAL_BD}">
-                        <TextBlock x:Name="AccountTextBlock" Text="{x:Bind ViewModel.CurrentPassword.sAccount,Mode=OneWay}"
-                                   FontFamily="Times New Roman" VerticalAlignment="Center"
-                                   FontSize="16" MinWidth="294" HorizontalAlignment="Left" IsTextSelectionEnabled="True" Padding="8,0"/>
-                    </Border>
+                    <TextBox x:Name="AccountTextBlock" Text="{x:Bind ViewModel.CurrentPassword.sAccount,Mode=OneWay}"
+                             BorderBrush="{ThemeResource DETAIL_NORMAL_BD}" Background="Transparent" Height="36"
+                             FontFamily="Times New Roman" VerticalAlignment="Center" CornerRadius="6" IsReadOnly="True"
+                             FontSize="16" MinWidth="276" MaxWidth="320" HorizontalAlignment="Left" BorderThickness="1.5" Padding="8,6,4,0"/>
                     <Button Content="复制" Style="{ThemeResource TextBlockButtonStyle}" FontWeight="Bold" Click="OnClickCopyAccount"/>
                 </StackPanel>
                 <TextBlock Text="密码" FontWeight="Bold" Margin="34,24,0,8"/>
                 <StackPanel Orientation="Horizontal" Margin="32,0,4,0">
-                    <Grid Background="Transparent" Height="36" MinWidth="284" MaxWidth="360" BorderThickness="1.5" CornerRadius="6" BorderBrush="{ThemeResource DETAIL_NORMAL_BD}">
-                        <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Width="300">
-                            <TextBlock x:Name="PasswordTextBlock" Text="{x:Bind ViewModel.CurrentPassword.sPassword,Mode=OneWay}"
-                                       FontFamily="Times New Roman" VerticalAlignment="Center" MaxLines="1"
-                                       FontSize="16" HorizontalAlignment="Left" IsTextSelectionEnabled="True" Padding="8,0"/>
-                        </ScrollViewer>
+                    <Grid Background="Transparent" Width="Auto" Height="Auto">
+                        <TextBox x:Name="PasswordTextBlock" Text="{x:Bind ViewModel.CurrentPassword.sPassword,Mode=OneWay}"
+                                 BorderBrush="{ThemeResource DETAIL_NORMAL_BD}" Background="Transparent" Height="36"
+                                 FontFamily="Times New Roman" VerticalAlignment="Center" CornerRadius="6" IsReadOnly="True"
+                                 FontSize="16" MinWidth="276" MaxWidth="320" HorizontalAlignment="Left" BorderThickness="1.5" Padding="8,6,4,0"/>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="6" BorderThickness="2"
+                              Tapped="Grid_Tapped" Visibility="{x:Bind bHidePassword,Mode=OneWay}">
+                            <Grid.Background>
+                                <AcrylicBrush BackgroundSource="Backdrop" TintOpacity="0.1" TintLuminosityOpacity="0.1" TintColor="Transparent" FallbackColor="Black"/>
+                            </Grid.Background>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Spacing="4" Margin="8,0,0,0">
+                                <Ellipse Height="12" Width="12" Fill="#20808080"/>
+                                <Ellipse Height="12" Width="12" Fill="#20808080"/>
+                                <Ellipse Height="12" Width="12" Fill="#20808080"/>
+                                <Ellipse Height="12" Width="12" Fill="#20808080"/>
+                                <Ellipse Height="12" Width="12" Fill="#20808080"/>
+                                <Ellipse Height="12" Width="12" Fill="#20808080"/>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
                     <Button Content="复制" Style="{ThemeResource TextBlockButtonStyle}" FontWeight="Bold" Click="OnClickCopyPassword"/>
                 </StackPanel>
-                <TextBox x:Name="BioTextBox" Margin="34,0,4,8"
+                <TextBlock Text="备注" FontWeight="Bold" Margin="34,24,0,8"/>
+                <TextBox x:Name="BioTextBox" Margin="32,4,4,8" IsReadOnly="True"
                          Text="{x:Bind ViewModel.CurrentPassword.sNote,Mode=OneWay}"
-                         PlaceholderText="未添加备注"
-                         MinHeight="128" Width="298" TextWrapping="Wrap" 
-                         BorderThickness="0" HorizontalAlignment="Left" Padding="10"/>
-                <TextBlock Text="网址" FontWeight="Bold" Margin="34,0,0,0"
+                         PlaceholderText="未添加备注" BorderBrush="{ThemeResource DETAIL_NORMAL_BD}"
+                         MinHeight="128" MinWidth="276" MaxWidth="320" TextWrapping="Wrap" 
+                         BorderThickness="1.5" CornerRadius="6" HorizontalAlignment="Left" Padding="8"/>
+                <TextBlock Text="网址" FontWeight="Bold" Margin="34,20,0,0"
                            Visibility="{x:Bind ViewModel.CurrentPassword.sWebsite.Length,Mode=OneWay,Converter={StaticResource UnequalToVisible},ConverterParameter=0}"/>
-                <HyperlinkButton Content="{x:Bind ViewModel.CurrentPassword.sWebsite,Mode=OneWay}"
+                <HyperlinkButton Content="{x:Bind ViewModel.CurrentPassword.sWebsite,Mode=OneWay}" Margin="36,0,0,0"
                                  Visibility="{x:Bind ViewModel.CurrentPassword.sWebsite.Length,Mode=OneWay,Converter={StaticResource UnequalToVisible},ConverterParameter=0}"
-                                 Click="OnClickGotoWebsite" FontSize="16"/>
+                                 Click="OnClickGotoWebsite" FontSize="16"/> 
             </StackPanel>
         </ScrollViewer>
-        <Grid x:Name="AppBarGrid" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,48">
-            <Grid.Resources>
-                <Storyboard x:Name="AppBarPopIn">
-                    <PopInThemeAnimation FromHorizontalOffset="0" FromVerticalOffset="320" Storyboard.TargetName="AppBarGrid" Duration="00:00:1"/>
-                </Storyboard>
-                <Storyboard x:Name="AppBarPopOut">
-                    <PopOutThemeAnimation Storyboard.TargetName="AppBarGrid" Duration="00:00:1"/>
-                </Storyboard>
-            </Grid.Resources>
-            <Grid Width="Auto" Height="48" Background="White">
-                <Rectangle Stretch="Fill" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
-                <StackPanel Orientation="Horizontal">
-                    <AppBarButton Width="42" Height="42" CornerRadius="6" ToolTipService.ToolTip="编辑" Click="AppBarButton_Click_5">
-                        <TextBlock Text="&#xE1C2;" FontSize="10" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
-                    </AppBarButton>
-                    <AppBarButton Width="42" Height="42" CornerRadius="6" ToolTipService.ToolTip="隐藏密码" Click="OnClickHidePassword">
-                        <Grid Margin="0,4,0,0">
-                            <TextBlock x:Name="HidePasswordIcon" Visibility="Visible" Text="&#xE052;" FontSize="24" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <TextBlock x:Name="ShowPasswordIcon" Visibility="Collapsed" Text="&#xEB67;" FontSize="24" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,42,36">
+            <Button Margin="0,0,16,0" Width="56" Height="56" CornerRadius="28" Background="{StaticResource SystemControlBackgroundAccentBrush}"
+                    Style="{StaticResource ButtonRevealStyle}" Foreground="White" ToolTipService.ToolTip="编辑"
+                    Content="&#xE1C2;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" Click="OnClickEdit"/>
+            <Button Width="48" Height="48" CornerRadius="24" VerticalAlignment="Bottom" Foreground="White" Background="#F83152"
+                    Style="{StaticResource ButtonRevealStyle}" Content="&#xE107;" FontSize="16" FontFamily="Segoe MDL2 Assets"
+                    ToolTipService.ToolTip="删除" Click="OnClickDelete">
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout x:Name="DeleteFlyout" Placement="Top">
+                        <Grid Width="180">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" FontSize="14" Text="确定要删除吗？" VerticalAlignment="Center"/>
+                            <Grid Grid.Row="2">
+                                <Button x:Name="DeleteButton" Height="32" Width="72" CornerRadius="6"
+                                        Grid.Column="0" Content="确定" FontSize="14" HorizontalAlignment="Right"
+                                        Style="{StaticResource ButtonRevealStyle}" Click="OnClickConfirmDelete"/>
+                            </Grid>
                         </Grid>
-                    </AppBarButton>
-                    <Button Width="42" Height="42" CornerRadius="6" ToolTipService.ToolTip="删除" Click="AppBarButton_Click_4">
-                        <TextBlock Text="&#xE107;" FontSize="14" FontFamily="Segoe MDL2 Assets"/>
-                        <FlyoutBase.AttachedFlyout>
-                            <Flyout x:Name="DeleteFlyout" Placement="Top">
-                                <Grid Width="180">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition Height="8"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" FontSize="14" Text="确定要删除吗？" VerticalAlignment="Center"/>
-                                    <Grid Grid.Row="2">
-                                        <Button x:Name="DeleteButton" Height="32" Width="72" CornerRadius="6"
-                                                Grid.Column="0" Content="确定" FontSize="14" HorizontalAlignment="Right"
-                                                Style="{StaticResource ButtonRevealStyle}" Click="DeleteButton_Click"/>
-                                    </Grid>
-                                </Grid>
-                            </Flyout>
-                        </FlyoutBase.AttachedFlyout>
-                    </Button>
-                </StackPanel>
-            </Grid>
-        </Grid>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </Button>
+        </StackPanel>
 
     </Grid>
 </Page>

@@ -35,7 +35,7 @@
         <Grid.BackgroundTransition>
             <BrushTransition />
         </Grid.BackgroundTransition>
-        <Grid Grid.Column="0" Background="#33808080">
+        <Grid Grid.Column="0" Background="#22808080">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>

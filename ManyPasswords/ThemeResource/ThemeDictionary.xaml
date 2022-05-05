@@ -5,6 +5,7 @@
         <ResourceDictionary x:Key="Dark">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
+                    <Color x:Key="APP_BK">#000000</Color>
                     <Color x:Key="HEADER_FR">#E6FFFFFF</Color>
                     <Color x:Key="SETTING_WALLPAPER_BD">#E6FFFFFF</Color>
                     <Color x:Key="ADDPASSWORD_BUTTON_BK">#16FFFFFF</Color>
@@ -19,7 +20,8 @@
                     <Color x:Key="ADDINGTEXTBOX_NORMAL_BK">#16FFFFFF</Color>
                     <Color x:Key="ADDINGTEXTBOX_HOVER_BK">#20FFFFFF</Color>
                     <Color x:Key="ADDINGTEXTBOX_FOCUS_BK">#20FFFFFF</Color>
-                    <Color x:Key="DETAIL_NORMAL_BD">#16FFFFFF</Color>
+                    <Color x:Key="ADDINGTEXTBOX_PLACEHOLDER_FR">#33FFFFFF</Color>
+                    <Color x:Key="DETAIL_NORMAL_BD">#26FFFFFF</Color>
                     <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH"
                                        FallbackColor="White"
                                        TargetTheme="Dark"
@@ -37,6 +39,7 @@
         <ResourceDictionary x:Key="Light">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
+                    <Color x:Key="APP_BK">#FFFFFFFF</Color>
                     <Color x:Key="HEADER_FR">#E6000000</Color>
                     <Color x:Key="SETTING_WALLPAPER_BD">#E6000000</Color>
                     <Color x:Key="ADDPASSWORD_BUTTON_BK">#8CFFFFFF</Color>
@@ -51,7 +54,8 @@
                     <Color x:Key="ADDINGTEXTBOX_NORMAL_BK">#8CE6E6E6</Color>
                     <Color x:Key="ADDINGTEXTBOX_HOVER_BK">#50E6E6E6</Color>
                     <Color x:Key="ADDINGTEXTBOX_FOCUS_BK">#50E6E6E6</Color>
-                    <Color x:Key="DETAIL_NORMAL_BD">#8CE6E6E6</Color>
+                    <Color x:Key="ADDINGTEXTBOX_PLACEHOLDER_FR">#66000000</Color>
+                    <Color x:Key="DETAIL_NORMAL_BD">#9EE6E6E6</Color>
                     <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH"
                                        FallbackColor="Black"
                                        TargetTheme="Light"

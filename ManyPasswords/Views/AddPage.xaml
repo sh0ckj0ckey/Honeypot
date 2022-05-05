@@ -36,7 +36,7 @@
             <ColumnDefinition Width="0.6*" MaxWidth="420"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="AddGrid" Grid.Column="0" Background="#33808080">
+        <Grid x:Name="AddGrid" Grid.Column="0" Background="#20808080">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
