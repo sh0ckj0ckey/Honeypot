@@ -59,7 +59,7 @@
                 </GridView.ItemContainerTransitions>
                 <GridView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Width="280" Height="94" CornerRadius="6" BorderThickness="1.5" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        <Grid Width="280" Height="94" CornerRadius="6" BorderThickness="2" Background="{ThemeResource FAVORITE_ITEM_BK}"
                               BorderBrush="{ThemeResource REVEAL_BORDER_BRUSH}" PointerEntered="Grid_PointerEntered" PointerExited="Grid_PointerExited">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -67,20 +67,18 @@
                                 <RowDefinition Height="28"/>
                                 <RowDefinition Height="2"/>
                             </Grid.RowDefinitions>
-                            <Grid Grid.RowSpan="4" CornerRadius="6" Height="91" VerticalAlignment="Center">
-                                <Rectangle Height="91" Width="128" HorizontalAlignment="Right" VerticalAlignment="Center" Stretch="UniformToFill">
-                                    <Rectangle.Fill>
-                                        <ImageBrush Stretch="UniformToFill" AlignmentY="Center" AlignmentX="Center">
-                                            <ImageBrush.ImageSource>
-                                                <BitmapImage UriSource="{Binding sPicture,Mode=OneWay}" DecodePixelWidth="128" DecodePixelType="Logical"/>
-                                            </ImageBrush.ImageSource>
-                                        </ImageBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                                <Rectangle Fill="{ThemeResource FAVORITE_ITEM_MASK}"/>
+                            <Grid Grid.RowSpan="4" CornerRadius="0,6,6,0" Width="90" Height="90" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <Grid.Background>
+                                    <ImageBrush Stretch="UniformToFill" AlignmentY="Center" AlignmentX="Center">
+                                        <ImageBrush.ImageSource>
+                                            <BitmapImage UriSource="{Binding sPicture,Mode=OneWay}" DecodePixelWidth="90" DecodePixelType="Logical"/>
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Grid.Background>
+                                <Grid Background="{ThemeResource FAVORITE_ITEM_MASK}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                             </Grid>
-                            <TextBlock Grid.Row="0" Text="{Binding sName,Mode=OneWay}" FontWeight="Bold" Opacity="0.8" HorizontalAlignment="Left"
-                                       FontSize="18" Margin="8,10,8,0" TextTrimming="CharacterEllipsis" MaxWidth="236"/>
+                            <TextBlock Grid.Row="0" Text="{Binding sName,Mode=OneWay}" FontWeight="Bold" Opacity="0.8" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       FontSize="16" Margin="8,0,8,0" TextTrimming="CharacterEllipsis" MaxWidth="236"/>
                             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="8,0,0,0" HorizontalAlignment="Left" Height="28">
                                 <TextBlock Text="账号：" FontSize="14" Opacity="0.8" VerticalAlignment="Center"/>
                                 <Button Style="{StaticResource TextBlockButtonStyle}" 

@@ -108,7 +108,7 @@ namespace ManyPasswords.Models
                 this.sAccount = account;
                 this.sPassword = password;
                 this.sName = name;
-                this.sDate = "创建于 " + DateTime.Now.ToLocalTime().ToString();
+                this.sDate = "创建于 " + DateTime.Now.ToLongDateString().ToString();
                 this.sPicture = picture;
                 this.sWebsite = website;
                 this.sNote = note;

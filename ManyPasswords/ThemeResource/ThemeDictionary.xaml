@@ -19,16 +19,17 @@
                     <Color x:Key="ADDINGTEXTBOX_NORMAL_BK">#16FFFFFF</Color>
                     <Color x:Key="ADDINGTEXTBOX_HOVER_BK">#20FFFFFF</Color>
                     <Color x:Key="ADDINGTEXTBOX_FOCUS_BK">#20FFFFFF</Color>
-
+                    <Color x:Key="DETAIL_NORMAL_BD">#16FFFFFF</Color>
                     <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH"
                                        FallbackColor="White"
                                        TargetTheme="Dark"
                                        Color="Transparent"/>
 
-                    <LinearGradientBrush x:Key="FAVORITE_ITEM_MASK" StartPoint="0,0" EndPoint="1,1" Opacity="1">
+                    <Color x:Key="FAVORITE_ITEM_BK">#FF000000</Color>
+                    <LinearGradientBrush x:Key="FAVORITE_ITEM_MASK" StartPoint="0,0" EndPoint="1,0">
                         <GradientStop Offset="0.0" Color="#FF000000"/>
-                        <GradientStop Offset="0.5" Color="#FF000000"/>
-                        <GradientStop Offset="1" Color="#AA000000"/>
+                        <GradientStop Offset="0.1" Color="#FF000000"/>
+                        <GradientStop Offset="1" Color="#80000000"/>
                     </LinearGradientBrush>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -50,16 +51,17 @@
                     <Color x:Key="ADDINGTEXTBOX_NORMAL_BK">#8CE6E6E6</Color>
                     <Color x:Key="ADDINGTEXTBOX_HOVER_BK">#50E6E6E6</Color>
                     <Color x:Key="ADDINGTEXTBOX_FOCUS_BK">#50E6E6E6</Color>
-
+                    <Color x:Key="DETAIL_NORMAL_BD">#8CE6E6E6</Color>
                     <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH"
                                        FallbackColor="Black"
                                        TargetTheme="Light"
                                        Color="Transparent"/>
 
-                    <LinearGradientBrush x:Key="FAVORITE_ITEM_MASK" StartPoint="0,0" EndPoint="1,1" Opacity="1">
-                        <GradientStop Offset="0.0" Color="#FFf0f0f0"/>
-                        <GradientStop Offset="0.6" Color="#FFf0f0f0"/>
-                        <GradientStop Offset="1" Color="#AAf0f0f0"/>
+                    <Color x:Key="FAVORITE_ITEM_BK">#FFF8F8F8</Color>
+                    <LinearGradientBrush x:Key="FAVORITE_ITEM_MASK" StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Offset="0.0" Color="#FFF8F8F8"/>
+                        <GradientStop Offset="0.1" Color="#FFF8F8F8"/>
+                        <GradientStop Offset="1" Color="#80F0F0F0"/>
                     </LinearGradientBrush>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

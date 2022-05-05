@@ -17,63 +17,17 @@ namespace ManyPasswords
     public sealed partial class DetailsPage : Page
     {
         ViewModel.PasswordViewModel ViewModel = null;
-
-        public static DetailsPage Current = null;
-
         public DetailsPage()
         {
-            ViewModel = PasswordViewModel.Instance;
-            this.InitializeComponent();
-            Current = this;
+            try
+            {
+                ViewModel = PasswordViewModel.Instance;
+                this.InitializeComponent();
 
-            //if (App.AppSettingContainer.Values["Theme"] == null || App.AppSettingContainer.Values["Theme"].ToString() == "Light")
-            //{
-            //    PhotoPanel.Opacity = 1;
-            //}
-            //else
-            //{
-            //    PhotoPanel.Opacity = 0.7;
-            //}
-
-            //if (ShowPassword.IsFavorite == true)
-            //{
-            //    FavoriteIcon.Visibility = Visibility.Collapsed;
-            //    UnFavoriteIcon.Visibility = Visibility.Visible;
-            //}
-            //else
-            //{
-            //    FavoriteIcon.Visibility = Visibility.Visible;
-            //    UnFavoriteIcon.Visibility = Visibility.Collapsed;
-            //}
-            //IsAppBarVisible = true;
-        }
-
-        /// <summary>
-        /// 隐藏操作栏
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            //if (IsAppBarVisible == true)
-            //{
-            //    AppBarPopOut.Begin();
-            //    IsAppBarVisible = false;
-            //}
-        }
-
-        /// <summary>
-        /// 点击空白区域显示操作栏
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            //if (IsAppBarVisible == false)
-            //{
-            //    AppBarPopIn.Begin();
-            //    IsAppBarVisible = true;
-            //}
+                PhotoShadow.Receivers.Add(BackgroundGrid);
+                PhotoRectangle.Translation += new System.Numerics.Vector3(0, 0, 32);
+            }
+            catch { }
         }
 
         /// <summary>
@@ -81,11 +35,15 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnClickCopyAccount(object sender, RoutedEventArgs e)
         {
-            Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new Windows.ApplicationModel.DataTransfer.DataPackage();
-            dataPackage.SetText(AccountTextBox.Text);
-            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
+            try
+            {
+                Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new Windows.ApplicationModel.DataTransfer.DataPackage();
+                dataPackage.SetText(AccountTextBlock.Text);
+                Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
+            }
+            catch { }
         }
 
         /// <summary>
@@ -93,11 +51,15 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void OnClickCopyPassword(object sender, RoutedEventArgs e)
         {
-            Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new Windows.ApplicationModel.DataTransfer.DataPackage();
-            dataPackage.SetText(PasswordTextBox.Password);
-            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
+            try
+            {
+                Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new Windows.ApplicationModel.DataTransfer.DataPackage();
+                dataPackage.SetText(PasswordTextBlock.Text);
+                Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
+            }
+            catch { }
         }
 
         /// <summary>
@@ -109,17 +71,17 @@ namespace ManyPasswords
         {
             try
             {
-                PasswordTextBox.PasswordRevealMode = PasswordTextBox.PasswordRevealMode == PasswordRevealMode.Visible ? PasswordRevealMode.Hidden : PasswordRevealMode.Visible;
-                if (PasswordTextBox.PasswordRevealMode == PasswordRevealMode.Visible)
-                {
-                    HidePasswordIcon.Visibility = Visibility.Visible;
-                    ShowPasswordIcon.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    HidePasswordIcon.Visibility = Visibility.Collapsed;
-                    ShowPasswordIcon.Visibility = Visibility.Visible;
-                }
+                //PasswordTextBlock.PasswordRevealMode = PasswordTextBlock.PasswordRevealMode == PasswordRevealMode.Visible ? PasswordRevealMode.Hidden : PasswordRevealMode.Visible;
+                //if (PasswordTextBlock.PasswordRevealMode == PasswordRevealMode.Visible)
+                //{
+                //    HidePasswordIcon.Visibility = Visibility.Visible;
+                //    ShowPasswordIcon.Visibility = Visibility.Collapsed;
+                //}
+                //else
+                //{
+                //    HidePasswordIcon.Visibility = Visibility.Collapsed;
+                //    ShowPasswordIcon.Visibility = Visibility.Visible;
+                //}
             }
             catch { }
         }
@@ -184,11 +146,15 @@ namespace ManyPasswords
         /// <param name="e"></param>
         private void AppBarButton_Click_4(object sender, RoutedEventArgs e)
         {
-            FrameworkElement element = sender as FrameworkElement;
-            if (element != null)
+            try
             {
-                FlyoutBase.ShowAttachedFlyout(element);
+                FrameworkElement element = sender as FrameworkElement;
+                if (element != null)
+                {
+                    FlyoutBase.ShowAttachedFlyout(element);
+                }
             }
+            catch { }
         }
 
         /// <summary>
