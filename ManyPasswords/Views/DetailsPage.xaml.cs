@@ -3,7 +3,9 @@ using ManyPasswords.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Numerics;
 using System.Runtime.CompilerServices;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -48,6 +50,26 @@ namespace ManyPasswords
 
                 PhotoShadow.Receivers.Add(BackgroundGrid);
                 PhotoRectangle.Translation += new System.Numerics.Vector3(0, 0, 32);
+            }
+            catch { }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var expressionAnim = _compositor.CreateExpressionAnimation();
+
+                // The ellipse's scale is inversely proportional to the rectangle's scale
+                expressionAnim.Expression = "Vector3(1/scaleElement.Scale.X, 1/scaleElement.Scale.Y, 1)";
+                expressionAnim.Target = "Scale";
+
+                // Use SetExpressionReferenceParameter to alias a UIElement into the expression string
+                expressionAnim.SetExpressionReferenceParameter("scaleElement", EditButtonGrid);
+
+                // Start the animation on the ellipse
+                DeleteButtonGrid.StartAnimation(expressionAnim);
+
             }
             catch { }
         }
@@ -199,6 +221,52 @@ namespace ManyPasswords
             //this.Frame.Navigate(typeof(EditingPage), ShowPassword);
         }
 
+
+        // 收藏按钮缩放动画
+        private Compositor _compositor = Window.Current.Compositor;
+        private SpringVector3NaturalMotionAnimation _springAnimation;
+
+        private void CreateOrUpdateSpringAnimation(float finalValue)
+        {
+            try
+            {
+                if (_springAnimation == null)
+                {
+                    _springAnimation = _compositor.CreateSpringVector3Animation();
+                    _springAnimation.Target = "Scale";
+                    _springAnimation.DampingRatio = 0.5f;
+                }
+                
+                _springAnimation.FinalValue = new Vector3(finalValue);
+            }
+            catch { }
+        }
+
+        private void SpringAnimationPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                // Scale up to 1.3
+                CreateOrUpdateSpringAnimation(1.3f);
+
+                (sender as UIElement).StartAnimation(_springAnimation);
+            }
+            catch { }
+        }
+
+        private void SpringAnimationPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                // Scale back down to 1.0
+                CreateOrUpdateSpringAnimation(1.0f);
+
+                (sender as UIElement).StartAnimation(_springAnimation);
+            }
+            catch { }
+        }
+
+
         // 鼠标移入，显示密码
         private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -219,7 +287,7 @@ namespace ManyPasswords
             catch { }
         }
 
-        // 保险期间，防止鼠标移入还是没显示密码，则点击亚克力后显示密码
+        // 保险起见，防止鼠标移入还是没显示密码，则点击亚克力后显示密码
         private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
         {
             try

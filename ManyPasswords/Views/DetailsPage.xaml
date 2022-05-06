@@ -8,7 +8,8 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
     xmlns:converter="using:ManyPasswords.Converter"
     mc:Ignorable="d" NavigationCacheMode="Required"
-    Background="Transparent">
+    Background="Transparent"
+    Loaded="Page_Loaded">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -60,7 +61,7 @@
             </Storyboard>
 
             <ThemeShadow x:Name="PhotoShadow"/>
-            
+
             <Style x:Key="CornerTextBoxStyle" TargetType="TextBox">
                 <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
                 <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
@@ -245,15 +246,16 @@
                             </Rectangle.Fill>
                         </Rectangle>
                         <Grid Height="32" Width="32" CornerRadius="16" Margin="0,0,-4,-4" Background="#FF317A"
-                              HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                              HorizontalAlignment="Right" VerticalAlignment="Bottom" CenterPoint="16,16,0" 
+                              PointerEntered="SpringAnimationPointerEntered" PointerExited="SpringAnimationPointerExited">
                             <Button Height="32" Width="32" CornerRadius="16" BorderThickness="0" 
-                                    Style="{StaticResource ButtonRevealStyle}" Background="#FF317A"
+                                    Background="#FF317A"
                                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,1,0,-1"
                                     Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},ConverterParameter=-,Mode=OneWay}"
                                     Content="&#xE006;" FontSize="12" FontFamily="Segoe MDL2 Assets"
                                     ToolTipService.ToolTip="收藏" Click="OnClickFavorite"/>
                             <Button Height="32" Width="32" CornerRadius="16" BorderThickness="0" 
-                                    Style="{StaticResource ButtonRevealStyle}" Background="#FF317A"
+                                    Background="#FF317A"
                                     HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,1,0,-1"
                                     Visibility="{x:Bind ViewModel.CurrentPassword.bFavorite,Converter={StaticResource BoolToVisible},Mode=OneWay}"
                                     Content="&#xE00B;" FontSize="12" FontFamily="Segoe MDL2 Assets"
@@ -334,33 +336,40 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,42,36">
-            <Button Margin="0,0,16,0" Width="56" Height="56" CornerRadius="28" Background="{StaticResource SystemControlBackgroundAccentBrush}"
-                    Style="{StaticResource ButtonRevealStyle}" Foreground="White" ToolTipService.ToolTip="编辑"
-                    Content="&#xE1C2;" FontSize="18" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Bottom" Click="OnClickEdit"/>
-            <Button Width="48" Height="48" CornerRadius="24" VerticalAlignment="Bottom" Foreground="White" Background="#F83152"
-                    Style="{StaticResource ButtonRevealStyle}" Content="&#xE107;" FontSize="16" FontFamily="Segoe MDL2 Assets"
-                    ToolTipService.ToolTip="删除" Click="OnClickDelete">
-                <FlyoutBase.AttachedFlyout>
-                    <Flyout x:Name="DeleteFlyout" Placement="Top">
-                        <Grid Width="180">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" FontSize="16" CharacterSpacing="32" Text="确定要删除这个账号吗？" VerticalAlignment="Center" Margin="4,4,4,6"/>
-                            <TextBlock Grid.Row="1" FontSize="14" CharacterSpacing="32" Opacity="0.7" Text="一旦删除，无法恢复" VerticalAlignment="Center" Margin="4,0,4,16"/>
-                            <Grid Grid.Row="2">
-                                <Button x:Name="DeleteButton" Height="32" Width="72" CornerRadius="6"
-                                        Grid.Column="0" Content="确定" FontSize="14" HorizontalAlignment="Right"
-                                        Style="{StaticResource ButtonRevealStyle}" Click="OnClickConfirmDelete"/>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,48,42">
+            <Grid x:Name="EditButtonGrid" Background="{StaticResource SystemControlBackgroundAccentBrush}" Height="48" Width="48" CornerRadius="24" 
+                  CenterPoint="24,24,0" Margin="0,0,16,0" VerticalAlignment="Center"
+                  PointerEntered="SpringAnimationPointerEntered" PointerExited="SpringAnimationPointerExited">
+                <Button Width="48" Height="48" CornerRadius="24" Background="{StaticResource SystemControlBackgroundAccentBrush}"
+                        BorderThickness="0" ToolTipService.ToolTip="编辑" Click="OnClickEdit">
+                    <TextBlock Foreground="White" Text="&#xE1C2;" FontSize="18" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Button>
+            </Grid>
+            <Grid x:Name="DeleteButtonGrid" Background="#F83152" Width="48" Height="48" CornerRadius="24"
+                  CenterPoint="24,24,0" VerticalAlignment="Center">
+                <Button Width="48" Height="48" CornerRadius="24" Background="#F83152"
+                        BorderThickness="0" ToolTipService.ToolTip="删除" Click="OnClickDelete">
+                    <TextBlock Text="&#xE107;" FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,0,0"/>
+                    <FlyoutBase.AttachedFlyout>
+                        <Flyout x:Name="DeleteFlyout" Placement="Top">
+                            <Grid Width="180">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" FontSize="16" CharacterSpacing="32" Text="确定要删除这个账号吗？" VerticalAlignment="Center" Margin="4,4,4,6"/>
+                                <TextBlock Grid.Row="1" FontSize="14" CharacterSpacing="32" Opacity="0.7" Text="一旦删除，无法恢复" VerticalAlignment="Center" Margin="4,0,4,16"/>
+                                <Grid Grid.Row="2">
+                                    <Button x:Name="DeleteButton" Height="32" Width="72" CornerRadius="6"
+                                            Grid.Column="0" Content="确定" FontSize="14" HorizontalAlignment="Right"
+                                            Style="{StaticResource ButtonRevealStyle}" Click="OnClickConfirmDelete"/>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Flyout>
-                </FlyoutBase.AttachedFlyout>
-            </Button>
+                        </Flyout>
+                    </FlyoutBase.AttachedFlyout>
+                </Button>
+            </Grid>
         </StackPanel>
-
     </Grid>
 </Page>

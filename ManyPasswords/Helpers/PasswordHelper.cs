@@ -48,7 +48,7 @@ namespace ManyPasswords
                     passwordsList = JsonConvert.DeserializeObject<List<Models.PasswordItem>>(data, jss);
                 }
             }
-            catch (Exception e) { }
+            catch { }
             return passwordsList;
         }
 
