@@ -79,7 +79,7 @@
                                                     </VisualState>
                                                 </VisualStateGroup>
                                             </VisualStateManager.VisualStateGroups>
-                                            <TextBlock x:Name="GlyphElement" AutomationProperties.AccessibilityView="Raw" Foreground="{ThemeResource SEARCHTEXTBOX_FOCUS_FR}" FontStyle="Normal" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="12" HorizontalAlignment="Center" Text="&#xE10A;" VerticalAlignment="Center"/>
+                                            <TextBlock x:Name="GlyphElement" AutomationProperties.AccessibilityView="Raw" Foreground="{ThemeResource TEXTBOX_FR}" FontStyle="Normal" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="12" HorizontalAlignment="Center" Text="&#xE10A;" VerticalAlignment="Center"/>
                                         </Grid>
                                     </ControlTemplate>
                                 </Setter.Value>
@@ -119,14 +119,11 @@
                             </VisualState>
                             <VisualState x:Name="PointerOver">
                                 <Storyboard>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushPointerOver}"/>
-                                    </ObjectAnimationUsingKeyFrames>
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
                                         <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ADDINGTEXTBOX_HOVER_BK}"/>
                                     </ObjectAnimationUsingKeyFrames>
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundPointerOver}}"/>
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ADDINGTEXTBOX_PLACEHOLDER_FR}"/>
                                     </ObjectAnimationUsingKeyFrames>
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
                                         <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundPointerOver}"/>
@@ -136,19 +133,16 @@
                             <VisualState x:Name="Focused">
                                 <Storyboard>
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ADDINGTEXTBOX_PLACEHOLDER_FR}"/>
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ADDINGTEXTBOX_PLACEHOLDER_FOCUS_FR}"/>
                                     </ObjectAnimationUsingKeyFrames>
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
                                         <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ADDINGTEXTBOX_FOCUS_BK}"/>
                                     </ObjectAnimationUsingKeyFrames>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushFocused}"/>
-                                    </ObjectAnimationUsingKeyFrames>
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SEARCHTEXTBOX_FOCUS_FR}"/>
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TEXTBOX_FR}"/>
                                     </ObjectAnimationUsingKeyFrames>
                                     <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DeleteButton" Storyboard.TargetProperty="Foreground">
-                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SEARCHTEXTBOX_FOCUS_FR}"/>
+                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TEXTBOX_FR}"/>
                                     </ObjectAnimationUsingKeyFrames>
                                 </Storyboard>
                             </VisualState>

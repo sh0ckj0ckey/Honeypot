@@ -13,19 +13,29 @@
                     <BitmapImage x:Key="SETTING_WALLPAPER_MASK_IMAGE" UriSource="ms-appx:///Assets/Background/wallpaper_preview_dark.png"/>
                     <BitmapImage x:Key="LISTEMPTY_IMAGE" UriSource="ms-appx:///Assets/Icon/empty_light.png"/>
                     <Color x:Key="SIDEMENU_ACRYLIC_BK">#000000</Color>
+
+                    <Color x:Key="TEXTBOX_FR">#FFFFFF</Color>
+                    
                     <Color x:Key="SEARCHTEXTBOX_FOCUS_BK">#000000</Color>
-                    <Color x:Key="SEARCHTEXTBOX_FOCUS_FR">#FFFFFF</Color>
                     <Color x:Key="SEARCHTEXTBOX_PLACEHOLDER_FR">#33FFFFFF</Color>
+                    <Color x:Key="SEARCHTEXTBOX_PLACEHOLDER_FOCUS_FR">#20FFFFFF</Color>
+                    
                     <Color x:Key="ADDINGPAGE_CANCELBTN_BK">#66666666</Color>
+                    
                     <Color x:Key="ADDINGTEXTBOX_NORMAL_BK">#16FFFFFF</Color>
                     <Color x:Key="ADDINGTEXTBOX_HOVER_BK">#20FFFFFF</Color>
                     <Color x:Key="ADDINGTEXTBOX_FOCUS_BK">#20FFFFFF</Color>
                     <Color x:Key="ADDINGTEXTBOX_PLACEHOLDER_FR">#33FFFFFF</Color>
+                    <Color x:Key="ADDINGTEXTBOX_PLACEHOLDER_FOCUS_FR">#20FFFFFF</Color>
+                    
                     <Color x:Key="DETAIL_NORMAL_BD">#26FFFFFF</Color>
-                    <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH"
-                                       FallbackColor="White"
-                                       TargetTheme="Dark"
-                                       Color="Transparent"/>
+                    <Color x:Key="DETAIL_HOVER_BD">#40FFFFFF</Color>
+                    <Color x:Key="DETAIL_FOCUS_BD">#66FFFFFF</Color>
+                    <Color x:Key="DETAIL_HOVER_BK">#10FFFFFF</Color>
+                    <Color x:Key="DETAIL_FOCUS_BK">#16FFFFFF</Color>
+                    <Color x:Key="DETAIL_PLACEHOLDER_FR">#33FFFFFF</Color>
+                    
+                    <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH" FallbackColor="White" TargetTheme="Dark" Color="Transparent"/>
 
                     <Color x:Key="FAVORITE_ITEM_BK">#FF000000</Color>
                     <LinearGradientBrush x:Key="FAVORITE_ITEM_MASK" StartPoint="0,0" EndPoint="1,0">
@@ -47,19 +57,29 @@
                     <BitmapImage x:Key="SETTING_WALLPAPER_MASK_IMAGE" UriSource="ms-appx:///Assets/Background/wallpaper_preview_light.png"/>
                     <BitmapImage x:Key="LISTEMPTY_IMAGE" UriSource="ms-appx:///Assets/Icon/empty_light.png"/>
                     <Color x:Key="SIDEMENU_ACRYLIC_BK">#00FFFFFF</Color>
+
+                    <Color x:Key="TEXTBOX_FR">#000000</Color>
+
                     <Color x:Key="SEARCHTEXTBOX_FOCUS_BK">#FFFFFF</Color>
-                    <Color x:Key="SEARCHTEXTBOX_FOCUS_FR">#000000</Color>
                     <Color x:Key="SEARCHTEXTBOX_PLACEHOLDER_FR">#66000000</Color>
+                    <Color x:Key="SEARCHTEXTBOX_PLACEHOLDER_FOCUS_FR">#50000000</Color>
+
                     <Color x:Key="ADDINGPAGE_CANCELBTN_BK">#80222222</Color>
+                    
                     <Color x:Key="ADDINGTEXTBOX_NORMAL_BK">#8CE6E6E6</Color>
                     <Color x:Key="ADDINGTEXTBOX_HOVER_BK">#50E6E6E6</Color>
                     <Color x:Key="ADDINGTEXTBOX_FOCUS_BK">#50E6E6E6</Color>
                     <Color x:Key="ADDINGTEXTBOX_PLACEHOLDER_FR">#66000000</Color>
+                    <Color x:Key="ADDINGTEXTBOX_PLACEHOLDER_FOCUS_FR">#50000000</Color>
+
                     <Color x:Key="DETAIL_NORMAL_BD">#9EE6E6E6</Color>
-                    <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH"
-                                       FallbackColor="Black"
-                                       TargetTheme="Light"
-                                       Color="Transparent"/>
+                    <Color x:Key="DETAIL_HOVER_BD">#CCE6E6E6</Color>
+                    <Color x:Key="DETAIL_FOCUS_BD">#E6E6E6E6</Color>
+                    <Color x:Key="DETAIL_HOVER_BK">#10E6E6E6</Color>
+                    <Color x:Key="DETAIL_FOCUS_BK">#20E6E6E6</Color>
+                    <Color x:Key="DETAIL_PLACEHOLDER_FR">#66000000</Color>
+                    
+                    <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH" FallbackColor="Black" TargetTheme="Light" Color="Transparent"/>
 
                     <Color x:Key="FAVORITE_ITEM_BK">#FFF8F8F8</Color>
                     <LinearGradientBrush x:Key="FAVORITE_ITEM_MASK" StartPoint="0,0" EndPoint="1,0">
