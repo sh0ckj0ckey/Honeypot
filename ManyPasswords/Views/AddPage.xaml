@@ -33,7 +33,7 @@
             <BrushTransition />
         </Grid.BackgroundTransition>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.6*" MaxWidth="420"/>
+            <ColumnDefinition Width="0.55*" MaxWidth="420"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="AddGrid" Grid.Column="0" Background="#20808080">
@@ -62,7 +62,7 @@
                       SelectionMode="None">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="local1:BuildinItem">
-                        <Grid Height="56" Width="56" Margin="5,4" ToolTipService.ToolTip="{x:Bind sName,Mode=OneWay}">
+                        <Grid Height="56" Width="56" Margin="6,4" ToolTipService.ToolTip="{x:Bind sName,Mode=OneWay}">
                             <Ellipse Height="56" Width="56">
                                 <Ellipse.Fill>
                                     <ImageBrush ImageSource="{x:Bind sCoverImage,Mode=OneWay}"/>

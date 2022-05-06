@@ -107,22 +107,22 @@ namespace ManyPasswords
         {
             try
             {
-                //if (!string.IsNullOrEmpty(ViewModel.CurrentPassword.sWebsite.Trim()))
-                //{
-                //    try
-                //    {
-                //        WebsiteTipTextBlock.Text = "正在跳转...";
-                //        await Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentPassword.sWebsite));
-                //    }
-                //    catch
-                //    {
-                //        WebsiteTipTextBlock.Text = "网址错误，请检查输入网址的是否完整";
-                //    }
-                //}
-                //else
-                //{
-                //    WebsiteTipTextBlock.Text = "没有添加网址";
-                //}
+                if (!string.IsNullOrEmpty(ViewModel.CurrentPassword.sWebsite.Trim()))
+                {
+                    try
+                    {
+                        GoingToEnterStoryboard.Begin();
+                    }
+                    catch { }
+                    await Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentPassword.sWebsite));
+                    return;
+                }
+            }
+            catch { }
+
+            try
+            {
+                CantgoEnterStoryboard.Begin();
             }
             catch { }
         }
@@ -225,6 +225,24 @@ namespace ManyPasswords
             try
             {
                 bHidePassword = false;
+            }
+            catch { }
+        }
+
+        private void GoingToEnterStoryboard_Completed(object sender, object e)
+        {
+            try
+            {
+                GoingToLeaveStoryboard.Begin();
+            }
+            catch { }
+        }
+
+        private void CantgoEnterStoryboard_Completed(object sender, object e)
+        {
+            try
+            {
+                CantgoLeaveStoryboard.Begin();
             }
             catch { }
         }

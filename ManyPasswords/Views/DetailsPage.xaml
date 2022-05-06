@@ -17,6 +17,48 @@
             <converter:BoolToVisibilityConverter x:Key="BoolToVisible"/>
             <converter:UnequalToVisibilityConverter x:Key="UnequalToVisible"/>
 
+            <Storyboard x:Name="GoingToEnterStoryboard" Completed="GoingToEnterStoryboard_Completed">
+                <DoubleAnimation Storyboard.TargetName="GoingToTranslation" Storyboard.TargetProperty="Y" From="8" To="0" Duration="0:0:1">
+                    <DoubleAnimation.EasingFunction>
+                        <ExponentialEase Exponent="12" EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="GoingToWebsiteTextBlock"
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1" Duration="0:0:0.5"/>
+            </Storyboard>
+            <Storyboard x:Name="GoingToLeaveStoryboard">
+                <DoubleAnimation Storyboard.TargetName="GoingToTranslation" Storyboard.TargetProperty="Y" From="0" To="-8" Duration="0:0:0.4" BeginTime="0:0:1">
+                    <DoubleAnimation.EasingFunction>
+                        <ExponentialEase Exponent="2" EasingMode="EaseIn" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="GoingToWebsiteTextBlock"
+                                 Storyboard.TargetProperty="Opacity" BeginTime="0:0:1"
+                                 To="0" Duration="0:0:0.2"/>
+            </Storyboard>
+
+            <Storyboard x:Name="CantgoEnterStoryboard" Completed="CantgoEnterStoryboard_Completed">
+                <DoubleAnimation Storyboard.TargetName="CantgoTranslation" Storyboard.TargetProperty="Y" From="8" To="0" Duration="0:0:1" BeginTime="0:0:2.5">
+                    <DoubleAnimation.EasingFunction>
+                        <ExponentialEase Exponent="12" EasingMode="EaseOut" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="CantgoWebsiteTextBlock"
+                                 Storyboard.TargetProperty="Opacity"
+                                 To="1" Duration="0:0:0.5" BeginTime="0:0:2.5"/>
+            </Storyboard>
+            <Storyboard x:Name="CantgoLeaveStoryboard">
+                <DoubleAnimation Storyboard.TargetName="CantgoTranslation" Storyboard.TargetProperty="Y" From="0" To="-8" Duration="0:0:0.4" BeginTime="0:0:1">
+                    <DoubleAnimation.EasingFunction>
+                        <ExponentialEase Exponent="2" EasingMode="EaseIn" />
+                    </DoubleAnimation.EasingFunction>
+                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="CantgoWebsiteTextBlock"
+                                 Storyboard.TargetProperty="Opacity" BeginTime="0:0:1"
+                                 To="0" Duration="0:0:0.2"/>
+            </Storyboard>
+
             <ThemeShadow x:Name="PhotoShadow"/>
             
             <Style x:Key="CornerTextBoxStyle" TargetType="TextBox">
@@ -132,23 +174,23 @@
                                                     <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DETAIL_PLACEHOLDER_FR}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundPointerOver}"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TEXTBOX_FR}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Focused">
                                             <Storyboard>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundFocused}}"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DETAIL_PLACEHOLDER_FR}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundFocused}"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DETAIL_FOCUS_BK}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushFocused}"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource DETAIL_FOCUS_BD}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                                 <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundFocused}"/>
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TEXTBOX_FR}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
@@ -235,16 +277,16 @@
                 <TextBlock Text="密码" FontWeight="Bold" Margin="34,24,0,8"/>
                 <StackPanel Orientation="Horizontal" Margin="32,0,4,0">
                     <Grid Background="Transparent" Width="Auto" Height="Auto">
-                        <TextBox x:Name="PasswordTextBlock" Text="{x:Bind ViewModel.CurrentPassword.sPassword,Mode=OneWay}"
+                        <TextBox Style="{StaticResource CornerTextBoxStyle}" x:Name="PasswordTextBlock" Text="{x:Bind ViewModel.CurrentPassword.sPassword,Mode=OneWay}"
                                  BorderBrush="{ThemeResource DETAIL_NORMAL_BD}" Background="Transparent" Height="36"
                                  FontFamily="Times New Roman" VerticalAlignment="Center" CornerRadius="6" IsReadOnly="True"
                                  FontSize="16" MinWidth="276" MaxWidth="320" HorizontalAlignment="Left" BorderThickness="1.5" Padding="8,6,4,0"/>
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="6" BorderThickness="2"
                               Tapped="Grid_Tapped" Visibility="{x:Bind bHidePassword,Mode=OneWay}">
                             <Grid.Background>
-                                <AcrylicBrush BackgroundSource="Backdrop" TintOpacity="0.1" TintLuminosityOpacity="0.1" TintColor="Transparent" FallbackColor="Black"/>
+                                <AcrylicBrush BackgroundSource="Backdrop" TintOpacity="0.1" TintLuminosityOpacity="0.1" TintColor="Transparent" FallbackColor="{ThemeResource APP_BK}"/>
                             </Grid.Background>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Spacing="4" Margin="8,0,0,0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Spacing="5" Margin="10,0,0,0">
                                 <Ellipse Height="12" Width="12" Fill="#20808080"/>
                                 <Ellipse Height="12" Width="12" Fill="#20808080"/>
                                 <Ellipse Height="12" Width="12" Fill="#20808080"/>
@@ -257,16 +299,38 @@
                     <Button Content="复制" Style="{ThemeResource TextBlockButtonStyle}" FontWeight="Bold" Click="OnClickCopyPassword"/>
                 </StackPanel>
                 <TextBlock Text="备注" FontWeight="Bold" Margin="34,24,0,8"/>
-                <TextBox x:Name="BioTextBox" Margin="32,4,4,8" IsReadOnly="True"
+                <TextBox Style="{StaticResource CornerTextBoxStyle}" x:Name="BioTextBox" Margin="32,4,4,8" IsReadOnly="True"
                          Text="{x:Bind ViewModel.CurrentPassword.sNote,Mode=OneWay}"
                          PlaceholderText="未添加备注" BorderBrush="{ThemeResource DETAIL_NORMAL_BD}"
                          MinHeight="128" MinWidth="276" MaxWidth="320" TextWrapping="Wrap" 
                          BorderThickness="1.5" CornerRadius="6" HorizontalAlignment="Left" Padding="8"/>
-                <TextBlock Text="网址" FontWeight="Bold" Margin="34,20,0,0"
-                           Visibility="{x:Bind ViewModel.CurrentPassword.sWebsite.Length,Mode=OneWay,Converter={StaticResource UnequalToVisible},ConverterParameter=0}"/>
-                <HyperlinkButton Content="{x:Bind ViewModel.CurrentPassword.sWebsite,Mode=OneWay}" Margin="36,0,0,0"
-                                 Visibility="{x:Bind ViewModel.CurrentPassword.sWebsite.Length,Mode=OneWay,Converter={StaticResource UnequalToVisible},ConverterParameter=0}"
-                                 Click="OnClickGotoWebsite" FontSize="16"/> 
+                <Grid Margin="34,20,0,0" Width="Auto" Height="Auto" Visibility="{x:Bind ViewModel.CurrentPassword.sWebsite.Length,Mode=OneWay,Converter={StaticResource UnequalToVisible},ConverterParameter=0}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="44"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="网址" FontWeight="Bold" Height="28" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="GoingToWebsiteTextBlock" Text="正在前往..." Foreground="#1E52FF" Margin="8,0,0,0" Height="28"
+                               HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="GoingToTranslation" Y="8"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1" x:Name="CantgoWebsiteTextBlock" Text="哎呀，失败了~" Margin="8,0,0,0" Height="28"
+                               HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0" Foreground="#F83152">
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="CantgoTranslation" Y="8"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <HyperlinkButton Grid.Row="1" Grid.ColumnSpan="2" Margin="0,-16,0,0"
+                                     Content="{x:Bind ViewModel.CurrentPassword.sWebsite,Mode=OneWay}"
+                                     Click="OnClickGotoWebsite" FontSize="16">
+                    </HyperlinkButton>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
 
@@ -282,10 +346,11 @@
                         <Grid Width="180">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
-                                <RowDefinition Height="8"/>
+                                <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" FontSize="14" Text="确定要删除吗？" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="0" FontSize="16" CharacterSpacing="32" Text="确定要删除这个账号吗？" VerticalAlignment="Center" Margin="4,4,4,6"/>
+                            <TextBlock Grid.Row="1" FontSize="14" CharacterSpacing="32" Opacity="0.7" Text="一旦删除，无法恢复" VerticalAlignment="Center" Margin="4,0,4,16"/>
                             <Grid Grid.Row="2">
                                 <Button x:Name="DeleteButton" Height="32" Width="72" CornerRadius="6"
                                         Grid.Column="0" Content="确定" FontSize="14" HorizontalAlignment="Right"
