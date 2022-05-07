@@ -517,6 +517,11 @@ namespace ManyPasswords.ViewModel
                         vManyPasswords.Remove(removingGroup);
                     }
                 }
+
+                if (remove.bFavorite)
+                {
+                    RemoveFavorite(remove);
+                }
             }
             catch { }
         }
@@ -545,13 +550,17 @@ namespace ManyPasswords.ViewModel
                 if (this.vFavoritePasswords != null)
                 {
                     remove.bFavorite = false;
-                    this.vFavoritePasswords.Remove(remove);
+                    if (this.vFavoritePasswords.Contains(remove))
+                    {
+                        this.vFavoritePasswords.Remove(remove);
+                    }
                     SavePasswordsFile();
                 }
             }
             catch { }
         }
 
+        // 搜索
         public void SearchSuggestPasswords(string search)
         {
             try

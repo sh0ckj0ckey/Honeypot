@@ -352,7 +352,7 @@
                     <TextBlock Text="&#xE107;" FontSize="16" FontFamily="Segoe MDL2 Assets" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,0,0,0"/>
                     <FlyoutBase.AttachedFlyout>
                         <Flyout x:Name="DeleteFlyout" Placement="Top">
-                            <Grid Width="180">
+                            <Grid Width="220">
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>

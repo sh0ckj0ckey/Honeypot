@@ -41,6 +41,8 @@ namespace ManyPasswords
             }
         }
 
+        private Style _customDialogStyle = null;
+
         public DetailsPage()
         {
             try
@@ -50,6 +52,8 @@ namespace ManyPasswords
 
                 PhotoShadow.Receivers.Add(BackgroundGrid);
                 PhotoRectangle.Translation += new System.Numerics.Vector3(0, 0, 32);
+
+                _customDialogStyle = (Style)Application.Current.Resources["CustomDialogStyle"];
             }
             catch { }
         }
@@ -216,9 +220,33 @@ namespace ManyPasswords
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnClickEdit(object sender, RoutedEventArgs e)
+        private async void OnClickEdit(object sender, RoutedEventArgs e)
         {
-            //this.Frame.Navigate(typeof(EditingPage), ShowPassword);
+            try
+            {
+                if (_customDialogStyle == null)
+                {
+                    _customDialogStyle = (Style)Application.Current.Resources["CustomDialogStyle"];
+                }
+
+                ContentDialog dialog = new ContentDialog();
+
+                if (_customDialogStyle != null)
+                {
+                    dialog.Style = _customDialogStyle;
+                }
+
+                dialog.Title = "编辑信息";
+                dialog.PrimaryButtonText = "保存";
+                dialog.IsSecondaryButtonEnabled = false;
+                dialog.CloseButtonText = "取消";
+                dialog.DefaultButton = ContentDialogButton.Primary;
+                dialog.Content = new Views.EditDialogContent();
+                dialog.RequestedTheme = ViewModel.eAppTheme;
+
+                var result = await dialog.ShowAsync();
+            }
+            catch { }
         }
 
 
@@ -236,7 +264,7 @@ namespace ManyPasswords
                     _springAnimation.Target = "Scale";
                     _springAnimation.DampingRatio = 0.5f;
                 }
-                
+
                 _springAnimation.FinalValue = new Vector3(finalValue);
             }
             catch { }
