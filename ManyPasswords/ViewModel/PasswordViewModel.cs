@@ -53,6 +53,14 @@ namespace ManyPasswords.ViewModel
             set { Set("CurrentPassword", ref _CurrentPassword, value); }
         }
 
+        // 当前编辑的密码
+        private Models.PasswordItem _EditingTempPassword = null;
+        public Models.PasswordItem EditingTempPassword
+        {
+            get { return _EditingTempPassword; }
+            set { Set("EditingTempPassword", ref _EditingTempPassword, value); }
+        }
+
         // 密码详情页是否显示底部工具栏
         private bool _bToolBarVisible = true;
         public bool bToolBarVisible
@@ -436,7 +444,9 @@ namespace ManyPasswords.ViewModel
                         StorageFile saveFile = await file.CopyAsync(folder, "app_wallpaper_" + DateTime.Now.Ticks + file.FileType, NameCollisionOption.ReplaceExisting);
                         try
                         {
-                            if (this.sAppWallpaper.Contains("app_wallpaper_") && this.sAppWallpaper != saveFile.Path)
+                            if (this.sAppWallpaper.Contains("app_wallpaper_") &&
+                                this.sAppWallpaper != saveFile.Path &&
+                                File.Exists(this.sAppWallpaper))
                             {
                                 File.Delete(this.sAppWallpaper);
                             }
@@ -499,6 +509,15 @@ namespace ManyPasswords.ViewModel
                 {
                     vAllPasswords.Remove(remove);
                     SavePasswordsFile();
+
+                    try
+                    {
+                        if (File.Exists(remove.sPicture) && remove.sPicture.Contains("password_icon_"))
+                        {
+                            File.Delete(remove.sPicture);
+                        }
+                    }
+                    catch { }
                 }
                 Models.PasswordsGroup removingGroup = null;
                 foreach (var group in vManyPasswords)

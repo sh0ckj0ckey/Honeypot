@@ -116,5 +116,23 @@ namespace ManyPasswords.Models
             }
             catch { }
         }
+
+        // 用于复制账号信息
+        public PasswordItem(PasswordItem item)
+        {
+            try
+            {
+                this.sAccount = item.sAccount;
+                this.sPassword = item.sPassword;
+                this.sName = item.sName;
+                this.sDate = item.sDate;
+                this.sPicture = item.sPicture;
+                this.sWebsite = item.sWebsite;
+                this.sNote = item.sNote;
+                this.bFavorite = item.bFavorite;
+                this.sFirstLetter = item.sFirstLetter;
+            }
+            catch { }
+        }
     }
 }

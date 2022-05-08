@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,33 +24,53 @@ namespace ManyPasswords.Views
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class EditDialogContent : Page, INotifyPropertyChanged
+    public sealed partial class EditDialogContent : Page
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
         ViewModel.PasswordViewModel ViewModel = null;
-
-        // 临时存储编辑信息
-        private Models.PasswordItem _editTemp = new Models.PasswordItem(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, false);
 
         public EditDialogContent(Models.PasswordItem editing)
         {
             try
             {
                 ViewModel = PasswordViewModel.Instance;
-
-                _editTemp.sName = editing.sName;
-                _editTemp.sAccount = editing.sAccount;
-                _editTemp.sPassword = editing.sPassword;
-                _editTemp.sPicture = editing.sPicture;
-                _editTemp.sWebsite = editing.sWebsite;
-                _editTemp.sNote = editing.sNote;
-                _editTemp.bFavorite = editing.bFavorite;
             }
             catch { }
             this.InitializeComponent();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //创建和自定义 FileOpenPicker
+                var picker = new Windows.Storage.Pickers.FileOpenPicker
+                {
+                    ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
+                    SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.PicturesLibrary
+                };
+                picker.FileTypeFilter.Add(".jpg");
+                picker.FileTypeFilter.Add(".jpeg");
+                picker.FileTypeFilter.Add(".png");
+
+                //选取单个文件
+                var file = await picker.PickSingleFileAsync();
+
+                if (file != null)
+                {
+                    string desiredName = "password_icon_" + DateTime.Now.Ticks + file.FileType;
+
+                    StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
+                    StorageFolder folder = await applicationFolder.CreateFolderAsync("Pic", CreationCollisionOption.OpenIfExists);
+
+                    try
+                    {
+                        StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.ReplaceExisting);
+                        ViewModel.EditingTempPassword.sPicture = saveFile.Path;
+                    }
+                    catch { }
+                }
+            }
+            catch { }
         }
     }
 }

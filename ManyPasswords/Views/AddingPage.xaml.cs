@@ -116,7 +116,7 @@ namespace ManyPasswords
                 }
                 else
                 {
-                    ViewModel.AddPassword(AddingItem);
+                    ViewModel.AddPassword(new PasswordItem(AddingItem));
                     AddingItem = null;
 
                     this.Frame.Navigate(typeof(BlankPage));
@@ -159,7 +159,9 @@ namespace ManyPasswords
                         StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.ReplaceExisting);
                         try
                         {
-                            if (File.Exists(AddingItem.sPicture) && AddingItem.sPicture != saveFile.Path)
+                            if (File.Exists(AddingItem.sPicture) &&
+                                AddingItem.sPicture != saveFile.Path &&
+                                AddingItem.sPicture.Contains("password_icon_"))
                             {
                                 File.Delete(AddingItem.sPicture);
                             }

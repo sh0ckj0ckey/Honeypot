@@ -3,6 +3,7 @@ using ManyPasswords.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.UI.Composition;
@@ -224,6 +225,8 @@ namespace ManyPasswords
         {
             try
             {
+                ViewModel.EditingTempPassword = new Models.PasswordItem(ViewModel.CurrentPassword);
+
                 if (_customDialogStyle == null)
                 {
                     _customDialogStyle = (Style)Application.Current.Resources["CustomDialogStyle"];
@@ -236,15 +239,36 @@ namespace ManyPasswords
                     dialog.Style = _customDialogStyle;
                 }
 
-                dialog.Title = "编辑信息";
+                dialog.Title = ViewModel.CurrentPassword.sName;
                 dialog.PrimaryButtonText = "保存";
                 dialog.IsSecondaryButtonEnabled = false;
                 dialog.CloseButtonText = "取消";
                 dialog.DefaultButton = ContentDialogButton.Primary;
-                dialog.Content = new Views.EditDialogContent();
+                dialog.Content = new Views.EditDialogContent(ViewModel.CurrentPassword);
                 dialog.RequestedTheme = ViewModel.eAppTheme;
 
                 var result = await dialog.ShowAsync();
+
+                // 如果点击了保存，则更新信息
+                if (result == ContentDialogResult.Primary)
+                {
+                    try
+                    {
+                        if (File.Exists(ViewModel.CurrentPassword.sPicture) &&
+                            ViewModel.CurrentPassword.sPicture != ViewModel.EditingTempPassword.sPicture &&
+                            ViewModel.CurrentPassword.sPicture.Contains("password_icon_"))
+                        {
+                            File.Delete(ViewModel.CurrentPassword.sPicture);
+                        }
+                    }
+                    catch { }
+                    ViewModel.CurrentPassword.sAccount = ViewModel.EditingTempPassword.sAccount;
+                    ViewModel.CurrentPassword.sPassword = ViewModel.EditingTempPassword.sPassword;
+                    ViewModel.CurrentPassword.sPicture = ViewModel.EditingTempPassword.sPicture;
+                    ViewModel.CurrentPassword.sWebsite = ViewModel.EditingTempPassword.sWebsite;
+                    ViewModel.CurrentPassword.sNote = ViewModel.EditingTempPassword.sNote;
+                }
+                ViewModel.EditingTempPassword = null;
             }
             catch { }
         }

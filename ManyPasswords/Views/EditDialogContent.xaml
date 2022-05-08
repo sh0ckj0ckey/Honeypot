@@ -149,40 +149,37 @@
             <Grid Height="1" Background="#20666666" Margin="0,0,0,8"/>
             <Grid Height="96" Width="96" CornerRadius="8" HorizontalAlignment="Center">
                 <Grid.Background>
-                    <ImageBrush ImageSource="{x:Bind sPicture,Mode=OneWay}" Stretch="UniformToFill" Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"/>
+                    <ImageBrush ImageSource="{x:Bind ViewModel.EditingTempPassword.sPicture,Mode=OneWay}" Stretch="UniformToFill" 
+                                Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"/>
                 </Grid.Background>
-                <Button CornerRadius="8" Height="96" Width="96" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#33000000" FontSize="12" Content="更换图像"/>
+                <Button CornerRadius="0,0,8,8" Height="36" Width="96" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                        Foreground="White" Background="#80000000" FontSize="12" Content="更换图像"
+                        Style="{StaticResource ButtonRevealStyle}" Click="Button_Click"/>
             </Grid>
             <Grid Height="1" Background="#20666666" Margin="0,12,0,0"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,6">
-                <TextBlock Text="名称" Opacity="0.9" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                <TextBox CornerRadius="8" PlaceholderText="要改成什么名字呢？" 
-                         Text="" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
-                         Padding="10,8,10,0" Width="256" Height="36" BorderThickness="0"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,6">
                 <TextBlock Text="账号" Opacity="0.9" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <TextBox CornerRadius="8" PlaceholderText="要改成什么账号呢？" 
-                         Text="" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
+                         Text="{x:Bind ViewModel.EditingTempPassword.sAccount,Mode=TwoWay}" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
                          Padding="10,8,10,0" Width="256" Height="36" BorderThickness="0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,6">
                 <TextBlock Text="密码" Opacity="0.9" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <TextBox CornerRadius="8" PlaceholderText="要改成什么密码呢？" 
-                         Text="" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
+                         Text="{x:Bind ViewModel.EditingTempPassword.sPassword,Mode=TwoWay}" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
                          Padding="10,8,10,0" Width="256" Height="36" BorderThickness="0"/>
             </StackPanel>
             <Grid Height="1" Background="#20666666" Margin="0,4,0,0"/>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,6">
                 <TextBlock Text="网址" Opacity="0.9" VerticalAlignment="Center" Margin="0,0,8,0"/>
                 <TextBox CornerRadius="8" PlaceholderText="要改成什么网址呢？" 
-                         Text="" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
+                         Text="{x:Bind ViewModel.EditingTempPassword.sWebsite,Mode=TwoWay}" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
                          Padding="10,8,10,0" Width="256" Height="36" BorderThickness="0"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,12,0,6">
                 <TextBlock Text="备注" Opacity="0.9" VerticalAlignment="Top" Margin="0,8,8,0"/>
                 <TextBox CornerRadius="8" PlaceholderText="要改成什么备注呢？"
-                         Text="" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
+                         Text="{x:Bind ViewModel.EditingTempPassword.sNote,Mode=TwoWay}" Template="{StaticResource CornerTextBoxStyle}" VerticalAlignment="Center"
                          Width="256" Height="96" TextWrapping="Wrap" BorderThickness="0" Padding="10"/>
             </StackPanel>
         </StackPanel>
