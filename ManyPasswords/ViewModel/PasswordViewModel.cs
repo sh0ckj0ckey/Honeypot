@@ -133,6 +133,9 @@ namespace ManyPasswords.ViewModel
             set { Set("sAppWallpaper", ref _sAppWallpaper, value); }
         }
 
+        // 将PasswordPage的Frame导航到空白页
+        public Action ActNavigateToBlank { get; set; } = null;
+
         public PasswordViewModel()
         {
             try
@@ -501,6 +504,8 @@ namespace ManyPasswords.ViewModel
                 vManyPasswords.Clear();
                 vManyPasswords = null;
                 vManyPasswords = new ObservableCollection<Models.PasswordsGroup>(newOrderedList);
+
+                ActNavigateToBlank?.Invoke();
 
                 if (add.bFavorite)
                 {

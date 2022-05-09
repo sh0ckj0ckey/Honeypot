@@ -41,6 +41,14 @@ namespace ManyPasswords
 
                 ViewModel = PasswordViewModel.Instance;
 
+                if (ViewModel.ActNavigateToBlank == null)
+                {
+                    ViewModel.ActNavigateToBlank += () =>
+                    {
+                        PasswordFrame.Navigate(typeof(BlankPage));
+                    };
+                }
+
                 FrameShadow.Receivers.Add(PasswordsListGrid);
                 FrameGrid.Translation += new System.Numerics.Vector3(0, 0, 36);
 
