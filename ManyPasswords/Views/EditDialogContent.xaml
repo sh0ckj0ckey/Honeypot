@@ -147,13 +147,13 @@
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0,0,0,0">
         <StackPanel HorizontalAlignment="Left" Orientation="Vertical">
             <Grid Height="1" Background="#20666666" Margin="0,0,0,8"/>
-            <Grid Height="96" Width="96" CornerRadius="8" HorizontalAlignment="Center">
+            <Grid Height="96" Width="96" CornerRadius="8" HorizontalAlignment="Center" BorderBrush="#18666666" BorderThickness="2">
                 <Grid.Background>
                     <ImageBrush ImageSource="{x:Bind ViewModel.EditingTempPassword.sPicture,Mode=OneWay}" Stretch="UniformToFill" 
                                 Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"/>
                 </Grid.Background>
-                <Button CornerRadius="0,0,8,8" Height="36" Width="96" HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                        Foreground="White" Background="#80000000" FontSize="12" Content="更换图像"
+                <Button CornerRadius="0,0,8,8" Height="26" Width="92" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                        Foreground="White" Background="#80000000" FontSize="12" Content="更换图像" Padding="0,-2,0,-2"
                         Style="{StaticResource ButtonRevealStyle}" Click="Button_Click"/>
             </Grid>
             <Grid Height="1" Background="#20666666" Margin="0,12,0,0"/>
