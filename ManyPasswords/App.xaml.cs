@@ -32,7 +32,8 @@ namespace ManyPasswords
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            this.Suspending += OnSuspending; 
+            this.UnhandledException += OnUnhandledException;
         }
 
         /// <summary>
@@ -83,7 +84,8 @@ namespace ManyPasswords
         ///<param name="e">有关导航失败的详细信息</param>
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            e.Handled = true;
+            //throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
         /// <summary>
@@ -98,6 +100,11 @@ namespace ManyPasswords
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: 保存应用程序状态并停止任何后台活动
             deferral.Complete();
+        }
+
+        private void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }
