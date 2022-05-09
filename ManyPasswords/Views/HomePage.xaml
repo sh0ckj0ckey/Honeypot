@@ -161,7 +161,7 @@
                         PointerExited="OnPointerExit"
                         Tag="setting" Style="{StaticResource ButtonRevealStyle}">
                     <Button.Content>
-                        <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="13"
+                        <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14"
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"/>
                     </Button.Content>
                 </Button>
@@ -344,6 +344,8 @@
                                         <Image Source="/Assets/Feedback/icon_weibo.png" Width="24" Height="24" Margin="0,0,0,0"/>
                                     </Button>
                                 </StackPanel>
+                                <TextBlock Text="此应用程序面向 Windows 10 2104 版本构建，最低版本要求 1903" FontWeight="Light" Opacity="0.5" Margin="0,16,0,4" HorizontalAlignment="Center"/>
+                                <TextBlock Text="仅在 2104 版本上进行过测试，如果遇到任何问题，欢迎反馈" FontWeight="Light" Opacity="0.5" FontSize="12" Margin="0,8,0,4" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </ScrollViewer>
                     </PivotItem>
