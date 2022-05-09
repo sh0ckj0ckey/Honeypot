@@ -32,6 +32,7 @@ namespace ManyPasswords
             {
                 this.InitializeComponent();
                 ViewModel = PasswordViewModel.Instance;
+                ViewModel.InitBuildInAccounts();
                 AddFrame.Navigate(typeof(BlankPage));
 
                 FrameShadow.Receivers.Add(AddGrid);

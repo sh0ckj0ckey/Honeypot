@@ -224,9 +224,55 @@ namespace ManyPasswords.ViewModel
             {
                 // 读取用户文件
                 LoadPasswordsFile();
+            }
+            catch { }
+        }
 
-                // 创建内置账号模板
-                vBuildinItems = new ObservableCollection<Models.BuildinItem>{
+        // 从文件读取所有密码，并转换为分组的集合
+        public async void LoadPasswordsFile()
+        {
+            try
+            {
+                vAllPasswords = await PasswordHelper.LoadData();
+
+                // 分组
+                var orderedList = (from item in vAllPasswords
+                                   group item by item.sFirstLetter into newItems
+                                   select
+                                   new Models.PasswordsGroup
+                                   {
+                                       Key = newItems.Key,
+                                       vPasswords = new ObservableCollection<Models.PasswordItem>(newItems.ToList())
+                                   }
+                                  ).OrderBy(x => x.Key).ToList();
+                vManyPasswords = new ObservableCollection<Models.PasswordsGroup>(orderedList);
+
+                // 收藏
+                vFavoritePasswords = new ObservableCollection<Models.PasswordItem>();
+                for (int i = vAllPasswords.Count - 1; i >= 0; i--)
+                {
+                    if (vAllPasswords[i].bFavorite)
+                    {
+                        vFavoritePasswords.Add(vAllPasswords[i]);
+                    }
+                }
+            }
+            catch { }
+        }
+
+        public async void SavePasswordsFile()
+        {
+
+        }
+
+        // 创建内置账号模板
+        public void InitBuildInAccounts()
+        {
+            try
+            {
+                if (vBuildinItems == null || vBuildinItems.Count <= 0)
+                {
+                    vBuildinItems = new ObservableCollection<Models.BuildinItem>{
                 new Models.BuildinItem("Apple",
                                        "苹果",
                                        "苹果公司（Apple Inc.）是美国的一家高科技公司，2007年由苹果电脑公司（Apple Computer, Inc.）更名而来，核心业务为电子科技产品，总部位于加利福尼亚州的库比蒂诺。（来自必应网典）",
@@ -376,45 +422,9 @@ namespace ManyPasswords.ViewModel
                                        "战网（Battle.net）是暴雪娱乐为旗下游戏提供的多人在线游戏服务，自1996年11月30日推出暗黑破坏神后运营。战网启动器于2017年3月24日更名为暴雪游戏平台（Blizzard App）。（来自必应网典）",
                                        "http://www.battlenet.com.cn/zh/")
                 };
-            }
-            catch { }
-        }
-
-        // 从文件读取所有密码，并转换为分组的集合
-        public async void LoadPasswordsFile()
-        {
-            try
-            {
-                vAllPasswords = await PasswordHelper.LoadData();
-
-                // 分组
-                var orderedList = (from item in vAllPasswords
-                                   group item by item.sFirstLetter into newItems
-                                   select
-                                   new Models.PasswordsGroup
-                                   {
-                                       Key = newItems.Key,
-                                       vPasswords = new ObservableCollection<Models.PasswordItem>(newItems.ToList())
-                                   }
-                                  ).OrderBy(x => x.Key).ToList();
-                vManyPasswords = new ObservableCollection<Models.PasswordsGroup>(orderedList);
-
-                // 收藏
-                vFavoritePasswords = new ObservableCollection<Models.PasswordItem>();
-                for (int i = vAllPasswords.Count - 1; i >= 0; i--)
-                {
-                    if (vAllPasswords[i].bFavorite)
-                    {
-                        vFavoritePasswords.Add(vAllPasswords[i]);
-                    }
                 }
             }
             catch { }
-        }
-
-        public async void SavePasswordsFile()
-        {
-
         }
 
         // 更换应用的背景图片
