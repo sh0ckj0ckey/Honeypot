@@ -45,7 +45,7 @@ namespace ManyPasswords.ViewModel
             set { Set("vSearchSuggestions", ref _vSearchSuggestions, value); }
         }
 
-        // 当前选中的密码
+        // 当前选中查看的密码
         private Models.PasswordItem _CurrentPassword = null;
         public Models.PasswordItem CurrentPassword
         {
@@ -59,14 +59,6 @@ namespace ManyPasswords.ViewModel
         {
             get { return _EditingTempPassword; }
             set { Set("EditingTempPassword", ref _EditingTempPassword, value); }
-        }
-
-        // 密码详情页是否显示底部工具栏
-        private bool _bToolBarVisible = true;
-        public bool bToolBarVisible
-        {
-            get { return _bToolBarVisible; }
-            set { Set("bToolBarVisible", ref _bToolBarVisible, value); }
         }
 
         // 是否启用了Windows Hello锁定功能
