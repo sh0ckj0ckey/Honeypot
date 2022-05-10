@@ -90,7 +90,7 @@
                             <ColumnDefinition Width="32"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Source="/Assets/Icon/PasswordIcon.png" Height="18" Margin="0,0,2,0"/>
+                        <Image Source="/Assets/Icon/PasswordIcon.png" Height="18" Margin="0,0,2,0" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="1" 
                                    Text="所有账号"
                                    Foreground="White"
@@ -103,11 +103,11 @@
                             <ColumnDefinition Width="32"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Source="/Assets/Icon/FavIcon.png" Height="22"/>
+                        <Image Source="/Assets/Icon/FavIcon.png" Height="22" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="1" 
-                                       Text="我的收藏"
-                                       Foreground="White"
-                                       VerticalAlignment="Center"/>
+                                   Text="我的收藏"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
                     </Grid>
                 </ListViewItem>
                 <ListViewItem Style="{StaticResource CornerListViewItemStyle}" HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
@@ -116,11 +116,24 @@
                             <ColumnDefinition Width="32"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Source="/Assets/Icon/AddIcon.png" Height="16"/>
+                        <Image Source="/Assets/Icon/AddIcon.png" Height="16" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Column="1" 
-                                       Text="添加"
-                                       Foreground="White"
-                                       VerticalAlignment="Center"/>
+                                   Text="添加"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                </ListViewItem>
+                <ListViewItem Style="{StaticResource CornerListViewItemStyle}" HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                    <Grid Height="48">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Assets/Icon/RandomIcon.png" Height="18" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" 
+                                   Text="随机密码"
+                                   Foreground="White"
+                                   VerticalAlignment="Center"/>
                     </Grid>
                 </ListViewItem>
             </ListView>

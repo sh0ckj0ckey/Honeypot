@@ -185,6 +185,9 @@ namespace ManyPasswords
                     case 2:
                         HomeFrame.Navigate(typeof(AddPage));
                         break;
+                    case 3:
+                        HomeFrame.Navigate(typeof(RandomPage));
+                        break;
                     default:
                         break;
                 }

@@ -77,6 +77,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
             <Style x:Key="CustomRadioButtonStyle" TargetType="RadioButton">
                 <Setter Property="Background" Value="{ThemeResource RadioButtonBackground}"/>
                 <Setter Property="Foreground" Value="{ThemeResource RadioButtonForeground}"/>
@@ -219,6 +220,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+                        
             <Style x:Key="CornerCheckBoxStyle" TargetType="CheckBox">
                 <Setter Property="Background" Value="{ThemeResource CheckBoxBackgroundUnchecked}"/>
                 <Setter Property="Foreground" Value="{ThemeResource CheckBoxForegroundUnchecked}"/>
@@ -543,6 +545,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
             <Style TargetType="ScrollBar">
                 <Setter Property="MinWidth" Value="12" />
                 <Setter Property="MinHeight" Value="12" />
