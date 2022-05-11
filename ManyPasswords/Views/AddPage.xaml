@@ -55,7 +55,7 @@
                 </Grid>
             </Button>
             <GridView x:Name="AddingGridView"
-                      Grid.Row="3" HorizontalAlignment="Center"
+                      Grid.Row="3" HorizontalAlignment="Center" Margin="4,0"
                       Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"
                       ItemsSource="{x:Bind ViewModel.vBuildinItems,Mode=OneWay}"
                       ItemContainerStyle="{StaticResource GridViewItemNoneStyle}"
