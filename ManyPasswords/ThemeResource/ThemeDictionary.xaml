@@ -36,7 +36,14 @@
                     <Color x:Key="DETAIL_HOVER_BK">#10FFFFFF</Color>
                     <Color x:Key="DETAIL_FOCUS_BK">#16FFFFFF</Color>
                     <Color x:Key="DETAIL_PLACEHOLDER_FR">#33FFFFFF</Color>
-                    
+
+                    <Color x:Key="RANDOMPASSWORD_NORMAL_BD">#26FFFFFF</Color>
+                    <Color x:Key="RANDOMPASSWORD_HOVER_BD">#40FFFFFF</Color>
+                    <Color x:Key="RANDOMPASSWORD_FOCUS_BD">#66FFFFFF</Color>
+                    <Color x:Key="RANDOMPASSWORD_NORMAL_BK">#20FFFFFF</Color>
+                    <Color x:Key="RANDOMPASSWORD_HOVER_BK">#10FFFFFF</Color>
+                    <Color x:Key="RANDOMPASSWORD_FOCUS_BK">#16FFFFFF</Color>
+
                     <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH" FallbackColor="White" TargetTheme="Dark" Color="Transparent"/>
 
                     <Color x:Key="FAVORITE_ITEM_BK">#FF000000</Color>
@@ -82,6 +89,13 @@
                     <Color x:Key="DETAIL_HOVER_BK">#40E6E6E6</Color>
                     <Color x:Key="DETAIL_FOCUS_BK">#50E6E6E6</Color>
                     <Color x:Key="DETAIL_PLACEHOLDER_FR">#66000000</Color>
+
+                    <Color x:Key="RANDOMPASSWORD_NORMAL_BD">#9EE6E6E6</Color>
+                    <Color x:Key="RANDOMPASSWORD_HOVER_BD">#CCE6E6E6</Color>
+                    <Color x:Key="RANDOMPASSWORD_FOCUS_BD">#E6E6E6E6</Color>
+                    <Color x:Key="RANDOMPASSWORD_NORMAL_BK">#FFE6E6E6</Color>
+                    <Color x:Key="RANDOMPASSWORD_HOVER_BK">#40E6E6E6</Color>
+                    <Color x:Key="RANDOMPASSWORD_FOCUS_BK">#50E6E6E6</Color>
                     
                     <RevealBorderBrush x:Key="REVEAL_BORDER_BRUSH" FallbackColor="Black" TargetTheme="Light" Color="Transparent"/>
 
