@@ -98,13 +98,16 @@ namespace ManyPasswords
         {
             try
             {
+                System.Diagnostics.Debug.WriteLine(sender.Text);
+
                 if (timer == null)
                 {
                     timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
                     timer.Tick += (s, e) =>
                     {
                         timer.Stop();
-                        ViewModel.SearchSuggestPasswords(SearchAutoSuggestBox.Text.Trim());
+                        string searching = SearchAutoSuggestBox.Text;
+                        ViewModel.SearchSuggestPasswords(searching.Trim());
                     };
                 }
 
@@ -128,7 +131,17 @@ namespace ManyPasswords
             {
                 if (args.SelectedItem is PasswordItem password)
                 {
-                    SearchAutoSuggestBox.Text = password.sName.StartsWith(SearchAutoSuggestBox.Text, StringComparison.CurrentCultureIgnoreCase) ? password.sName : password.sAccount;
+                    string autoFill = string.Empty;
+                    if (password.sName.StartsWith(SearchAutoSuggestBox.Text, StringComparison.CurrentCultureIgnoreCase) || password.sName == SearchAutoSuggestBox.Text)
+                    {
+                        autoFill = password.sName;
+                    }
+                    else
+                    {
+                        autoFill = password.sAccount;
+                    }
+                    SearchAutoSuggestBox.Text = "";
+                    SearchAutoSuggestBox.Text = autoFill;
                     ViewModel.CurrentPassword = password;
                     PasswordFrame.Navigate(typeof(DetailsPage));
 

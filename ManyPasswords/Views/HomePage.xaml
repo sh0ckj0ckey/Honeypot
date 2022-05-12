@@ -138,45 +138,67 @@
                 </ListViewItem>
             </ListView>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Height="36" Width="36" CornerRadius="18" Margin="0,0,16,0"
+                <Button Height="38" Width="38" CornerRadius="19" Margin="0,0,16,0"
                         FocusVisualPrimaryThickness="0" 
                         FocusVisualSecondaryThickness="0"
-                        Click="{x:Bind ViewModel.LockApp}"
+                        Click="{x:Bind ViewModel.LockApp}" Foreground="White"
                         Visibility="{x:Bind ViewModel.bLockEnabled,Converter={StaticResource vtBool2Visible},Mode=OneWay}"
                         PointerEntered="OnPointerEnter"
                         PointerExited="OnPointerExit"
-                        Tag="lock"  Style="{StaticResource ButtonRevealStyle}">
-                    <Button.Content>
+                        Tag="lock"  Style="{StaticResource ButtonRevealStyle}"
+                        Content="&#xE1F6;" FontFamily="Segoe UI Symbol" Padding="0,0,0,0">
+                    <!--<Button.Content>
                         <TextBlock Text="&#xE1F6;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Button.Content>
+                    </Button.Content>-->
                 </Button>
-                <Button Height="36" Width="36" CornerRadius="18" Margin="0,0,16,0"
+                <Button Height="38" Width="38" CornerRadius="19" Margin="0,0,16,0"
                         FocusVisualPrimaryThickness="0" 
                         FocusVisualSecondaryThickness="0"
                         Click="Button_Click_1"
                         PointerEntered="OnPointerEnter"
                         PointerExited="OnPointerExit"
-                        Tag="theme" Style="{StaticResource ButtonRevealStyle}">
-                    <Button.Content>
+                        Tag="theme" Style="{StaticResource ButtonRevealStyle}"
+                        Content="&#xE28C;" FontFamily="Segoe UI Symbol" Foreground="White" Padding="0,0,0,4" FontSize="16"
+                        Visibility="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Visible},ConverterParameter=Light,Mode=OneWay}">
+                    <!--<Button.Content>
                         <Grid>
                             <TextBlock Text="&#xE28C;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="16"
                                        Visibility="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Visible},ConverterParameter=Light,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,4"/>
                             <TextBlock Text="&#xE284;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14" 
                                        Visibility="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Visible},ConverterParameter=Dark,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
-                    </Button.Content>
+                    </Button.Content>-->
                 </Button>
-                <Button Height="36" Width="36" CornerRadius="18"
+                <Button Height="38" Width="38" CornerRadius="19" Margin="0,0,16,0"
+                        FocusVisualPrimaryThickness="0" 
+                        FocusVisualSecondaryThickness="0"
+                        Click="Button_Click_1"
+                        PointerEntered="OnPointerEnter"
+                        PointerExited="OnPointerExit"
+                        Tag="theme" Style="{StaticResource ButtonRevealStyle}"
+                        Content="&#xE284;" FontFamily="Segoe UI Symbol" Foreground="White" Padding="0,0,0,2" FontSize="14"
+                        Visibility="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Visible},ConverterParameter=Dark,Mode=OneWay}">
+                    <!--<Button.Content>
+                        <Grid>
+                            <TextBlock Text="&#xE28C;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="16"
+                                       Visibility="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Visible},ConverterParameter=Light,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,4"/>
+                            <TextBlock Text="&#xE284;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14" 
+                                       Visibility="{x:Bind ViewModel.eAppTheme,Converter={StaticResource vtEqual2Visible},ConverterParameter=Dark,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Button.Content>-->
+                </Button>
+                <Button Height="38" Width="38" CornerRadius="19"
                         FocusVisualPrimaryThickness="0"
                         FocusVisualSecondaryThickness="0"
                         Click="Button_Click_2" Foreground="White"
                         PointerEntered="OnPointerEnter"
                         PointerExited="OnPointerExit"
-                        Tag="setting" Style="{StaticResource ButtonRevealStyle}">
-                    <Button.Content>
-                        <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="15"
+                        Tag="setting" Style="{StaticResource ButtonRevealStyle}"
+                        Content="&#xE115;" FontFamily="Segoe UI Symbol" Padding="0,0,0,0">
+                    <!--<Button.Content>
+                        <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14"
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"/>
-                    </Button.Content>
+                    </Button.Content>-->
                 </Button>
             </StackPanel>
             <TextBlock x:Name="HoverTipTextBlock" Grid.Row="3" Text="{x:Bind ViewModel.sHoverTipsText,Mode=OneWay}" FontSize="12"
