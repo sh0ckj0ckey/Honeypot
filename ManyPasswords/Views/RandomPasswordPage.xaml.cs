@@ -30,6 +30,9 @@ namespace ManyPasswords
         private static char[] _numberArray = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         private static char[] _symbolArray = { '!', '@', '#', '$', '%', '&', '*' };
 
+        private int _rotateIndex = 0;
+        private float[] _nextRotate = { 240, -480, 600, -480, 600, -480 };
+
         public RandomPasswordPage()
         {
             this.InitializeComponent();
@@ -39,14 +42,15 @@ namespace ManyPasswords
         {
             try
             {
-                RandomImage.Rotation = (RandomImage.Rotation + 120) % 360;
+                RandomImage.Rotation += _nextRotate[_rotateIndex % 6];
+                _rotateIndex = (_rotateIndex + 1) % 6;
             }
             catch { }
 
             try
             {
                 GeneratedTextBox.Text = GeneratePassword(LetterToggle.IsOn, NumberToggle.IsOn, SymbolToggle.IsOn, Convert.ToInt32(PasswordLengthSlider.Value));
-                
+
                 // 自动复制
                 Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new Windows.ApplicationModel.DataTransfer.DataPackage();
                 dataPackage.SetText(GeneratedTextBox.Text);
