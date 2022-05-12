@@ -147,7 +147,7 @@
                         PointerExited="OnPointerExit"
                         Tag="lock"  Style="{StaticResource ButtonRevealStyle}">
                     <Button.Content>
-                        <TextBlock Text="&#xE1F6;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="12"/>
+                        <TextBlock Text="&#xE1F6;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Button.Content>
                 </Button>
                 <Button Height="36" Width="36" CornerRadius="18" Margin="0,0,16,0"
@@ -174,7 +174,7 @@
                         PointerExited="OnPointerExit"
                         Tag="setting" Style="{StaticResource ButtonRevealStyle}">
                     <Button.Content>
-                        <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14"
+                        <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="15"
                                    VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"/>
                     </Button.Content>
                 </Button>
@@ -357,8 +357,6 @@
                                         <Image Source="/Assets/Feedback/icon_weibo.png" Width="24" Height="24" Margin="0,0,0,0"/>
                                     </Button>
                                 </StackPanel>
-                                <TextBlock Text="此应用程序面向 Windows 10 2104 版本构建，最低版本要求 1903" FontWeight="Light" Opacity="0.5" Margin="0,16,0,4" HorizontalAlignment="Center"/>
-                                <TextBlock Text="仅在 2104 版本上进行过测试，如果遇到任何问题，欢迎反馈" FontWeight="Light" Opacity="0.5" FontSize="12" Margin="0,8,0,4" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </ScrollViewer>
                     </PivotItem>
@@ -372,10 +370,12 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Image Grid.Row="0" Source="/Assets/Icon/logo.png" Stretch="Uniform" Height="96" Margin="0,48,0,4"/>
+                                <Grid Grid.Row="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <Image Grid.Row="0" Source="/Assets/Icon/logo.png"
+                                       Stretch="Uniform" Height="96" Margin="0,48,0,8"/>
                                 <TextBlock Grid.Row="1" Text="好多密码" CharacterSpacing="96" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Opacity="0.5"/>
-                                <TextBlock Grid.Row="2" Text="v 2.0.0" HorizontalAlignment="Center" Opacity="0.3" FontSize="16"/>
-                                <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="2016-2022 sh0ckj0ckey." FontFamily="Consolas" Margin="0,12" Opacity="0.5"/>
+                                <TextBlock Grid.Row="2" Text="v2.0.0" FontFamily="Consolas" FontWeight="Medium" HorizontalAlignment="Center" Opacity="0.3" FontSize="16"/>
+                                <TextBlock Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" Text="2016-2022 sh0ckj0ckey." FontFamily="Consolas" Margin="0,0,0,24" Opacity="0.5"/>
                             </Grid>
                         </ScrollViewer>
                     </PivotItem>
