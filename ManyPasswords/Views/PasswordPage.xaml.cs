@@ -98,8 +98,6 @@ namespace ManyPasswords
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine(sender.Text);
-
                 if (timer == null)
                 {
                     timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };

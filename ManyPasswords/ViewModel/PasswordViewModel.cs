@@ -591,12 +591,12 @@ namespace ManyPasswords.ViewModel
         {
             try
             {
+                vSearchSuggestions?.Clear();
+                vSearchSuggestions = null;
                 if (string.IsNullOrEmpty(search))
                 {
                     return;
                 }
-                vSearchSuggestions?.Clear();
-                vSearchSuggestions = null;
                 vSearchSuggestions = vAllPasswords.Where(p => (p.sName.StartsWith(search, StringComparison.CurrentCultureIgnoreCase) || p.sAccount.StartsWith(search, StringComparison.CurrentCultureIgnoreCase))).ToList();
             }
             catch { }
