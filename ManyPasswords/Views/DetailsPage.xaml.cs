@@ -141,7 +141,12 @@ namespace ManyPasswords
                         GoingToEnterStoryboard.Begin();
                     }
                     catch { }
-                    await Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentPassword.sWebsite));
+                    string goingWebsite = ViewModel.CurrentPassword.sWebsite;
+                    if (!string.IsNullOrEmpty(goingWebsite) && !goingWebsite.StartsWith("http"))
+                    {
+                        goingWebsite = "https://" + goingWebsite;
+                    }
+                    await Windows.System.Launcher.LaunchUriAsync(new Uri(goingWebsite));
                     return;
                 }
             }
