@@ -310,7 +310,7 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
                                     <Button Grid.Column="0" Height="32" Width="96" Margin="0,0,12,0" CornerRadius="4" VerticalAlignment="Bottom"
-                                            Style="{StaticResource ButtonRevealStyle}">
+                                            Style="{StaticResource ButtonRevealStyle}" Click="Button_Click_3">
                                         <StackPanel Orientation="Horizontal">
                                             <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE8A7;" VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0"/>
                                             <TextBlock Text="导出密码" VerticalAlignment="Center" FontSize="12"/>

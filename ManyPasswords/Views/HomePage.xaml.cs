@@ -319,5 +319,19 @@ namespace ManyPasswords
             }
             catch { }
         }
+
+        // 导出文件
+        private async void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string result = await ViewModel.ExportPasswordsFile();
+                if (!string.IsNullOrEmpty(result))
+                {
+
+                }
+            }
+            catch { }
+        }
     }
 }

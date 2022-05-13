@@ -68,7 +68,25 @@ namespace ManyPasswords
             {
                 IStorageFolder applicationFolder = await GetDataFolder();
                 IStorageFile storageFile = await applicationFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(storageFile, content);
+
+                Int32 retryAttempts = 3;
+                const Int32 ERROR_ACCESS_DENIED = unchecked((Int32)0x80070005);
+                const Int32 ERROR_SHARING_VIOLATION = unchecked((Int32)0x80070020);
+
+                while (retryAttempts > 0)
+                {
+                    try
+                    {
+                        retryAttempts--;
+                        await FileIO.WriteTextAsync(storageFile, content);
+                        break;
+                    }
+                    catch (Exception ex) when ((ex.HResult == ERROR_ACCESS_DENIED) || (ex.HResult == ERROR_SHARING_VIOLATION))
+                    {
+                        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(1));
+                    }
+                    catch (Exception e) { return "写入失败：" + e.Message; }
+                }
                 return string.Empty;
             }
             catch (Exception e) { return "写入失败：" + e.Message; }

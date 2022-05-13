@@ -644,6 +644,52 @@ namespace ManyPasswords.ViewModel
             catch { }
         }
 
+        // 导出文件
+        public async Task<string> ExportPasswordsFile()
+        {
+            try
+            {
+                Windows.Storage.Pickers.FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
+                savePicker.FileTypeChoices.Add("ManyPasswords", new List<string>() { ".zip" });
+                Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+
+                Int32 retryAttempts = 5;
+
+                const Int32 ERROR_ACCESS_DENIED = unchecked((Int32)0x80070005);
+                const Int32 ERROR_SHARING_VIOLATION = unchecked((Int32)0x80070020);
+
+                string data = Newtonsoft.Json.JsonConvert.SerializeObject(this.vAllPasswords);
+
+                if (file != null)
+                {
+                    // Application now has read/write access to the picked file.
+                    while (retryAttempts > 0)
+                    {
+                        try
+                        {
+                            retryAttempts--;
+                            await Windows.Storage.FileIO.WriteTextAsync(file, data);
+                            break;
+                        }
+                        catch (Exception ex) when ((ex.HResult == ERROR_ACCESS_DENIED) || (ex.HResult == ERROR_SHARING_VIOLATION))
+                        {
+                            // This might be recovered by retrying, otherwise let the exception be raised.
+                            // The app can decide to wait before retrying.
+                            await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(1));
+                        }
+                        catch (Exception e) { return "保存文件失败：" + e.Message; }
+                    }
+                    return "导出文件完成，请务必妥善保管~";
+                }
+                else
+                {
+                    // The operation was cancelled in the picker dialog.
+                }
+            }
+            catch (Exception e) { return "保存文件失败：" + e.Message; }
+            return "保存文件失败：超时了 :(";
+        }
+
         // 取首字母
         private char GetFirstLetter(string name)
         {
