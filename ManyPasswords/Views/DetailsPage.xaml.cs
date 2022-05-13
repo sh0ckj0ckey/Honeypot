@@ -163,7 +163,7 @@ namespace ManyPasswords
         {
             try
             {
-                ViewModel.AddFavorite(ViewModel.CurrentPassword);
+                ViewModel.AddFavorite(ViewModel.CurrentPassword, true);
             }
             catch { }
         }
@@ -177,7 +177,7 @@ namespace ManyPasswords
         {
             try
             {
-                ViewModel.RemoveFavorite(ViewModel.CurrentPassword);
+                ViewModel.RemoveFavorite(ViewModel.CurrentPassword, true);
             }
             catch { }
         }

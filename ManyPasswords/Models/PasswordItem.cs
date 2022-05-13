@@ -134,5 +134,9 @@ namespace ManyPasswords.Models
             }
             catch { }
         }
+
+
+        // 默认构造函数，用于Json解析的，其他勿用
+        public PasswordItem() { }
     }
 }

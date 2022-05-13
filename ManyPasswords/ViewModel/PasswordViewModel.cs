@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace ManyPasswords.ViewModel
 {
@@ -127,6 +128,10 @@ namespace ManyPasswords.ViewModel
 
         // 将PasswordPage的Frame导航到空白页
         public Action ActNavigateToBlank { get; set; } = null;
+
+        // 用来弹窗的样式
+        private Style _customDialogStyle = null;
+
 
         public PasswordViewModel()
         {
@@ -257,7 +262,36 @@ namespace ManyPasswords.ViewModel
 
         public async void SavePasswordsFile()
         {
+            try
+            {
+                string msg = await PasswordHelper.SaveData(vAllPasswords);
 
+                // 如果返回值不是空字符串，说明有异常，弹个窗提示一下
+                if (!string.IsNullOrEmpty(msg))
+                {
+                    if (_customDialogStyle == null)
+                    {
+                        _customDialogStyle = (Style)Application.Current.Resources["CustomDialogStyle"];
+                    }
+
+                    ContentDialog dialog = new ContentDialog();
+
+                    if (_customDialogStyle != null)
+                    {
+                        dialog.Style = _customDialogStyle;
+                    }
+
+                    dialog.Title = ":(  保存数据失败了";
+                    dialog.IsPrimaryButtonEnabled = false;
+                    dialog.IsSecondaryButtonEnabled = false;
+                    dialog.CloseButtonText = "好吧";
+                    dialog.DefaultButton = ContentDialogButton.Primary;
+                    dialog.Content = msg;
+                    dialog.RequestedTheme = this.eAppTheme;
+                    _ = await dialog.ShowAsync();
+                }
+            }
+            catch { }
         }
 
         // 创建内置账号模板
@@ -501,7 +535,7 @@ namespace ManyPasswords.ViewModel
 
                 if (add.bFavorite)
                 {
-                    AddFavorite(add);
+                    AddFavorite(add, false);
                 }
             }
             catch { }
@@ -546,14 +580,14 @@ namespace ManyPasswords.ViewModel
 
                 if (remove.bFavorite)
                 {
-                    RemoveFavorite(remove);
+                    RemoveFavorite(remove, false);
                 }
             }
             catch { }
         }
 
         // 添加收藏
-        public void AddFavorite(Models.PasswordItem add)
+        public void AddFavorite(Models.PasswordItem add, bool needToSave)
         {
             try
             {
@@ -563,13 +597,17 @@ namespace ManyPasswords.ViewModel
                 }
                 add.bFavorite = true;
                 this.vFavoritePasswords.Insert(0, add);
-                SavePasswordsFile();
+
+                if (needToSave)
+                {
+                    SavePasswordsFile();
+                }
             }
             catch { }
         }
 
         // 取消收藏
-        public void RemoveFavorite(Models.PasswordItem remove)
+        public void RemoveFavorite(Models.PasswordItem remove, bool needToSave)
         {
             try
             {
@@ -580,7 +618,11 @@ namespace ManyPasswords.ViewModel
                     {
                         this.vFavoritePasswords.Remove(remove);
                     }
-                    SavePasswordsFile();
+
+                    if (needToSave)
+                    {
+                        SavePasswordsFile();
+                    }
                 }
             }
             catch { }

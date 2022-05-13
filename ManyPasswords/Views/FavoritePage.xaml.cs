@@ -49,7 +49,7 @@ namespace ManyPasswords
             {
                 if (sender is Button btn && btn.DataContext is PasswordItem password)
                 {
-                    ViewModel.RemoveFavorite(password);
+                    ViewModel.RemoveFavorite(password, true);
                 }
             }
             catch { }

@@ -12,18 +12,20 @@ namespace ManyPasswords
 {
     public class PasswordHelper
     {
+        private const string _passwordFileName = "manypasswords.pswd";
+
         /// <summary>
         /// 保存密码列表
         /// </summary>
-        public static async void SaveData(ObservableCollection<Models.PasswordItem> passwords)
+        public static async Task<string> SaveData(List<Models.PasswordItem> passwords)
         {
             try
             {
                 string data = JsonConvert.SerializeObject(passwords);
-                string rsadata = RSAHelper.RSAEncrypt(data);
-                await StorageFileHelper.WriteAsync(rsadata, "manypasswords.dat");
+                string msg = await StorageFileHelper.WriteFileAsync(_passwordFileName, data);
+                return msg;
             }
-            catch { }
+            catch (Exception e) { return "保存失败：" + e.Message; }
         }
 
         /// <summary>
@@ -35,11 +37,9 @@ namespace ManyPasswords
             List<Models.PasswordItem> passwordsList = new List<Models.PasswordItem>();
             try
             {
-                string data = await StorageFileHelper.ReadAsync<string>("manypasswords.dat");
+                string data = await StorageFileHelper.ReadFileAsync(_passwordFileName);
                 if (!string.IsNullOrEmpty(data))
                 {
-                    data = RSAHelper.RSADecrypt(data);
-
                     JsonSerializerSettings jss = new JsonSerializerSettings
                     {
                         NullValueHandling = NullValueHandling.Ignore,
@@ -51,6 +51,5 @@ namespace ManyPasswords
             catch { }
             return passwordsList;
         }
-
     }
 }

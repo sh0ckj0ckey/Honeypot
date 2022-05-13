@@ -247,17 +247,17 @@
                                     <Grid BorderBrush="{ThemeResource SETTING_WALLPAPER_BD}" BorderThickness="2"
                                           HorizontalAlignment="Left" Width="192" Height="108" CornerRadius="4" Margin="2,0,0,0" VerticalAlignment="Center">
                                         <Grid.Background>
-                                            <ImageBrush>
+                                            <ImageBrush Stretch="UniformToFill">
                                                 <ImageBrush.ImageSource>
                                                     <BitmapImage x:Name="WallpaperPreviewImage" 
                                                                  UriSource="{x:Bind ViewModel.sAppWallpaper,Mode=OneWay}"
-                                                                 DecodePixelHeight="84" DecodePixelWidth="128" DecodePixelType="Logical"/>
+                                                                 DecodePixelHeight="108" DecodePixelType="Logical"/>
                                                 </ImageBrush.ImageSource>
                                             </ImageBrush>
                                         </Grid.Background>
                                         <Grid>
                                             <Grid.Background>
-                                                <AcrylicBrush Opacity="0.3" TintColor="Transparent" TintOpacity="0.1" TintLuminosityOpacity="0" BackgroundSource="Backdrop"/>
+                                                <AcrylicBrush Opacity="0.7" TintColor="Transparent" TintOpacity="0.3" TintLuminosityOpacity="0.1" BackgroundSource="Backdrop"/>
                                             </Grid.Background>
                                             <Image Source="{ThemeResource SETTING_WALLPAPER_MASK_IMAGE}" Height="108" HorizontalAlignment="Right" Stretch="UniformToFill"/>
                                         </Grid>
