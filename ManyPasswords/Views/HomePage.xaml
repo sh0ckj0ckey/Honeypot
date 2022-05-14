@@ -341,7 +341,7 @@
                                 <Image Source="/Assets/Icon/photo.png" Height="72" Width="72" HorizontalAlignment="Center"/>
                                 <TextBlock Text="有任何建议或问题请联系我" FontWeight="Bold" Opacity="0.7" Margin="0,16,0,4" HorizontalAlignment="Center"/>
                                 <TextBlock Text="不胜感激！" FontWeight="Bold" Opacity="0.7" Margin="0,0,0,32" HorizontalAlignment="Center"/>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="18" Margin="0,0,0,96">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="36" Margin="0,0,0,96">
                                     <Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
                                             <Flyout>
@@ -370,14 +370,14 @@
                                         </Button.Flyout>
                                         <Image Source="/Assets/Feedback/icon_wechat.png" Width="24" Height="24" Margin="0,0,0,0"/>
                                     </Button>
-                                    <Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
+                                    <!--<Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
                                             <Flyout>
                                                 <Image Source="/Assets/Feedback/MyWeibo.jpg" Width="256"/>
                                             </Flyout>
                                         </Button.Flyout>
                                         <Image Source="/Assets/Feedback/icon_weibo.png" Width="24" Height="24" Margin="0,0,0,0"/>
-                                    </Button>
+                                    </Button>-->
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
