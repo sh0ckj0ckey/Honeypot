@@ -161,7 +161,8 @@ namespace ManyPasswords
                         {
                             if (File.Exists(AddingItem.sPicture) &&
                                 AddingItem.sPicture != saveFile.Path &&
-                                AddingItem.sPicture.Contains("password_icon_"))
+                                !AddingItem.sPicture.Contains("Assets") &&
+                                !AddingItem.sPicture.Contains("ms-appx"))
                             {
                                 File.Delete(AddingItem.sPicture);
                             }

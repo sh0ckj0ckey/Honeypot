@@ -261,7 +261,8 @@ namespace ManyPasswords
                     {
                         if (File.Exists(ViewModel.CurrentPassword.sPicture) &&
                             ViewModel.CurrentPassword.sPicture != ViewModel.EditingTempPassword.sPicture &&
-                            ViewModel.CurrentPassword.sPicture.Contains("password_icon_"))
+                            !ViewModel.CurrentPassword.sPicture.Contains("Assets") &&
+                            !ViewModel.CurrentPassword.sPicture.Contains("ms-appx"))
                         {
                             File.Delete(ViewModel.CurrentPassword.sPicture);
                         }

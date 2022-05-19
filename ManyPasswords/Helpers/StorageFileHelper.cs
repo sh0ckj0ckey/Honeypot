@@ -91,5 +91,37 @@ namespace ManyPasswords
             }
             catch (Exception e) { return "写入失败：" + e.Message; }
         }
+
+        /// <summary>
+        /// 读取旧版本本地文件夹根目录的密码文件
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public static async Task<T> ReadOldFileAsync<T>(string fileName)
+        {
+            try
+            {
+                //获取实体类类型实例化一个对象
+                T sessionState = default(T);
+                IStorageFolder applicationFolder = await GetDataFolder();
+                StorageFile file = await applicationFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+                if (file != null && File.Exists(file.Path))
+                {
+                    try
+                    {
+                        using (IInputStream inStream = await file.OpenSequentialReadAsync())
+                        {
+                            //反序列化XML
+                            DataContractSerializer serializer = new DataContractSerializer(typeof(T));
+                            sessionState = (T)serializer.ReadObject(inStream.AsStreamForRead());
+                        }
+                    }
+                    catch { }
+                }
+                return sessionState;
+            }
+            catch { }
+            return default(T);
+        }
     }
 }
