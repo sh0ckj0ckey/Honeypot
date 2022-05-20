@@ -22,7 +22,7 @@ namespace ManyPasswords
         /// 获取存储数据的文件夹的对象
         /// </summary>
         /// <returns></returns>
-        private static async Task<IStorageFolder> GetDataFolder()
+        public static async Task<IStorageFolder> GetDataFolder()
         {
             if (DataFolder == null)
             {

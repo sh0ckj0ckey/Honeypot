@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ManyPasswords.Models
 {
+    /// <summary>
+    /// 废弃，仅作兼容旧版本用
+    /// </summary>
     public class OnePassword
     {
         /// <summary>
@@ -132,6 +135,9 @@ namespace ManyPasswords.Models
         }
     }
 
+    /// <summary>
+    /// 废弃，仅作兼容旧版本用
+    /// </summary>
     public class PasswordsInGroup
     {
         public char Key { get; set; }

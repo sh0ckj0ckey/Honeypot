@@ -56,29 +56,42 @@ namespace ManyPasswords
         {
             try
             {
+                Windows.Storage.IStorageFolder applicationFolder = await StorageFileHelper.GetDataFolder();
+                Windows.Storage.StorageFile file = await applicationFolder.CreateFileAsync("Password.dat", Windows.Storage.CreationCollisionOption.OpenIfExists);
+                string oldFilePath = file.Path;
+                if (!File.Exists(oldFilePath))
+                {
+                    return null;
+                }
+
                 List<Models.OnePassword> passwordsList = null;
 
                 // 如果文件存在则读取，读取后把文件名字修改掉但不要删掉，备用以防万一
                 string load = await StorageFileHelper.ReadOldFileAsync<string>("Password.dat");
                 if (string.IsNullOrEmpty(load))
                 {
-                    var ls = await StorageFileHelper.ReadOldFileAsync<List<Models.OnePassword>>("Password.dat");
-                    if (ls != null || ls != default(List<Models.OnePassword>))
+                    var list = await StorageFileHelper.ReadOldFileAsync<List<Models.OnePassword>>("Password.dat");
+                    if (list != null || list != default(List<Models.OnePassword>))
                     {
-                        passwordsList = ls;
+                        passwordsList = list;
                     }
                 }
                 else
                 {
                     JsonSerializer serializer = new JsonSerializer();
+                    serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
+                    serializer.NullValueHandling = NullValueHandling.Ignore;
                     StringReader sr = new StringReader(load);
                     object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<Models.OnePassword>));
                     List<Models.OnePassword> list = o as List<Models.OnePassword>;
 
-                    PasswordHelper._data = list;
-
-                    return (PasswordHelper._data != null);
+                    if (list != null)
+                    {
+                        passwordsList = list;
+                    }
                 }
+
+                ConvertOldPasswordItems(passwordsList);
             }
             catch { }
             return null;
@@ -88,9 +101,13 @@ namespace ManyPasswords
         {
             try
             {
+                if (list != null && list.Count > 0)
+                {
 
+                }
             }
             catch { }
+            return new List<Models.PasswordItem>();
         }
     }
 }
