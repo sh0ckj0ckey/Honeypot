@@ -35,6 +35,7 @@ namespace ManyPasswords
         public static async Task<List<Models.PasswordItem>> LoadData()
         {
             List<Models.PasswordItem> passwordsList = new List<Models.PasswordItem>();
+
             try
             {
                 string data = await StorageFileHelper.ReadFileAsync(_passwordFileName);
@@ -49,6 +50,19 @@ namespace ManyPasswords
                 }
             }
             catch { }
+
+            try
+            {
+                // 读取旧版本密码
+                var oldList = await LoadOldData();
+                if (oldList != null && oldList.Count > 0)
+                {
+                    passwordsList.AddRange(oldList);
+                    _ = await SaveData(passwordsList);
+                }
+            }
+            catch { }
+
             return passwordsList;
         }
 
@@ -57,56 +71,79 @@ namespace ManyPasswords
             try
             {
                 Windows.Storage.IStorageFolder applicationFolder = await StorageFileHelper.GetDataFolder();
-                Windows.Storage.StorageFile file = await applicationFolder.CreateFileAsync("Password.dat", Windows.Storage.CreationCollisionOption.OpenIfExists);
-                string oldFilePath = file.Path;
+                string oldFilePath = applicationFolder.Path + "\\Password.dat";
                 if (!File.Exists(oldFilePath))
                 {
                     return null;
                 }
 
-                List<Models.OnePassword> passwordsList = null;
+                List<好多密码_UWP.OnePassword> passwordsList = null;
 
                 // 如果文件存在则读取，读取后把文件名字修改掉但不要删掉，备用以防万一
-                string load = await StorageFileHelper.ReadOldFileAsync<string>("Password.dat");
-                if (string.IsNullOrEmpty(load))
+                string oldPasswordString = await StorageFileHelper.ReadOldFileAsync<string>("Password.dat");
+                if (!string.IsNullOrEmpty(oldPasswordString))
                 {
-                    var list = await StorageFileHelper.ReadOldFileAsync<List<Models.OnePassword>>("Password.dat");
-                    if (list != null || list != default(List<Models.OnePassword>))
+                    try
                     {
+                        JsonSerializer serializer = new JsonSerializer();
+                        serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
+                        serializer.NullValueHandling = NullValueHandling.Ignore;
+                        StringReader sr = new StringReader(oldPasswordString);
+
+                        object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<好多密码_UWP.OnePassword>));
+                        List<好多密码_UWP.OnePassword> list = o as List<好多密码_UWP.OnePassword>;
                         passwordsList = list;
                     }
+                    catch { }
                 }
-                else
-                {
-                    JsonSerializer serializer = new JsonSerializer();
-                    serializer.MissingMemberHandling = MissingMemberHandling.Ignore;
-                    serializer.NullValueHandling = NullValueHandling.Ignore;
-                    StringReader sr = new StringReader(load);
-                    object o = serializer.Deserialize(new JsonTextReader(sr), typeof(List<Models.OnePassword>));
-                    List<Models.OnePassword> list = o as List<Models.OnePassword>;
 
-                    if (list != null)
+                if (passwordsList == null || passwordsList.Count <= 0)
+                {
+                    try
                     {
+                        var list = await StorageFileHelper.ReadOldFileAsync<List<好多密码_UWP.OnePassword>>("Password.dat");
                         passwordsList = list;
                     }
+                    catch { }
                 }
 
-                ConvertOldPasswordItems(passwordsList);
+                var newList = ConvertOldPasswordItems(passwordsList);
+
+                if (newList != null && File.Exists(oldFilePath))
+                {
+                    File.Move(oldFilePath, applicationFolder.Path + "\\OldPasswordBackup.dat");
+                }
+                return newList;
             }
             catch { }
             return null;
         }
 
-        private static List<Models.PasswordItem> ConvertOldPasswordItems(List<Models.OnePassword> list)
+        private static List<Models.PasswordItem> ConvertOldPasswordItems(List<好多密码_UWP.OnePassword> list)
         {
             try
             {
                 if (list != null && list.Count > 0)
                 {
-
+                    List<Models.PasswordItem> newPasswordsList = new List<Models.PasswordItem>();
+                    foreach (var password in list)
+                    {
+                        var item = new Models.PasswordItem();
+                        item.sAccount = password.Account;
+                        item.sPassword = password.Password;
+                        item.sFirstLetter = password.FirstLetter;
+                        item.sName = password.Name;
+                        item.sDate = password.Date;
+                        item.sPicture = password.Picture;
+                        item.sWebsite = password.Website;
+                        item.sNote = password.Info;
+                        item.bFavorite = password.IsFavorite;
+                        newPasswordsList.Add(item);
+                    }
+                    return newPasswordsList;
                 }
             }
-            catch { }
+            catch { return null; }
             return new List<Models.PasswordItem>();
         }
     }

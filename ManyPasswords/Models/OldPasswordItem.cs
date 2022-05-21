@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManyPasswords.Models
+namespace 好多密码_UWP
 {
     /// <summary>
     /// 废弃，仅作兼容旧版本用

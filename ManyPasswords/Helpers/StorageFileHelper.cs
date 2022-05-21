@@ -104,7 +104,7 @@ namespace ManyPasswords
                 //获取实体类类型实例化一个对象
                 T sessionState = default(T);
                 IStorageFolder applicationFolder = await GetDataFolder();
-                StorageFile file = await applicationFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
+                StorageFile file = await applicationFolder.GetFileAsync(fileName);
                 if (file != null && File.Exists(file.Path))
                 {
                     try

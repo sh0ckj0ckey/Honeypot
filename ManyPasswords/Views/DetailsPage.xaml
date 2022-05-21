@@ -304,7 +304,7 @@
                 <TextBox Style="{StaticResource CornerTextBoxStyle}" x:Name="BioTextBox" Margin="32,4,4,8" IsReadOnly="True"
                          Text="{x:Bind ViewModel.CurrentPassword.sNote,Mode=OneWay}"
                          PlaceholderText="未添加备注" BorderBrush="{ThemeResource DETAIL_NORMAL_BD}"
-                         MinHeight="128" MinWidth="276" MaxWidth="320" TextWrapping="Wrap" 
+                         MinHeight="128" MinWidth="276" MaxWidth="320" TextWrapping="Wrap" CharacterSpacing="36"
                          BorderThickness="1.5" CornerRadius="6" HorizontalAlignment="Left" Padding="8"/>
                 <Grid Margin="34,20,0,0" Width="Auto" Height="Auto" Visibility="{x:Bind ViewModel.CurrentPassword.sWebsite.Length,Mode=OneWay,Converter={StaticResource UnequalToVisible},ConverterParameter=0}">
                     <Grid.RowDefinitions>
