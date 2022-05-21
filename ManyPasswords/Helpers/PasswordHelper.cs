@@ -79,7 +79,6 @@ namespace ManyPasswords
 
                 List<好多密码_UWP.OnePassword> passwordsList = null;
 
-                // 如果文件存在则读取，读取后把文件名字修改掉但不要删掉，备用以防万一
                 string oldPasswordString = await StorageFileHelper.ReadOldFileAsync<string>("Password.dat");
                 if (!string.IsNullOrEmpty(oldPasswordString))
                 {
@@ -112,8 +111,8 @@ namespace ManyPasswords
                 if (newList != null && File.Exists(oldFilePath))
                 {
                     File.Move(oldFilePath, applicationFolder.Path + "\\OldPasswordBackup.dat");
+                    return newList;
                 }
-                return newList;
             }
             catch { }
             return null;
