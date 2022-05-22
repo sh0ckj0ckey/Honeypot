@@ -64,7 +64,7 @@ namespace ManyPasswords.Views
 
                     try
                     {
-                        StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.ReplaceExisting);
+                        StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.GenerateUniqueName);
                         ViewModel.EditingTempPassword.sPicture = saveFile.Path;
                     }
                     catch { }

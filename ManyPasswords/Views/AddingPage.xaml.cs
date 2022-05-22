@@ -156,7 +156,7 @@ namespace ManyPasswords
 
                     try
                     {
-                        StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.ReplaceExisting);
+                        StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.GenerateUniqueName);
                         try
                         {
                             if (File.Exists(AddingItem.sPicture) &&

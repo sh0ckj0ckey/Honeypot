@@ -133,6 +133,22 @@ namespace ManyPasswords.ViewModel
         private Style _customDialogStyle = null;
 
 
+        // 控制设置页面是否显示导入/导出的圆圈
+        private bool _bSettingProcessing = false;
+        public bool bSettingProcessing
+        {
+            get { return _bSettingProcessing; }
+            set { Set("bSettingProcessing", ref _bSettingProcessing, value); }
+        }
+
+        // 设置页面导入/导出提示文字
+        private string _sSettingProcessingTip = string.Empty;
+        public string sSettingProcessingTip
+        {
+            get { return _sSettingProcessingTip; }
+            set { Set("sSettingProcessingTip", ref _sSettingProcessingTip, value); }
+        }
+
         public PasswordViewModel()
         {
             try
@@ -645,49 +661,46 @@ namespace ManyPasswords.ViewModel
         }
 
         // 导出文件
-        public async Task<string> ExportPasswordsFile()
+        public async Task ExportPasswordsFile()
         {
             try
             {
-                Windows.Storage.Pickers.FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
-                savePicker.FileTypeChoices.Add("ManyPasswords", new List<string>() { ".zip" });
-                Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+                bSettingProcessing = true;
+                sSettingProcessingTip = "正在导出...";
 
-                Int32 retryAttempts = 5;
-
-                const Int32 ERROR_ACCESS_DENIED = unchecked((Int32)0x80070005);
-                const Int32 ERROR_SHARING_VIOLATION = unchecked((Int32)0x80070020);
-
-                string data = Newtonsoft.Json.JsonConvert.SerializeObject(this.vAllPasswords);
-
-                if (file != null)
+                try
                 {
-                    // Application now has read/write access to the picked file.
-                    while (retryAttempts > 0)
+                    string result = await StorageFileHelper.CreatePasswordsZipFile();
+                    if (string.IsNullOrEmpty(result))
                     {
-                        try
-                        {
-                            retryAttempts--;
-                            await Windows.Storage.FileIO.WriteTextAsync(file, data);
-                            break;
-                        }
-                        catch (Exception ex) when ((ex.HResult == ERROR_ACCESS_DENIED) || (ex.HResult == ERROR_SHARING_VIOLATION))
-                        {
-                            // This might be recovered by retrying, otherwise let the exception be raised.
-                            // The app can decide to wait before retrying.
-                            await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(1));
-                        }
-                        catch (Exception e) { return "保存文件失败：" + e.Message; }
+                        // 压缩完成，复制到指定位置，然后删除原文件
+                        //file.async
                     }
-                    return "导出文件完成，请务必妥善保管~";
+                    else
+                    {
+                        // 失败，在设置的蒙层上显示错误信息
+                        sSettingProcessingTip = result;
+                    }
                 }
-                else
-                {
-                    // The operation was cancelled in the picker dialog.
-                }
+                catch (Exception e) { sSettingProcessingTip = "保存文件失败：" + e.Message; }
+                sSettingProcessingTip = "导出文件完成，请务必妥善保管~";
+                //}
+                //else
+                //{
+                //    // The operation was cancelled in the picker dialog.
+                //    sSettingProcessingTip = string.Empty;
+                //}
             }
-            catch (Exception e) { return "保存文件失败：" + e.Message; }
-            return "保存文件失败：超时了 :(";
+            catch (Exception e)
+            {
+                sSettingProcessingTip = "保存文件失败：" + e.Message;
+            }
+            finally
+            {
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                bSettingProcessing = false;
+                sSettingProcessingTip = string.Empty;
+            }
         }
 
         // 取首字母

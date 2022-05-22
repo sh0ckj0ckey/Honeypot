@@ -325,11 +325,7 @@ namespace ManyPasswords
         {
             try
             {
-                string result = await ViewModel.ExportPasswordsFile();
-                if (!string.IsNullOrEmpty(result))
-                {
-
-                }
+                await ViewModel.ExportPasswordsFile();
             }
             catch { }
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -13,7 +14,7 @@ namespace ManyPasswords
     public class StorageFileHelper
     {
         //存储数据的文件夹名称
-        private const string FolderName = "Data";
+        private const string DataFolderName = "Data";
 
         //存储数据的文件夹对象(单例，见下面的GetDataFolder方法)
         private static IStorageFolder DataFolder = null;
@@ -26,7 +27,7 @@ namespace ManyPasswords
         {
             if (DataFolder == null)
             {
-                DataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(FolderName, CreationCollisionOption.OpenIfExists);
+                DataFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync(DataFolderName, CreationCollisionOption.OpenIfExists);
             }
             return DataFolder;
         }
@@ -122,6 +123,66 @@ namespace ManyPasswords
             }
             catch { }
             return default(T);
+        }
+
+        public static async Task<string> CreatePasswordsZipFile()
+        {
+            try
+            {
+                IStorageFolder sourcefolder = ApplicationData.Current.LocalFolder;
+
+                if (sourcefolder != null)
+                {
+                    //Windows.Storage.Pickers.FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
+                    //savePicker.FileTypeChoices.Add("压缩文件", new List<string>() { ".zip" });
+                    //savePicker.SuggestedFileName = "ManyPasswords.zip";
+                    //Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+
+                    var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+                    folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+                    folderPicker.FileTypeFilter.Add("*");
+                    Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+                    if (folder != null)
+                    {
+                        try
+                        {
+                            // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
+                            Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+                        }
+                        catch { }
+
+                        string result = await Task<string>.Run(() =>
+                        {
+                            try
+                            {
+                                string basePath = folder.Path + "//ManyPasswords";
+                                StringBuilder destPathSb = new StringBuilder();
+                                while (true)
+                                {
+                                    destPathSb.Clear();
+                                    destPathSb.Append(basePath);
+                                    destPathSb.Append(DateTime.Now.Ticks);
+                                    destPathSb.Append(".zip");
+                                    if (!File.Exists(destPathSb.ToString()))
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                ZipFile.CreateFromDirectory(sourcefolder.Path, destPathSb.ToString(), CompressionLevel.Optimal, true);
+                            }
+                            catch (Exception e)
+                            {
+                                return e.Message;
+                            }
+                            return string.Empty;
+                        });
+                        return result;
+                    }
+                }
+            }
+            catch { }
+            return string.Empty;
         }
     }
 }

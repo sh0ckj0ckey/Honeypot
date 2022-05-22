@@ -152,7 +152,7 @@
                     <ImageBrush ImageSource="{x:Bind ViewModel.EditingTempPassword.sPicture,Mode=OneWay}" Stretch="UniformToFill" 
                                 Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"/>
                 </Grid.Background>
-                <Button CornerRadius="0,0,8,8" Height="26" Width="92" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                <Button CornerRadius="0,0,8,8" Height="26" Width="90" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                         Foreground="White" Background="#80000000" FontSize="12" Content="更换图像" Padding="0,-2,0,-2"
                         Style="{StaticResource ButtonRevealStyle}" Click="Button_Click"/>
             </Grid>
