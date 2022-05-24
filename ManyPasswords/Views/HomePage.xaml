@@ -299,11 +299,11 @@
                                                  FontSize="14"
                                                  VerticalAlignment="Bottom"
                                                  Click="HyperlinkButton_Click"/>
-                                <TextBlock Text="数据"
+                                <TextBlock Text="数据"                       Visibility="Collapsed"
                                            FontSize="16"
                                            FontWeight="Bold"
                                            Margin="0,12,0,0"/>
-                                <Grid Margin="0,12,0,16">
+                                <Grid Margin="0,12,0,16"                       Visibility="Collapsed">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
