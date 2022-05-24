@@ -299,10 +299,12 @@
                                                  FontSize="14"
                                                  VerticalAlignment="Bottom"
                                                  Click="HyperlinkButton_Click"/>
-                                <TextBlock Text="数据"                       Visibility="Collapsed"
+                                <TextBlock Text="数据"
                                            FontSize="16"
                                            FontWeight="Bold"
                                            Margin="0,12,0,0"/>
+                                <TextBlock Text="数据导出功能将在下个版本添加🥱" FontSize="12" FontWeight="Light" Margin="0,8,0,0"/>
+                                <TextBlock Text="如有需要，可以先前往&quot;反馈&quot;联系开发者" FontSize="12" FontWeight="Light" Margin="0,2,0,20"/>
                                 <Grid Margin="0,12,0,16"                       Visibility="Collapsed">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
