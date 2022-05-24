@@ -675,6 +675,7 @@ namespace ManyPasswords.ViewModel
                     {
                         // 压缩完成，复制到指定位置，然后删除原文件
                         //file.async
+                        sSettingProcessingTip = "导出文件完成，请务必妥善保管~";
                     }
                     else
                     {
@@ -683,7 +684,6 @@ namespace ManyPasswords.ViewModel
                     }
                 }
                 catch (Exception e) { sSettingProcessingTip = "保存文件失败：" + e.Message; }
-                sSettingProcessingTip = "导出文件完成，请务必妥善保管~";
                 //}
                 //else
                 //{
@@ -697,8 +697,48 @@ namespace ManyPasswords.ViewModel
             }
             finally
             {
-                await Task.Delay(TimeSpan.FromSeconds(2));
                 bSettingProcessing = false;
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                sSettingProcessingTip = string.Empty;
+            }
+        }
+
+        // 导入文件
+        public async Task ImportPasswordsFile()
+        {
+            try
+            {
+                bSettingProcessing = true;
+                sSettingProcessingTip = "正在导入...";
+
+                try
+                {
+                    string result = await StorageFileHelper.ReadPasswordsZipFile();
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        // 压缩完成，复制到指定位置，然后删除原文件
+                        //file.async
+                        sSettingProcessingTip = "密码已经导入啦~";
+                    }
+                    else
+                    {
+                        // 失败，在设置的蒙层上显示错误信息
+                        sSettingProcessingTip = result;
+                    }
+                }
+                catch (Exception e)
+                {
+                    sSettingProcessingTip = "导入文件失败：" + e.Message;
+                }
+            }
+            catch (Exception e)
+            {
+                sSettingProcessingTip = "导入文件失败：" + e.Message;
+            }
+            finally
+            {
+                bSettingProcessing = false;
+                await Task.Delay(TimeSpan.FromSeconds(2));
                 sSettingProcessingTip = string.Empty;
             }
         }

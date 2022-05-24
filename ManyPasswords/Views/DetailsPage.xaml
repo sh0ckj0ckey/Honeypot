@@ -242,7 +242,12 @@
                         <Rectangle x:Name="PhotoRectangle" Width="96" Height="96" RadiusX="6" RadiusY="6" 
                                    HorizontalAlignment="Center" VerticalAlignment="Center" Shadow="{StaticResource PhotoShadow}">
                             <Rectangle.Fill>
-                                <ImageBrush ImageSource="{x:Bind ViewModel.CurrentPassword.sPicture,Mode=OneWay}" Stretch="UniformToFill" Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"/>
+                                <ImageBrush Stretch="UniformToFill" Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}">
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="{x:Bind ViewModel.CurrentPassword.sPicture,Mode=OneWay}"
+                                                     DecodePixelHeight="96" DecodePixelType="Logical"/>
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
                             </Rectangle.Fill>
                         </Rectangle>
                         <Grid Height="32" Width="32" CornerRadius="16" Margin="0,0,-4,-4" Background="#FF317A"

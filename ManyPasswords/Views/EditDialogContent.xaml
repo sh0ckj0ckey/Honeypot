@@ -149,8 +149,13 @@
             <Grid Height="1" Background="#20666666" Margin="0,0,0,8"/>
             <Grid Height="96" Width="96" CornerRadius="8" HorizontalAlignment="Center" BorderBrush="#18666666" BorderThickness="2">
                 <Grid.Background>
-                    <ImageBrush ImageSource="{x:Bind ViewModel.EditingTempPassword.sPicture,Mode=OneWay}" Stretch="UniformToFill" 
-                                Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"/>
+                    <ImageBrush Stretch="UniformToFill" 
+                                Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}">
+                        <ImageBrush.ImageSource>
+                            <BitmapImage UriSource="{x:Bind ViewModel.EditingTempPassword.sPicture,Mode=OneWay}"
+                                         DecodePixelHeight="96" DecodePixelType="Logical"/>
+                        </ImageBrush.ImageSource>
+                    </ImageBrush>
                 </Grid.Background>
                 <Button CornerRadius="0,0,8,8" Height="26" Width="90" BorderThickness="0" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                         Foreground="White" Background="#80000000" FontSize="12" Content="更换图像" Padding="0,-2,0,-2"

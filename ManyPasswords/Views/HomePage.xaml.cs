@@ -329,5 +329,15 @@ namespace ManyPasswords
             }
             catch { }
         }
+
+        // 导入文件
+        private async void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await ViewModel.ImportPasswordsFile();
+            }
+            catch { }
+        }
     }
 }

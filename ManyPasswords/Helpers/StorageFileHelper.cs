@@ -125,63 +125,129 @@ namespace ManyPasswords
             return default(T);
         }
 
+        /// <summary>
+        /// 在LocalCache文件夹创建出备份压缩文件
+        /// </summary>
+        /// <returns></returns>
         public static async Task<string> CreatePasswordsZipFile()
         {
             try
             {
                 IStorageFolder sourcefolder = ApplicationData.Current.LocalFolder;
+                IStorageFolder destinationfolder = ApplicationData.Current.LocalCacheFolder;
 
                 if (sourcefolder != null)
                 {
-                    //Windows.Storage.Pickers.FileSavePicker savePicker = new Windows.Storage.Pickers.FileSavePicker();
-                    //savePicker.FileTypeChoices.Add("压缩文件", new List<string>() { ".zip" });
-                    //savePicker.SuggestedFileName = "ManyPasswords.zip";
-                    //Windows.Storage.StorageFile file = await savePicker.PickSaveFileAsync();
+                    //var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+                    //folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+                    //folderPicker.FileTypeFilter.Add("*");
+                    //Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+                    //if (folder != null)
+                    //{
+                    //try
+                    //{
+                    //    // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
+                    //    Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+                    //}
+                    //catch { }
 
-                    var folderPicker = new Windows.Storage.Pickers.FolderPicker();
-                    folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
-                    folderPicker.FileTypeFilter.Add("*");
-                    Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-                    if (folder != null)
+                    string result = await Task<string>.Run(() =>
                     {
                         try
                         {
-                            // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
-                            Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+                            //StringBuilder destPathSb = new StringBuilder();
+                            //while (true)
+                            //{
+                            //    destPathSb.Clear();
+                            //    destPathSb.Append(basePath);
+                            //    destPathSb.Append(DateTime.Now.Ticks);
+                            //    destPathSb.Append(".zip");
+                            //    if (!File.Exists(destPathSb.ToString()))
+                            //    {
+                            //        break;
+                            //    }
+                            //}
+
+                            string destPath = destinationfolder.Path + "//ManyPasswords.zip";
+                            if (File.Exists(destPath))
+                            {
+                                File.Delete(destPath);
+                            }
+                            ZipFile.CreateFromDirectory(sourcefolder.Path, destPath, CompressionLevel.Optimal, true);
                         }
-                        catch { }
-
-                        string result = await Task<string>.Run(() =>
+                        catch (Exception e)
                         {
-                            try
-                            {
-                                string basePath = folder.Path + "//ManyPasswords";
-                                StringBuilder destPathSb = new StringBuilder();
-                                while (true)
-                                {
-                                    destPathSb.Clear();
-                                    destPathSb.Append(basePath);
-                                    destPathSb.Append(DateTime.Now.Ticks);
-                                    destPathSb.Append(".zip");
-                                    if (!File.Exists(destPathSb.ToString()))
-                                    {
-                                        break;
-                                    }
-                                }
+                            return e.Message;
+                        }
+                        return string.Empty;
+                    });
+                    return result;
+                }
+            }
+            catch (Exception e) { return e.Message; }
+            return string.Empty;
+        }
 
-                                ZipFile.CreateFromDirectory(sourcefolder.Path, destPathSb.ToString(), CompressionLevel.Optimal, true);
-                            }
-                            catch (Exception e)
+        public static async Task<string> ReadPasswordsZipFile()
+        {
+            try
+            {
+                IStorageFolder destinationfolder = ApplicationData.Current.LocalCacheFolder;
+
+                var filePicker = new Windows.Storage.Pickers.FileOpenPicker();
+                filePicker.FileTypeFilter.Add(".zip");
+                Windows.Storage.StorageFile file = await filePicker.PickSingleFileAsync();
+                if (file != null)
+                {
+                    try
+                    {
+                        // Application now has read/write access to all contents in the picked folder (including other sub-folder contents)
+                        Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFileToken", file);
+                    }
+                    catch { }
+
+                    StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+                    string savedFileName = "ReadingManyPasswords" + file.FileType;
+                    StorageFile saveFile = await file.CopyAsync(cacheFolder, savedFileName, NameCollisionOption.ReplaceExisting);
+
+                    string result = await Task<string>.Run(() =>
+                    {
+                        try
+                        {
+                            string extractPath = destinationfolder.Path + "//LocalState";
+                            if (Directory.Exists(extractPath))
                             {
-                                return e.Message;
+                                Directory.Delete(extractPath, true);
                             }
-                            return string.Empty;
-                        });
+                            ZipFile.ExtractToDirectory(saveFile.Path, destinationfolder.Path);
+                        }
+                        catch (Exception e) { return e.Message; }
+                        return string.Empty;
+                    });
+
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        string extractedFilePath = destinationfolder.Path + "//LocalState//Data//manypasswords.pswd";
+                        if (File.Exists(extractedFilePath))
+                        {
+                            string data = string.Empty;
+                            var folder = await destinationfolder.GetFolderAsync("LocalState");
+                            var nextfolder = await folder.GetFolderAsync("Data");
+                            var passwordsFile = await nextfolder.GetFileAsync("manypasswords.pswd");
+                            IRandomAccessStream accessStream = await passwordsFile.OpenReadAsync();
+                            using (StreamReader streamReader = new StreamReader(accessStream.AsStreamForRead((int)accessStream.Size)))
+                            {
+                                data = streamReader.ReadToEnd();
+                            }
+                        }
+                    }
+                    else
+                    {
                         return result;
                     }
                 }
             }
-            catch { }
+            catch (Exception e) { return e.Message; }
             return string.Empty;
         }
     }
