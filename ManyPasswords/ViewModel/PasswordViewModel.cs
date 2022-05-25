@@ -163,10 +163,21 @@ namespace ManyPasswords.ViewModel
         {
             try
             {
-                // 读取设置是否启用了密码锁定(第二个条件是为了兼容旧版本)
+                // 读取设置是否启用了密码锁定
                 try
                 {
-                    if (App.AppSettingContainer.Values["bAppLockEnabled"]?.ToString() == "True" || App.AppSettingContainer.Values["Password"] != null)
+                    try
+                    {
+                        // 兼容旧版本
+                        if (App.AppSettingContainer.Values["Password"]?.ToString() != null)
+                        {
+                            App.AppSettingContainer.Values["bAppLockEnabled"] = "True";
+                            App.AppSettingContainer.Values["Password"] = null;
+                        }
+                    }
+                    catch { }
+
+                    if (App.AppSettingContainer.Values["bAppLockEnabled"]?.ToString() == "True")
                     {
                         bLockEnabled = true;
                         bAppLocked = true;
@@ -182,7 +193,6 @@ namespace ManyPasswords.ViewModel
                 // 读取设置的背景图片路径
                 try
                 {
-
                     if (App.AppSettingContainer?.Values["sAppWallpaper"] != null)
                     {
                         string settingWallpaperPath = App.AppSettingContainer?.Values["sAppWallpaper"].ToString();
