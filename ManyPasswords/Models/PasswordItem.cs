@@ -59,6 +59,16 @@ namespace ManyPasswords.Models
         }
 
         /// <summary>
+        /// 最近一次修改日期
+        /// </summary>
+        private string _sEditDate;
+        public string sEditDate
+        {
+            get { return _sEditDate; }
+            set { Set("sEditDate", ref _sEditDate, value); }
+        }
+
+        /// <summary>
         /// 头像
         /// </summary>
         private string _sPicture;
@@ -109,6 +119,7 @@ namespace ManyPasswords.Models
                 this.sPassword = password;
                 this.sName = name;
                 this.sDate = "创建于 " + DateTime.Now.ToLongDateString().ToString();
+                this.sEditDate = string.Empty;
                 this.sPicture = picture;
                 this.sWebsite = website;
                 this.sNote = note;
@@ -126,6 +137,7 @@ namespace ManyPasswords.Models
                 this.sPassword = item.sPassword;
                 this.sName = item.sName;
                 this.sDate = item.sDate;
+                this.sEditDate = item.sEditDate;
                 this.sPicture = item.sPicture;
                 this.sWebsite = item.sWebsite;
                 this.sNote = item.sNote;

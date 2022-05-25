@@ -273,6 +273,23 @@ namespace ManyPasswords
                     ViewModel.CurrentPassword.sPicture = ViewModel.EditingTempPassword.sPicture;
                     ViewModel.CurrentPassword.sWebsite = ViewModel.EditingTempPassword.sWebsite;
                     ViewModel.CurrentPassword.sNote = ViewModel.EditingTempPassword.sNote;
+                    ViewModel.CurrentPassword.sEditDate = "最近一次修改 " + DateTime.Now.ToLongDateString().ToString();
+
+                    ViewModel.SavePasswordsFile();
+                }
+                else
+                {
+                    try
+                    {
+                        if (File.Exists(ViewModel.EditingTempPassword.sPicture) &&
+                            ViewModel.EditingTempPassword.sPicture != ViewModel.CurrentPassword.sPicture &&
+                            !ViewModel.EditingTempPassword.sPicture.Contains("Assets") &&
+                            !ViewModel.EditingTempPassword.sPicture.Contains("ms-appx"))
+                        {
+                            File.Delete(ViewModel.EditingTempPassword.sPicture);
+                        }
+                    }
+                    catch { }
                 }
                 ViewModel.EditingTempPassword = null;
             }

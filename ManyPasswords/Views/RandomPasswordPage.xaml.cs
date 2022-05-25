@@ -88,8 +88,11 @@ namespace ManyPasswords
                 return sb.ToString();
             }
             catch { }
-            randomList.Clear();
-            randomList = null;
+            finally
+            {
+                randomList.Clear();
+                randomList = null;
+            }
             return "";
         }
     }

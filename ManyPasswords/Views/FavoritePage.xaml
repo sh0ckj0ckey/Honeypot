@@ -101,7 +101,7 @@
                                     </Button.Content>
                                 </Button>
                                 <TextBlock x:Name="HiddenPasswordTextBlock" Visibility="Visible" Margin="0,8,0,0" Height="28" FontSize="16"
-                                           Text="********" VerticalAlignment="Center"/>
+                                           Text="* * * * * *" FontWeight="Bold" VerticalAlignment="Center"/>
                             </StackPanel>
                             <Button Style="{StaticResource TextBlockButtonStyle}" Click="Button_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.RowSpan="3" Content="&#xE007;" FontFamily="Segoe MDL2 Assets" FontSize="18" Margin="6" ToolTipService.ToolTip="取消收藏"/>
                         </Grid>

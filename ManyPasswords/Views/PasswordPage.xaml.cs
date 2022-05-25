@@ -100,7 +100,7 @@ namespace ManyPasswords
             {
                 if (timer == null)
                 {
-                    timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.5) };
+                    timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(0.3) };
                     timer.Tick += (s, e) =>
                     {
                         timer.Stop();

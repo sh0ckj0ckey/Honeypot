@@ -239,17 +239,22 @@
                     <Grid x:Name="BackgroundGrid" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"/>
                     <Grid x:Name="PhotoPanel" Grid.Column="0" Background="Transparent"
                           VerticalAlignment="Top" HorizontalAlignment="Left" Margin="32,32,32,0">
-                        <Rectangle x:Name="PhotoRectangle" Width="96" Height="96" RadiusX="6" RadiusY="6" 
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" Shadow="{StaticResource PhotoShadow}">
-                            <Rectangle.Fill>
-                                <ImageBrush Stretch="UniformToFill" Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}">
-                                    <ImageBrush.ImageSource>
-                                        <BitmapImage UriSource="{x:Bind ViewModel.CurrentPassword.sPicture,Mode=OneWay}"
-                                                     DecodePixelHeight="96" DecodePixelType="Logical"/>
-                                    </ImageBrush.ImageSource>
-                                </ImageBrush>
-                            </Rectangle.Fill>
-                        </Rectangle>
+                        <Grid x:Name="PhotoRectangle" Width="96" Height="96" CornerRadius="6"
+                              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                              Shadow="{StaticResource PhotoShadow}"
+                              HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Rectangle Width="96" Height="96" RadiusX="6" RadiusY="6" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Rectangle.Fill>
+                                    <ImageBrush Stretch="UniformToFill" Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}">
+                                        <ImageBrush.ImageSource>
+                                            <BitmapImage UriSource="{x:Bind ViewModel.CurrentPassword.sPicture,Mode=OneWay}"
+                                                         DecodePixelHeight="96" DecodePixelType="Logical"/>
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Grid>
                         <Grid Height="32" Width="32" CornerRadius="16" Margin="0,0,-4,-4" Background="#FF317A"
                               HorizontalAlignment="Right" VerticalAlignment="Bottom" CenterPoint="16,16,0" 
                               PointerEntered="SpringAnimationPointerEntered" PointerExited="SpringAnimationPointerExited">
@@ -271,6 +276,7 @@
                         <TextBlock Text="{x:Bind ViewModel.CurrentPassword.sName,Mode=OneWay}" FontWeight="Bold" TextTrimming="CharacterEllipsis"
                                    FontSize="28" Margin="0,0,0,4"/>
                         <TextBlock Text="{x:Bind ViewModel.CurrentPassword.sDate,Mode=OneWay}" TextTrimming="CharacterEllipsis" Opacity="0.7"/>
+                        <TextBlock Text="{x:Bind ViewModel.CurrentPassword.sEditDate,Mode=OneWay}" TextTrimming="CharacterEllipsis" Opacity="0.5" Margin="0,2,0,0"/>
                     </StackPanel>
                 </Grid>
                 <TextBlock Text="账号" FontWeight="Bold" Margin="34,0,0,8"/>

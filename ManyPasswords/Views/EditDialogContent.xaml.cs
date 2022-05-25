@@ -28,11 +28,15 @@ namespace ManyPasswords.Views
     {
         ViewModel.PasswordViewModel ViewModel = null;
 
+        // 上次选择的图片文件路径（加入用户多次修改图片，则要删除上次选择的图片，因为已经复制到Pic文件夹了）
+        private string _lastDesiredPicPath = string.Empty;
+
         public EditDialogContent(Models.PasswordItem editing)
         {
             try
             {
                 ViewModel = PasswordViewModel.Instance;
+                _lastDesiredPicPath = string.Empty;
             }
             catch { }
             this.InitializeComponent();
@@ -57,15 +61,24 @@ namespace ManyPasswords.Views
 
                 if (file != null)
                 {
-                    string desiredName = "password_icon_" + DateTime.Now.Ticks + file.FileType;
-
                     StorageFolder applicationFolder = ApplicationData.Current.LocalFolder;
                     StorageFolder folder = await applicationFolder.CreateFolderAsync("Pic", CreationCollisionOption.OpenIfExists);
+
+                    if (!string.IsNullOrEmpty(_lastDesiredPicPath))
+                    {
+                        if (File.Exists(_lastDesiredPicPath))
+                        {
+                            File.Delete(_lastDesiredPicPath);
+                        }
+                    }
+
+                    string desiredName = "password_icon_" + DateTime.Now.Ticks + file.FileType;
 
                     try
                     {
                         StorageFile saveFile = await file.CopyAsync(folder, desiredName, NameCollisionOption.GenerateUniqueName);
                         ViewModel.EditingTempPassword.sPicture = saveFile.Path;
+                        _lastDesiredPicPath = saveFile.Path;
                     }
                     catch { }
                 }

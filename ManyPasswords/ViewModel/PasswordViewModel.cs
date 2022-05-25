@@ -569,7 +569,9 @@ namespace ManyPasswords.ViewModel
 
                     try
                     {
-                        if (File.Exists(remove.sPicture) && !remove.sPicture.Contains("Assets") && !remove.sPicture.Contains("ms-appx"))
+                        if (File.Exists(remove.sPicture) && 
+                            !remove.sPicture.Contains("Assets") && 
+                            !remove.sPicture.Contains("ms-appx"))
                         {
                             File.Delete(remove.sPicture);
                         }

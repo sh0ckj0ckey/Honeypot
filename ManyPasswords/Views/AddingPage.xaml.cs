@@ -94,6 +94,17 @@ namespace ManyPasswords
         {
             try
             {
+                try
+                {
+                    if (File.Exists(AddingItem.sPicture) &&
+                        !AddingItem.sPicture.Contains("Assets") &&
+                        !AddingItem.sPicture.Contains("ms-appx"))
+                    {
+                        File.Delete(AddingItem.sPicture);
+                    }
+                }
+                catch { }
+
                 AddingItem = null;
 
                 this.Frame.Navigate(typeof(BlankPage));
