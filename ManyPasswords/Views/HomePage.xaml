@@ -303,9 +303,10 @@
                                            FontSize="16"
                                            FontWeight="Bold"
                                            Margin="0,12,0,0"/>
-                                <TextBlock Text="数据导出功能将在下个版本添加🥱" FontSize="12" FontWeight="Light" Margin="0,8,0,0"/>
-                                <TextBlock Text="如有需要，可以先前往&quot;反馈&quot;联系开发者" FontSize="12" FontWeight="Light" Margin="0,2,0,20"/>
-                                <Grid Margin="0,12,0,16"                       Visibility="Collapsed">
+                                <TextBlock Text="Windows 通用应用在卸载后数据会被清空，请定期做好备份"
+                                           Foreground="#ff4300" CharacterSpacing="30"
+                                           FontSize="12" FontWeight="Light" Margin="0,8,0,0"/>
+                                <Grid Margin="0,12,0,16">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
@@ -341,8 +342,8 @@
                         <ScrollViewer>
                             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                                 <Image Source="/Assets/Icon/photo.png" Height="72" Width="72" HorizontalAlignment="Center"/>
-                                <TextBlock Text="有任何建议或问题请联系我" FontWeight="Bold" Opacity="0.7" Margin="0,16,0,4" HorizontalAlignment="Center"/>
-                                <TextBlock Text="不胜感激！" FontWeight="Bold" Opacity="0.7" Margin="0,0,0,32" HorizontalAlignment="Center"/>
+                                <TextBlock Text="有任何建议或问题请联系我" CharacterSpacing="30" FontWeight="Bold" Opacity="0.7" Margin="0,16,0,4" HorizontalAlignment="Center"/>
+                                <TextBlock Text="不胜感激！" CharacterSpacing="30" FontWeight="Bold" Opacity="0.7" Margin="0,0,0,32" HorizontalAlignment="Center"/>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="36" Margin="0,0,0,96">
                                     <Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
