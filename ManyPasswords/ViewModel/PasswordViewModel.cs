@@ -286,7 +286,7 @@ namespace ManyPasswords.ViewModel
             catch { }
         }
 
-        public async void SavePasswordsFile()
+        public async Task<bool> SavePasswordsFile()
         {
             try
             {
@@ -315,9 +315,12 @@ namespace ManyPasswords.ViewModel
                     dialog.Content = msg;
                     dialog.RequestedTheme = this.eAppTheme;
                     _ = await dialog.ShowAsync();
+
+                    return false;
                 }
             }
             catch { }
+            return true;
         }
 
         // 创建内置账号模板
@@ -527,13 +530,24 @@ namespace ManyPasswords.ViewModel
         }
 
         // 添加账号密码
-        public void AddPassword(Models.PasswordItem add)
+        public async void AddPassword(Models.PasswordItem add)
         {
             try
             {
+                //add.sName = FilterEmoji(add.sName);
                 add.sFirstLetter = GetFirstLetter(add.sName);
                 vAllPasswords.Add(add);
-                SavePasswordsFile();
+
+                bool result = await SavePasswordsFile();
+                if (!result)
+                {
+                    if (vAllPasswords.Contains(add))
+                    {
+                        vAllPasswords.Remove(add);
+                    }
+                    return;
+                }
+
                 Models.PasswordsGroup addingGroup = null;
                 foreach (var group in vManyPasswords)
                 {
@@ -568,19 +582,25 @@ namespace ManyPasswords.ViewModel
         }
 
         // 删除账号密码
-        public void RemovePassword(Models.PasswordItem remove)
+        public async void RemovePassword(Models.PasswordItem remove)
         {
             try
             {
                 if (vAllPasswords != null && vAllPasswords.Contains(remove))
                 {
                     vAllPasswords.Remove(remove);
-                    SavePasswordsFile();
+
+                    bool result = await SavePasswordsFile();
+                    if (!result)
+                    {
+                        vAllPasswords.Add(remove);
+                        return;
+                    }
 
                     try
                     {
-                        if (File.Exists(remove.sPicture) && 
-                            !remove.sPicture.Contains("Assets") && 
+                        if (File.Exists(remove.sPicture) &&
+                            !remove.sPicture.Contains("Assets") &&
                             !remove.sPicture.Contains("ms-appx"))
                         {
                             File.Delete(remove.sPicture);
@@ -615,7 +635,7 @@ namespace ManyPasswords.ViewModel
         }
 
         // 添加收藏
-        public void AddFavorite(Models.PasswordItem add, bool needToSave)
+        public async void AddFavorite(Models.PasswordItem add, bool needToSave)
         {
             try
             {
@@ -628,14 +648,14 @@ namespace ManyPasswords.ViewModel
 
                 if (needToSave)
                 {
-                    SavePasswordsFile();
+                    _ = await SavePasswordsFile();
                 }
             }
             catch { }
         }
 
         // 取消收藏
-        public void RemoveFavorite(Models.PasswordItem remove, bool needToSave)
+        public async void RemoveFavorite(Models.PasswordItem remove, bool needToSave)
         {
             try
             {
@@ -649,7 +669,7 @@ namespace ManyPasswords.ViewModel
 
                     if (needToSave)
                     {
-                        SavePasswordsFile();
+                        _ = await SavePasswordsFile();
                     }
                 }
             }
@@ -819,6 +839,31 @@ namespace ManyPasswords.ViewModel
             catch { }
             return name.Length > 0 ? name[0] : '#';
         }
+
+        // 过滤掉Emoji，避免出问题
+        public string FilterEmoji(string str)
+        {
+
+            string origin = str;
+            try
+            {
+                //关键代码
+                foreach (var a in str)
+                {
+                    byte[] bts = Encoding.UTF32.GetBytes(a.ToString());
+                    if (bts[0].ToString() == "253" && bts[1].ToString() == "255")
+                    {
+                        str = str.Replace(a.ToString(), "");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                str = "非法字符";//origin;
+            }
+            return str;
+        }
+
 
         #region 应用的各种功能
 

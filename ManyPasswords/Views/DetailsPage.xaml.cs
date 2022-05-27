@@ -275,7 +275,7 @@ namespace ManyPasswords
                     ViewModel.CurrentPassword.sNote = ViewModel.EditingTempPassword.sNote;
                     ViewModel.CurrentPassword.sEditDate = "最近一次修改 " + DateTime.Now.ToLongDateString().ToString();
 
-                    ViewModel.SavePasswordsFile();
+                    _ = await ViewModel.SavePasswordsFile();
                 }
                 else
                 {

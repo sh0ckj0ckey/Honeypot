@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="22189NoMewing.Pass.Note" Publisher="CN=E6D8FAFA-3EF4-4E47-B885-52144C67BFF5" Version="2.0.0.0" />
+  <Identity Name="22189NoMewing.Pass.Note" Publisher="CN=E6D8FAFA-3EF4-4E47-B885-52144C67BFF5" Version="2.0.1.0" />
   <mp:PhoneIdentity PhoneProductId="752262fd-97d5-44f9-ba92-58c0333f212e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>好多密码</DisplayName>

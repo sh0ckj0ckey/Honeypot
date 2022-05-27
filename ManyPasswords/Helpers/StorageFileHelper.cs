@@ -68,7 +68,7 @@ namespace ManyPasswords
             try
             {
                 IStorageFolder applicationFolder = await GetDataFolder();
-                IStorageFile storageFile = await applicationFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+                IStorageFile storageFile = await applicationFolder.CreateFileAsync("SavingTempFile.pswd", CreationCollisionOption.ReplaceExisting);
 
                 Int32 retryAttempts = 3;
                 const Int32 ERROR_ACCESS_DENIED = unchecked((Int32)0x80070005);
@@ -80,7 +80,8 @@ namespace ManyPasswords
                     {
                         retryAttempts--;
                         await FileIO.WriteTextAsync(storageFile, content);
-                        break;
+                        await storageFile.RenameAsync(fileName, NameCollisionOption.ReplaceExisting);
+                        return string.Empty;
                     }
                     catch (Exception ex) when ((ex.HResult == ERROR_ACCESS_DENIED) || (ex.HResult == ERROR_SHARING_VIOLATION))
                     {
@@ -88,7 +89,7 @@ namespace ManyPasswords
                     }
                     catch (Exception e) { return "写入失败：" + e.Message; }
                 }
-                return string.Empty;
+                return "写入失败：文件访问被拒绝或者文件被占用";
             }
             catch (Exception e) { return "写入失败：" + e.Message; }
         }
