@@ -132,15 +132,6 @@ namespace ManyPasswords.ViewModel
         // 用来弹窗的样式
         private Style _customDialogStyle = null;
 
-
-        // 控制设置页面是否显示导入/导出的圆圈
-        private bool _bSettingProcessing = false;
-        public bool bSettingProcessing
-        {
-            get { return _bSettingProcessing; }
-            set { Set("bSettingProcessing", ref _bSettingProcessing, value); }
-        }
-
         // 设置页面导入/导出提示文字
         private string _sSettingProcessingTip = string.Empty;
         public string sSettingProcessingTip
@@ -697,7 +688,6 @@ namespace ManyPasswords.ViewModel
         {
             try
             {
-                bSettingProcessing = true;
                 sSettingProcessingTip = "正在导出...";
 
                 try
@@ -705,23 +695,18 @@ namespace ManyPasswords.ViewModel
                     string result = await StorageFileHelper.CreatePasswordsZipFile();
                     if (string.IsNullOrEmpty(result))
                     {
-                        // 压缩完成，复制到指定位置，然后删除原文件
-                        //file.async
+                        IStorageFolder destinationfolder = ApplicationData.Current.LocalCacheFolder;
+                        await Windows.System.Launcher.LaunchFolderAsync(destinationfolder);
+
                         sSettingProcessingTip = "导出文件完成，请务必妥善保管~";
                     }
                     else
                     {
-                        // 失败，在设置的蒙层上显示错误信息
+                        // 失败
                         sSettingProcessingTip = result;
                     }
                 }
                 catch (Exception e) { sSettingProcessingTip = "保存文件失败：" + e.Message; }
-                //}
-                //else
-                //{
-                //    // The operation was cancelled in the picker dialog.
-                //    sSettingProcessingTip = string.Empty;
-                //}
             }
             catch (Exception e)
             {
@@ -729,8 +714,7 @@ namespace ManyPasswords.ViewModel
             }
             finally
             {
-                bSettingProcessing = false;
-                await Task.Delay(TimeSpan.FromSeconds(2));
+                await Task.Delay(TimeSpan.FromSeconds(3));
                 sSettingProcessingTip = string.Empty;
             }
         }
@@ -740,7 +724,6 @@ namespace ManyPasswords.ViewModel
         {
             try
             {
-                bSettingProcessing = true;
                 sSettingProcessingTip = "正在导入...";
 
                 try
@@ -769,8 +752,7 @@ namespace ManyPasswords.ViewModel
             }
             finally
             {
-                bSettingProcessing = false;
-                await Task.Delay(TimeSpan.FromSeconds(2));
+                await Task.Delay(TimeSpan.FromSeconds(3));
                 sSettingProcessingTip = string.Empty;
             }
         }
