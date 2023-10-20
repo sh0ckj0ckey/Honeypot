@@ -6,32 +6,16 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
       xmlns:local1="using:ManyPasswords.Models"
-      mc:Ignorable="d" NavigationCacheMode="Required"
-      Background="Transparent">
+      mc:Ignorable="d" NavigationCacheMode="Required">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ThemeResource/ThemeDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Name="GridViewItemNoneStyle" TargetType="GridViewItem">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="GridViewItem">
-                            <Grid Background="{TemplateBinding Background}">
-                                <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}" />
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <ThemeShadow x:Name="FrameShadow"/>
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.BackgroundTransition>
-            <BrushTransition />
-        </Grid.BackgroundTransition>
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.55*" MaxWidth="420"/>
             <ColumnDefinition Width="*"/>
@@ -58,7 +42,6 @@
                       Grid.Row="3" HorizontalAlignment="Center" Margin="4,0"
                       Opacity="{x:Bind ViewModel.lImageOpacity,Mode=OneWay}"
                       ItemsSource="{x:Bind ViewModel.vBuildinItems,Mode=OneWay}"
-                      ItemContainerStyle="{StaticResource GridViewItemNoneStyle}"
                       SelectionMode="None">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="local1:BuildinItem">
@@ -76,7 +59,7 @@
                 </GridView.ItemTemplate>
             </GridView>
         </Grid>
-        <Grid x:Name="AddingGrid" Grid.Column="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Shadow="{StaticResource FrameShadow}">
+        <Grid x:Name="AddingGrid" Grid.Column="1">
             <Frame x:Name="AddFrame"/>
         </Grid>
     </Grid>

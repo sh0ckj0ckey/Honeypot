@@ -5,8 +5,7 @@
     xmlns:local="using:ManyPasswords"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" NavigationCacheMode="Required"
-    Background="Transparent">
+    mc:Ignorable="d" NavigationCacheMode="Required">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,11 +14,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.BackgroundTransition>
-            <BrushTransition />
-        </Grid.BackgroundTransition>
-
+    <Grid>
         <Image Source="{ThemeResource LARGETITLE_IMAGE}" Opacity="0.2" MaxHeight="298" HorizontalAlignment="Center" VerticalAlignment="Center"/>
     </Grid>
 </Page>

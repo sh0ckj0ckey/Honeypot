@@ -49,9 +49,6 @@ namespace ManyPasswords
                     };
                 }
 
-                FrameShadow.Receivers.Add(PasswordsListGrid);
-                FrameGrid.Translation += new System.Numerics.Vector3(0, 0, 36);
-
                 PasswordFrame.Navigate(typeof(BlankPage));
             }
             catch { }
@@ -66,7 +63,7 @@ namespace ManyPasswords
         {
             try
             {
-                HomePage.Current.MenuListView.SelectedIndex = 2;
+                //HomePage.Current.MenuListView.SelectedIndex = 2;
             }
             catch { }
         }

@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vt="using:ManyPasswords.Converter"
-    mc:Ignorable="d" NavigationCacheMode="Required"
-    Background="Transparent">
+    mc:Ignorable="d" NavigationCacheMode="Required">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,25 +15,10 @@
 
             <vt:EqualToVisibilityConverter x:Key="Equal2Visible"/>
             <vt:UnequalToVisibilityConverter x:Key="Unequal2Visible"/>
-
-            <Style x:Name="GridViewItemNoneStyle" TargetType="GridViewItem">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="GridViewItem">
-                            <Grid Background="{TemplateBinding Background}">
-                                <ContentPresenter Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}" />
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.BackgroundTransition>
-            <BrushTransition />
-        </Grid.BackgroundTransition>
+    <Grid>
         <Grid Grid.Column="0" Background="#22808080">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -50,7 +34,7 @@
                 <TextBlock Text="还没有收藏哦~" HorizontalAlignment="Center" FontSize="16" Foreground="Gray" Opacity="0.5" CharacterSpacing="32" Margin="0,4,0,42"/>
             </StackPanel>
             <GridView Grid.Row="2" Margin="16,8" IsFocusEngagementEnabled="True" IsItemClickEnabled="False" SelectionMode="None" 
-                      ItemsSource="{x:Bind ViewModel.vFavoritePasswords}" ItemContainerStyle="{StaticResource GridViewItemNoneStyle}"
+                      ItemsSource="{x:Bind ViewModel.vFavoritePasswords}"
                       Visibility="{x:Bind ViewModel.vFavoritePasswords.Count,Converter={StaticResource Unequal2Visible},ConverterParameter=0,Mode=OneWay}">
                 <GridView.ItemContainerTransitions>
                     <TransitionCollection>

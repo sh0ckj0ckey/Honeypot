@@ -35,7 +35,6 @@ namespace ManyPasswords
                 ViewModel.InitBuildInAccounts();
                 AddFrame.Navigate(typeof(BlankPage));
 
-                FrameShadow.Receivers.Add(AddGrid);
                 AddingGrid.Translation += new System.Numerics.Vector3(0, 0, 36);
             }
             catch { }

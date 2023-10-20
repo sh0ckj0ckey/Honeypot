@@ -37,14 +37,6 @@ namespace ManyPasswords
                 this.InitializeComponent();
                 Current = this;
                 ViewModel = PasswordViewModel.Instance;
-
-                FrameShadow.Receivers.Add(SideMenuGrid);
-                HomeFrame.Translation += new System.Numerics.Vector3(0, 0, 36);
-
-                SettingShadow.Receivers.Add(BackgroundRectangle);
-                SettingPop.Translation += new System.Numerics.Vector3(0, 0, 36);
-
-                MenuListView.SelectedIndex = 0;
             }
             catch { }
         }
@@ -120,52 +112,6 @@ namespace ManyPasswords
         }
 
         /// <summary>
-        /// 设置
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                SettingGrid.Visibility = Visibility.Visible;
-                SettingGridPopIn.Begin();
-                SettingPivot.SelectedIndex = 0;
-            }
-            catch { }
-        }
-
-        /// <summary>
-        /// 关闭应用设置窗口
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Rectangle_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            try
-            {
-                SettingGridPopOut.Begin();
-            }
-            catch { }
-        }
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                SettingGridPopOut.Begin();
-            }
-            catch { }
-        }
-        private void SettingGridFadeOut_Completed(object sender, object e)
-        {
-            try
-            {
-                SettingGrid.Visibility = Visibility.Collapsed;
-            }
-            catch { }
-        }
-
-        /// <summary>
         /// 导航
         /// </summary>
         /// <param name="sender"></param>
@@ -174,23 +120,23 @@ namespace ManyPasswords
         {
             try
             {
-                switch (MenuListView.SelectedIndex)
-                {
-                    case 0:
-                        HomeFrame.Navigate(typeof(PasswordPage));
-                        break;
-                    case 1:
-                        HomeFrame.Navigate(typeof(FavoritePage));
-                        break;
-                    case 2:
-                        HomeFrame.Navigate(typeof(AddPage));
-                        break;
-                    case 3:
-                        HomeFrame.Navigate(typeof(RandomPasswordPage));
-                        break;
-                    default:
-                        break;
-                }
+                //switch (MenuListView.SelectedIndex)
+                //{
+                //    case 0:
+                //        HomeFrame.Navigate(typeof(PasswordPage));
+                //        break;
+                //    case 1:
+                //        HomeFrame.Navigate(typeof(FavoritePage));
+                //        break;
+                //    case 2:
+                //        HomeFrame.Navigate(typeof(AddPage));
+                //        break;
+                //    case 3:
+                //        HomeFrame.Navigate(typeof(RandomPasswordPage));
+                //        break;
+                //    default:
+                //        break;
+                //}
             }
             catch { }
         }
@@ -236,7 +182,7 @@ namespace ManyPasswords
         {
             try
             {
-                ViewModel.SetWindowsHelloEnable(WindowsHelloToggleSwitch.IsOn);
+                //ViewModel.SetWindowsHelloEnable(WindowsHelloToggleSwitch.IsOn);
             }
             catch { }
         }
@@ -341,6 +287,16 @@ namespace ManyPasswords
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MainNavigationView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
 
         }
