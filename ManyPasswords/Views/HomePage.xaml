@@ -19,19 +19,6 @@
             <vt:UnequalToVisibilityConverter x:Key="vtUnequal2Visible"/>
             <vt:EqualToBoolConverter x:Key="vtEqual2Bool"/>
 
-            <Storyboard x:Name="EnterButtonStoryboard">
-                <DoubleAnimation Storyboard.TargetName="HoverTipTextBlock"
-                                 Storyboard.TargetProperty="Opacity"
-                                 To="1" Duration="0:0:0.3">
-                </DoubleAnimation>
-            </Storyboard>
-            <Storyboard x:Name="LeaveButtonStoryboard">
-                <DoubleAnimation Storyboard.TargetName="HoverTipTextBlock"
-                                 Storyboard.TargetProperty="Opacity"
-                                 To="0" Duration="0:0:0.2">
-                </DoubleAnimation>
-            </Storyboard>
-
             <Storyboard x:Name="ImportHoverStoryboard">
                 <DoubleAnimation Storyboard.TargetName="ImportHoverTranslation" Storyboard.TargetProperty="X" To="0" Duration="0:0:1">
                     <DoubleAnimation.EasingFunction>
@@ -57,7 +44,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="196"/>
+            <ColumnDefinition Width="164"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="SideMenuGrid" Grid.Column="0">
@@ -67,80 +54,55 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="56"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="12,30,0,14">
-                <Image Source="/Assets/Icon/logo.png" Width="32"/>
-                <TextBlock Text="好多密码" FontWeight="Bold" FontSize="18" Margin="10,6,0,0" Foreground="White"/>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top" Margin="12,18,0,14">
+                <Image Source="/Assets/Icon/logo.png" Width="20"/>
+                <TextBlock Text="好多密码" FontWeight="Bold" FontSize="15" CharacterSpacing="36" Margin="6,2,0,0" Foreground="White"/>
             </StackPanel>
-            <ListView x:Name="MenuListView" Grid.Row="1" x:FieldModifier="public" Margin="0,6,0,0" SelectionChanged="ListView_SelectionChanged">
-                <ListViewItem HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+            <ListView x:Name="MenuListView" Grid.Row="1" x:FieldModifier="public" HorizontalContentAlignment="Stretch" SelectionChanged="ListView_SelectionChanged">
+                <ListViewItem HorizontalAlignment="Stretch" Height="48">
                     <Grid Height="48">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Image Source="/Assets/Icon/PasswordIcon.png" Height="18" Margin="0,0,2,0" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="1" 
-                                   Text="所有账号"
-                                   VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="所有账号" VerticalAlignment="Center"/>
                     </Grid>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                <ListViewItem HorizontalAlignment="Stretch" Height="48">
                     <Grid Height="48">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Image Source="/Assets/Icon/FavIcon.png" Height="22" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="1" 
-                                   Text="我的收藏"
-                                   VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="我的收藏" VerticalAlignment="Center"/>
                     </Grid>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                <ListViewItem HorizontalAlignment="Stretch" Height="48">
                     <Grid Height="48">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Image Source="/Assets/Icon/AddIcon.png" Height="16" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="1" 
-                                   Text="添加"
-                                   VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="添加" VerticalAlignment="Center"/>
                     </Grid>
                 </ListViewItem>
-                <ListViewItem HorizontalAlignment="Center" Width="196" Height="48" Margin="0,0,0,4" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                <ListViewItem HorizontalAlignment="Stretch" Height="48">
                     <Grid Height="48">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="32"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Image Source="/Assets/Icon/RandomIcon.png" Height="18" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="1" 
-                                   Text="随机密码"
-                                   VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="随机密码" VerticalAlignment="Center"/>
                     </Grid>
                 </ListViewItem>
             </ListView>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Button Height="38" Width="38" CornerRadius="19"
-                        FocusVisualPrimaryThickness="0"
-                        FocusVisualSecondaryThickness="0"
-                        Click="Button_Click_2" Foreground="White"
-                        PointerEntered="OnPointerEnter"
-                        PointerExited="OnPointerExit"
-                        Tag="setting"
-                        Content="&#xE115;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Padding="0,0,0,0">
-                    <!--<Button.Content>
-                        <TextBlock Text="&#xE115;" FontFamily="Segoe UI Symbol" Foreground="White" FontSize="14"
-                                   VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0"/>
-                    </Button.Content>-->
-                </Button>
-            </StackPanel>
-            <TextBlock x:Name="HoverTipTextBlock" Grid.Row="3" Text="{x:Bind ViewModel.sHoverTipsText,Mode=OneWay}" FontSize="12"
-                       Foreground="#E6FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <Frame x:Name="HomeFrame" x:FieldModifier="Public" Grid.Column="1" Background="Transparent"/>
-        <Grid x:Name="SettingGrid" Grid.ColumnSpan="2" Visibility="Collapsed">
+        <!--<Grid x:Name="SettingGrid" Grid.ColumnSpan="2" Visibility="Collapsed">
             <Grid.Resources>
                 <Storyboard x:Name="SettingGridPopIn">
                     <PopInThemeAnimation FromHorizontalOffset="0" FromVerticalOffset="320" Storyboard.TargetName="SettingPop" Duration="00:00:1"/>
@@ -317,14 +279,14 @@
                                         </Button.Flyout>
                                         <Image Source="/Assets/Feedback/icon_wechat.png" Width="24" Height="24" Margin="0,0,0,0"/>
                                     </Button>
-                                    <!--<Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
+                                    --><!--<Button Height="48" Width="48" CornerRadius="18" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Flyout>
                                             <Flyout>
                                                 <Image Source="/Assets/Feedback/MyWeibo.jpg" Width="256"/>
                                             </Flyout>
                                         </Button.Flyout>
                                         <Image Source="/Assets/Feedback/icon_weibo.png" Width="24" Height="24" Margin="0,0,0,0"/>
-                                    </Button>-->
+                                    </Button>--><!--
                                 </StackPanel>
                             </StackPanel>
                         </ScrollViewer>
@@ -351,6 +313,6 @@
                 </Pivot>
                 <AppBarButton Height="42" Width="42" HorizontalAlignment="Right" VerticalAlignment="Top" Content="&#xE10A;" FontFamily="Segoe MDL2 Assets" Click="AppBarButton_Click"/>
             </Grid>
-        </Grid>
+        </Grid>-->
     </Grid>
 </Page>
