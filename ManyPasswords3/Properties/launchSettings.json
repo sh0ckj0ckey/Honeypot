@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ManyPasswords3 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ManyPasswords3 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
