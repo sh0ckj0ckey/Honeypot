@@ -16,10 +16,10 @@
     <windowex:WindowEx.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="38"/>
+                <RowDefinition Height="42"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid x:Name="AppTitleBar" Grid.Row="0" Background="Transparent"/>
+            <Grid x:Name="AppTitleBar" Grid.Row="0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <Frame x:Name="MainFrame" Grid.RowSpan="2" Margin="0" Loaded="OnMainFrameLoaded"/>
         </Grid>
     </windowex:WindowEx.Content>

@@ -212,7 +212,6 @@ namespace ManyPasswords
                         ViewModel.sHoverTipsText = "设置";
                     }
                 }
-                EnterButtonStoryboard.Begin();
             }
             catch { }
         }
@@ -221,7 +220,6 @@ namespace ManyPasswords
         {
             try
             {
-                LeaveButtonStoryboard.Begin();
             }
             catch { }
         }

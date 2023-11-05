@@ -12,6 +12,7 @@ using Windows.UI.ViewManagement;
 using WinUIEx;
 using ManyPasswords3.ViewModels;
 using ManyPasswords3.Helpers;
+using ManyPasswords3.Views;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -58,12 +59,7 @@ namespace ManyPasswords3
         private void OnMainFrameLoaded(object sender, RoutedEventArgs e)
         {
             // 初始导航页面
-            //MainFrame.Navigate(typeof());
-
-            // 处理系统的返回键和退出键
-            MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu, OnGoBackKeyboardAcceleratorInvoked));
-            MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack, null, OnGoBackKeyboardAcceleratorInvoked));
-            MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.XButton1, null, OnGoBackKeyboardAcceleratorInvoked));
+            MainFrame.Navigate(typeof(MainView));
         }
 
         /// <summary>
@@ -135,41 +131,5 @@ namespace ManyPasswords3
             }
             catch { }
         }
-
-        #region Go Back & Hide
-
-        private KeyboardAccelerator BuildKeyboardAccelerator(VirtualKey key, VirtualKeyModifiers? modifiers, Action<KeyboardAccelerator, KeyboardAcceleratorInvokedEventArgs> callback)
-        {
-            var keyboardAccelerator = new KeyboardAccelerator() { Key = key };
-
-            if (modifiers.HasValue)
-            {
-                keyboardAccelerator.Modifiers = modifiers.Value;
-            }
-
-            keyboardAccelerator.Invoked += (s, args) => callback?.Invoke(s, args);
-
-            return keyboardAccelerator;
-        }
-
-        private void OnGoBackKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            args.Handled = TryGoBack();
-        }
-
-        private bool TryGoBack()
-        {
-            try
-            {
-                if (!MainFrame.CanGoBack) return false;
-                MainFrame.GoBack();
-                return true;
-            }
-            catch { }
-            return false;
-        }
-
-        #endregion
-
     }
 }

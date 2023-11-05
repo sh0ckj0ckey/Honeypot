@@ -15,8 +15,6 @@ namespace ManyPasswords3.ViewModels
         private static Lazy<MainViewModel> _lazyVM = new Lazy<MainViewModel>(() => new MainViewModel());
         public static MainViewModel Instance => _lazyVM.Value;
 
-        public Microsoft.UI.Dispatching.DispatcherQueue Dispatcher { get; set; }
-
         public SettingsService AppSettings { get; set; } = new SettingsService();
 
         /// <summary>
