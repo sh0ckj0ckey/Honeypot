@@ -13,29 +13,29 @@ namespace ManyPasswords3.Models
 
     public class MainNavigationItem : MainNavigationBase
     {
-        public string sName { get; set; }
-        public string sTag { get; set; }
-        public string sIcon { get; set; }
-        public bool bIsLeaf { get; set; }
-        public ObservableCollection<MainNavigationItem> vChildren { get; set; } = null;
+        public string Name { get; set; }
+        public string Tag { get; set; }
+        public string Icon { get; set; }
+        public bool IsLeaf { get; set; }
+        public ObservableCollection<MainNavigationItem> Children { get; set; } = null;
 
         public MainNavigationItem(string name, string tag, string icon, ObservableCollection<MainNavigationItem> children = null)
         {
-            sName = name;
-            sTag = tag;
-            sIcon = icon;
-            bIsLeaf = children == null;
-            vChildren = children;
+            Name = name;
+            Tag = tag;
+            Icon = icon;
+            IsLeaf = children == null;
+            Children = children;
         }
     }
 
     public class MainNavigationHeader : MainNavigationBase
     {
-        public string sName { get; set; }
+        public string Name { get; set; }
 
         public MainNavigationHeader(string name)
         {
-            sName = name;
+            Name = name;
         }
     }
 

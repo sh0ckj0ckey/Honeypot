@@ -34,14 +34,11 @@ namespace ManyPasswords3.Views
         // 导航栏项的Tag对应的Page
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
-            //("home", typeof(HomePage)),
-            //("lives", typeof(LivesPage)),
-            //("classes", typeof(ClassesPage)),
-            //("subscribe", typeof(MySubscribePage)),
-            //("history", typeof(MyHistoryPage)),
-            //("liveroom", typeof(LiveRoomPage)),
-            //("search", typeof(SearchPage)),
-            //("settings", typeof(SettingsPage)),
+            ("all", typeof(PasswordsPage)),
+            ("favorite", typeof(FavoritesPage)),
+            ("category", typeof(CategoriesPage)),
+            ("random", typeof(RandomPage)),
+            ("settings", typeof(SettingsPage)),
         };
 
         public MainView()
@@ -49,40 +46,6 @@ namespace ManyPasswords3.Views
             this.InitializeComponent();
 
             MainViewModel = MainViewModel.Instance;
-
-
-            //MainViewModel.Instance.ActGoNavigation = (ePage, gameid) =>
-            //{
-            //    switch (ePage)
-            //    {
-            //        case AppPagesEnum.Homepage:
-            //            MainFramNavigateToPage("home");
-            //            break;
-            //        case AppPagesEnum.Lives:
-            //            MainFramNavigateToPage($"lives|{gameid}");
-            //            break;
-            //        case AppPagesEnum.Classes:
-            //            MainFramNavigateToPage("classes");
-            //            break;
-            //        case AppPagesEnum.Subscribe:
-            //            MainFramNavigateToPage("subscribe");
-            //            break;
-            //        case AppPagesEnum.History:
-            //            MainFramNavigateToPage("history");
-            //            break;
-            //        case AppPagesEnum.Settings:
-            //            MainFramNavigateToPage("settings");
-            //            break;
-            //        case AppPagesEnum.Liveroom:
-            //            MainFramNavigateToPage("liveroom");
-            //            break;
-            //        case AppPagesEnum.Search:
-            //            MainFramNavigateToPage("search");
-            //            break;
-            //        default:
-            //            break;
-            //    }
-            //};
         }
 
         private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -92,7 +55,7 @@ namespace ManyPasswords3.Views
                 // 页面发生导航时，更新侧边栏的选中项
                 MainFrame.Navigated += MainFrame_Navigated;
 
-                MainFramNavigateToPage("home", null, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
+                MainFramNavigateToPage("all", null, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
 
                 // 处理系统的返回键和退出键
                 MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu, OnGoBackKeyboardAcceleratorInvoked));
@@ -133,9 +96,9 @@ namespace ManyPasswords3.Views
                     MainNavigationBase select = null;
                     if (select is null)
                     {
-                        foreach (var menuItem in MainViewModel.Instance.vMainNavigationItems)
+                        foreach (var menuItem in MainViewModel.Instance.MainNavigationItems)
                         {
-                            if (menuItem is MainNavigationItem menu && menu?.sTag?.Equals(tag) == true)
+                            if (menuItem is MainNavigationItem menu && menu?.Tag?.Equals(tag) == true)
                             {
                                 select = menuItem;
                                 break;
@@ -144,26 +107,31 @@ namespace ManyPasswords3.Views
                     }
                     if (select is null)
                     {
-                        foreach (var footerMenuItem in MainViewModel.Instance.vMainNavigationFooterItems)
+                        foreach (var footerMenuItem in MainViewModel.Instance.MainNavigationFooterItems)
                         {
                             if (tag == "settings" && footerMenuItem is MainNavigationSettingItem menu)
                             {
                                 select = footerMenuItem;
                                 break;
                             }
-                        }
-                    }
-                    if (select is null)
-                    {
-                        foreach (var menuItem in MainViewModel.Instance.vMainNavigationRecentClassesItems)
-                        {
-                            if (menuItem is MainNavigationItem menu && menu?.sTag?.Equals(tag) == true)
+                            else if (footerMenuItem is MainNavigationItem footer && footer?.Tag?.Equals(tag) == true)
                             {
-                                select = menuItem;
+                                select = footerMenuItem;
                                 break;
                             }
                         }
                     }
+                    //if (select is null)
+                    //{
+                    //    foreach (var menuItem in MainViewModel.Instance.MainNavigationRecentClassesItems)
+                    //    {
+                    //        if (menuItem is MainNavigationItem menu && menu?.sTag?.Equals(tag) == true)
+                    //        {
+                    //            select = menuItem;
+                    //            break;
+                    //        }
+                    //    }
+                    //}
                     MainNavigationView.SelectedItem = select;
                 }
             }
@@ -176,13 +144,11 @@ namespace ManyPasswords3.Views
             {
                 Type page = null;
 
-                if (navItemTag.StartsWith("lives|")) navItemTag = "lives";
-
                 var item = _pages.FirstOrDefault(p => p.Tag.Equals(navItemTag));
                 page = item.Page;
 
                 var preNavPageType = MainFrame.CurrentSourcePageType;
-                if (!(page is null) && !Type.Equals(preNavPageType, page))
+                if (page is not null && !Type.Equals(preNavPageType, page))
                 {
                     if (parameter != null || transitionInfo != null)
                     {

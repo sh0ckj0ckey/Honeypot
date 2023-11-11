@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ManyPasswords3.Core;
 using ManyPasswords3.Data;
+using ManyPasswords3.Models;
 
 namespace ManyPasswords3.ViewModels
 {
@@ -27,11 +28,27 @@ namespace ManyPasswords3.ViewModels
         /// </summary>
         public Action ActChangeBackdrop { get; set; } = null;
 
+
+        public ObservableCollection<MainNavigationBase> MainNavigationItems = new ObservableCollection<MainNavigationBase>();
+
+        public ObservableCollection<MainNavigationBase> MainNavigationFooterItems = new ObservableCollection<MainNavigationBase>();
+
         public MainViewModel()
         {
             AppSettings.OnAppearanceSettingChanged += (index) => { ActSwitchAppTheme?.Invoke(); };
             AppSettings.OnBackdropSettingChanged += (index) => { ActChangeBackdrop?.Invoke(); };
             AppSettings.OnAcrylicOpacitySettingChanged += (opacity) => { };
+
+            // 导航栏
+            MainNavigationItems.Add(new MainNavigationItem("所有账号", "all", "\uE8D7"));
+            MainNavigationItems.Add(new MainNavigationItem("收藏夹", "favorite", "\uEB51"));
+            MainNavigationItems.Add(new MainNavigationItem("全部分类", "category", "\uE74C"/*, MainNavigationRecentClassesItems*/));
+
+            // 导航栏底部
+            MainNavigationFooterItems.Add(new MainNavigationSeparator());
+            MainNavigationFooterItems.Add(new MainNavigationItem("密码生成器", "random", "\uF439"));
+            MainNavigationFooterItems.Add(new MainNavigationSettingItem());
+
         }
 
         /// <summary>
