@@ -9,9 +9,6 @@
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Grid>
-        <Grid.BackgroundTransition>
-            <BrushTransition />
-        </Grid.BackgroundTransition>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
             <Grid>
                 <Grid.RowDefinitions>

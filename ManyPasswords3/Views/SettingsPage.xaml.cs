@@ -27,5 +27,10 @@ namespace ManyPasswords3.Views
         {
             this.InitializeComponent();
         }
+
+        private void OnClickGoToStoreRate(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
