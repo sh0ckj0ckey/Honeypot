@@ -13,7 +13,7 @@
                     <Color x:Key="SEARCHBOX_HOVER_BD">#20FFFFFF</Color>
                     <SolidColorBrush x:Key="SETTING_KEY_BK" Color="{ThemeResource SystemAccentColorLight2}"/>
                     
-                    <!--<BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/icon_github_dark.png" DecodePixelHeight="20" DecodePixelType="Logical"/>-->
+                    <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icon/icon_github_dark.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -28,6 +28,7 @@
                     <Color x:Key="SEARCHBOX_HOVER_BD">#20000000</Color>
                     <SolidColorBrush x:Key="SETTING_KEY_BK" Color="{ThemeResource SystemAccentColorDark1}"/>
 
+                    <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icon/icon_github_light.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

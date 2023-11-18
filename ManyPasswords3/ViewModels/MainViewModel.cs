@@ -45,8 +45,8 @@ namespace ManyPasswords3.ViewModels
             MainNavigationItems.Add(new MainNavigationItem("全部分类", "category", "\uE74C"/*, MainNavigationRecentClassesItems*/));
 
             // 导航栏底部
-            MainNavigationFooterItems.Add(new MainNavigationSeparator());
             MainNavigationFooterItems.Add(new MainNavigationItem("密码生成器", "random", "\uF439"));
+            MainNavigationFooterItems.Add(new MainNavigationSeparator());
             MainNavigationFooterItems.Add(new MainNavigationSettingItem());
 
         }

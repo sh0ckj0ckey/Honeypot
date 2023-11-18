@@ -32,5 +32,20 @@ namespace ManyPasswords3.Views
         {
 
         }
+
+        private void OnClickDbPath(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnClickGoGitHub(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

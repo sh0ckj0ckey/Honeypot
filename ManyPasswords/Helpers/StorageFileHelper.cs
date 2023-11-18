@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -53,6 +54,7 @@ namespace ManyPasswords
             catch (Exception e)
             {
                 //text = "文件读取错误：" + e.Message;
+                Debug.WriteLine(e.Message);
             }
             return text;
         }

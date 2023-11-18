@@ -21,8 +21,8 @@
                                     <BitmapImage DecodePixelHeight="84" DecodePixelType="Logical" UriSource="/Assets/Icon/logo.png"/>
                                 </Image.Source>
                             </Image>
-                            <StackPanel Margin="8,4,0,-4" Orientation="Vertical">
-                                <TextBlock FontSize="16" FontWeight="Bold" FontFamily="{StaticResource XialuFontFamily}" CharacterSpacing="64">
+                            <StackPanel Margin="8,4,0,-4" Spacing="2" Orientation="Vertical">
+                                <TextBlock FontSize="15" FontWeight="Bold" CharacterSpacing="64">
                                     <Run Text="好多密码"/>
                                     <Run Text="v3.0.0" FontSize="12"/>
                                 </TextBlock>
@@ -37,8 +37,8 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <TextBlock Text="个性化" Margin="4,10,0,10" FontWeight="Bold" FontSize="15" CharacterSpacing="48"/>
-                <controls:SettingsCard Header="主题" Description="选择&quot;好多密码&quot;的外观">
+                <TextBlock Text="个性化" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+                <controls:SettingsCard Header="主题" Description="选择 &quot;好多密码&quot; 的外观">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE771;"/>
                     </controls:SettingsCard.HeaderIcon>
@@ -49,7 +49,7 @@
                         <ComboBoxItem Content="明亮"/>
                     </ComboBox>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="背景" Description="选择&quot;好多密码&quot;的背景材质">
+                <controls:SettingsCard Header="背景" Description="选择 &quot;好多密码&quot; 的背景材质">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE727;"/>
                     </controls:SettingsCard.HeaderIcon>
@@ -59,10 +59,10 @@
                         <ComboBoxItem Content="亚克力"/>
                     </ComboBox>
                 </controls:SettingsCard>
-                <TextBlock Text="安全和数据" Margin="4,10,0,10" FontWeight="Bold" FontSize="15" CharacterSpacing="48"/>
+                <TextBlock Text="安全和数据" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
                 <controls:SettingsCard Header="使用 Windows Hello 锁定应用">
                     <controls:SettingsCard.Description>
-                        <HyperlinkButton Content="在&quot;系统设置&quot;中查看" Click="HyperlinkButton_Click"/>
+                        <HyperlinkButton Content="在 &quot;系统设置&quot; 中查看" Click="HyperlinkButton_Click"/>
                     </controls:SettingsCard.Description>
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEB68;"/>
@@ -81,6 +81,41 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
+                <TextBlock Text="关于" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+                <controls:SettingsCard Header="反馈" Description="如果您遇到问题或有任何建议">
+                    <controls:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xED15;"/>
+                    </controls:SettingsCard.HeaderIcon>
+                    <Button Height="34">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image Width="20" Height="20" Margin="0,0,0,0">
+                                <Image.Source>
+                                    <BitmapImage UriSource="ms-appx:///Assets/Icon/icon_mail.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
+                                </Image.Source>
+                            </Image>
+                            <TextBlock Text="发送邮件" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
+                        </StackPanel>
+                        <Button.Flyout>
+                            <Flyout>
+                                <HyperlinkButton ToolTipService.ToolTip="点击向我发送邮件" NavigateUri="mailto:yaoyiming123@live.com">
+                                    <TextBlock FontWeight="Medium" Text="yaoyiming123@live.com"/>
+                                </HyperlinkButton>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </controls:SettingsCard>
+                <controls:SettingsCard Header="源代码" Description="前往 GitHub 查看源代码">
+                    <controls:SettingsCard.HeaderIcon>
+                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE943;"/>
+                    </controls:SettingsCard.HeaderIcon>
+                    <Button Height="34" Click="OnClickGoGitHub" ToolTipService.ToolTip="GitHub 存储库">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image Width="20" Height="20" Margin="0,0,0,0" Source="{ThemeResource ABOUT_GITHUB_IMG}"/>
+                            <TextBlock Text="GitHub 存储库" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
+                        </StackPanel>
+                    </Button>
+                </controls:SettingsCard>
+                <TextBlock Text="©2023 sh0ckj0ckey." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,8,0,8"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
