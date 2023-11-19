@@ -12,8 +12,8 @@ namespace ManyPasswords3.Core
     {
         private const string SETTING_NAME_APPEARANCEINDEX = "AppearanceIndex";
         private const string SETTING_NAME_BACKDROPINDEX = "BackdropIndex";
-        private const string SETTING_NAME_ACRYLICOPACITY = "AcrylicOpacity";
-        private const string SETTING_NAME_ENABLEENGDEF = "EnableEngDefinition";
+        private const string SETTING_NAME_ENABLELOCK = "EnableLock";
+
         private const string SETTING_NAME_ENABLEGLOSSARY = "EnableGlossary";
         private const string SETTING_NAME_AUTOCLEARLASTINPUT = "AutoClearLastInput";
         private const string SETTING_NAME_CLOSEBUTTONMODE = "CloseButtonMode";
@@ -23,7 +23,6 @@ namespace ManyPasswords3.Core
 
         public Action<int> OnAppearanceSettingChanged { get; set; } = null;
         public Action<int> OnBackdropSettingChanged { get; set; } = null;
-        public Action<double> OnAcrylicOpacitySettingChanged { get; set; } = null;
 
         // 设置的应用程序的主题 0-System 1-Dark 2-Light
         private int _appearanceIndex = -1;
@@ -109,74 +108,38 @@ namespace ManyPasswords3.Core
             }
         }
 
-        // 亚克力背景透明度
-        private double _acrylicOpacity = -1;
-        public double AcrylicOpacity
+        // 是否使用Windows Hello锁定
+        private bool? _enableLock = null;
+        public bool EnableLock
         {
             get
             {
                 try
                 {
-                    if (_acrylicOpacity < 0)
+                    if (_enableLock is null)
                     {
-                        if (_localSettings.Values[SETTING_NAME_ACRYLICOPACITY] == null)
+                        if (_localSettings.Values[SETTING_NAME_ENABLELOCK] == null)
                         {
-                            _acrylicOpacity = 1.0;
+                            _enableLock = false;
+                        }
+                        else if (_localSettings.Values[SETTING_NAME_ENABLELOCK]?.ToString() == "True")
+                        {
+                            _enableLock = true;
                         }
                         else
                         {
-                            string opacityStr = _localSettings.Values[SETTING_NAME_ACRYLICOPACITY]?.ToString();
-                            if (double.TryParse(opacityStr, out double opacity))
-                            {
-                                _acrylicOpacity = opacity;
-                            }
+                            _enableLock = false;
                         }
                     }
                 }
                 catch { }
-                if (_acrylicOpacity < 0) _acrylicOpacity = 1.0;
-                return _acrylicOpacity < 0 ? 1.0 : _acrylicOpacity;
+                _enableLock ??= false;
+                return _enableLock == true;
             }
             set
             {
-                SetProperty(ref _acrylicOpacity, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ACRYLICOPACITY] = _acrylicOpacity;
-                OnAcrylicOpacitySettingChanged?.Invoke(_acrylicOpacity);
-            }
-        }
-
-        // 是否显示英英释义
-        private bool? _enableEngDefinition = null;
-        public bool EnableEngDefinition
-        {
-            get
-            {
-                try
-                {
-                    if (_enableEngDefinition is null)
-                    {
-                        if (_localSettings.Values[SETTING_NAME_ENABLEENGDEF] == null)
-                        {
-                            _enableEngDefinition = true;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_ENABLEENGDEF]?.ToString() == "False")
-                        {
-                            _enableEngDefinition = false;
-                        }
-                        else
-                        {
-                            _enableEngDefinition = true;
-                        }
-                    }
-                }
-                catch { }
-                if (_enableEngDefinition is null) _enableEngDefinition = true;
-                return _enableEngDefinition != false;
-            }
-            set
-            {
-                SetProperty(ref _enableEngDefinition, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ENABLEENGDEF] = _enableEngDefinition;
+                SetProperty(ref _enableLock, value);
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ENABLELOCK] = _enableLock;
             }
         }
 

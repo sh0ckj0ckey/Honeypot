@@ -46,6 +46,8 @@ namespace ManyPasswords3.Views
             this.InitializeComponent();
 
             MainViewModel = MainViewModel.Instance;
+
+            MainViewModel.Instance.ActSwitchAppTheme?.Invoke();
         }
 
         private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)

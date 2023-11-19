@@ -67,7 +67,7 @@
                              MenuItemsSource="{x:Bind MainViewModel.MainNavigationItems,Mode=OneWay}"
                              FooterMenuItemsSource="{x:Bind MainViewModel.MainNavigationFooterItems,Mode=OneWay}">
             <NavigationView.PaneCustomContent>
-                <StackPanel Orientation="Horizontal" Spacing="14" Margin="14,20,14,20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Spacing="14" Margin="14,28,14,20" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Image Height="20" Width="20" VerticalAlignment="Center">
                         <Image.Source>
                             <BitmapImage UriSource="/Assets/Icon/logo.png" DecodePixelType="Logical" DecodePixelHeight="40"/>

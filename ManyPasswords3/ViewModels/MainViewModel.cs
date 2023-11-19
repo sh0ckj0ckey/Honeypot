@@ -37,7 +37,6 @@ namespace ManyPasswords3.ViewModels
         {
             AppSettings.OnAppearanceSettingChanged += (index) => { ActSwitchAppTheme?.Invoke(); };
             AppSettings.OnBackdropSettingChanged += (index) => { ActChangeBackdrop?.Invoke(); };
-            AppSettings.OnAcrylicOpacitySettingChanged += (opacity) => { };
 
             // 导航栏
             MainNavigationItems.Add(new MainNavigationItem("所有账号", "all", "\uE8D7"));
