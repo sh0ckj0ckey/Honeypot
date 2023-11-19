@@ -74,7 +74,7 @@
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF540;"/>
                     </controls:SettingsCard.HeaderIcon>
                     <Button Height="32" MinWidth="114" Click="OnClickDbPath">
-                        <StackPanel Orientation="Horizontal" Spacing="4">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="12"/>
                             <TextBlock Text="前往查看" CharacterSpacing="64"/>
                         </StackPanel>
