@@ -69,7 +69,7 @@
                     </controls:SettingsCard.HeaderIcon>
                     <ToggleSwitch IsOn="{x:Bind _viewModel.AppSettings.EnableLock,Mode=OneWay}" Toggled="OnToggleWindowHello"/>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="数据文件" Description="密码存储在本地，记得定期备份哦~">
+                <controls:SettingsCard Header="数据文件" Description="密码明文保存，请妥善保管">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF540;"/>
                     </controls:SettingsCard.HeaderIcon>
