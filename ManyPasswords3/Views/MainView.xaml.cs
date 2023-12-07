@@ -36,6 +36,7 @@ namespace ManyPasswords3.Views
         {
             ("all", typeof(PasswordsPage)),
             ("favorite", typeof(FavoritesPage)),
+            ("adding", typeof(AddingPage)),
             ("category", typeof(CategoriesPage)),
             ("random", typeof(RandomPage)),
             ("settings", typeof(SettingsPage)),

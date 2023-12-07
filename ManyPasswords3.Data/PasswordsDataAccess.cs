@@ -15,7 +15,7 @@ namespace ManyPasswords3.Data
     {
         private static SqliteConnection _passwordsDb = null;
 
-        public static async void LoadDatabase(StorageFolder folder/*string filePath*/)
+        public static async void LoadDatabase(StorageFolder folder)
         {
             var file = await folder.CreateFileAsync("manypasswords.db", CreationCollisionOption.OpenIfExists);
 
@@ -284,5 +284,35 @@ namespace ManyPasswords3.Data
             catch { }
         }
 
+        /// <summary>
+        /// 获取密码数量
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        public static int GetPasswordsCount(int categoryId = -1)
+        {
+            try
+            {
+                SqliteCommand selectCommand = null;
+                if (categoryId >= 0)
+                {
+                    selectCommand = new SqliteCommand($"select count(*) from passwords where categoryid=$categoryid", _passwordsDb);
+                    selectCommand.Parameters.AddWithValue("$categoryid", categoryId);
+                }
+                else
+                {
+                    selectCommand = new SqliteCommand($"select count(*) from passwords", _passwordsDb);
+                }
+
+                SqliteDataReader query = selectCommand?.ExecuteReader();
+                while (query?.Read() == true)
+                {
+                    var count = query.IsDBNull(0) ? -1 : query.GetInt32(0);
+                    return count;
+                }
+            }
+            catch { }
+            return -1;
+        }
     }
 }

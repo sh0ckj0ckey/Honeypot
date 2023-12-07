@@ -9,6 +9,10 @@
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Grid>
-
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+            <StackPanel Orientation="Vertical" Margin="16,0,20,0">
+                <TextBlock Text="收藏夹" Margin="4,28,0,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

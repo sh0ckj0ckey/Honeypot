@@ -21,17 +21,11 @@ namespace ManyPasswords3.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PasswordsPage : Page
+    public sealed partial class AddingPage : Page
     {
-        public PasswordsPage()
+        public AddingPage()
         {
             this.InitializeComponent();
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            PasswordsFrame.BackStack?.Clear();
-            PasswordsFrame.Navigate(typeof(BlankPage));
         }
     }
 }

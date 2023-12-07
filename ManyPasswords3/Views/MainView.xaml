@@ -21,7 +21,7 @@
         <models:MenuItemTemplateSelector x:Key="menuTemplateSelector">
             <models:MenuItemTemplateSelector.ItemTemplate>
                 <DataTemplate x:DataType="models:MainNavigationItem">
-                    <muxc:NavigationViewItem Content="{x:Bind Name}" Tag="{x:Bind Tag}" IsExpanded="True" SelectsOnInvoked="{x:Bind IsLeaf}" ToolTipService.ToolTip="{x:Bind Name}"
+                    <muxc:NavigationViewItem Content="{x:Bind Name}" Tag="{x:Bind Tag}" IsExpanded="True" ToolTipService.ToolTip="{x:Bind Name}"
                                              MenuItemsSource="{x:Bind Children,Mode=OneWay}" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
                         <muxc:NavigationViewItem.Icon>
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind Icon}"/>
