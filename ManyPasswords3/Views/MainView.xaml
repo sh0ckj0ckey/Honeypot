@@ -60,7 +60,7 @@
     </Page.Resources>
 
     <Grid>
-        <muxc:NavigationView x:Name="MainNavigationView" Background="Transparent" OpenPaneLength="226" Canvas.ZIndex="0" PaneDisplayMode="Left" 
+        <muxc:NavigationView x:Name="MainNavigationView" Background="Transparent" OpenPaneLength="240" Canvas.ZIndex="0" PaneDisplayMode="Left" 
                              IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" IsSettingsVisible="False" IsTitleBarAutoPaddingEnabled="False" IsTabStop="False"
                              Loaded="MainNavigationView_Loaded" ItemInvoked="MainNavigationView_ItemInvoked"
                              MenuItemTemplateSelector="{StaticResource menuTemplateSelector}"
