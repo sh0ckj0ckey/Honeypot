@@ -49,6 +49,19 @@ namespace ManyPasswords3.Data
             createGlossaryTable.ExecuteReader();
         }
 
+        public static bool IsDatabaseConnected()
+        {
+            if (_passwordsDb?.State == System.Data.ConnectionState.Open ||
+                _passwordsDb?.State == System.Data.ConnectionState.Executing ||
+                _passwordsDb?.State == System.Data.ConnectionState.Connecting ||
+                _passwordsDb?.State == System.Data.ConnectionState.Fetching)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static void CloseDatabase()
         {
             _passwordsDb?.Close();

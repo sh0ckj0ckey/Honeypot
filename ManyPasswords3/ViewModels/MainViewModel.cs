@@ -75,37 +75,39 @@ namespace ManyPasswords3.ViewModels
             MainNavigationFooterItems.Add(new MainNavigationSeparator());
             MainNavigationFooterItems.Add(new MainNavigationSettingItem());
 
-            LoadPasswordsDataBase();
+            InitPasswordsDataBase();
         }
 
         /// <summary>
         /// 加载数据库
         /// </summary>
-        public async void LoadPasswordsDataBase()
+        public async void InitPasswordsDataBase()
         {
             try
             {
-                Categoryies.Clear();
-                Passwords.Clear();
-
                 StorageFolder documentsFolder = await StorageFolder.GetFolderFromPathAsync(UserDataPaths.GetDefault().Documents);
                 var noMewingFolder = await documentsFolder.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
                 var dbFolder = await noMewingFolder.CreateFolderAsync("ManyPasswords", CreationCollisionOption.OpenIfExists);
-
                 PasswordsDataAccess.CloseDatabase();
                 await PasswordsDataAccess.LoadDatabase(dbFolder);
 
-                var categories = PasswordsDataAccess.GetCategories();
-                foreach (var item in categories)
-                {
-                    Categoryies.Add(new CategoryModel()
-                    {
-                        Id = item.Id,
-                        Title = item.Title,
-                        Icon = item.Icon,
-                    });
-                }
+                LoadPasswordsTable();
+                LoadCategoriesTable();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
 
+        /// <summary>
+        /// 重新从数据库加载所有密码列表
+        /// </summary>
+        private void LoadPasswordsTable()
+        {
+            if (PasswordsDataAccess.IsDatabaseConnected())
+            {
+                Passwords.Clear();
                 var passwords = PasswordsDataAccess.GetPasswords();
                 foreach (var item in passwords)
                 {
@@ -113,7 +115,7 @@ namespace ManyPasswords3.ViewModels
                     {
                         BitmapImage avatarImage = null;
 
-                        Passwords.Add(new PasswordModel()
+                        Passwords.Insert(0, new PasswordModel()
                         {
                             Id = item.Id,
                             Account = item.Account,
@@ -134,10 +136,57 @@ namespace ManyPasswords3.ViewModels
                     }
                 }
             }
-            catch (Exception e)
+            else
             {
-                Debug.WriteLine(e.Message);
+                InitPasswordsDataBase();
             }
+        }
+
+        /// <summary>
+        /// 重新从数据库加载分类列表
+        /// </summary>
+        private void LoadCategoriesTable()
+        {
+            if (PasswordsDataAccess.IsDatabaseConnected())
+            {
+                Categoryies.Clear();
+                var categories = PasswordsDataAccess.GetCategories();
+                foreach (var item in categories)
+                {
+                    Categoryies.Insert(0, new CategoryModel()
+                    {
+                        Id = item.Id,
+                        Title = item.Title,
+                        Icon = item.Icon,
+                    });
+                }
+            }
+            else
+            {
+                InitPasswordsDataBase();
+            }
+        }
+
+        /// <summary>
+        /// 添加分类
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="icon"></param>
+        public void CreateCategory(string title, string icon)
+        {
+            if (string.IsNullOrEmpty(title))
+            {
+                title = "未命名分类";
+            }
+
+            if (string.IsNullOrEmpty(icon))
+            {
+                icon = "\uE003";
+            }
+
+            PasswordsDataAccess.AddOneCategory(title, icon);
+
+            LoadCategoriesTable();
         }
 
         /// <summary>

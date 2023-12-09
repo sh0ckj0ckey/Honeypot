@@ -11,14 +11,14 @@ namespace ManyPasswords3.Models
     {
         public int Id { get; set; } = -1;
 
-        private string _title = "未命名分类";
+        private string _title = "";
         public string Title
         {
             get => _title;
             set => SetProperty(ref _title, value);
         }
 
-        private string _icon = "\uE003";
+        private string _icon = "";
         public string Icon
         {
             get => _icon;
