@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using ManyPasswords3.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -23,9 +24,13 @@ namespace ManyPasswords3.Views
     /// </summary>
     public sealed partial class PasswordsPage : Page
     {
+        private MainViewModel MainViewModel = null;
+
         public PasswordsPage()
         {
             this.InitializeComponent();
+
+            MainViewModel = MainViewModel.Instance;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)

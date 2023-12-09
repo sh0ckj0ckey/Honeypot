@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ManyPasswords3.Core;
 using ManyPasswords3.Data;
+using ManyPasswords3.Helpers;
 using ManyPasswords3.Models;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage;
 
 namespace ManyPasswords3.ViewModels
 {
@@ -33,6 +38,26 @@ namespace ManyPasswords3.ViewModels
 
         public ObservableCollection<MainNavigationBase> MainNavigationFooterItems = new ObservableCollection<MainNavigationBase>();
 
+        /// <summary>
+        /// 本机 Segoe Fluent Icons 字体的所有字符
+        /// </summary>
+        private ObservableCollection<Character> _allIcons = null;
+        public ObservableCollection<Character> AllIcons
+        {
+            get => _allIcons;
+            set => SetProperty(ref _allIcons, value);
+        }
+
+        /// <summary>
+        /// 所有分类
+        /// </summary>
+        public ObservableCollection<CategoryModel> Categoryies { get; set; } = new ObservableCollection<CategoryModel>();
+
+        /// <summary>
+        /// 当前显示的密码列表
+        /// </summary>
+        public ObservableCollection<PasswordModel> Passwords { get; set; } = new ObservableCollection<PasswordModel>();
+
         public MainViewModel()
         {
             AppSettings.OnAppearanceSettingChanged += (index) => { ActSwitchAppTheme?.Invoke(); };
@@ -50,14 +75,85 @@ namespace ManyPasswords3.ViewModels
             MainNavigationFooterItems.Add(new MainNavigationSeparator());
             MainNavigationFooterItems.Add(new MainNavigationSettingItem());
 
+            LoadPasswordsDataBase();
         }
 
         /// <summary>
         /// 加载数据库
         /// </summary>
-        public void LoadPasswordsDataBase()
+        public async void LoadPasswordsDataBase()
         {
-            //PasswordsDataAccess.InitializeDatabase();
+            try
+            {
+                Categoryies.Clear();
+                Passwords.Clear();
+
+                StorageFolder documentsFolder = await StorageFolder.GetFolderFromPathAsync(UserDataPaths.GetDefault().Documents);
+                var noMewingFolder = await documentsFolder.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
+                var dbFolder = await noMewingFolder.CreateFolderAsync("ManyPasswords", CreationCollisionOption.OpenIfExists);
+
+                PasswordsDataAccess.CloseDatabase();
+                await PasswordsDataAccess.LoadDatabase(dbFolder);
+
+                var categories = PasswordsDataAccess.GetCategories();
+                foreach (var item in categories)
+                {
+                    Categoryies.Add(new CategoryModel()
+                    {
+                        Id = item.Id,
+                        Title = item.Title,
+                        Icon = item.Icon,
+                    });
+                }
+
+                var passwords = PasswordsDataAccess.GetPasswords();
+                foreach (var item in passwords)
+                {
+                    try
+                    {
+                        BitmapImage avatarImage = null;
+
+                        Passwords.Add(new PasswordModel()
+                        {
+                            Id = item.Id,
+                            Account = item.Account,
+                            Password = item.Password,
+                            FirstLetter = item.FirstLetter[0],
+                            Name = item.Name,
+                            CreateDate = item.CreateDate,
+                            EditDate = item.EditDate,
+                            Website = item.Website,
+                            Note = item.Note,
+                            Favorite = item.Favorite != 0,
+                            Image = avatarImage
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// 加载本机 Segoe Fluent Icons 字体内的所有图标
+        /// </summary>
+        public void LoadSegoeFluentIcons()
+        {
+            if (AllIcons is null)
+            {
+                AllIcons = new ObservableCollection<Character>();
+                var icons = FontHelper.GetAllSegoeFluentIcons();
+                foreach (var icon in icons)
+                {
+                    AllIcons.Add(icon);
+                }
+            }
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ManyPasswords3.Helpers;
+using ManyPasswords3.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,9 +25,23 @@ namespace ManyPasswords3.Views
     /// </summary>
     public sealed partial class CategoriesPage : Page
     {
+        private MainViewModel MainViewModel = null;
+
         public CategoriesPage()
         {
             this.InitializeComponent();
+
+            MainViewModel = MainViewModel.Instance;
+
+            MainViewModel.Instance.LoadSegoeFluentIcons();
+        }
+
+        private void OnSelectIcon(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is GridView gv && gv.SelectedItem is Character character)
+            {
+                AddingCategoryIconPreview.Glyph = character.Char;
+            }
         }
     }
 }

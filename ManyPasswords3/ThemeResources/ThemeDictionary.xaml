@@ -8,12 +8,9 @@
                     <Color x:Key="APPLICATION_NORMAL_FR">#FFFFFF</Color>
                     <Color x:Key="APPLICATION_ITEM_BK">#0BFFFFFF</Color>
                     <Color x:Key="APPLICATION_LINE_BK">#16FFFFFF</Color>
-                    
-                    <Color x:Key="SEARCHBOX_NORMAL_BD">#16FFFFFF</Color>
-                    <Color x:Key="SEARCHBOX_HOVER_BD">#20FFFFFF</Color>
-                    <SolidColorBrush x:Key="SETTING_KEY_BK" Color="{ThemeResource SystemAccentColorLight2}"/>
 
-                    <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Background/large_title_dark.png" DecodePixelHeight="512" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="APPLICATION_BLANK_IMG" UriSource="ms-appx:///Assets/Background/large_title_dark.png" DecodePixelHeight="512" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/empty_dark.png" DecodePixelHeight="96" DecodePixelType="Logical"/>
                     
                     <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icon/icon_github_dark.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                 </ResourceDictionary>
@@ -25,13 +22,10 @@
                     <Color x:Key="APPLICATION_NORMAL_FR">#000000</Color>
                     <Color x:Key="APPLICATION_ITEM_BK">#08000000</Color>
                     <Color x:Key="APPLICATION_LINE_BK">#10000000</Color>
-                    
-                    <Color x:Key="SEARCHBOX_NORMAL_BD">#10000000</Color>
-                    <Color x:Key="SEARCHBOX_HOVER_BD">#20000000</Color>
-                    <SolidColorBrush x:Key="SETTING_KEY_BK" Color="{ThemeResource SystemAccentColorDark1}"/>
 
-                    <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Background/large_title_light.png" DecodePixelHeight="512" DecodePixelType="Logical"/>
-                    
+                    <BitmapImage x:Key="APPLICATION_BLANK_IMG" UriSource="ms-appx:///Assets/Background/large_title_light.png" DecodePixelHeight="512" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/empty_light.png" DecodePixelHeight="96" DecodePixelType="Logical"/>
+
                     <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icon/icon_github_light.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

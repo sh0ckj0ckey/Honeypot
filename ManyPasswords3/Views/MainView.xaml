@@ -60,7 +60,7 @@
     </Page.Resources>
 
     <Grid>
-        <muxc:NavigationView x:Name="MainNavigationView" Background="Transparent" OpenPaneLength="240" Canvas.ZIndex="0" PaneDisplayMode="Left" 
+        <muxc:NavigationView x:Name="MainNavigationView" Background="Transparent" OpenPaneLength="220" Canvas.ZIndex="0" PaneDisplayMode="Left" 
                              IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" IsSettingsVisible="False" IsTitleBarAutoPaddingEnabled="False" IsTabStop="False"
                              Loaded="MainNavigationView_Loaded" ItemInvoked="MainNavigationView_ItemInvoked"
                              MenuItemTemplateSelector="{StaticResource menuTemplateSelector}"
@@ -84,5 +84,26 @@
                 </Frame.ContentTransitions>
             </Frame>
         </muxc:NavigationView>
+        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="960"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainNavigationView.PaneDisplayMode" Value="Left"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MainNavigationView.PaneDisplayMode" Value="LeftCompact"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
