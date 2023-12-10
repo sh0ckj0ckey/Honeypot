@@ -19,6 +19,11 @@ namespace ManyPasswords3.ViewModels
         public ObservableCollection<CategoryModel> Categoryies { get; set; } = new ObservableCollection<CategoryModel>();
 
         /// <summary>
+        /// 显示在侧边导航栏的分类列表，与Categories同步变更
+        /// </summary>
+        public ObservableCollection<MainNavigationItem> CategoriesOnNav { get; set; } = new ObservableCollection<MainNavigationItem>();
+
+        /// <summary>
         /// 本机 Segoe Fluent Icons 字体的所有字符
         /// </summary>
         private ObservableCollection<Character> _allIcons = null;
@@ -36,6 +41,7 @@ namespace ManyPasswords3.ViewModels
             if (PasswordsDataAccess.IsDatabaseConnected())
             {
                 Categoryies.Clear();
+                CategoriesOnNav.Clear();
                 var categories = PasswordsDataAccess.GetCategories();
                 foreach (var item in categories)
                 {
@@ -45,6 +51,8 @@ namespace ManyPasswords3.ViewModels
                         Title = item.Title,
                         Icon = item.Icon,
                     });
+
+                    CategoriesOnNav.Insert(0, new MainNavigationItem(item.Title, $"category_{item.Id}", item.Icon));
                 }
             }
             else

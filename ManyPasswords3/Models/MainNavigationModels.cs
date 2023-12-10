@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml;
+using CommunityToolkit.Mvvm.ComponentModel;
+using ManyPasswords3.Helpers;
 
 namespace ManyPasswords3.Models
 {
-    public class MainNavigationBase { }
+    public class MainNavigationBase : ObservableObject { }
 
     public class MainNavigationItem : MainNavigationBase
     {
@@ -17,7 +19,13 @@ namespace ManyPasswords3.Models
         public string Tag { get; set; }
         public string Icon { get; set; }
         public bool IsLeaf { get; set; }
-        public ObservableCollection<MainNavigationItem> Children { get; set; } = null;
+
+        private ObservableCollection<MainNavigationItem> _children = null;
+        public ObservableCollection<MainNavigationItem> Children
+        {
+            get => _children;
+            set => SetProperty(ref _children, value);
+        }
 
         public MainNavigationItem(string name, string tag, string icon, ObservableCollection<MainNavigationItem> children = null)
         {

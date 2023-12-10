@@ -125,17 +125,17 @@ namespace ManyPasswords3.Views
                             }
                         }
                     }
-                    //if (select is null)
-                    //{
-                    //    foreach (var menuItem in MainViewModel.Instance.MainNavigationRecentClassesItems)
-                    //    {
-                    //        if (menuItem is MainNavigationItem menu && menu?.sTag?.Equals(tag) == true)
-                    //        {
-                    //            select = menuItem;
-                    //            break;
-                    //        }
-                    //    }
-                    //}
+                    if (select is null)
+                    {
+                        foreach (var menuItem in MainViewModel.Instance.CategoriesOnNav)
+                        {
+                            if (menuItem is MainNavigationItem menu && menu?.Tag?.Equals(tag) == true)
+                            {
+                                select = menuItem;
+                                break;
+                            }
+                        }
+                    }
                     MainNavigationView.SelectedItem = select;
                 }
             }

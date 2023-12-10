@@ -6,8 +6,7 @@
     xmlns:local="using:ManyPasswords3.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:controls="using:CommunityToolkit.WinUI.Controls" 
-    xmlns:labs="using:CommunityToolkit.Labs.WinUI" 
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:models="using:ManyPasswords3.Models" 
     xmlns:muxc="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
@@ -21,11 +20,14 @@
         <models:MenuItemTemplateSelector x:Key="menuTemplateSelector">
             <models:MenuItemTemplateSelector.ItemTemplate>
                 <DataTemplate x:DataType="models:MainNavigationItem">
-                    <muxc:NavigationViewItem Content="{x:Bind Name}" Tag="{x:Bind Tag}" IsExpanded="True" ToolTipService.ToolTip="{x:Bind Name}"
+                    <muxc:NavigationViewItem Tag="{x:Bind Tag}" IsExpanded="True" ToolTipService.ToolTip="{x:Bind Name}"
                                              MenuItemsSource="{x:Bind Children,Mode=OneWay}" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
                         <muxc:NavigationViewItem.Icon>
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind Icon}"/>
                         </muxc:NavigationViewItem.Icon>
+                        <muxc:NavigationViewItem.Content>
+                            <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis"/>
+                        </muxc:NavigationViewItem.Content>
                     </muxc:NavigationViewItem>
                 </DataTemplate>
             </models:MenuItemTemplateSelector.ItemTemplate>

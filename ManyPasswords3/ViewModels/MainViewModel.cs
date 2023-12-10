@@ -48,7 +48,7 @@ namespace ManyPasswords3.ViewModels
             MainNavigationItems.Add(new MainNavigationItem("收藏夹", "favorite", "\uEB51"));
             MainNavigationItems.Add(new MainNavigationItem("添加", "adding", "\uE109"));
             MainNavigationItems.Add(new MainNavigationSeparator());
-            MainNavigationItems.Add(new MainNavigationItem("全部分类", "category", "\uE74C"/*, MainNavigationRecentClassesItems*/));
+            MainNavigationItems.Add(new MainNavigationItem("全部分类", "category", "\uE74C", CategoriesOnNav));
 
             // 导航栏底部
             MainNavigationFooterItems.Add(new MainNavigationItem("密码生成器", "random", "\uF439"));
