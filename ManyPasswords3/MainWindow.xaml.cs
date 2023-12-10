@@ -35,7 +35,7 @@ namespace ManyPasswords3
             this.AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/Icon/manypasswords.ico"));
             this.PersistenceId = "ManyPasswordsMainWindow";
             this.ExtendsContentIntoTitleBar = true;
-            this.SetTitleBar(AppTitleBar);
+            //this.SetTitleBar(AppTitleBar);
 
             _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 

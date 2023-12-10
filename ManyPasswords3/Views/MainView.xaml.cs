@@ -39,6 +39,7 @@ namespace ManyPasswords3.Views
             ("adding", typeof(AddingPage)),
             ("category", typeof(CategoriesPage)),
             ("random", typeof(RandomPage)),
+            ("tips", typeof(TipsPage)),
             ("settings", typeof(SettingsPage)),
         };
 
