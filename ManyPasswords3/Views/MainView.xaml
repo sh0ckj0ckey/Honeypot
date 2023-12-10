@@ -26,7 +26,7 @@
                             <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind Icon}"/>
                         </muxc:NavigationViewItem.Icon>
                         <muxc:NavigationViewItem.Content>
-                            <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{x:Bind Name}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
                         </muxc:NavigationViewItem.Content>
                     </muxc:NavigationViewItem>
                 </DataTemplate>
