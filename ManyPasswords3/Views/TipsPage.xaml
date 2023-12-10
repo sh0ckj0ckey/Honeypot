@@ -10,10 +10,57 @@
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-            <StackPanel Orientation="Vertical" Margin="16,0,20,0">
-                <TextBlock Text="使用提示" Margin="4,28,0,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
-                <TextBlock Text="我的数据存储在哪里？我该如何备份？"/>
-                <TextBlock Text="在哪里编辑我创建的密码和分类？"/>
+            <StackPanel Orientation="Vertical" Margin="16,0,20,20">
+                <TextBlock Text="使用提示" Margin="4,28,0,4" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+                <StackPanel Orientation="Horizontal" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock Text="一些常见疑问的说明，如有其他疑问，" FontSize="16" Opacity="0.8" CharacterSpacing="48" VerticalAlignment="Center"/>
+                    <HyperlinkButton Content="欢迎联系" FontSize="16" Padding="4,0" NavigateUri="mailto:yaoyiming123@live.com" VerticalAlignment="Center" ToolTipService.ToolTip="向 yaoyiming123@live.com 发送邮件"/>
+                </StackPanel>
+                
+                <Grid Margin="0,12,0,0" CornerRadius="8,8,0,0" BorderThickness="1,1,1,0" Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                      BorderBrush="{ThemeResource APPLICATION_LINE_BK}" Background="{ThemeResource APPLICATION_ITEM_BK}">
+                    <TextBlock Text="我的数据存储在哪里？我该如何备份？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                </Grid>
+                <Grid CornerRadius="0,0,8,8" BorderThickness="1,1,1,1" Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                      BorderBrush="{ThemeResource APPLICATION_LINE_BK}" Background="{ThemeResource APPLICATION_ITEM_BK}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical">
+                        <TextBlock FontSize="14" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64">
+                            <Run Text="所有的数据都保存在如图所示的 SQLite 数据库文件中，此软件目前并没有云备份功能，因此您可自行将此文件备份，"/>
+                            <Run Text="请注意，所有数据均为明文存储，务必妥善保管！" FontWeight="Bold" Foreground="#DD0000"/>
+                            <Run Text="明文存储意味着任何人都可以使用诸如 SQLiteStudio 等程序查看该数据库文件的一切内容。"/>
+                        </TextBlock>
+                        <HyperlinkButton Content="查看数据库文件" Margin="-12,8,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Border Grid.Column="1" CornerRadius="8" Width="370" Height="250" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{ThemeResource TIPS_DBFILE_IMG}" Stretch="UniformToFill"/>
+                        </Border.Background>
+                    </Border>
+                </Grid>
+
+                <Grid Margin="0,12,0,0" CornerRadius="8,8,0,0" BorderThickness="1,1,1,0" Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                      BorderBrush="{ThemeResource APPLICATION_LINE_BK}" Background="{ThemeResource APPLICATION_ITEM_BK}">
+                    <TextBlock Text="在哪里编辑我创建的密码和分类？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                </Grid>
+                <Grid CornerRadius="0,0,8,8" BorderThickness="1,1,1,1" Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                      BorderBrush="{ThemeResource APPLICATION_LINE_BK}" Background="{ThemeResource APPLICATION_ITEM_BK}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical">
+                        <TextBlock FontSize="14" Text="只需要在密码或者分类上单击鼠标右键，即可在菜单中进行修改或删除等操作。" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64"/>
+                    </StackPanel>
+                    <Border Grid.Column="1" CornerRadius="8" Width="160" Height="126" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{ThemeResource TIPS_RIGHTCLICK_IMG}" Stretch="UniformToFill"/>
+                        </Border.Background>
+                    </Border>
+                </Grid>
             </StackPanel>
         </ScrollViewer>
     </Grid>

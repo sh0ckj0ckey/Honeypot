@@ -57,11 +57,11 @@
                     <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,0,0,0"
                             CornerRadius="8" Style="{StaticResource AccentButtonStyle}" ToolTipService.ToolTip="生成并复制结果" Click="Button_Click">
                         <Button.Content>
-                            <Image x:Name="RandomImage" Source="/Assets/Icon/RandomIcon.png" Margin="-24,0" Height="48" Width="48" Rotation="0" CenterPoint="24,24,0">
-                                <Image.RotationTransition>
+                            <BitmapIcon x:Name="RandomImage" UriSource="ms-appx:///Assets/Icon/RandomIcon.png" Margin="-24,0" Height="48" Width="48" Rotation="0" CenterPoint="24,24,0" ShowAsMonochrome="True">
+                                <BitmapIcon.RotationTransition>
                                     <ScalarTransition />
-                                </Image.RotationTransition>
-                            </Image>
+                                </BitmapIcon.RotationTransition>
+                            </BitmapIcon>
                         </Button.Content>
                     </Button>
                 </Grid>

@@ -34,6 +34,22 @@ namespace ManyPasswords3.ViewModels
         }
 
         /// <summary>
+        /// 加载本机 Segoe Fluent Icons 字体内的所有图标
+        /// </summary>
+        public void LoadSegoeFluentIcons()
+        {
+            if (AllIcons is null)
+            {
+                AllIcons = new ObservableCollection<Character>();
+                var icons = FontHelper.GetAllSegoeFluentIcons();
+                foreach (var icon in icons)
+                {
+                    AllIcons.Add(icon);
+                }
+            }
+        }
+
+        /// <summary>
         /// 重新从数据库加载分类列表
         /// </summary>
         private void LoadCategoriesTable()
@@ -115,22 +131,6 @@ namespace ManyPasswords3.ViewModels
             PasswordsDataAccess.DeleteOneCategory(id);
 
             LoadCategoriesTable();
-        }
-
-        /// <summary>
-        /// 加载本机 Segoe Fluent Icons 字体内的所有图标
-        /// </summary>
-        public void LoadSegoeFluentIcons()
-        {
-            if (AllIcons is null)
-            {
-                AllIcons = new ObservableCollection<Character>();
-                var icons = FontHelper.GetAllSegoeFluentIcons();
-                foreach (var icon in icons)
-                {
-                    AllIcons.Add(icon);
-                }
-            }
         }
     }
 }
