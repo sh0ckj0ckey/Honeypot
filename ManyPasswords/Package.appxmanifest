@@ -14,7 +14,7 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ManyPasswords.App">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="Honeypot.App">
       <uap:VisualElements DisplayName="好多密码" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="好多密码，把你的密码都存到本地文件中" BackgroundColor="#3f3f3f">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="好多密码" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
           <uap:ShowNameOnTiles>

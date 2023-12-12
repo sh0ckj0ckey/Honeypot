@@ -9,7 +9,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace ManyPasswords.ViewModel
+namespace Honeypot.ViewModel
 {
     public partial class PasswordViewModel : ViewModelBase
     {
@@ -23,11 +23,11 @@ namespace ManyPasswords.ViewModel
         public List<Models.PasswordItem> vAllPasswords = null;
 
         // 按照首字母分组的账号集合
-        private ObservableCollection<Models.PasswordsGroup> _vManyPasswords = null;
-        public ObservableCollection<Models.PasswordsGroup> vManyPasswords
+        private ObservableCollection<Models.PasswordsGroup> _vHoneypot = null;
+        public ObservableCollection<Models.PasswordsGroup> vHoneypot
         {
-            get { return _vManyPasswords; }
-            set { Set("vManyPasswords", ref _vManyPasswords, value); }
+            get { return _vHoneypot; }
+            set { Set("vHoneypot", ref _vHoneypot, value); }
         }
 
         // 我的收藏
@@ -145,7 +145,7 @@ namespace ManyPasswords.ViewModel
             try
             {
                 LoadSettingContainer();
-                InitManyPasswords();
+                InitHoneypot();
             }
             catch { }
         }
@@ -235,7 +235,7 @@ namespace ManyPasswords.ViewModel
             catch { }
         }
 
-        public void InitManyPasswords()
+        public void InitHoneypot()
         {
             try
             {
@@ -262,7 +262,7 @@ namespace ManyPasswords.ViewModel
                                        vPasswords = new ObservableCollection<Models.PasswordItem>(newItems.ToList())
                                    }
                                   ).OrderBy(x => x.Key).ToList();
-                vManyPasswords = new ObservableCollection<Models.PasswordsGroup>(orderedList);
+                vHoneypot = new ObservableCollection<Models.PasswordsGroup>(orderedList);
 
                 // 收藏
                 vFavoritePasswords = new ObservableCollection<Models.PasswordItem>();
@@ -540,7 +540,7 @@ namespace ManyPasswords.ViewModel
                 }
 
                 Models.PasswordsGroup addingGroup = null;
-                foreach (var group in vManyPasswords)
+                foreach (var group in vHoneypot)
                 {
                     if (group.Key == add.sFirstLetter)
                     {
@@ -553,14 +553,14 @@ namespace ManyPasswords.ViewModel
                     addingGroup = new Models.PasswordsGroup();
                     addingGroup.Key = add.sFirstLetter;
                     addingGroup.vPasswords = new ObservableCollection<Models.PasswordItem>();
-                    vManyPasswords.Add(addingGroup);
+                    vHoneypot.Add(addingGroup);
                 }
                 addingGroup.vPasswords.Add(add);
 
-                var newOrderedList = vManyPasswords.OrderBy(x => x.Key).ToList();
-                vManyPasswords.Clear();
-                vManyPasswords = null;
-                vManyPasswords = new ObservableCollection<Models.PasswordsGroup>(newOrderedList);
+                var newOrderedList = vHoneypot.OrderBy(x => x.Key).ToList();
+                vHoneypot.Clear();
+                vHoneypot = null;
+                vHoneypot = new ObservableCollection<Models.PasswordsGroup>(newOrderedList);
 
                 ActNavigateToBlank?.Invoke();
 
@@ -600,7 +600,7 @@ namespace ManyPasswords.ViewModel
                     catch { }
                 }
                 Models.PasswordsGroup removingGroup = null;
-                foreach (var group in vManyPasswords)
+                foreach (var group in vHoneypot)
                 {
                     if (group.Key == remove.sFirstLetter)
                     {
@@ -611,9 +611,9 @@ namespace ManyPasswords.ViewModel
                 if (removingGroup != null && removingGroup.vPasswords.Contains(remove))
                 {
                     removingGroup.vPasswords.Remove(remove);
-                    if (removingGroup.vPasswords.Count <= 0 && vManyPasswords.Contains(removingGroup))
+                    if (removingGroup.vPasswords.Count <= 0 && vHoneypot.Contains(removingGroup))
                     {
-                        vManyPasswords.Remove(removingGroup);
+                        vHoneypot.Remove(removingGroup);
                     }
                 }
 

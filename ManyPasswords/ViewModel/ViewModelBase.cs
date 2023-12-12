@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ManyPasswords.ViewModel
+namespace Honeypot.ViewModel
 {
     /// <summary>
     /// Observable object with INotifyPropertyChanged implemented

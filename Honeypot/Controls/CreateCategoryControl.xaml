@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="Honeypot.Controls.CreateCategoryControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Honeypot.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:fontModel="using:Honeypot.Helpers" 
+    xmlns:cvt="using:Honeypot.Converters"
+    mc:Ignorable="d" Background="Transparent" Loaded="OnLoaded">
+    <UserControl.Resources>
+        <cvt:Int2VisibilityConverter x:Key="Int2Vis"/>
+        <cvt:Bool2VisibilityConverter x:Key="Bool2Vis"/>
+    </UserControl.Resources>
+
+    <Grid Padding="20" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Height="72" Width="72" CornerRadius="36" BorderThickness="2" Background="{ThemeResource CircleElevationBorderBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <FontIcon x:Name="AddingCategoryIconPreview" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <TextBox x:Name="AddingCategoryNameTextBox" Grid.Row="1" MaxLength="20" Margin="20,16" MinWidth="164" PlaceholderText="新建分类名称" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Row="2" CornerRadius="8" Background="#10888888" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock Visibility="{x:Bind MainViewModel.AllIcons.Count,Mode=OneWay,Converter={StaticResource Int2Vis},ConverterParameter=-}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Text="您的设备似乎没有 Segoe Fluent Icons 字体，这样的话无法设置图标哦" Opacity="0.5" FontSize="14" CharacterSpacing="64" TextWrapping="Wrap" Margin="0,-16,0,0"/>
+            <GridView x:Name="AddingCategoryIconGridView" Padding="8" SelectedIndex="-1" SelectionMode="Single" HorizontalAlignment="Center" VerticalAlignment="Stretch"
+                      SelectionChanged="OnSelectIcon" ItemsSource="{x:Bind MainViewModel.AllIcons,Mode=OneWay}" Visibility="{x:Bind MainViewModel.AllIcons.Count,Mode=OneWay,Converter={StaticResource Int2Vis}}">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="fontModel:Character">
+                        <Grid Width="56" Height="56">
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{x:Bind Char}" FontSize="16"/>
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+    </Grid>
+</UserControl>

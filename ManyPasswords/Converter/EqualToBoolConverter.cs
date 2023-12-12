@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 
-namespace ManyPasswords.Converter
+namespace Honeypot.Converter
 {
     internal class EqualToBoolConverter : IValueConverter
     {

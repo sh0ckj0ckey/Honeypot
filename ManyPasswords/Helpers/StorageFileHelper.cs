@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
-namespace ManyPasswords
+namespace Honeypot
 {
     public class StorageFileHelper
     {
@@ -171,7 +171,7 @@ namespace ManyPasswords
                             //    }
                             //}
 
-                            string destPath = destinationfolder.Path + "//ManyPasswords.zip";
+                            string destPath = destinationfolder.Path + "//Honeypot.zip";
                             if (File.Exists(destPath))
                             {
                                 File.Delete(destPath);
@@ -210,7 +210,7 @@ namespace ManyPasswords
                     catch { }
 
                     StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-                    string savedFileName = "ReadingManyPasswords" + file.FileType;
+                    string savedFileName = "ReadingHoneypot" + file.FileType;
                     StorageFile saveFile = await file.CopyAsync(cacheFolder, savedFileName, NameCollisionOption.ReplaceExisting);
 
                     string result = await Task<string>.Run(() =>
@@ -230,13 +230,13 @@ namespace ManyPasswords
 
                     if (string.IsNullOrEmpty(result))
                     {
-                        string extractedFilePath = destinationfolder.Path + "//LocalState//Data//manypasswords.pswd";
+                        string extractedFilePath = destinationfolder.Path + "//LocalState//Data//Honeypot.pswd";
                         if (File.Exists(extractedFilePath))
                         {
                             string data = string.Empty;
                             var folder = await destinationfolder.GetFolderAsync("LocalState");
                             var nextfolder = await folder.GetFolderAsync("Data");
-                            var passwordsFile = await nextfolder.GetFileAsync("manypasswords.pswd");
+                            var passwordsFile = await nextfolder.GetFileAsync("Honeypot.pswd");
                             IRandomAccessStream accessStream = await passwordsFile.OpenReadAsync();
                             using (StreamReader streamReader = new StreamReader(accessStream.AsStreamForRead((int)accessStream.Size)))
                             {

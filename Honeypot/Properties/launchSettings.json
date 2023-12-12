@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Honeypot (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Honeypot (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

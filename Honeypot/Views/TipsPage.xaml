@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Honeypot.Views.TipsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Honeypot.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" NavigationCacheMode="Required">
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+            <StackPanel Orientation="Vertical" Margin="16,0,20,20">
+                <TextBlock Text="使用提示" Margin="4,28,0,4" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+                <StackPanel Orientation="Horizontal" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock Text="一些常见疑问的说明，如有其他疑问，" FontSize="16" Opacity="0.8" CharacterSpacing="48" VerticalAlignment="Center"/>
+                    <HyperlinkButton Content="欢迎联系" FontSize="16" Padding="4,0" NavigateUri="mailto:yaoyiming123@live.com" VerticalAlignment="Center" ToolTipService.ToolTip="向 yaoyiming123@live.com 发送邮件"/>
+                </StackPanel>
+
+                <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+                    <Expander.Header>
+                        <TextBlock Text="我的数据存储在哪里？我该如何备份？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" FontSize="14" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left">
+                                    <Run Text="所有的数据都保存在如图所示的 SQLite 数据库文件中，&quot;密罐&quot;目前并没有云备份功能，因此您可自行将此文件备份。"/>
+                                    <Run Text="请注意，所有数据均为明文存储，务必妥善保管！" FontWeight="Bold" Foreground="#DD0000"/>
+                                    <Run Text="明文存储意味着任何人都可以使用诸如 SQLiteStudio 等程序查看该数据库文件的一切内容。"/>
+                                </TextBlock>
+                                <HyperlinkButton Grid.Row="1" Content="查看数据库文件" Margin="-10,4,0,0" Click="OnClickDbFile" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                            </Grid>
+                            <Border Grid.Column="1" CornerRadius="8" Width="340" Height="160" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{ThemeResource TIPS_DBFILE_IMG}" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
+                        </Grid>
+                    </Expander.Content>
+                </Expander>
+
+                <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+                    <Expander.Header>
+                        <TextBlock Text="在哪里编辑我创建的密码和分类？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontSize="14" Text="只需要在密码或者分类上单击鼠标右键，即可在菜单中进行修改或删除等操作。" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left"/>
+                            <Border Grid.Column="1" CornerRadius="8" Width="160" Height="126" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{ThemeResource TIPS_RIGHTCLICK_IMG}" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
+                        </Grid>
+                    </Expander.Content>
+                </Expander>
+
+                <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+                    <Expander.Header>
+                        <TextBlock Text="为什么我创建分类时，无法设置图标？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontSize="14" Text="分类的图标来自 Windows 11 内置字体 Segoe Fluent Icons，这个字体通常会内置在您的设备上。如果这个字体被删除，&quot;密罐&quot;就获取不到相应的图标列表，也就无法供您选择分类的图标了。" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left"/>
+                            <Border Grid.Column="1" CornerRadius="8" Width="150" Height="85" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="{ThemeResource TIPS_NOFONT_IMG}" Stretch="UniformToFill"/>
+                                </Border.Background>
+                            </Border>
+                        </Grid>
+                    </Expander.Content>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

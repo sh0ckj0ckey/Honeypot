@@ -1,4 +1,4 @@
-﻿using ManyPasswords.ViewModel;
+﻿using Honeypot.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
-namespace ManyPasswords.Views
+namespace Honeypot.Views
 {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。

@@ -5,6 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManyPasswords.Helpers
+namespace Honeypot.Helpers
 {
 }

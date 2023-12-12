@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Honeypot.Views.RandomPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Honeypot.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" NavigationCacheMode="Required">
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="随机密码生成器" Margin="20,28,0,4" FontWeight="Bold" FontSize="18" CharacterSpacing="48"/>
+                <TextBlock Grid.Row="1" Text="产生一个随机的、难以记住的密码" Margin="20,0,0,0" FontSize="16" Opacity="0.8" CharacterSpacing="48"/>
+                <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="20,0" Margin="0,0,0,128">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="GeneratedTextBox" Grid.Row="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="36"
+                             FontSize="18" FontWeight="Medium" CharacterSpacing="96" FontFamily="Consolas"/>
+                    <TextBlock Grid.Row="1" Text="密码配方" FontWeight="Bold" FontSize="16" Margin="0,24,0,8"/>
+                    <Grid Grid.Row="2" Height="1" HorizontalAlignment="Stretch" Background="#666666" Opacity="0.2" Margin="0,0,0,2"/>
+                    <TextBlock Grid.Row="3" Text="Aa~Zz" CharacterSpacing="56" FontWeight="Medium" Opacity="0.7" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <ToggleSwitch x:Name="LetterToggle" Grid.Row="3" IsOn="True" OffContent="字母" OnContent="字母"/>
+                    <TextBlock Grid.Row="4" Text="0~9" CharacterSpacing="56" FontWeight="Medium" Opacity="0.7" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <ToggleSwitch x:Name="NumberToggle" Grid.Row="4" IsOn="True" OffContent="数字" OnContent="数字"/>
+                    <TextBlock Grid.Row="5" Text="!@#$%&amp;*" CharacterSpacing="56" FontWeight="Medium" Opacity="0.7" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <ToggleSwitch x:Name="SymbolToggle" Grid.Row="5" IsOn="True" OffContent="特殊字符" OnContent="特殊字符"/>
+                    <Grid Grid.Row="6" Height="1" HorizontalAlignment="Stretch" Background="#666666" Opacity="0.2" Margin="0,4,0,8"/>
+                    <Grid Grid.Row="7" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="密码长度" FontWeight="Bold" VerticalAlignment="Center" FontSize="16" Margin="0,0,12,4"/>
+                        <Slider x:Name="PasswordLengthSlider" Grid.Column="1" Value="16" Minimum="6" Maximum="32" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="{x:Bind PasswordLengthSlider.Value,Mode=OneWay}" VerticalAlignment="Center" FontWeight="Medium" FontSize="16" Margin="8,0,0,4" Width="20"/>
+                    </Grid>
+                    <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,0,0,0"
+                            CornerRadius="8" Style="{StaticResource AccentButtonStyle}" ToolTipService.ToolTip="生成并复制结果" Click="Button_Click">
+                        <Button.Content>
+                            <BitmapIcon x:Name="RandomImage" UriSource="ms-appx:///Assets/Icon/RandomIcon.png" Margin="-24,0" Height="48" Width="48" Rotation="0" CenterPoint="24,24,0" ShowAsMonochrome="True">
+                                <BitmapIcon.RotationTransition>
+                                    <ScalarTransition />
+                                </BitmapIcon.RotationTransition>
+                            </BitmapIcon>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -1,11 +1,11 @@
-﻿<Page x:Class="ManyPasswords.AddPage"
+﻿<Page x:Class="Honeypot.AddPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:local="using:ManyPasswords"
+      xmlns:local="using:Honeypot"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
-      xmlns:local1="using:ManyPasswords.Models"
+      xmlns:local1="using:Honeypot.Models"
       mc:Ignorable="d" NavigationCacheMode="Required">
     <Page.Resources>
         <ResourceDictionary>

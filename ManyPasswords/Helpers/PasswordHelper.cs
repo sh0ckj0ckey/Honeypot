@@ -5,14 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ManyPasswords.Helpers;
+using Honeypot.Helpers;
 using System.Collections.ObjectModel;
 
-namespace ManyPasswords
+namespace Honeypot
 {
     public class PasswordHelper
     {
-        private const string _passwordFileName = "manypasswords.pswd";
+        private const string _passwordFileName = "Honeypot.pswd";
 
         /// <summary>
         /// 保存密码列表
