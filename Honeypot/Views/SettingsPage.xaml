@@ -26,7 +26,7 @@
                                     <Run Text="密罐"/>
                                     <Run Text="{x:Bind _appVersion}" FontSize="12"/>
                                 </TextBlock>
-                                <TextBlock Text="本地密码管理工具" FontSize="12" Opacity="0.7" CharacterSpacing="64"/>
+                                <TextBlock Text="妥善保存蜜码" FontSize="12" Opacity="0.7" CharacterSpacing="64"/>
                             </StackPanel>
                         </StackPanel>
                     </controls:SettingsCard.Header>
