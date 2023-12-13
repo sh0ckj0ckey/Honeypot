@@ -39,6 +39,7 @@
 		<Content Remove="Assets\Manifests\StoreLogo.backup.png" />
 	</ItemGroup>
 	<ItemGroup>
+		<None Remove="Assets\Icon\honey_pot.png" />
 		<None Remove="Assets\Icon\icon_github_dark.png" />
 		<None Remove="Assets\Icon\icon_github_light.png" />
 		<None Remove="Assets\Icon\icon_mail.png" />
