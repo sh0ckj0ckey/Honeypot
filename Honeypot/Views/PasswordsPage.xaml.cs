@@ -32,11 +32,5 @@ namespace Honeypot.Views
 
             MainViewModel = MainViewModel.Instance;
         }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            PasswordsFrame.BackStack?.Clear();
-            PasswordsFrame.Navigate(typeof(BlankPage));
-        }
     }
 }

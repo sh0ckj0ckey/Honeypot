@@ -9,10 +9,40 @@
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-            <StackPanel Orientation="Vertical" Margin="16,0,20,0">
-                <TextBlock Text="添加" Margin="4,28,0,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
-            </StackPanel>
-        </ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="添加" Margin="20,28,20,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+        <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,8,0,20" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
+        <Grid Grid.Row="2">
+            <ScrollViewer Padding="20,20,20,20" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <Border Height="96" Width="96" CornerRadius="4" Background="{ThemeResource ControlElevationBorderBrush}">
+                        <Border Height="96" Width="96" CornerRadius="4">
+                            <Border.Background>
+                                <ImageBrush Stretch="UniformToFill">
+                                    <ImageBrush.ImageSource>
+                                        <BitmapImage UriSource="/Assets/Icon/logo.png" DecodePixelHeight="192" DecodePixelType="Logical"/>
+                                    </ImageBrush.ImageSource>
+                                </ImageBrush>
+                            </Border.Background>
+                        </Border>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <Border Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,5" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
+        <Grid Grid.Row="4" Padding="20">
+            <Button Padding="36,10" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Right">
+                <StackPanel Spacing="8" Orientation="Horizontal" VerticalAlignment="Center">
+                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE109;" FontSize="16"/>
+                    <TextBlock Text="添加" FontSize="16" CharacterSpacing="64"/>
+                </StackPanel>
+            </Button>
+        </Grid>
     </Grid>
 </Page>

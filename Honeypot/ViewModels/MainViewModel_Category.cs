@@ -91,7 +91,7 @@ namespace Honeypot.ViewModels
 
             if (string.IsNullOrEmpty(icon))
             {
-                icon = "\uE003";
+                icon = "\uE72E";
             }
 
             PasswordsDataAccess.AddOneCategory(title, icon);

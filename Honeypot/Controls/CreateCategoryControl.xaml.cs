@@ -52,7 +52,7 @@ namespace Honeypot.Controls
         /// <summary>
         /// 重置页面的方法，将会清空创建分类时的输入，并返回到列表界面
         /// </summary>
-        public void ResetView(string title = "", string icon = "")
+        public void ResetView(string title = "", string icon = "\uE72E")
         {
             if (AddingCategoryIconPreview is not null)
             {
