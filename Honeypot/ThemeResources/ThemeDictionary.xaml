@@ -24,7 +24,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
                     <Color x:Key="APPLICATION_NORMAL_FR">#000000</Color>
-                    <Color x:Key="APPLICATION_ITEM_BK">#08000000</Color>
+                    <Color x:Key="APPLICATION_ITEM_BK">#06000000</Color>
                     <Color x:Key="APPLICATION_LINE_BK">#10000000</Color>
 
                     <BitmapImage x:Key="APPLICATION_BLANK_IMG" UriSource="ms-appx:///Assets/Background/large_title_light.png" DecodePixelHeight="512" DecodePixelType="Logical"/>
