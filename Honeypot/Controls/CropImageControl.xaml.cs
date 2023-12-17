@@ -1,0 +1,111 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Navigation;
+using CommunityToolkit.WinUI.Controls;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage.Streams;
+using System.Diagnostics;
+using WinUIEx;
+
+// To learn more about WinUI, the WinUI project structure,
+// and more about our project templates, see: http://aka.ms/winui-project-info.
+
+namespace Honeypot.Controls
+{
+    public sealed partial class CropImageControl : UserControl
+    {
+        public CropImageControl()
+        {
+            this.InitializeComponent();
+        }
+
+        /// <summary>
+        /// 初始化图片
+        /// </summary>
+        /// <param name="origImage"></param>
+        public void InitializeImage(WriteableBitmap origImage)
+        {
+            try
+            {
+                AvatarImageCropper.Source = origImage;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 获取裁剪最后得到的图片
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WriteableBitmap> GetCroppedImage()
+        {
+            using var inMemoryRandomStream = new InMemoryRandomAccessStream();
+            await AvatarImageCropper.SaveAsync(inMemoryRandomStream, BitmapFileFormat.Png);
+            inMemoryRandomStream.Seek(0);
+            var bitmap = new WriteableBitmap((int)Math.Floor(AvatarImageCropper.CroppedRegion.Width), (int)Math.Floor(AvatarImageCropper.CroppedRegion.Height));
+            await bitmap.SetSourceAsync(inMemoryRandomStream);
+            return bitmap;
+        }
+
+        /// <summary>
+        /// 选择新的图片文件
+        /// </summary>
+        /// <returns></returns>
+        private async Task PickImageFile()
+        {
+            FileTooLargeInfoBar.IsOpen = false;
+
+            var filePicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter =
+                {
+                    ".png", ".jpg", ".jpeg"
+                }
+            };
+
+            WinRT.Interop.InitializeWithWindow.Initialize(filePicker, App.MainWindow.GetWindowHandle());
+
+            var file = await filePicker.PickSingleFileAsync();
+            if (file != null && AvatarImageCropper != null)
+            {
+                var property = await file.GetBasicPropertiesAsync();
+                if ((property?.Size ?? ulong.MaxValue) > 4 * 1024 * 1024)
+                {
+                    FileTooLargeInfoBar.IsOpen = true;
+                }
+                else
+                {
+                    await AvatarImageCropper.LoadImageFromFile(file);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 点击按钮选择新图片文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnClickPickFile(object sender, RoutedEventArgs e)
+        {
+            await PickImageFile();
+        }
+    }
+}
