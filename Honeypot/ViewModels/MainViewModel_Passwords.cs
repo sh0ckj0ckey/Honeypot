@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using Honeypot.Data;
@@ -32,7 +34,10 @@ namespace Honeypot.ViewModels
                 {
                     try
                     {
-                        BitmapImage avatarImage = null;
+                        WriteableBitmap avatarImage = new WriteableBitmap(1, 1);
+                        //Stream stream = avatarImage.PixelBuffer.AsStream();
+                        //stream.Seek(0, SeekOrigin.Begin);
+                        //stream.Write(item.Image, 0, 4 * 192 * 192);
 
                         Passwords.Insert(0, new PasswordModel()
                         {
