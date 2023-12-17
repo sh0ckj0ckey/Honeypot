@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Honeypot.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:models="using:Honeypot.Models"
     mc:Ignorable="d" NavigationCacheMode="Required"
     Loaded="OnLoaded" Unloaded="OnUnloaded">
 
@@ -33,18 +34,18 @@
                             </Border.Background>
                         </Border>
                         <Button Height="36" Width="36" CornerRadius="18" Padding="0" Margin="0,0,-8,-8" CenterPoint="18,18,0" Style="{ThemeResource AccentButtonStyle}" 
-                                Click="OnClickSetImage" PointerEntered="SpringAnimationPointerEntered" PointerExited="SpringAnimationPointerExited" HorizontalAlignment="Right" VerticalAlignment="Bottom" ToolTipService.ToolTip="点击修改图像">
+                                Click="OnClickChangeImage" PointerEntered="SpringAnimationPointerEntered" PointerExited="SpringAnimationPointerExited" HorizontalAlignment="Right" VerticalAlignment="Bottom" ToolTipService.ToolTip="点击修改图像">
                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;" FontSize="14"/>
                         </Button>
                     </Grid>
-                    <TextBox MaxLength="40" TextWrapping="NoWrap" Margin="20" MinWidth="160" PlaceholderText="名称" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="AddingNameTextBox" MaxLength="40" TextWrapping="NoWrap" Margin="20" MinWidth="160" PlaceholderText="名称" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="账号" FontSize="14" Margin="8,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="账号" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddingAccountTextBox" Grid.Column="1" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="账号" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
@@ -52,7 +53,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="密码" FontSize="14" Margin="8,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="密码" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddingPasswordTextBox" Grid.Column="1" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="密码" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                     <TextBlock Text="更多" FontSize="14" Margin="20,16,20,8" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -61,7 +62,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="网站" FontSize="14" Margin="8,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox Grid.Column="1" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="https://www.example.com/" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddingWebsiteTextBox" Grid.Column="1" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="https://www.example.com/" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
@@ -69,7 +70,24 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="备注" FontSize="14" Margin="8,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox Grid.Column="1" TextWrapping="Wrap" Width="240" MinHeight="64" PlaceholderText="备注" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddingNoteTextBox" Grid.Column="1" TextWrapping="Wrap" Width="240" MinHeight="64" PlaceholderText="备注" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="分类" FontSize="14" Margin="8,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="AddingCategoryComboBox" Grid.Column="1" ItemsSource="{x:Bind MainViewModel.Categoryies,Mode=OneWay}" MinWidth="128" PlaceholderText="选择以添加到分类" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="models:CategoryModel">
+                                    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
+                                        <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{x:Bind Icon,Mode=OneWay}" FontSize="14"/>
+                                        <TextBlock Text="{x:Bind Title,Mode=OneWay}" FontSize="14" TextTrimming="CharacterEllipsis" CharacterSpacing="36"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </Grid>
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
@@ -77,14 +95,14 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="收藏夹" FontSize="14" Margin="8,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <CheckBox Grid.Column="1" IsChecked="False" Content="同时添加到收藏夹" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="AddingFavoriteCheckBox" Grid.Column="1" IsChecked="False" Content="同时添加到收藏夹" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
         <Border Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,5" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
         <Grid Grid.Row="4" Padding="20">
-            <Button Padding="36,10" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Right">
+            <Button Padding="36,10" Click="OnClickConfirmAdd" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Right">
                 <StackPanel Spacing="6" Orientation="Horizontal" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE109;" FontSize="16"/>
                     <TextBlock Text="添加" FontSize="16" CharacterSpacing="64"/>

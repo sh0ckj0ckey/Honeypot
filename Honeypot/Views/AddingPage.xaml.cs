@@ -37,6 +37,8 @@ namespace Honeypot.Views
 
         private CropImageControl _cropImageControl = new CropImageControl();
 
+        private ContentDialog _textEmptyDialog = null;
+
         private ContentDialog _setImageContentDialog = null;
 
         private WriteableBitmap _defaultAvatarWriteableBitmap = null;
@@ -58,6 +60,13 @@ namespace Honeypot.Views
                 DefaultButton = ContentDialogButton.Primary
             };
 
+            _textEmptyDialog = new ContentDialog
+            {
+                XamlRoot = this.XamlRoot,
+                CloseButtonText = "我知道了",
+                DefaultButton = ContentDialogButton.Close
+            };
+
             InitWriteableBitmaps();
         }
 
@@ -71,6 +80,9 @@ namespace Honeypot.Views
             _setImageContentDialog.PrimaryButtonClick -= OnDialogClickConfirm;
         }
 
+        /// <summary>
+        /// 初始化默认图像
+        /// </summary>
         private async void InitWriteableBitmaps()
         {
             try
@@ -79,14 +91,40 @@ namespace Honeypot.Views
                 {
                     var defaulAvatartImage = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Icon/DefaultAvatar.png"));
                     WriteableBitmap defaultImage = null;
+
                     using (IRandomAccessStream stream = await defaulAvatartImage.OpenAsync(FileAccessMode.Read))
                     {
                         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
                         defaultImage = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                        defaultImage.SetSource(stream);
+                        await defaultImage.SetSourceAsync(stream);
                     }
+
                     _croppedWriteableBitmap = _defaultAvatarWriteableBitmap = defaultImage;
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 重置页面
+        /// </summary>
+        private void ResetPage()
+        {
+            try
+            {
+                _croppedWriteableBitmap = _defaultAvatarWriteableBitmap;
+                PreviewImageBursh.ImageSource = _croppedWriteableBitmap;
+
+                AddingNameTextBox.Text = "";
+                AddingAccountTextBox.Text = "";
+                AddingPasswordTextBox.Text = "";
+                AddingWebsiteTextBox.Text = "";
+                AddingNoteTextBox.Text = "";
+                AddingCategoryComboBox.SelectedIndex = -1;
+                AddingFavoriteCheckBox.IsChecked = false;
             }
             catch (Exception ex)
             {
@@ -99,11 +137,11 @@ namespace Honeypot.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void OnClickSetImage(object sender, RoutedEventArgs e)
+        private async void OnClickChangeImage(object sender, RoutedEventArgs e)
         {
             try
             {
-                _cropImageControl.InitializeImage(_croppedWriteableBitmap);
+                _cropImageControl.SetOriginImage(_croppedWriteableBitmap);
                 _setImageContentDialog.XamlRoot = this.XamlRoot;
                 _setImageContentDialog.RequestedTheme = this.ActualTheme;
                 await _setImageContentDialog.ShowAsync();
@@ -115,7 +153,7 @@ namespace Honeypot.Views
         }
 
         /// <summary>
-        /// 对话框点击确认，生成头像图片
+        /// 对话框点击确认，生成头像预览图片
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -124,6 +162,54 @@ namespace Honeypot.Views
             var croppedImage = await _cropImageControl.GetCroppedImage();
             _croppedWriteableBitmap = croppedImage;
             PreviewImageBursh.ImageSource = _croppedWriteableBitmap;
+        }
+
+        /// <summary>
+        /// 确认添加
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnClickConfirmAdd(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(AddingNameTextBox.Text))
+                {
+                    _textEmptyDialog.Title = "再完善一下吧";
+                    _textEmptyDialog.Content = "名称不能为空哦~";
+                    _textEmptyDialog.XamlRoot = this.XamlRoot;
+                    _textEmptyDialog.RequestedTheme = this.ActualTheme;
+                    await _textEmptyDialog.ShowAsync();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(AddingAccountTextBox.Text) || string.IsNullOrWhiteSpace(AddingPasswordTextBox.Text))
+                {
+                    _textEmptyDialog.Title = "再完善一下吧";
+                    _textEmptyDialog.Content = "账号和密码不能为空哦~";
+                    _textEmptyDialog.XamlRoot = this.XamlRoot;
+                    _textEmptyDialog.RequestedTheme = this.ActualTheme;
+                    await _textEmptyDialog.ShowAsync();
+                    return;
+                }
+
+                var name = AddingNameTextBox.Text;
+                var account = AddingAccountTextBox.Text;
+                var password = AddingPasswordTextBox.Text;
+                var website = AddingWebsiteTextBox.Text;
+                var note = AddingNoteTextBox.Text;
+                var category = (AddingCategoryComboBox.SelectedItem as CategoryModel)?.Id ?? -1;
+                var favorite = AddingFavoriteCheckBox.IsChecked == true;
+                var image = _croppedWriteableBitmap.PixelBuffer.ToArray();
+
+                MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, image);
+
+                ResetPage();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         #region ChangeImageButton animation

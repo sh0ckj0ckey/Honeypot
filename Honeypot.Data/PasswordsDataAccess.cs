@@ -179,7 +179,7 @@ namespace Honeypot.Data
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public static void UpdatePassword(long id, int categoryid, string account, string password, string firstLetter, string name, string createDate, string editDate, string website, string note, bool favorite, byte[] image)
+        public static void UpdatePassword(long id, int categoryid, string account, string password, string firstLetter, string name, string editDate, string website, string note, bool favorite, byte[] image)
         {
             try
             {
@@ -191,7 +191,6 @@ namespace Honeypot.Data
                 insertCommand.Parameters.AddWithValue("$password", password);
                 insertCommand.Parameters.AddWithValue("$firstletter", firstLetter);
                 insertCommand.Parameters.AddWithValue("$name", name);
-                insertCommand.Parameters.AddWithValue("$createdate", createDate);
                 insertCommand.Parameters.AddWithValue("$editdate", editDate);
                 insertCommand.Parameters.AddWithValue("$website", website);
                 insertCommand.Parameters.AddWithValue("$note", note);

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Honeypot.Data;
+using Honeypot.Helpers;
 using Honeypot.Models;
 using Microsoft.UI.Xaml.Media.Imaging;
 
@@ -58,6 +59,62 @@ namespace Honeypot.ViewModels
             {
                 InitPasswordsDataBase();
             }
+        }
+
+        /// <summary>
+        /// 添加密码
+        /// </summary>
+        /// <param name="categoryid"></param>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <param name="firstLetter"></param>
+        /// <param name="name"></param>
+        /// <param name="createDate"></param>
+        /// <param name="editDate"></param>
+        /// <param name="website"></param>
+        /// <param name="note"></param>
+        /// <param name="favorite"></param>
+        /// <param name="image"></param>
+        public void AddPassword(int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] image)
+        {
+            string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
+            string date = DateTime.Now.ToString("D");
+            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, image);
+
+            LoadPasswordsTable();
+        }
+
+        /// <summary>
+        /// 编辑密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="categoryid"></param>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <param name="name"></param>
+        /// <param name="editDate"></param>
+        /// <param name="website"></param>
+        /// <param name="note"></param>
+        /// <param name="favorite"></param>
+        /// <param name="image"></param>
+        public void EditPassword(int id, int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] image)
+        {
+            string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
+            string date = DateTime.Now.ToString("D");
+            PasswordsDataAccess.UpdatePassword(id, categoryid, account, password, firstLetter, name, date, website, note, favorite, image);
+
+            LoadPasswordsTable();
+        }
+
+        /// <summary>
+        /// 删除密码
+        /// </summary>
+        /// <param name="id"></param>
+        public void DeletePassword(int id)
+        {
+            PasswordsDataAccess.DeletePassword(id);
+
+            LoadPasswordsTable();
         }
     }
 }

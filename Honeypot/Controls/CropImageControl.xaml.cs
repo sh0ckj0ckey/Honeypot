@@ -34,10 +34,10 @@ namespace Honeypot.Controls
         }
 
         /// <summary>
-        /// 初始化图片
+        /// 设置初始图片
         /// </summary>
         /// <param name="origImage"></param>
-        public void InitializeImage(WriteableBitmap origImage)
+        public void SetOriginImage(WriteableBitmap origImage)
         {
             try
             {
@@ -55,47 +55,21 @@ namespace Honeypot.Controls
         /// <returns></returns>
         public async Task<WriteableBitmap> GetCroppedImage()
         {
-            using var inMemoryRandomStream = new InMemoryRandomAccessStream();
-            await AvatarImageCropper.SaveAsync(inMemoryRandomStream, BitmapFileFormat.Png);
-            inMemoryRandomStream.Seek(0);
-            var bitmap = new WriteableBitmap((int)Math.Floor(AvatarImageCropper.CroppedRegion.Width), (int)Math.Floor(AvatarImageCropper.CroppedRegion.Height));
-            await bitmap.SetSourceAsync(inMemoryRandomStream);
-            return bitmap;
-        }
-
-        /// <summary>
-        /// 选择新的图片文件
-        /// </summary>
-        /// <returns></returns>
-        private async Task PickImageFile()
-        {
-            FileTooLargeInfoBar.IsOpen = false;
-
-            var filePicker = new FileOpenPicker
+            try
             {
-                ViewMode = PickerViewMode.Thumbnail,
-                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-                FileTypeFilter =
-                {
-                    ".png", ".jpg", ".jpeg"
-                }
-            };
-
-            WinRT.Interop.InitializeWithWindow.Initialize(filePicker, App.MainWindow.GetWindowHandle());
-
-            var file = await filePicker.PickSingleFileAsync();
-            if (file != null && AvatarImageCropper != null)
-            {
-                var property = await file.GetBasicPropertiesAsync();
-                if ((property?.Size ?? ulong.MaxValue) > 4 * 1024 * 1024)
-                {
-                    FileTooLargeInfoBar.IsOpen = true;
-                }
-                else
-                {
-                    await AvatarImageCropper.LoadImageFromFile(file);
-                }
+                using var inMemoryRandomStream = new InMemoryRandomAccessStream();
+                await AvatarImageCropper.SaveAsync(inMemoryRandomStream, BitmapFileFormat.Png);
+                inMemoryRandomStream.Seek(0);
+                var bitmap = new WriteableBitmap(1,1);
+                await bitmap.SetSourceAsync(inMemoryRandomStream);
+                return bitmap;
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -105,7 +79,37 @@ namespace Honeypot.Controls
         /// <param name="e"></param>
         private async void OnClickPickFile(object sender, RoutedEventArgs e)
         {
-            await PickImageFile();
+            try
+            {
+                FileTooLargeInfoBar.IsOpen = false;
+
+                var filePicker = new FileOpenPicker
+                {
+                    ViewMode = PickerViewMode.Thumbnail,
+                    SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                    FileTypeFilter = { ".png", ".jpg", ".jpeg" }
+                };
+
+                WinRT.Interop.InitializeWithWindow.Initialize(filePicker, App.MainWindow.GetWindowHandle());
+
+                var file = await filePicker.PickSingleFileAsync();
+                if (file != null && AvatarImageCropper != null)
+                {
+                    var property = await file.GetBasicPropertiesAsync();
+                    if ((property?.Size ?? ulong.MaxValue) > 4 * 1024 * 1024)
+                    {
+                        FileTooLargeInfoBar.IsOpen = true;
+                    }
+                    else
+                    {
+                        await AvatarImageCropper.LoadImageFromFile(file);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }
