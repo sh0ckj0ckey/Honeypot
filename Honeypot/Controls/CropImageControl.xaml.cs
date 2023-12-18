@@ -61,7 +61,8 @@ namespace Honeypot.Controls
                 await AvatarImageCropper.SaveAsync(inMemoryRandomStream, BitmapFileFormat.Png);
                 inMemoryRandomStream.Seek(0);
                 var bitmap = new WriteableBitmap(1,1);
-                await bitmap.SetSourceAsync(inMemoryRandomStream);
+                bitmap.SetSource(inMemoryRandomStream);
+                var ss = bitmap.PixelBuffer.ToArray();
                 return bitmap;
             }
             catch (Exception ex)
@@ -96,7 +97,7 @@ namespace Honeypot.Controls
                 if (file != null && AvatarImageCropper != null)
                 {
                     var property = await file.GetBasicPropertiesAsync();
-                    if ((property?.Size ?? ulong.MaxValue) > 4 * 1024 * 1024)
+                    if ((property?.Size ?? ulong.MaxValue) > 8 * 1024 * 1024)
                     {
                         FileTooLargeInfoBar.IsOpen = true;
                     }

@@ -11,6 +11,7 @@ using Honeypot.Data;
 using Honeypot.Helpers;
 using Honeypot.Models;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage.Streams;
 
 namespace Honeypot.ViewModels
 {
@@ -24,7 +25,7 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 重新从数据库加载所有密码列表
         /// </summary>
-        private void LoadPasswordsTable()
+        private async void LoadPasswordsTable()
         {
             if (PasswordsDataAccess.IsDatabaseConnected())
             {
@@ -35,9 +36,14 @@ namespace Honeypot.ViewModels
                     try
                     {
                         WriteableBitmap avatarImage = new WriteableBitmap(1, 1);
-                        //Stream stream = avatarImage.PixelBuffer.AsStream();
-                        //stream.Seek(0, SeekOrigin.Begin);
-                        //stream.Write(item.Image, 0, 4 * 192 * 192);
+                        using MemoryStream stream = new MemoryStream(item.Image); 
+                        InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream();
+                        await randomAccessStream.WriteAsync(item.Image.AsBuffer());
+                        randomAccessStream.Seek(0);
+                        var streamSource = stream.AsRandomAccessStream();
+                        avatarImage.SetSource(randomAccessStream);
+                        var b = avatarImage.PixelBuffer;
+                        var s =b.ToArray();
 
                         Passwords.Insert(0, new PasswordModel()
                         {
@@ -83,7 +89,7 @@ namespace Honeypot.ViewModels
         public void AddPassword(int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] image)
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
-            string date = DateTime.Now.ToString("D");
+            string date = DateTime.Now.ToString("yyyy年MM月dd日");
             PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, image);
 
             LoadPasswordsTable();
@@ -105,7 +111,7 @@ namespace Honeypot.ViewModels
         public void EditPassword(int id, int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] image)
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
-            string date = DateTime.Now.ToString("D");
+            string date = DateTime.Now.ToString("yyyy年MM月dd日");
             PasswordsDataAccess.UpdatePassword(id, categoryid, account, password, firstLetter, name, date, website, note, favorite, image);
 
             LoadPasswordsTable();

@@ -44,7 +44,7 @@ namespace Honeypot.Data
                     "website TEXT," +
                     "note TEXT," +
                     "favorite INTEGER DEFAULT 0," +
-                    "image BLOB);";
+                    "image TEXT);";
             SqliteCommand createGlossaryTable = new SqliteCommand(passwordsTableCommand, _passwordsDb);
             createGlossaryTable.ExecuteReader();
         }
@@ -141,7 +141,7 @@ namespace Honeypot.Data
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public static void AddPassword(int categoryid, string account, string password, string firstLetter, string name, string createDate, string editDate, string website, string note, bool favorite, byte[] image)
+        public static void AddPassword(int categoryid, string account, string password, string firstLetter, string name, string createDate, string editDate, string website, string note, bool favorite, string image)
         {
             try
             {
@@ -179,7 +179,7 @@ namespace Honeypot.Data
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public static void UpdatePassword(long id, int categoryid, string account, string password, string firstLetter, string name, string editDate, string website, string note, bool favorite, byte[] image)
+        public static void UpdatePassword(long id, int categoryid, string account, string password, string firstLetter, string name, string editDate, string website, string note, bool favorite, string image)
         {
             try
             {

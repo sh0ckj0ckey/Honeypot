@@ -22,6 +22,8 @@ using System.Diagnostics;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage.Streams;
 using Windows.Graphics.Imaging;
+using SharpDX.Win32;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -96,7 +98,7 @@ namespace Honeypot.Views
                     {
                         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
                         defaultImage = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                        await defaultImage.SetSourceAsync(stream);
+                        defaultImage.SetSource(stream);
                     }
 
                     _croppedWriteableBitmap = _defaultAvatarWriteableBitmap = defaultImage;
@@ -200,7 +202,18 @@ namespace Honeypot.Views
                 var note = AddingNoteTextBox.Text;
                 var category = (AddingCategoryComboBox.SelectedItem as CategoryModel)?.Id ?? -1;
                 var favorite = AddingFavoriteCheckBox.IsChecked == true;
-                var image = _croppedWriteableBitmap.PixelBuffer.ToArray();
+                byte[] image = null;
+
+                using (Stream stream = _croppedWriteableBitmap.PixelBuffer.AsStream())
+                {
+                    image = new byte[(uint)stream.Length];
+                    await stream.ReadAsync(image, 0, image.Length);
+                }
+                //using (MemoryStream memoryStream = new MemoryStream())
+                //{
+                //    stream.CopyTo(memoryStream);
+                //    image = memoryStream.ToArray();
+                //}
 
                 MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, image);
 

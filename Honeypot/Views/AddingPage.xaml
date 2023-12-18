@@ -19,10 +19,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="添加" Margin="20,28,20,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
-        <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,8,0,20" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
+        <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,8,0,0" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
         <Grid Grid.Row="2">
-            <ScrollViewer Padding="20,20,20,20" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <ScrollViewer Padding="20,0,20,0" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+                <StackPanel Margin="0,20" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Border Height="98" Width="98" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" CornerRadius="4">
                             <Border.Background>
