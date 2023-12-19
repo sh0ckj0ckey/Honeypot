@@ -62,7 +62,6 @@ namespace Honeypot.Controls
                 inMemoryRandomStream.Seek(0);
                 var bitmap = new WriteableBitmap(1,1);
                 bitmap.SetSource(inMemoryRandomStream);
-                var ss = bitmap.PixelBuffer.ToArray();
                 return bitmap;
             }
             catch (Exception ex)

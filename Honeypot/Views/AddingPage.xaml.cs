@@ -177,8 +177,8 @@ namespace Honeypot.Views
             {
                 if (string.IsNullOrWhiteSpace(AddingNameTextBox.Text))
                 {
-                    _textEmptyDialog.Title = "再完善一下吧";
-                    _textEmptyDialog.Content = "名称不能为空哦~";
+                    _textEmptyDialog.Title = "还不够...";
+                    _textEmptyDialog.Content = "名称不能为空哦，再完善一下吧~";
                     _textEmptyDialog.XamlRoot = this.XamlRoot;
                     _textEmptyDialog.RequestedTheme = this.ActualTheme;
                     await _textEmptyDialog.ShowAsync();
@@ -187,8 +187,8 @@ namespace Honeypot.Views
 
                 if (string.IsNullOrWhiteSpace(AddingAccountTextBox.Text) || string.IsNullOrWhiteSpace(AddingPasswordTextBox.Text))
                 {
-                    _textEmptyDialog.Title = "再完善一下吧";
-                    _textEmptyDialog.Content = "账号和密码不能为空哦~";
+                    _textEmptyDialog.Title = "还不够...";
+                    _textEmptyDialog.Content = "账号和密码不能为空哦，再完善一下吧~";
                     _textEmptyDialog.XamlRoot = this.XamlRoot;
                     _textEmptyDialog.RequestedTheme = this.ActualTheme;
                     await _textEmptyDialog.ShowAsync();
@@ -207,13 +207,8 @@ namespace Honeypot.Views
                 using (Stream stream = _croppedWriteableBitmap.PixelBuffer.AsStream())
                 {
                     image = new byte[(uint)stream.Length];
-                    await stream.ReadAsync(image, 0, image.Length);
+                    await stream.ReadAsync(image);
                 }
-                //using (MemoryStream memoryStream = new MemoryStream())
-                //{
-                //    stream.CopyTo(memoryStream);
-                //    image = memoryStream.ToArray();
-                //}
 
                 MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, image);
 

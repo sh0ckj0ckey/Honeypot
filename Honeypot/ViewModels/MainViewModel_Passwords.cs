@@ -36,14 +36,12 @@ namespace Honeypot.ViewModels
                     try
                     {
                         WriteableBitmap avatarImage = new WriteableBitmap(1, 1);
-                        using MemoryStream stream = new MemoryStream(item.Image); 
+                        //using MemoryStream stream = new MemoryStream(item.Image); 
                         InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream();
                         await randomAccessStream.WriteAsync(item.Image.AsBuffer());
                         randomAccessStream.Seek(0);
-                        var streamSource = stream.AsRandomAccessStream();
+                        //var streamSource = stream.AsRandomAccessStream();
                         avatarImage.SetSource(randomAccessStream);
-                        var b = avatarImage.PixelBuffer;
-                        var s =b.ToArray();
 
                         Passwords.Insert(0, new PasswordModel()
                         {

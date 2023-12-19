@@ -94,7 +94,7 @@ namespace Honeypot.ViewModels
                 icon = "\uE72E";
             }
 
-            PasswordsDataAccess.AddOneCategory(title, icon);
+            PasswordsDataAccess.AddCategory(title, icon);
 
             LoadCategoriesTable();
         }
@@ -117,7 +117,7 @@ namespace Honeypot.ViewModels
                 icon = "\uE003";
             }
 
-            PasswordsDataAccess.UpdateOneCategory(id, title, icon);
+            PasswordsDataAccess.UpdateCategory(id, title, icon);
 
             LoadCategoriesTable();
         }
@@ -128,7 +128,7 @@ namespace Honeypot.ViewModels
         /// <param name="id"></param>
         public void DeleteCategory(int id)
         {
-            PasswordsDataAccess.DeleteOneCategory(id);
+            PasswordsDataAccess.DeleteCategory(id);
 
             LoadCategoriesTable();
         }
