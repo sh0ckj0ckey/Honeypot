@@ -36,9 +36,9 @@ namespace Honeypot.ViewModels
                     try
                     {
                         WriteableBitmap avatarImage = new WriteableBitmap(1, 1);
-                        //using MemoryStream stream = new MemoryStream(item.Image); 
+                        //using MemoryStream stream = new MemoryStream(item.Logo); 
                         InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream();
-                        await randomAccessStream.WriteAsync(item.Image.AsBuffer());
+                        await randomAccessStream.WriteAsync(item.Logo.AsBuffer());
                         randomAccessStream.Seek(0);
                         //var streamSource = stream.AsRandomAccessStream();
                         avatarImage.SetSource(randomAccessStream);
@@ -55,7 +55,7 @@ namespace Honeypot.ViewModels
                             Website = item.Website,
                             Note = item.Note,
                             Favorite = item.Favorite != 0,
-                            Image = avatarImage
+                            Logo = avatarImage
                         });
                     }
                     catch (Exception e)
@@ -84,11 +84,11 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public void AddPassword(int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] image)
+        public void AddPassword(int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] logo)
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
             string date = DateTime.Now.ToString("yyyy年MM月dd日");
-            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, image);
+            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, logo);
 
             LoadPasswordsTable();
         }
@@ -106,11 +106,11 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public void EditPassword(int id, int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] image)
+        public void EditPassword(int id, int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] logo)
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
             string date = DateTime.Now.ToString("yyyy年MM月dd日");
-            PasswordsDataAccess.UpdatePassword(id, categoryid, account, password, firstLetter, name, date, website, note, favorite, image);
+            PasswordsDataAccess.UpdatePassword(id, categoryid, account, password, firstLetter, name, date, website, note, favorite, logo);
 
             LoadPasswordsTable();
         }

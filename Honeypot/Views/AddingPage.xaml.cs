@@ -202,15 +202,15 @@ namespace Honeypot.Views
                 var note = AddingNoteTextBox.Text;
                 var category = (AddingCategoryComboBox.SelectedItem as CategoryModel)?.Id ?? -1;
                 var favorite = AddingFavoriteCheckBox.IsChecked == true;
-                byte[] image = null;
+                byte[] logo = null;
 
                 using (Stream stream = _croppedWriteableBitmap.PixelBuffer.AsStream())
                 {
-                    image = new byte[(uint)stream.Length];
-                    await stream.ReadAsync(image);
+                    logo = new byte[(uint)stream.Length];
+                    await stream.ReadAsync(logo);
                 }
 
-                MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, image);
+                MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, logo);
 
                 ResetPage();
             }
