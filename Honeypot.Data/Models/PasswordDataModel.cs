@@ -18,6 +18,6 @@ namespace Honeypot.Data.Models
         public string Website { get; set; }
         public string Note { get; set; }
         public int Favorite { get; set; }
-        public byte[] Logo { get; set; }
+        public string Logo { get; set; }
     }
 }

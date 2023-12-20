@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -43,17 +44,10 @@ namespace Honeypot.Data
                     "editdate TEXT," +
                     "website TEXT," +
                     "note TEXT," +
-                    "favorite INTEGER DEFAULT 0);";
+                    "favorite INTEGER DEFAULT 0," +
+                    "logo TEXT);";
             SqliteCommand createPasswordsTable = new SqliteCommand(passwordsTableCommand, _passwordsDb);
             createPasswordsTable.ExecuteNonQuery();
-
-            string passwordsLogosTableCommand =
-                "CREATE TABLE IF NOT EXISTS passwordsLogos (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                    "passwordid INTEGER NOT NULL," +
-                    "logo BLOB);";
-            SqliteCommand createPasswordsLogosTable = new SqliteCommand(passwordsLogosTableCommand, _passwordsDb);
-            createPasswordsLogosTable.ExecuteNonQuery();
         }
 
         public static bool IsDatabaseConnected()
@@ -74,20 +68,6 @@ namespace Honeypot.Data
             _passwordsDb?.Close();
             _passwordsDb?.Dispose();
             _passwordsDb = null;
-        }
-        private static byte[] GetBytes(SqliteDataReader reader, int ordinal)
-        {
-            const int CHUNK_SIZE = 2 * 1024;
-            byte[] buffer = new byte[CHUNK_SIZE];
-            long bytesRead;
-            long fieldOffset = 0;
-            using MemoryStream stream = new();
-            while ((bytesRead = reader.GetBytes(ordinal, fieldOffset, buffer, 0, buffer.Length)) > 0)
-            {
-                stream.Write(buffer, 0, (int)bytesRead);
-                fieldOffset += bytesRead;
-            }
-            return stream.ToArray();
         }
 
         /// <summary>
@@ -125,12 +105,15 @@ namespace Honeypot.Data
                     item.Website = query.IsDBNull(8) ? string.Empty : query.GetString(8);
                     item.Note = query.IsDBNull(9) ? string.Empty : query.GetString(9);
                     item.Favorite = query.IsDBNull(10) ? 0 : query.GetInt32(10);
-                    item.Logo = query.IsDBNull(11) ? null : GetBytes(query, 11);
+                    item.Logo = query.IsDBNull(11) ? null : query.GetString(11);
                     results.Add(item);
                 }
                 return results;
             }
-            catch { }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
             return null;
         }
 
@@ -148,17 +131,15 @@ namespace Honeypot.Data
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public static async void AddPassword(int categoryid, string account, string password, string firstLetter, string name, string createDate, string editDate, string website, string note, bool favorite, byte[] logo)
+        public static void AddPassword(int categoryid, string account, string password, string firstLetter, string name, string createDate, string editDate, string website, string note, bool favorite, string logo)
         {
             try
             {
                 SqliteCommand insertCommand = _passwordsDb.CreateCommand();
                 insertCommand.CommandText =
                 @"
-                    INSERT INTO passwords(categoryid,account,password,firstletter,name,createdate,editdate,website,note,favorite) 
-                    VALUES($categoryid,$account,$password,$firstletter,$name,$createdate,$editdate,$website,$note,$favorite);
-
-                    SELECT last_insert_rowid();
+                    INSERT INTO passwords(categoryid,account,password,firstletter,name,createdate,editdate,website,note,favorite,logo) 
+                    VALUES($categoryid,$account,$password,$firstletter,$name,$createdate,$editdate,$website,$note,$favorite,$logo);
                 ";
 
                 insertCommand.Parameters.AddWithValue("$categoryid", categoryid);
@@ -171,22 +152,13 @@ namespace Honeypot.Data
                 insertCommand.Parameters.AddWithValue("$website", website);
                 insertCommand.Parameters.AddWithValue("$note", note);
                 insertCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
-                var rowId = (long)insertCommand.ExecuteScalar();
-
-                using MemoryStream logoStream = new(logo);
-                SqliteCommand zeroBlobCommand = _passwordsDb.CreateCommand();
-                zeroBlobCommand.CommandText =
-                    @"
-                        UPDATE passwords SET logo=zeroblob($length) WHERE id=$id;
-                    ";
-                zeroBlobCommand.Parameters.AddWithValue("$length", logoStream.Length);
-                zeroBlobCommand.Parameters.AddWithValue("$id", rowId);
-                zeroBlobCommand.ExecuteNonQuery();
-
-                using var blobWriteStream = new SqliteBlob(_passwordsDb, "passwords", "logo", rowId);
-                await logoStream.CopyToAsync(blobWriteStream);
+                insertCommand.Parameters.AddWithValue("$logo", logo);
+                insertCommand.ExecuteNonQuery();
             }
-            catch { }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
@@ -204,7 +176,7 @@ namespace Honeypot.Data
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public static void UpdatePassword(long id, int categoryid, string account, string password, string firstLetter, string name, string editDate, string website, string note, bool favorite, byte[] logo)
+        public static void UpdatePassword(long id, int categoryid, string account, string password, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
         {
             try
             {
