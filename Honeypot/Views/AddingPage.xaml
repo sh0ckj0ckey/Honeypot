@@ -26,7 +26,7 @@
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Top">
                         <Border Height="98" Width="98" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" CornerRadius="4">
                             <Border.Background>
-                                <ImageBrush x:Name="PreviewImageBursh" Stretch="UniformToFill" ImageSource="/Assets/Icon/DefaultAvatar.png">
+                                <ImageBrush x:Name="PreviewImageBursh" Stretch="UniformToFill" ImageSource="/Assets/Icon/DefaultLogo.png">
                                     <!--<ImageBrush.ImageSource>
                                         <BitmapImage UriSource="/Assets/Icon/logo.png" DecodePixelHeight="192" DecodePixelType="Logical"/>
                                     </ImageBrush.ImageSource>-->

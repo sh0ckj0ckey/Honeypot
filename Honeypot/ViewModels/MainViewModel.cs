@@ -76,10 +76,21 @@ namespace Honeypot.ViewModels
                 LoadPasswordsTable();
                 LoadCategoriesTable();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine(e.Message);
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"连接数据库时出现了异常：{ex.Message} 最好重启一下应用程序试试 :(");
             }
+        }
+
+        /// <summary>
+        /// 弹出对话框提示用户特定内容
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="content"></param>
+        public void ShowTipsContentDialog(string title, string content)
+        {
+            throw new NotImplementedException();
         }
 
     }

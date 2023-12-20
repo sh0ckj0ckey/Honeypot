@@ -25,24 +25,16 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 重新从数据库加载所有密码列表
         /// </summary>
-        private async void LoadPasswordsTable()
+        private void LoadPasswordsTable()
         {
-            if (PasswordsDataAccess.IsDatabaseConnected())
+            try
             {
-                Passwords.Clear();
-                var passwords = PasswordsDataAccess.GetPasswords();
-                foreach (var item in passwords)
+                if (PasswordsDataAccess.IsDatabaseConnected())
                 {
-                    try
+                    Passwords.Clear();
+                    var passwords = PasswordsDataAccess.GetPasswords();
+                    foreach (var item in passwords)
                     {
-                        WriteableBitmap avatarImage = new WriteableBitmap(1, 1);
-                        //using MemoryStream stream = new MemoryStream(item.Logo); 
-                        InMemoryRandomAccessStream randomAccessStream = new InMemoryRandomAccessStream();
-                        await randomAccessStream.WriteAsync(item.Logo.AsBuffer());
-                        randomAccessStream.Seek(0);
-                        //var streamSource = stream.AsRandomAccessStream();
-                        avatarImage.SetSource(randomAccessStream);
-
                         Passwords.Insert(0, new PasswordModel()
                         {
                             Id = item.Id,
@@ -55,18 +47,19 @@ namespace Honeypot.ViewModels
                             Website = item.Website,
                             Note = item.Note,
                             Favorite = item.Favorite != 0,
-                            Logo = avatarImage
+                            LogoFileName = item.Logo
                         });
                     }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine(e.Message);
-                    }
+                }
+                else
+                {
+                    InitPasswordsDataBase();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                InitPasswordsDataBase();
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"读取密码列表时出现了异常：{ex.Message}");
             }
         }
 
@@ -84,13 +77,21 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public void AddPassword(int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] logo)
+        public void AddPassword(int categoryid, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
         {
-            string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
-            string date = DateTime.Now.ToString("yyyy年MM月dd日");
-            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, logo);
+            try
+            {
+                string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
+                string date = DateTime.Now.ToString("yyyy年MM月dd日");
+                PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, logoFilePath);
 
-            LoadPasswordsTable();
+                LoadPasswordsTable();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"添加密码时出现了异常：{ex.Message}");
+            }
         }
 
         /// <summary>
@@ -106,24 +107,41 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public void EditPassword(int id, int categoryid, string account, string password, string name, string website, string note, bool favorite, byte[] logo)
+        public void EditPassword(int id, int categoryid, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
         {
-            string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
-            string date = DateTime.Now.ToString("yyyy年MM月dd日");
-            PasswordsDataAccess.UpdatePassword(id, categoryid, account, password, firstLetter, name, date, website, note, favorite, logo);
+            try
+            {
+                string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
+                string date = DateTime.Now.ToString("yyyy年MM月dd日");
+                PasswordsDataAccess.UpdatePassword(id, categoryid, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 
-            LoadPasswordsTable();
+                LoadPasswordsTable();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"编辑密码时出现了异常：{ex.Message}");
+            }
         }
 
         /// <summary>
         /// 删除密码
         /// </summary>
         /// <param name="id"></param>
-        public void DeletePassword(int id)
+        public void DeletePassword(PasswordModel password)
         {
-            PasswordsDataAccess.DeletePassword(id);
+            try
+            {
+                ImageSaveHelper.DeleteLogoImage(password.LogoFileName);
+                PasswordsDataAccess.DeletePassword(password.Id);
 
-            LoadPasswordsTable();
+                LoadPasswordsTable();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"删除密码时出现了异常：{ex.Message}");
+            }
         }
     }
 }

@@ -33,13 +33,13 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Row="0" FontSize="14" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left">
-                                    <Run Text="所有的数据都保存在如图所示的 SQLite 数据库文件中，&quot;密罐&quot;目前并没有云备份功能，因此您可自行将此文件备份。"/>
+                                    <Run Text="所有的数据保存在如图所示的文件夹和 SQLite 数据库文件中，&quot;密罐&quot;目前并没有云备份功能，因此您可自行将此文件备份。"/>
                                     <Run Text="请注意，所有数据均为明文存储，务必妥善保管！" FontWeight="Bold" Foreground="#DD0000"/>
                                     <Run Text="明文存储意味着任何人都可以使用诸如 SQLiteStudio 等程序查看该数据库文件的一切内容。"/>
                                 </TextBlock>
                                 <HyperlinkButton Grid.Row="1" Content="查看数据库文件" Margin="-10,4,0,0" Click="OnClickDbFile" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                             </Grid>
-                            <Border Grid.Column="1" CornerRadius="8" Width="340" Height="160" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
+                            <Border Grid.Column="1" CornerRadius="8" Width="365" Height="169" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
                                 <Border.Background>
                                     <ImageBrush ImageSource="{ThemeResource TIPS_DBFILE_IMG}" Stretch="UniformToFill"/>
                                 </Border.Background>

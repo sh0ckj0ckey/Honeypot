@@ -1,17 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Composition;
 using System.Numerics;
 using Honeypot.Controls;
@@ -22,8 +12,7 @@ using System.Diagnostics;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage.Streams;
 using Windows.Graphics.Imaging;
-using SharpDX.Win32;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Honeypot.Helpers;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -43,7 +32,7 @@ namespace Honeypot.Views
 
         private ContentDialog _setImageContentDialog = null;
 
-        private WriteableBitmap _defaultAvatarWriteableBitmap = null;
+        private WriteableBitmap _defaultLogoWriteableBitmap = null;
         private WriteableBitmap _croppedWriteableBitmap = null;
 
         public AddingPage()
@@ -89,19 +78,19 @@ namespace Honeypot.Views
         {
             try
             {
-                if (_defaultAvatarWriteableBitmap is null)
+                if (_defaultLogoWriteableBitmap is null)
                 {
-                    var defaulAvatartImage = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Icon/DefaultAvatar.png"));
+                    var defaultLogoImage = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Icon/DefaultLogo.png"));
                     WriteableBitmap defaultImage = null;
 
-                    using (IRandomAccessStream stream = await defaulAvatartImage.OpenAsync(FileAccessMode.Read))
+                    using (IRandomAccessStream stream = await defaultLogoImage.OpenAsync(FileAccessMode.Read))
                     {
                         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
                         defaultImage = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
                         defaultImage.SetSource(stream);
                     }
 
-                    _croppedWriteableBitmap = _defaultAvatarWriteableBitmap = defaultImage;
+                    _croppedWriteableBitmap = _defaultLogoWriteableBitmap = defaultImage;
                 }
             }
             catch (Exception ex)
@@ -117,7 +106,7 @@ namespace Honeypot.Views
         {
             try
             {
-                _croppedWriteableBitmap = _defaultAvatarWriteableBitmap;
+                _croppedWriteableBitmap = _defaultLogoWriteableBitmap;
                 PreviewImageBursh.ImageSource = _croppedWriteableBitmap;
 
                 AddingNameTextBox.Text = "";
@@ -202,15 +191,11 @@ namespace Honeypot.Views
                 var note = AddingNoteTextBox.Text;
                 var category = (AddingCategoryComboBox.SelectedItem as CategoryModel)?.Id ?? -1;
                 var favorite = AddingFavoriteCheckBox.IsChecked == true;
-                byte[] logo = null;
 
-                using (Stream stream = _croppedWriteableBitmap.PixelBuffer.AsStream())
-                {
-                    logo = new byte[(uint)stream.Length];
-                    await stream.ReadAsync(logo);
-                }
+                string logoFilePath = DateTime.Now.Ticks.ToString();
+                bool result = await ImageSaveHelper.SaveLogoImage(logoFilePath, _croppedWriteableBitmap);
 
-                MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, logo);
+                MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, logoFilePath);
 
                 ResetPage();
             }

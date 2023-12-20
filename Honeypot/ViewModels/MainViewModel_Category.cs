@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,26 +55,34 @@ namespace Honeypot.ViewModels
         /// </summary>
         private void LoadCategoriesTable()
         {
-            if (PasswordsDataAccess.IsDatabaseConnected())
+            try
             {
-                Categoryies.Clear();
-                CategoriesOnNav.Clear();
-                var categories = PasswordsDataAccess.GetCategories();
-                foreach (var item in categories)
+                if (PasswordsDataAccess.IsDatabaseConnected())
                 {
-                    Categoryies.Insert(0, new CategoryModel()
+                    Categoryies.Clear();
+                    CategoriesOnNav.Clear();
+                    var categories = PasswordsDataAccess.GetCategories();
+                    foreach (var item in categories)
                     {
-                        Id = item.Id,
-                        Title = item.Title,
-                        Icon = item.Icon,
-                    });
+                        Categoryies.Insert(0, new CategoryModel()
+                        {
+                            Id = item.Id,
+                            Title = item.Title,
+                            Icon = item.Icon,
+                        });
 
-                    CategoriesOnNav.Insert(0, new MainNavigationItem(item.Title, $"category_{item.Id}", item.Icon));
+                        CategoriesOnNav.Insert(0, new MainNavigationItem(item.Title, $"category_{item.Id}", item.Icon));
+                    }
+                }
+                else
+                {
+                    InitPasswordsDataBase();
                 }
             }
-            else
+            catch (Exception ex)
             {
-                InitPasswordsDataBase();
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"读取分类列表时出现了异常：{ex.Message}");
             }
         }
 
@@ -84,19 +93,27 @@ namespace Honeypot.ViewModels
         /// <param name="icon"></param>
         public void CreateCategory(string title, string icon)
         {
-            if (string.IsNullOrEmpty(title))
+            try
             {
-                title = "未命名分类";
-            }
+                if (string.IsNullOrEmpty(title))
+                {
+                    title = "未命名分类";
+                }
 
-            if (string.IsNullOrEmpty(icon))
+                if (string.IsNullOrEmpty(icon))
+                {
+                    icon = "\uE72E";
+                }
+
+                PasswordsDataAccess.AddCategory(title, icon);
+
+                LoadCategoriesTable();
+            }
+            catch (Exception ex)
             {
-                icon = "\uE72E";
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"添加分类时出现了异常：{ex.Message}");
             }
-
-            PasswordsDataAccess.AddCategory(title, icon);
-
-            LoadCategoriesTable();
         }
 
         /// <summary>
@@ -107,19 +124,27 @@ namespace Honeypot.ViewModels
         /// <param name="icon"></param>
         public void EditCategory(int id, string title, string icon)
         {
-            if (string.IsNullOrEmpty(title))
+            try
             {
-                title = "未命名分类";
-            }
+                if (string.IsNullOrEmpty(title))
+                {
+                    title = "未命名分类";
+                }
 
-            if (string.IsNullOrEmpty(icon))
+                if (string.IsNullOrEmpty(icon))
+                {
+                    icon = "\uE003";
+                }
+
+                PasswordsDataAccess.UpdateCategory(id, title, icon);
+
+                LoadCategoriesTable();
+            }
+            catch (Exception ex)
             {
-                icon = "\uE003";
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"编辑分类时出现了异常：{ex.Message}");
             }
-
-            PasswordsDataAccess.UpdateCategory(id, title, icon);
-
-            LoadCategoriesTable();
         }
 
         /// <summary>
@@ -128,9 +153,17 @@ namespace Honeypot.ViewModels
         /// <param name="id"></param>
         public void DeleteCategory(int id)
         {
-            PasswordsDataAccess.DeleteCategory(id);
+            try
+            {
+                PasswordsDataAccess.DeleteCategory(id);
 
-            LoadCategoriesTable();
+                LoadCategoriesTable();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"删除密码时出现了异常：{ex.Message}");
+            }
         }
     }
 }
