@@ -25,7 +25,7 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 重新从数据库加载所有密码列表
         /// </summary>
-        private void LoadPasswordsTable()
+        private async void LoadPasswordsTable()
         {
             try
             {
@@ -35,7 +35,7 @@ namespace Honeypot.ViewModels
                     var passwords = PasswordsDataAccess.GetPasswords();
                     foreach (var item in passwords)
                     {
-                        Passwords.Insert(0, new PasswordModel()
+                        var password = new PasswordModel
                         {
                             Id = item.Id,
                             Account = item.Account,
@@ -47,8 +47,11 @@ namespace Honeypot.ViewModels
                             Website = item.Website,
                             Note = item.Note,
                             Favorite = item.Favorite != 0,
-                            LogoFileName = item.Logo
-                        });
+                            LogoFileName = item.Logo,
+                            Logo = await LogoImageHelper.GetLogoImage(item.Logo)
+                        };
+
+                        Passwords.Insert(0, password);
                     }
                 }
                 else
@@ -97,7 +100,7 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 编辑密码
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="password"></param>
         /// <param name="categoryid"></param>
         /// <param name="account"></param>
         /// <param name="password"></param>
@@ -107,13 +110,15 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public void EditPassword(int id, int categoryid, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
+        public void EditPassword(PasswordModel passwordItem, int categoryid, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
         {
             try
             {
+                LogoImageHelper.DeleteLogoImage(passwordItem.LogoFileName);
+
                 string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
                 string date = DateTime.Now.ToString("yyyy年MM月dd日");
-                PasswordsDataAccess.UpdatePassword(id, categoryid, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
+                PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryid, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 
                 LoadPasswordsTable();
             }
@@ -127,13 +132,13 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 删除密码
         /// </summary>
-        /// <param name="id"></param>
-        public void DeletePassword(PasswordModel password)
+        /// <param name="passwordItem"></param>
+        public void DeletePassword(PasswordModel passwordItem)
         {
             try
             {
-                ImageSaveHelper.DeleteLogoImage(password.LogoFileName);
-                PasswordsDataAccess.DeletePassword(password.Id);
+                LogoImageHelper.DeleteLogoImage(passwordItem.LogoFileName);
+                PasswordsDataAccess.DeletePassword(passwordItem.Id);
 
                 LoadPasswordsTable();
             }

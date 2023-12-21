@@ -193,7 +193,7 @@ namespace Honeypot.Views
                 var favorite = AddingFavoriteCheckBox.IsChecked == true;
 
                 string logoFilePath = DateTime.Now.Ticks.ToString();
-                bool result = await ImageSaveHelper.SaveLogoImage(logoFilePath, _croppedWriteableBitmap);
+                bool result = await LogoImageHelper.SaveLogoImage(logoFilePath, _croppedWriteableBitmap);
 
                 MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, logoFilePath);
 

@@ -13,11 +13,13 @@ using Windows.Storage.Streams;
 
 namespace Honeypot.Helpers
 {
-    public static class ImageSaveHelper
+    public static class LogoImageHelper
     {
         private static StorageFolder _imagesFolder = null;
 
-        private static WriteableBitmap _defaultLogoWriteableBitmap = null;
+        private static BitmapImage _defaultLogoBitmapImage = null;
+
+        private static readonly Dictionary<string, BitmapImage> _logoImages = new Dictionary<string, BitmapImage>();
 
         public static async Task<StorageFolder> GetImagesFolder()
         {
@@ -33,21 +35,33 @@ namespace Honeypot.Helpers
             return _imagesFolder;
         }
 
-        public static async Task<WriteableBitmap> GetLogoImage(string logoFileName)
+        /// <summary>
+        /// 根据文件名获取图片
+        /// </summary>
+        /// <param name="logoFileName"></param>
+        /// <returns></returns>
+        public static async Task<BitmapImage> GetLogoImage(string logoFileName)
         {
             try
             {
-                var imageFolder = await GetImagesFolder();
-                var storageFile = await imageFolder.GetFileAsync(logoFileName);
-                WriteableBitmap image = null;
-                using (IRandomAccessStream stream = await storageFile.OpenAsync(FileAccessMode.Read))
+                if (!_logoImages.ContainsKey(logoFileName))
                 {
-                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-                    image = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                    image.SetSource(stream);
+                    var imageFolder = await GetImagesFolder();
+                    string imageFilePath = Path.Combine(imageFolder.Path, logoFileName);
+                    if (File.Exists(imageFilePath))
+                    {
+                        BitmapImage bitmapImage = new BitmapImage
+                        {
+                            DecodePixelType = DecodePixelType.Logical,
+                            DecodePixelWidth = 96,
+                            UriSource = new Uri(imageFilePath)
+                        };
+
+                        _logoImages[logoFileName] = bitmapImage;
+                    }
                 }
 
-                if (image is not null)
+                if (_logoImages.TryGetValue(logoFileName, out BitmapImage image))
                 {
                     return image;
                 }
@@ -59,27 +73,27 @@ namespace Honeypot.Helpers
 
             try
             {
-                if (_defaultLogoWriteableBitmap is null)
+                _defaultLogoBitmapImage ??= new BitmapImage
                 {
-                    var defaultLogoImage = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Icon/DefaultLogo.png"));
-                    WriteableBitmap defaultImage = null;
-
-                    using (IRandomAccessStream stream = await defaultLogoImage.OpenAsync(FileAccessMode.Read))
-                    {
-                        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-                        defaultImage = new WriteableBitmap((int)decoder.PixelWidth, (int)decoder.PixelHeight);
-                        defaultImage.SetSource(stream);
-                    }
-                }
+                    DecodePixelType = DecodePixelType.Logical,
+                    DecodePixelWidth = 192,
+                    UriSource = new Uri("ms-appx:///Assets/Icon/DefaultLogo.png")
+                };
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
 
-            return _defaultLogoWriteableBitmap;
+            return _defaultLogoBitmapImage;
         }
 
+        /// <summary>
+        /// 将图片保存到文件
+        /// </summary>
+        /// <param name="logoFileName"></param>
+        /// <param name="logoImage"></param>
+        /// <returns></returns>
         public static async Task<bool> SaveLogoImage(string logoFileName, WriteableBitmap logoImage)
         {
             try
@@ -127,13 +141,22 @@ namespace Honeypot.Helpers
             return false;
         }
 
-        public static async void DeleteLogoImage(string filePath)
+        /// <summary>
+        /// 将指定文件名的图片删除
+        /// </summary>
+        /// <param name="logoFileName"></param>
+        public static async void DeleteLogoImage(string logoFileName)
         {
             try
             {
+                _logoImages.Remove(logoFileName);
                 var imageFolder = await GetImagesFolder();
-                var storageFile = await imageFolder.GetFileAsync(filePath);
-                await storageFile.DeleteAsync();
+                string imageFilePath = Path.Combine(imageFolder.Path, logoFileName);
+                if (File.Exists(imageFilePath))
+                {
+                    var storageFile = await imageFolder.GetFileAsync(logoFileName);
+                    await storageFile.DeleteAsync();
+                }
             }
             catch (Exception ex)
             {
