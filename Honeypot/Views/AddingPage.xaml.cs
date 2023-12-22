@@ -164,6 +164,11 @@ namespace Honeypot.Views
         {
             try
             {
+                AddingSuccessBorder.Visibility = AddingSuccessBorder.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+                return;
+
+
+
                 if (string.IsNullOrWhiteSpace(AddingNameTextBox.Text))
                 {
                     _textEmptyDialog.Title = "还不够...";
