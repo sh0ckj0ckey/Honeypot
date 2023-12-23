@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage.Streams;
 using Windows.Graphics.Imaging;
 using Honeypot.Helpers;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -164,11 +165,6 @@ namespace Honeypot.Views
         {
             try
             {
-                AddingSuccessBorder.Visibility = AddingSuccessBorder.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-                return;
-
-
-
                 if (string.IsNullOrWhiteSpace(AddingNameTextBox.Text))
                 {
                     _textEmptyDialog.Title = "还不够...";
@@ -202,11 +198,15 @@ namespace Honeypot.Views
 
                 MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, logoFilePath);
 
+                AddingSuccessBorder.Visibility = Visibility.Visible;
+                await Task.Delay(600);
                 ResetPage();
+                AddingSuccessBorder.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                MainViewModel.Instance.ShowTipsContentDialog("糟糕...", $"添加密码时出现了异常：{ex.Message}");
             }
         }
 

@@ -41,7 +41,8 @@ namespace Honeypot.Controls
         {
             try
             {
-                AvatarImageCropper.Source = origImage;
+                LogoImageCropper.Source = origImage;
+                LogoImageCropper.Reset();
             }
             catch (Exception ex)
             {
@@ -58,7 +59,7 @@ namespace Honeypot.Controls
             try
             {
                 using var inMemoryRandomStream = new InMemoryRandomAccessStream();
-                await AvatarImageCropper.SaveAsync(inMemoryRandomStream, BitmapFileFormat.Png);
+                await LogoImageCropper.SaveAsync(inMemoryRandomStream, BitmapFileFormat.Png);
                 inMemoryRandomStream.Seek(0);
                 var bitmap = new WriteableBitmap(1,1);
                 bitmap.SetSource(inMemoryRandomStream);
@@ -81,7 +82,7 @@ namespace Honeypot.Controls
         {
             try
             {
-                FileTooLargeInfoBar.IsOpen = false;
+                //FileTooLargeInfoBar.IsOpen = false;
 
                 var filePicker = new FileOpenPicker
                 {
@@ -93,17 +94,18 @@ namespace Honeypot.Controls
                 WinRT.Interop.InitializeWithWindow.Initialize(filePicker, App.MainWindow.GetWindowHandle());
 
                 var file = await filePicker.PickSingleFileAsync();
-                if (file != null && AvatarImageCropper != null)
+                if (file != null && LogoImageCropper != null)
                 {
-                    var property = await file.GetBasicPropertiesAsync();
-                    if ((property?.Size ?? ulong.MaxValue) > 8 * 1024 * 1024)
-                    {
-                        FileTooLargeInfoBar.IsOpen = true;
-                    }
-                    else
-                    {
-                        await AvatarImageCropper.LoadImageFromFile(file);
-                    }
+                    await LogoImageCropper.LoadImageFromFile(file);
+                    //var property = await file.GetBasicPropertiesAsync();
+                    //if ((property?.Size ?? ulong.MaxValue) > 8 * 1024 * 1024)
+                    //{
+                    //    FileTooLargeInfoBar.IsOpen = true;
+                    //}
+                    //else
+                    //{
+                    //    await LogoImageCropper.LoadImageFromFile(file);
+                    //}
                 }
             }
             catch (Exception ex)

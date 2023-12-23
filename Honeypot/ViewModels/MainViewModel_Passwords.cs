@@ -82,19 +82,11 @@ namespace Honeypot.ViewModels
         /// <param name="image"></param>
         public void AddPassword(int categoryid, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
         {
-            try
-            {
-                string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
-                string date = DateTime.Now.ToString("yyyy年MM月dd日");
-                PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, logoFilePath);
+            string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
+            string date = DateTime.Now.ToString("yyyy年MM月dd日");
+            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, logoFilePath);
 
-                LoadPasswordsTable();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"添加密码时出现了异常：{ex.Message}");
-            }
+            LoadPasswordsTable();
         }
 
         /// <summary>

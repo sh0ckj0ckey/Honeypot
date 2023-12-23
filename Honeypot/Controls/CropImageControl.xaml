@@ -20,8 +20,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <InfoBar x:Name="FileTooLargeInfoBar" Grid.Row="0" IsOpen="False" Severity="Warning" Message="这张图片太大啦，压缩一下或者换一张试试吧~" />
-        <controls:ImageCropper x:Name="AvatarImageCropper" Grid.Row="1" CornerRadius="4" Padding="20" Width="192" Height="192" AspectRatio="1" CropShape="Rectangular" ThumbPlacement="Corners"/>
+        <!--<InfoBar x:Name="FileTooLargeInfoBar" Grid.Row="0" IsOpen="False" Severity="Warning" Message="这张图片太大啦，压缩一下或者换一张试试吧~" />-->
+        <controls:ImageCropper x:Name="LogoImageCropper" Grid.Row="1" CornerRadius="4" Padding="20" Width="192" Height="192" AspectRatio="1" CropShape="Rectangular" ThumbPlacement="Corners"/>
         <HyperlinkButton Grid.Row="2" Margin="0,8,0,0" Click="OnClickPickFile" HorizontalAlignment="Center" VerticalAlignment="Top">
             <StackPanel Spacing="8" Orientation="Horizontal" VerticalAlignment="Center">
                 <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="14"/>

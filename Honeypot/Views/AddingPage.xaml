@@ -102,30 +102,24 @@
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
-            <Border x:Name="AddingSuccessBorder" Visibility="Collapsed" Height="128" Width="128" CornerRadius="64" Background="{ThemeResource AccentAAFillColorDefaultBrush}" IsHitTestVisible="False">
+            <Border x:Name="AddingSuccessBorder" Visibility="Collapsed" 
+                    Height="128" Width="128" CornerRadius="64"
+                    Background="{ThemeResource AccentAAFillColorDefaultBrush}" IsHitTestVisible="False">
                 <ui:Effects.Shadow>
-                    <ui:AttachedDropShadow CastTo="{x:Bind AddingScrollViewer}" CornerRadius="64" Offset="0" BlurRadius="192"/>
+                    <ui:AttachedDropShadow CastTo="{x:Bind AddingScrollViewer}" CornerRadius="64" Offset="0" BlurRadius="256"/>
                 </ui:Effects.Shadow>
                 <animations:Implicit.ShowAnimations>
-                    <animations:TranslationAnimation From="0, -200, 0"
-                                                     To="0"
-                                                     Duration="0:0:1" />
-                    <animations:OpacityAnimation From="0"
-                                                 To="1.0"
-                                                 Duration="0:0:1" />
+                    <animations:TranslationAnimation From="0" To="0" Duration="0:0:0.4"/>
+                    <animations:OpacityAnimation To="1.0" Duration="0:0:1"/>
+                    <animations:ScaleAnimation From="0.9" To="1" EasingMode="EaseInOut" EasingType="Bounce" Duration="0:0:0.4"/>
+                    <animations:CenterPointAnimation From="64,64,0" To="64,64,0"/>
                 </animations:Implicit.ShowAnimations>
 
                 <animations:Implicit.HideAnimations>
-                    <animations:OpacityAnimation To="0.0"
-                                                 Duration="0:0:1" />
-                    <animations:ScalarAnimation Target="Translation.Y"
-                                                To="-200"
-                                                Duration="0:0:1">
-                        <animations:ScalarKeyFrame Key="0.1"
-                                                   Value="30" />
-                        <animations:ScalarKeyFrame Key="0.5"
-                                                   Value="0.0" />
-                    </animations:ScalarAnimation>
+                    <animations:TranslationAnimation To="0,-48,0" Duration="0:0:0.6"/>
+                    <animations:OpacityAnimation To="0.0" Duration="0:0:0.4"/>
+                    <animations:ScaleAnimation To="0.9" Duration="0:0:0.4" EasingType="Linear"/>
+                    <animations:CenterPointAnimation From="64,64,0" To="64,64,0"/>
                 </animations:Implicit.HideAnimations>
 
 
