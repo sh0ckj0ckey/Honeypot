@@ -33,6 +33,12 @@ namespace Honeypot.ViewModels
         /// </summary>
         public Action ActChangeBackdrop { get; set; } = null;
 
+        /// <summary>
+        /// 弹出提示框
+        /// </summary>
+        public Action<string, string> ActShowTipDialog { get; set; } = null;
+
+
         public ObservableCollection<MainNavigationBase> MainNavigationItems = new ObservableCollection<MainNavigationBase>();
 
         public ObservableCollection<MainNavigationBase> MainNavigationFooterItems = new ObservableCollection<MainNavigationBase>();
@@ -79,7 +85,7 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"连接数据库时出现了异常：{ex.Message} 最好重启一下应用程序试试 :(");
+                ShowTipsContentDialog("糟糕...", $"连接数据库时出现了异常：{ex.Message}");
             }
         }
 
@@ -90,8 +96,14 @@ namespace Honeypot.ViewModels
         /// <param name="content"></param>
         public void ShowTipsContentDialog(string title, string content)
         {
-            throw new NotImplementedException();
+            try
+            {
+                ActShowTipDialog?.Invoke(title, content);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
-
     }
 }

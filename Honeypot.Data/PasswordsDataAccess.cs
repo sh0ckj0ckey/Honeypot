@@ -97,7 +97,6 @@ namespace Honeypot.Data
                 item.Id = query.IsDBNull(0) ? -1 : query.GetInt32(0);
                 item.Account = query.IsDBNull(2) ? string.Empty : query.GetString(2);
                 item.Password = query.IsDBNull(3) ? string.Empty : query.GetString(3);
-                item.FirstLetter = query.IsDBNull(4) ? string.Empty : query.GetString(4);
                 item.Name = query.IsDBNull(5) ? string.Empty : query.GetString(5);
                 item.CreateDate = query.IsDBNull(6) ? string.Empty : query.GetString(6);
                 item.EditDate = query.IsDBNull(7) ? string.Empty : query.GetString(7);
@@ -105,6 +104,8 @@ namespace Honeypot.Data
                 item.Note = query.IsDBNull(9) ? string.Empty : query.GetString(9);
                 item.Favorite = query.IsDBNull(10) ? 0 : query.GetInt32(10);
                 item.Logo = query.IsDBNull(11) ? null : query.GetString(11);
+                var firstLetter = query.IsDBNull(4) ? string.Empty : query.GetString(4);
+                item.FirstLetter = (string.IsNullOrWhiteSpace(firstLetter) || firstLetter.Length <= 0) ? '#' : firstLetter[0];
                 results.Add(item);
             }
             return results;

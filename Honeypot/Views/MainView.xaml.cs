@@ -43,6 +43,8 @@ namespace Honeypot.Views
             ("settings", typeof(SettingsPage)),
         };
 
+        private ContentDialog _tipsContentDialog = null;
+
         public MainView()
         {
             this.InitializeComponent();
@@ -50,6 +52,23 @@ namespace Honeypot.Views
             MainViewModel = MainViewModel.Instance;
 
             MainViewModel.Instance.ActSwitchAppTheme?.Invoke();
+
+            _tipsContentDialog = new ContentDialog
+            {
+                XamlRoot = this.XamlRoot,
+                Title = "",
+                Content = "",
+                CloseButtonText = "我知道了"
+            };
+
+            MainViewModel.Instance.ActShowTipDialog = async (title, content) =>
+            {
+                _tipsContentDialog.Title = title;
+                _tipsContentDialog.Content = content;
+                _tipsContentDialog.XamlRoot = this.XamlRoot;
+                _tipsContentDialog.RequestedTheme = this.ActualTheme;
+                await _tipsContentDialog.ShowAsync();
+            };
         }
 
         private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)

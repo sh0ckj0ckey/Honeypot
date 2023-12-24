@@ -23,6 +23,31 @@ namespace Honeypot.ViewModels
         public ObservableCollection<PasswordModel> Passwords { get; set; } = new ObservableCollection<PasswordModel>();
 
         /// <summary>
+        /// 当前显示的分组的密码列表
+        /// </summary>
+        public ObservableCollection<PasswordsGroupModel> PasswordsGroups { get; set; } = new ObservableCollection<PasswordsGroupModel>();
+
+        /// <summary>
+        /// 收藏夹列表
+        /// </summary>
+        public ObservableCollection<PasswordModel> FavoritePasswords { get; set; } = new ObservableCollection<PasswordModel>();
+
+        /// <summary>
+        /// 搜索建议列表
+        /// </summary>
+        public ObservableCollection<PasswordModel> SearchSuggestPasswords { get; set; } = new ObservableCollection<PasswordModel>();
+
+        /// <summary>
+        /// 当前选中查看的密码
+        /// </summary>
+        private PasswordModel _selectedPassword = null;
+        public PasswordModel SelectedPassword
+        {
+            get => _selectedPassword;
+            set => SetProperty(ref _selectedPassword, value);
+        }
+
+        /// <summary>
         /// 重新从数据库加载所有密码列表
         /// </summary>
         private async void LoadPasswordsTable()
@@ -31,7 +56,12 @@ namespace Honeypot.ViewModels
             {
                 if (PasswordsDataAccess.IsDatabaseConnected())
                 {
+                    SelectedPassword = null;
                     Passwords.Clear();
+                    PasswordsGroups.Clear();
+                    FavoritePasswords.Clear();
+                    SearchSuggestPasswords.Clear();
+
                     var passwords = PasswordsDataAccess.GetPasswords();
                     foreach (var item in passwords)
                     {
@@ -40,7 +70,7 @@ namespace Honeypot.ViewModels
                             Id = item.Id,
                             Account = item.Account,
                             Password = item.Password,
-                            FirstLetter = item.FirstLetter[0],
+                            FirstLetter = item.FirstLetter,
                             Name = item.Name,
                             CreateDate = item.CreateDate,
                             EditDate = item.EditDate,
@@ -52,6 +82,28 @@ namespace Honeypot.ViewModels
                         };
 
                         Passwords.Insert(0, password);
+
+                        // 添加到收藏夹列表
+                        if (password.Favorite)
+                        {
+                            FavoritePasswords.Insert(0, password);
+                        }
+                    }
+
+                    // 按照首字母分组
+                    var orderedList =
+                        (from item in Passwords
+                         group item by item.FirstLetter into newItems
+                         select
+                         new PasswordsGroupModel
+                         {
+                             Key = newItems.Key,
+                             Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
+                         }).OrderBy(x => x.Key).ToList();
+
+                    foreach (var item in orderedList)
+                    {
+                        PasswordsGroups.Add(item);
                     }
                 }
                 else
