@@ -62,16 +62,6 @@ namespace Honeypot.Views
             InitWriteableBitmaps();
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            _setImageContentDialog.PrimaryButtonClick += OnDialogClickConfirm;
-        }
-
-        private void OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            _setImageContentDialog.PrimaryButtonClick -= OnDialogClickConfirm;
-        }
-
         /// <summary>
         /// 初始化默认图像
         /// </summary>
@@ -136,24 +126,18 @@ namespace Honeypot.Views
                 _cropImageControl.SetOriginImage(_croppedWriteableBitmap);
                 _setImageContentDialog.XamlRoot = this.XamlRoot;
                 _setImageContentDialog.RequestedTheme = this.ActualTheme;
-                await _setImageContentDialog.ShowAsync();
+                ContentDialogResult result = await _setImageContentDialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    var croppedImage = await _cropImageControl.GetCroppedImage();
+                    _croppedWriteableBitmap = croppedImage;
+                    PreviewImageBursh.ImageSource = _croppedWriteableBitmap;
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
-        }
-
-        /// <summary>
-        /// 对话框点击确认，生成头像预览图片
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        private async void OnDialogClickConfirm(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            var croppedImage = await _cropImageControl.GetCroppedImage();
-            _croppedWriteableBitmap = croppedImage;
-            PreviewImageBursh.ImageSource = _croppedWriteableBitmap;
         }
 
         /// <summary>

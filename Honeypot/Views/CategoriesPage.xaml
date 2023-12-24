@@ -9,8 +9,7 @@
     xmlns:cvt="using:Honeypot.Converters" 
     xmlns:controls="using:Microsoft.UI.Xaml.Controls" 
     xmlns:models="using:Honeypot.Models"
-    mc:Ignorable="d" NavigationCacheMode="Required"
-    Loaded="OnLoaded" Unloaded="OnUnloaded">
+    mc:Ignorable="d" NavigationCacheMode="Required">
     <Page.Resources>
         <cvt:Int2VisibilityConverter x:Key="Int2Vis"/>
         <cvt:Bool2VisibilityConverter x:Key="Bool2Vis"/>
