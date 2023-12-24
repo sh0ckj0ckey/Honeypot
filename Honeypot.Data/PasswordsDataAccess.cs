@@ -28,7 +28,8 @@ namespace Honeypot.Data
                 "CREATE TABLE IF NOT EXISTS passwordCategories (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
                     "title TEXT," +
-                    "icon TEXT);";
+                    "icon TEXT," +
+                    "timeorder INTEGER);";
             SqliteCommand createCategoryTable = new SqliteCommand(categoryTableCommand, _passwordsDb);
             createCategoryTable.ExecuteNonQuery();
 
@@ -198,7 +199,7 @@ namespace Honeypot.Data
         public static List<CategoryDataModel> GetCategories()
         {
             List<CategoryDataModel> results = new List<CategoryDataModel>();
-            SqliteCommand selectCommand = new SqliteCommand($"SELECT * FROM passwordCategories", _passwordsDb);
+            SqliteCommand selectCommand = new SqliteCommand($"SELECT * FROM passwordCategories ORDER BY timeorder ASC", _passwordsDb);
             using SqliteDataReader query = selectCommand?.ExecuteReader();
             while (query?.Read() == true)
             {
@@ -206,6 +207,7 @@ namespace Honeypot.Data
                 item.Id = query.IsDBNull(0) ? -1 : query.GetInt32(0);
                 item.Title = query.IsDBNull(1) ? string.Empty : query.GetString(1);
                 item.Icon = query.IsDBNull(2) ? string.Empty : query.GetString(2);
+                item.Order = query.IsDBNull(3) ? 0 : query.GetInt64(3);
                 results.Add(item);
             }
             return results;
@@ -216,11 +218,12 @@ namespace Honeypot.Data
         /// </summary>
         /// <param name="title"></param>
         /// <param name="icon"></param>
-        public static void AddCategory(string title, string icon)
+        public static void AddCategory(string title, string icon, long ticksAsOrder)
         {
-            SqliteCommand insertCommand = new SqliteCommand($"INSERT INTO passwordCategories(title, icon) VALUES($title, $icon);", _passwordsDb);
+            SqliteCommand insertCommand = new SqliteCommand($"INSERT INTO passwordCategories(title, icon, timeorder) VALUES($title, $icon, $order);", _passwordsDb);
             insertCommand.Parameters.AddWithValue("$title", title);
             insertCommand.Parameters.AddWithValue("$icon", icon);
+            insertCommand.Parameters.AddWithValue("$order", ticksAsOrder);
             insertCommand.ExecuteNonQuery();
         }
 
@@ -229,12 +232,13 @@ namespace Honeypot.Data
         /// </summary>
         /// <param name="title"></param>
         /// <param name="icon"></param>
-        public static void UpdateCategory(int id, string title, string icon)
+        public static void UpdateCategory(int id, string title, string icon, long ticksAsOrder)
         {
-            SqliteCommand updateCommand = new SqliteCommand($"UPDATE passwordCategories SET title=$title, icon=$icon WHERE id=$id;", _passwordsDb);
+            SqliteCommand updateCommand = new SqliteCommand($"UPDATE passwordCategories SET title=$title, icon=$icon, timeorder=$order WHERE id=$id;", _passwordsDb);
             updateCommand.Parameters.AddWithValue("$title", title);
             updateCommand.Parameters.AddWithValue("$icon", icon);
             updateCommand.Parameters.AddWithValue("$id", id);
+            updateCommand.Parameters.AddWithValue("$order", ticksAsOrder);
             updateCommand.ExecuteNonQuery();
         }
 

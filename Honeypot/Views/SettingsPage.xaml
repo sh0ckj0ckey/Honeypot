@@ -11,8 +11,8 @@
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-            <StackPanel Orientation="Vertical" Margin="16,0,20,0">
-                <TextBlock Text="设置" Margin="4,28,0,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+            <StackPanel Orientation="Vertical" Margin="16,0,20,0" Spacing="4">
+                <TextBlock Text="设置" Margin="4,28,0,16" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>
                         <StackPanel Orientation="Horizontal">
@@ -37,7 +37,7 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <TextBlock Text="个性化" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+                <TextBlock Text="个性化" Margin="4,12,0,6" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
                 <controls:SettingsCard Header="主题" Description="选择 &quot;密罐&quot; 的外观">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE771;"/>
@@ -59,7 +59,7 @@
                         <ComboBoxItem Content="亚克力"/>
                     </ComboBox>
                 </controls:SettingsCard>
-                <TextBlock Text="安全和数据" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+                <TextBlock Text="安全和数据" Margin="4,12,0,6" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
                 <controls:SettingsCard Header="使用 Windows Hello 锁定应用">
                     <controls:SettingsCard.Description>
                         <HyperlinkButton Content="在 &quot;系统设置&quot; 中查看" Click="OnClickGoWindowsHelloSettings"/>
@@ -80,7 +80,7 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <TextBlock Text="关于" Margin="4,10,0,10" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+                <TextBlock Text="关于" Margin="4,12,0,6" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
                 <controls:SettingsCard Header="反馈" Description="如果您遇到问题或有任何建议">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xED15;"/>
@@ -114,7 +114,7 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <TextBlock Text="©2023 sh0ckj0ckey." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,8,0,8"/>
+                <TextBlock Text="©2023 sh0ckj0ckey." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,4,0,8"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

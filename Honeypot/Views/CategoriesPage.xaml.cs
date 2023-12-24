@@ -134,11 +134,24 @@ namespace Honeypot.Views
             // 根据对话框的Tag是否为null来区分是编辑还是新建
             if (sender.Tag is CategoryModel categoty && categoty is not null)
             {
-                MainViewModel.Instance.EditCategory(categoty.Id, newCategoryInfo?.Item1, newCategoryInfo?.Item2);
+                MainViewModel.Instance.EditCategory(categoty, newCategoryInfo?.Item1, newCategoryInfo?.Item2);
             }
             else
             {
                 MainViewModel.Instance.CreateCategory(newCategoryInfo?.Item1, newCategoryInfo?.Item2);
+            }
+        }
+
+        /// <summary>
+        /// 点击将分类置于最前
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickMoveCategory(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuFlyoutItem item && item.DataContext is CategoryModel categoty)
+            {
+                MainViewModel.Instance.MoveCategory(categoty);
             }
         }
 

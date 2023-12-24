@@ -53,6 +53,11 @@
                             </Grid>
                             <Button.ContextFlyout>
                                 <MenuFlyout>
+                                    <MenuFlyoutItem Text="置于最前" Click="OnClickMoveCategory">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE1AA;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem Text="编辑" Click="OnClickEditCategory">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;"/>

@@ -11,6 +11,8 @@ namespace Honeypot.Models
     {
         public int Id { get; set; } = -1;
 
+        public long Order { get; set; } = -1;
+
         private string _title = "";
         public string Title
         {

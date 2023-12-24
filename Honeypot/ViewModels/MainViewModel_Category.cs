@@ -69,6 +69,7 @@ namespace Honeypot.ViewModels
                             Id = item.Id,
                             Title = item.Title,
                             Icon = item.Icon,
+                            Order = item.Order,
                         });
 
                         CategoriesOnNav.Insert(0, new MainNavigationItem(item.Title, $"category_{item.Id}", item.Icon));
@@ -105,7 +106,7 @@ namespace Honeypot.ViewModels
                     icon = "\uE72E";
                 }
 
-                PasswordsDataAccess.AddCategory(title, icon);
+                PasswordsDataAccess.AddCategory(title, icon, DateTime.Now.Ticks);
 
                 LoadCategoriesTable();
             }
@@ -122,7 +123,7 @@ namespace Honeypot.ViewModels
         /// <param name="id"></param>
         /// <param name="title"></param>
         /// <param name="icon"></param>
-        public void EditCategory(int id, string title, string icon)
+        public void EditCategory(CategoryModel category, string title, string icon)
         {
             try
             {
@@ -136,7 +137,7 @@ namespace Honeypot.ViewModels
                     icon = "\uE003";
                 }
 
-                PasswordsDataAccess.UpdateCategory(id, title, icon);
+                PasswordsDataAccess.UpdateCategory(category.Id, title, icon, category.Order);
 
                 LoadCategoriesTable();
             }
@@ -144,6 +145,26 @@ namespace Honeypot.ViewModels
             {
                 Debug.WriteLine(ex.Message);
                 ShowTipsContentDialog("糟糕...", $"编辑分类时出现了异常：{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 将分类移到最前
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="ticksAsOrder"></param>
+        public void MoveCategory(CategoryModel category)
+        {
+            try
+            {
+                PasswordsDataAccess.UpdateCategory(category.Id, category.Title, category.Icon, DateTime.Now.Ticks);
+
+                LoadCategoriesTable();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"移动分类时出现了异常：{ex.Message}");
             }
         }
 
