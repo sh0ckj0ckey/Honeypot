@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -148,6 +149,44 @@ namespace Honeypot.Views
                 {
                     MainViewModel.Instance.DeleteCategory(categoty.Id);
                 }
+            }
+        }
+
+        private void OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button btn)
+                {
+                    var button = btn.FindName("OptionButton");
+                    if (button is Button optionButton)
+                    {
+                        optionButton.Visibility = Visibility.Visible;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Button btn)
+                {
+                    var button = btn.FindName("OptionButton");
+                    if (button is Button optionButton)
+                    {
+                        optionButton.Visibility = Visibility.Collapsed;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
         }
     }
