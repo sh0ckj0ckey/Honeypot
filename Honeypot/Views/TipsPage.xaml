@@ -50,26 +50,6 @@
 
                 <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
                     <Expander.Header>
-                        <TextBlock Text="在哪里编辑我创建的密码和分类？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
-                    </Expander.Header>
-                    <Expander.Content>
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" FontSize="14" Text="只需要在密码或者分类上单击鼠标右键，即可在菜单中进行修改或删除等操作。" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left"/>
-                            <Border Grid.Column="1" CornerRadius="8" Width="160" Height="126" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="{ThemeResource TIPS_RIGHTCLICK_IMG}" Stretch="UniformToFill"/>
-                                </Border.Background>
-                            </Border>
-                        </Grid>
-                    </Expander.Content>
-                </Expander>
-
-                <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
-                    <Expander.Header>
                         <TextBlock Text="为什么我创建分类时，无法设置图标？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
                     </Expander.Header>
                     <Expander.Content>

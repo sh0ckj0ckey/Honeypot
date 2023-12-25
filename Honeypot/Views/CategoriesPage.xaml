@@ -49,27 +49,29 @@
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <TextBlock FontSize="14" Margin="12,12,8,0" FontWeight="Bold" Text="{x:Bind Title,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top" CharacterSpacing="64"/>
                                 <TextBlock FontSize="40" Opacity="0.2" Margin="0,0,8,8" Text="{x:Bind Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                <Button Height="26" Width="32" Padding="0" Margin="8,0,0,4" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Content="&#xE10C;" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                    <Button.Flyout>
+                                        <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                            <MenuFlyoutItem Text="置于最前" Click="OnClickMoveCategory">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE1AA;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Text="编辑" Click="OnClickEditCategory">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutSeparator/>
+                                            <MenuFlyoutItem Text="删除" DataContext="{x:Bind }" Click="OnClickDeleteCategory">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE107;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
                             </Grid>
-                            <Button.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Text="置于最前" Click="OnClickMoveCategory">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE1AA;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="编辑" Click="OnClickEditCategory">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="删除" DataContext="{x:Bind }" Foreground="#CC0000" Click="OnClickDeleteCategory">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="#CC0000" Glyph="&#xE107;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </Button.ContextFlyout>
                         </Button>
                     </DataTemplate>
                 </controls:ItemsRepeater>

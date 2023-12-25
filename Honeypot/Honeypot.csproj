@@ -28,8 +28,6 @@
 		<None Remove="Assets\Tips\img_tips_dbfile_light.png" />
 		<None Remove="Assets\Tips\img_tips_nofont_dark.png" />
 		<None Remove="Assets\Tips\img_tips_nofont_light.png" />
-		<None Remove="Assets\Tips\img_tips_rightclick_dark.png" />
-		<None Remove="Assets\Tips\img_tips_rightclick_light.png" />
 		<None Remove="Controls\CreateCategoryControl.xaml" />
 		<None Remove="Controls\CropImageControl.xaml" />
 		<None Remove="ThemeResources\ThemeDictionary.xaml" />
