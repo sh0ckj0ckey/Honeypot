@@ -24,10 +24,21 @@
             </Grid.Resources>
             <muxc:SemanticZoom>
                 <muxc:SemanticZoom.ZoomedInView>
-                    <GridView Padding="2,0,8,8" SelectionMode="None" IsItemClickEnabled="True" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    <GridView Padding="20,0,8,8" SelectionMode="None" IsItemClickEnabled="True" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                               ItemsSource="{x:Bind FavoritesCollectionViewSource.View,Mode=OneWay}">
                         <GridView.GroupStyle>
                             <GroupStyle>
+                                <GroupStyle.HeaderContainerStyle>
+                                    <Style TargetType="GridViewHeaderItem">
+                                        <Setter Property="Template" >
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ContentControl">
+                                                    <ContentPresenter Content="{Binding}" Background="Transparent" VerticalAlignment="Center"/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.HeaderContainerStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate x:DataType="models:PasswordsGroupModel">
                                         <TextBlock Text="{x:Bind Key}" Opacity="0.9" FontWeight="Medium" FontSize="14"/>
@@ -37,19 +48,20 @@
                         </GridView.GroupStyle>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="models:PasswordModel">
-                                <Grid Height="68" HorizontalAlignment="Stretch">
+                                <Grid Height="68" Width="256" Background="{ThemeResource APPLICATION_ITEM_BK}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" CornerRadius="4" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Height="50" Width="50" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <Border Grid.Column="0" CornerRadius="24" Margin="12,0,6,0" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Height="48" Width="48" HorizontalAlignment="Left" VerticalAlignment="Center">
                                         <Border.Background>
                                             <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind Logo,Mode=OneWay}"/>
                                         </Border.Background>
                                     </Border>
-                                    <StackPanel Grid.Column="1" Margin="12,0,4,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                        <TextBlock FontSize="14" Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                        <TextBlock FontSize="13.5" Opacity="0.7" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                    <StackPanel Grid.Column="1" Margin="4,0,4,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                        <TextBlock FontSize="15" FontWeight="Bold" Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                        <TextBlock FontSize="13" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                        <TextBlock FontSize="13" Opacity="0.7" Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -57,8 +69,8 @@
                     </GridView>
                 </muxc:SemanticZoom.ZoomedInView>
                 <muxc:SemanticZoom.ZoomedOutView>
-                    <GridView Padding="2,8,4,8" ItemsSource="{x:Bind FavoritesCollectionViewSource.View.CollectionGroups,Mode=OneWay}"
-                                      SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <GridView Padding="8" ItemsSource="{x:Bind FavoritesCollectionViewSource.View.CollectionGroups,Mode=OneWay}"
+                              SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="ICollectionViewGroup">
                                 <TextBlock Text="{x:Bind Group.(models:PasswordsGroupModel.Key)}" FontWeight="Medium" FontSize="16" HorizontalAlignment="Center" TextWrapping="Wrap"/>
