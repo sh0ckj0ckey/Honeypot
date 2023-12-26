@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -23,9 +24,13 @@ namespace Honeypot.Views
     /// </summary>
     public sealed partial class FavoritesPage : Page
     {
+        private MainViewModel MainViewModel = null;
+
         public FavoritesPage()
         {
             this.InitializeComponent();
+
+            MainViewModel = MainViewModel.Instance;
         }
     }
 }

@@ -28,9 +28,9 @@ namespace Honeypot.ViewModels
         public ObservableCollection<PasswordsGroupModel> PasswordsGroups { get; set; } = new ObservableCollection<PasswordsGroupModel>();
 
         /// <summary>
-        /// 收藏夹列表
+        /// 收藏夹分组列表
         /// </summary>
-        public ObservableCollection<PasswordModel> FavoritePasswords { get; set; } = new ObservableCollection<PasswordModel>();
+        public ObservableCollection<PasswordsGroupModel> FavoritePasswordsGroups { get; set; } = new ObservableCollection<PasswordsGroupModel>();
 
         /// <summary>
         /// 搜索建议列表
@@ -59,7 +59,7 @@ namespace Honeypot.ViewModels
                     SelectedPassword = null;
                     Passwords.Clear();
                     PasswordsGroups.Clear();
-                    FavoritePasswords.Clear();
+                    FavoritePasswordsGroups.Clear();
                     SearchSuggestPasswords.Clear();
 
                     var passwords = PasswordsDataAccess.GetPasswords();
@@ -82,12 +82,6 @@ namespace Honeypot.ViewModels
                         };
 
                         Passwords.Insert(0, password);
-
-                        // 添加到收藏夹列表
-                        if (password.Favorite)
-                        {
-                            FavoritePasswords.Insert(0, password);
-                        }
                     }
 
                     // 按照首字母分组
@@ -104,6 +98,23 @@ namespace Honeypot.ViewModels
                     foreach (var item in orderedList)
                     {
                         PasswordsGroups.Add(item);
+                    }
+
+                    // 收藏夹
+                    var orderedFavoriteList =
+                        (from item in Passwords
+                         where item.Favorite
+                         group item by item.FirstLetter into newItems
+                         select
+                         new PasswordsGroupModel
+                         {
+                             Key = newItems.Key,
+                             Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
+                         }).OrderBy(x => x.Key).ToList();
+
+                    foreach (var item in orderedFavoriteList)
+                    {
+                        FavoritePasswordsGroups.Add(item);
                     }
                 }
                 else
