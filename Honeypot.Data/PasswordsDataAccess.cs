@@ -95,6 +95,7 @@ namespace Honeypot.Data
             {
                 PasswordDataModel item = new PasswordDataModel();
                 item.Id = query.IsDBNull(0) ? -1 : query.GetInt32(0);
+                item.CategoryId = query.IsDBNull(0) ? -1 : query.GetInt32(1);
                 item.Account = query.IsDBNull(2) ? string.Empty : query.GetString(2);
                 item.Password = query.IsDBNull(3) ? string.Empty : query.GetString(3);
                 item.Name = query.IsDBNull(5) ? string.Empty : query.GetString(5);

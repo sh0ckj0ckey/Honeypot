@@ -77,6 +77,7 @@ namespace Honeypot.ViewModels
                             Website = item.Website,
                             Note = item.Note,
                             Favorite = item.Favorite != 0,
+                            CategoryId = item.CategoryId,
                             LogoFileName = item.Logo,
                             Logo = await LogoImageHelper.GetLogoImage(item.Logo)
                         };

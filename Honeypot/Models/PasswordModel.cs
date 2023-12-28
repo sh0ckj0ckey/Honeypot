@@ -75,6 +75,13 @@ namespace Honeypot.Models
             set => SetProperty(ref _favorite, value);
         }
 
+        private int _categoryId = -1;
+        public int CategoryId
+        {
+            get => _categoryId;
+            set => SetProperty(ref _categoryId, value);
+        }
+
         public string LogoFileName { get; set; }
 
         private BitmapImage _logo = null;

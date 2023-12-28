@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -31,6 +32,56 @@ namespace Honeypot.Views
             this.InitializeComponent();
 
             MainViewModel = MainViewModel.Instance;
+        }
+
+        private void OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Grid grid)
+                {
+                    var passwordElement = grid.FindName("PasswordStackPanel");
+                    if (passwordElement is StackPanel passwordStackPanel)
+                    {
+                        passwordStackPanel.Visibility = Visibility.Visible;
+                    }
+
+                    var justNameElement = grid.FindName("JustNameStackPanel");
+                    if (justNameElement is StackPanel justNameStackPanel)
+                    {
+                        justNameStackPanel.Opacity = 0.0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            try
+            {
+                if (sender is Grid grid)
+                {
+                    var passwordElement = grid.FindName("PasswordStackPanel");
+                    if (passwordElement is StackPanel passwordStackPanel)
+                    {
+                        passwordStackPanel.Visibility = Visibility.Collapsed;
+                    }
+
+                    var justNameElement = grid.FindName("JustNameStackPanel");
+                    if (justNameElement is StackPanel justNameStackPanel)
+                    {
+                        justNameStackPanel.Opacity = 1.0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

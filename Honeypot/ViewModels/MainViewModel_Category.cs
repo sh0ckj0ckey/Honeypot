@@ -52,13 +52,15 @@ namespace Honeypot.ViewModels
             }
         }
 
+        /// <summary>
+        /// 根据分类ID获取分类信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public CategoryModel GetCategoryById(int id)
         {
-            CategoryModel category = null;
-            if (_categoriesDict.ContainsKey(id))
-            {
-                category = _categoriesDict[id];
-            }
+            _categoriesDict.TryGetValue(id, out CategoryModel value);
+            return value;
         }
 
         /// <summary>
