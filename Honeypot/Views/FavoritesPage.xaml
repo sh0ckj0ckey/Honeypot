@@ -58,10 +58,14 @@
                                             <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind Logo,Mode=OneWay}"/>
                                         </Border.Background>
                                     </Border>
-                                    <StackPanel Grid.Column="1" Margin="4,0,4,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                    <StackPanel x:Name="JustNameStackPanel" Grid.Column="1" Visibility="Visible" Opacity="1.0" Margin="4,0,4,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                         <TextBlock FontSize="15" FontWeight="Bold" Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
                                         <TextBlock FontSize="13" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                        <TextBlock FontSize="13" Opacity="0.7" Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                        <TextBlock FontSize="13" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                    </StackPanel>
+                                    <StackPanel x:Name="PasswordStackPanel" Grid.Column="1" Visibility="Collapsed" Margin="4,0,4,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                        <TextBlock FontSize="14" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                        <TextBlock FontSize="13.5" Opacity="0.7" Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>

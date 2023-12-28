@@ -14,6 +14,8 @@ namespace Honeypot.ViewModels
 {
     public partial class MainViewModel
     {
+        private Dictionary<int, CategoryModel> _categoriesDict = new Dictionary<int, CategoryModel>();
+
         /// <summary>
         /// 所有分类
         /// </summary>
@@ -50,6 +52,15 @@ namespace Honeypot.ViewModels
             }
         }
 
+        public CategoryModel GetCategoryById(int id)
+        {
+            CategoryModel category = null;
+            if (_categoriesDict.ContainsKey(id))
+            {
+                category = _categoriesDict[id];
+            }
+        }
+
         /// <summary>
         /// 重新从数据库加载分类列表
         /// </summary>
@@ -59,19 +70,22 @@ namespace Honeypot.ViewModels
             {
                 if (PasswordsDataAccess.IsDatabaseConnected())
                 {
+                    _categoriesDict.Clear();
                     Categoryies.Clear();
                     CategoriesOnNav.Clear();
                     var categories = PasswordsDataAccess.GetCategories();
                     foreach (var item in categories)
                     {
-                        Categoryies.Insert(0, new CategoryModel()
+                        var category = new CategoryModel()
                         {
                             Id = item.Id,
                             Title = item.Title,
                             Icon = item.Icon,
                             Order = item.Order,
-                        });
+                        };
 
+                        _categoriesDict[category.Id] = category;
+                        Categoryies.Insert(0, category);
                         CategoriesOnNav.Insert(0, new MainNavigationItem(item.Title, $"category_{item.Id}", item.Icon));
                     }
                 }
