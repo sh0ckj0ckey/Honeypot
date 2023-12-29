@@ -40,7 +40,7 @@ namespace Honeypot.Helpers
         /// </summary>
         /// <param name="logoFileName"></param>
         /// <returns></returns>
-        public static async Task<BitmapImage> GetLogoImage(string logoFileName)
+        public static async Task<BitmapImage> GetLogoImage(string logoFileName, int width = 192)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace Honeypot.Helpers
                         BitmapImage bitmapImage = new BitmapImage
                         {
                             DecodePixelType = DecodePixelType.Logical,
-                            DecodePixelWidth = 96,
+                            DecodePixelWidth = width,
                             UriSource = new Uri(imageFilePath)
                         };
 

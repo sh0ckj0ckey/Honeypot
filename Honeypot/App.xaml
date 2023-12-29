@@ -39,7 +39,7 @@
                     <SolidColorBrush x:Key="GridViewItemRevealPlaceholderBackground" Color="Transparent" />
 
                     <!--<Thickness x:Key="ScrollViewerScrollBarMargin">0</Thickness>-->
-
+                    
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <!-- Other app resources here -->

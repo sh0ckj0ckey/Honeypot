@@ -30,7 +30,7 @@
             </Grid.Resources>
             <muxc:SemanticZoom>
                 <muxc:SemanticZoom.ZoomedInView>
-                    <GridView Padding="20,0,8,8" SelectionMode="None" IsItemClickEnabled="True" IsSynchronizedWithCurrentItem="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    <GridView Padding="20,0,8,8" SelectionMode="None" IsItemClickEnabled="False" IsSynchronizedWithCurrentItem="False" IsSwipeEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                               ItemsSource="{x:Bind FavoritesCollectionViewSource.View,Mode=OneWay}">
                         <GridView.GroupStyle>
                             <GroupStyle>
@@ -46,45 +46,49 @@
                                     </Style>
                                 </GroupStyle.HeaderContainerStyle>
                                 <GroupStyle.HeaderTemplate>
-                                    <DataTemplate x:DataType="models:PasswordsGroupModel">
-                                        <TextBlock Text="{x:Bind Key}" Opacity="0.9" FontWeight="Medium" FontSize="14"/>
+                                    <DataTemplate x:DataType="models:FavoritesGroupModel">
+                                        <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,0" Glyph="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            <TextBlock FontSize="14" Opacity="0.9" Text="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
                         </GridView.GroupStyle>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="models:PasswordModel">
-                                <Grid Height="48" Width="256" Background="{ThemeResource APPLICATION_ITEM_BK}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                      PointerEntered="OnPointerEntered" PointerExited="OnPointerExited">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="0" CornerRadius="0" Margin="0,0,4,0" Height="48" Width="48" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                        <Border.Background>
-                                            <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind Logo,Mode=OneWay}"/>
-                                        </Border.Background>
-                                    </Border>
-                                    <StackPanel x:Name="JustNameStackPanel" Grid.Column="1" Opacity="1.0" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                        <StackPanel.OpacityTransition>
-                                            <ScalarTransition />
-                                        </StackPanel.OpacityTransition>
-                                        <TextBlock FontSize="13.5" FontWeight="Bold" Opacity="0.9" Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                        <TextBlock FontSize="13" FontWeight="Medium" Opacity="0.7" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                    </StackPanel>
-                                    <StackPanel x:Name="PasswordStackPanel" Grid.Column="1" Visibility="Collapsed" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                        <animations:Implicit.ShowAnimations>
-                                            <animations:TranslationAnimation From="0,36,0" To="0,0,0" EasingMode="EaseOut" Duration="0:0:0.6"/>
-                                            <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.8"/>
-                                        </animations:Implicit.ShowAnimations>
-                                        <animations:Implicit.HideAnimations>
-                                            <animations:TranslationAnimation From="0,0,0" To="0,36,0" EasingMode="EaseOut" Duration="0:0:0.6"/>
-                                            <animations:OpacityAnimation To="0" Duration="0:0:0.8"/>
-                                        </animations:Implicit.HideAnimations>
-                                        <TextBlock FontSize="13.5" FontWeight="Medium" Opacity="0.9" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                        <TextBlock FontSize="13" FontWeight="Medium" Opacity="0.7" Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                    </StackPanel>
-                                </Grid>
+                                <Button Height="164" Width="192" Padding="0" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                        PointerEntered="OnPointerEntered" PointerExited="OnPointerExited">
+                                    <Button.Resources>
+                                        <Storyboard x:Name="PointerEnterStoryboard">
+
+                                        </Storyboard>
+                                        <Storyboard x:Name="PointerLeaveStoryboard">
+
+                                        </Storyboard>
+                                    </Button.Resources>
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" Height="96" Width="192" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                            <Border.Background>
+                                                <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind Logo,Mode=OneWay}"/>
+                                            </Border.Background>
+                                        </Border>
+                                        <Border Grid.Row="1" Height="1" HorizontalAlignment="Stretch" Background="{ThemeResource ControlElevationBorderBrush}"/>
+                                        <StackPanel x:Name="NormalStackPanel" Grid.Row="2" Opacity="1.0" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                            <TextBlock FontSize="14" FontWeight="Bold" Opacity="0.9" Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                            <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.7" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                        </StackPanel>
+                                        <StackPanel x:Name="HoverStackPanel" Grid.Row="2" Opacity="0.0" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                            <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.9" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                            <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.7" Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Button>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
@@ -94,7 +98,9 @@
                               SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="ICollectionViewGroup">
-                                <TextBlock Text="{x:Bind Group.(models:PasswordsGroupModel.Key)}" FontWeight="Medium" FontSize="16" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                <FontIcon FontSize="16" Margin="0,0,0,0" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                          Glyph="{x:Bind Group.(models:FavoritesGroupModel.Key),Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" 
+                                          ToolTipService.ToolTip="{x:Bind Group.(models:FavoritesGroupModel.Key),Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}"/>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>

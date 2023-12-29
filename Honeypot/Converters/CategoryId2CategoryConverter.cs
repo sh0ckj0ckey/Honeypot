@@ -17,11 +17,23 @@ namespace Honeypot.Converters
                     string para = parameter?.ToString();
                     if (para == "Icon")
                     {
-                        return MainViewModel.Instance.GetCategoryById(categoryId)?.Icon;
+                        string icon = MainViewModel.Instance.GetCategoryById(categoryId)?.Icon;
+                        if (string.IsNullOrWhiteSpace(icon))
+                        {
+                            icon = "\uE734";
+                        }
+
+                        return icon;
                     }
                     else if (para == "Title")
                     {
-                        return MainViewModel.Instance.GetCategoryById(categoryId)?.Title;
+                        string title = MainViewModel.Instance.GetCategoryById(categoryId)?.Title;
+                        if (string.IsNullOrWhiteSpace(title))
+                        {
+                            title = "未分类";
+                        }
+
+                        return title;
                     }
                 }
             }

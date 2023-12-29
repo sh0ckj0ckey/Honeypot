@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -38,19 +39,10 @@ namespace Honeypot.Views
         {
             try
             {
-                if (sender is Grid grid)
+                if (sender is Button btn)
                 {
-                    var passwordElement = grid.FindName("PasswordStackPanel");
-                    if (passwordElement is StackPanel passwordStackPanel)
-                    {
-                        passwordStackPanel.Visibility = Visibility.Visible;
-                    }
-
-                    var justNameElement = grid.FindName("JustNameStackPanel");
-                    if (justNameElement is StackPanel justNameStackPanel)
-                    {
-                        justNameStackPanel.Opacity = 0.0;
-                    }
+                    Storyboard sb = btn.Resources["MyStoryboard"] as Storyboard;
+                    sb.Begin();
                 }
             }
             catch (Exception ex)
@@ -63,19 +55,10 @@ namespace Honeypot.Views
         {
             try
             {
-                if (sender is Grid grid)
+                if (sender is Button btn)
                 {
-                    var passwordElement = grid.FindName("PasswordStackPanel");
-                    if (passwordElement is StackPanel passwordStackPanel)
-                    {
-                        passwordStackPanel.Visibility = Visibility.Collapsed;
-                    }
-
-                    var justNameElement = grid.FindName("JustNameStackPanel");
-                    if (justNameElement is StackPanel justNameStackPanel)
-                    {
-                        justNameStackPanel.Opacity = 1.0;
-                    }
+                    Storyboard sb = btn.Resources["MyStoryboard"] as Storyboard;
+                    sb.Begin();
                 }
             }
             catch (Exception ex)

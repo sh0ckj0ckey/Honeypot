@@ -20,22 +20,22 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 当前显示的密码列表
         /// </summary>
-        public ObservableCollection<PasswordModel> Passwords { get; set; } = new ObservableCollection<PasswordModel>();
+        public ObservableCollection<PasswordModel> Passwords { get; set; } = new();
 
         /// <summary>
         /// 当前显示的分组的密码列表
         /// </summary>
-        public ObservableCollection<PasswordsGroupModel> PasswordsGroups { get; set; } = new ObservableCollection<PasswordsGroupModel>();
+        public ObservableCollection<PasswordsGroupModel> PasswordsGroups { get; set; } = new();
 
         /// <summary>
         /// 收藏夹分组列表
         /// </summary>
-        public ObservableCollection<PasswordsGroupModel> FavoritePasswordsGroups { get; set; } = new ObservableCollection<PasswordsGroupModel>();
+        public ObservableCollection<FavoritesGroupModel> FavoritePasswordsGroups { get; set; } = new();
 
         /// <summary>
         /// 搜索建议列表
         /// </summary>
-        public ObservableCollection<PasswordModel> SearchSuggestPasswords { get; set; } = new ObservableCollection<PasswordModel>();
+        public ObservableCollection<PasswordModel> SearchSuggestPasswords { get; set; } = new();
 
         /// <summary>
         /// 当前选中查看的密码
@@ -105,9 +105,9 @@ namespace Honeypot.ViewModels
                     var orderedFavoriteList =
                         (from item in Passwords
                          where item.Favorite
-                         group item by item.FirstLetter into newItems
+                         group item by item.CategoryId into newItems
                          select
-                         new PasswordsGroupModel
+                         new FavoritesGroupModel
                          {
                              Key = newItems.Key,
                              Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
