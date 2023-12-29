@@ -32,5 +32,6 @@ namespace Honeypot.Views
 
             MainViewModel = MainViewModel.Instance;
         }
+
     }
 }
