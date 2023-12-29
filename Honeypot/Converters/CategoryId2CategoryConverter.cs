@@ -20,7 +20,7 @@ namespace Honeypot.Converters
                         string icon = MainViewModel.Instance.GetCategoryById(categoryId)?.Icon;
                         if (string.IsNullOrWhiteSpace(icon))
                         {
-                            icon = "\uE734";
+                            icon = "\uEA3A";
                         }
 
                         return icon;

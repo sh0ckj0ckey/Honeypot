@@ -10,6 +10,7 @@
     xmlns:models="using:Honeypot.Models" 
     xmlns:converters="using:Honeypot.Converters" 
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Page.Resources>
@@ -30,7 +31,7 @@
             </Grid.Resources>
             <muxc:SemanticZoom>
                 <muxc:SemanticZoom.ZoomedInView>
-                    <GridView Padding="20,0,8,8" SelectionMode="None" IsItemClickEnabled="False" IsSynchronizedWithCurrentItem="False" IsSwipeEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    <GridView Padding="20,0,20,8" SelectionMode="None" IsItemClickEnabled="False" IsSynchronizedWithCurrentItem="False" IsSwipeEnabled="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                               ItemsSource="{x:Bind FavoritesCollectionViewSource.View,Mode=OneWay}">
                         <GridView.GroupStyle>
                             <GroupStyle>
@@ -47,9 +48,9 @@
                                 </GroupStyle.HeaderContainerStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate x:DataType="models:FavoritesGroupModel">
-                                        <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                            <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,0" Glyph="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock FontSize="14" Opacity="0.9" Text="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                            <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,-2" Glyph="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            <TextBlock FontSize="14" Opacity="0.9" Text="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}" HorizontalAlignment="Left" VerticalAlignment="Center" CharacterSpacing="48"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
@@ -57,18 +58,74 @@
                         </GridView.GroupStyle>
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="models:PasswordModel">
-                                <Button Height="164" Width="192" Padding="0" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                                <Button Height="148" Width="192" Padding="0" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
                                         PointerEntered="OnPointerEntered" PointerExited="OnPointerExited">
                                     <Button.Resources>
                                         <Storyboard x:Name="PointerEnterStoryboard">
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NormalStackPanel" To="0" Duration="0:0:0.4"/>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HoverStackPanel" To="1" Duration="0:0:0.4"/>
-                                            <DoubleAnimation Storyboard.TargetProperty="Translation" Storyboard.TargetName="NormalStackPanel" To="0,36,0" Duration="0:0:0.2"/>
-                                            <DoubleAnimation Storyboard.TargetProperty="Translation" Storyboard.TargetName="NormalStackPanel" To="0,36,0" Duration="0:0:0.2"/>
+                                            <!--Logo Scale-->
+                                            <DoubleAnimation Storyboard.TargetName="ScaleLogoBorder" Storyboard.TargetProperty="ScaleX" To="1.1" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuadraticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="ScaleLogoBorder" Storyboard.TargetProperty="ScaleY" To="1.1" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuadraticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <!--Text Fade-->
+                                            <DoubleAnimation Storyboard.TargetName="NameTextBlock" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="AccountTextBlock" Storyboard.TargetProperty="Opacity" To="0.9" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="PasswordTextBlock" Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.2"/>
+                                            <!--Text Translate-->
+                                            <DoubleAnimation Storyboard.TargetName="TranslationName" Storyboard.TargetProperty="Y" To="-18" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <PowerEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="TranslationAccount" Storyboard.TargetProperty="Y" To="-18" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <PowerEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="TranslationPassword" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <PowerEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
                                         </Storyboard>
                                         <Storyboard x:Name="PointerLeaveStoryboard">
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NormalStackPanel" To="1" Duration="0:0:0.4"/>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HoverStackPanel" To="0" Duration="0:0:0.4"/>
+                                            <!--Logo Scale-->
+                                            <DoubleAnimation Storyboard.TargetName="ScaleLogoBorder" Storyboard.TargetProperty="ScaleX" To="1.0" Duration="0:0:0.2">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuadraticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="ScaleLogoBorder" Storyboard.TargetProperty="ScaleY" To="1.0" Duration="0:0:0.2">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuadraticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <!--Text Fade-->
+                                            <DoubleAnimation Storyboard.TargetName="NameTextBlock" Storyboard.TargetProperty="Opacity" To="0.9" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="AccountTextBlock" Storyboard.TargetProperty="Opacity" To="0.7" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="PasswordTextBlock" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
+                                            <!--Text Translate-->
+                                            <DoubleAnimation Storyboard.TargetName="TranslationName" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.2">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <PowerEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="TranslationAccount" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.2">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <PowerEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="TranslationPassword" Storyboard.TargetProperty="Y" To="18" Duration="0:0:0.2">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <PowerEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
                                         </Storyboard>
                                     </Button.Resources>
                                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4">
@@ -77,20 +134,40 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <Border Grid.Row="0" Height="96" Width="192" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                            <Border.Background>
-                                                <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind Logo,Mode=OneWay}"/>
-                                            </Border.Background>
+                                        <Border Grid.Row="0" Width="192" Height="96" ui:UIElementExtensions.ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                            <Border x:Name="LogoBorder" Width="192" Height="96" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Border.Background>
+                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind Logo,Mode=OneWay}"/>
+                                                </Border.Background>
+                                                <Border.RenderTransform>
+                                                    <ScaleTransform x:Name="ScaleLogoBorder" ScaleX="1.0" ScaleY="1.0" CenterX="96" CenterY="48"/>
+                                                </Border.RenderTransform>
+                                            </Border>
                                         </Border>
                                         <Border Grid.Row="1" Height="1" HorizontalAlignment="Stretch" Background="{ThemeResource ControlElevationBorderBrush}"/>
-                                        <StackPanel x:Name="NormalStackPanel" Grid.Row="2" Opacity="1" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                            <TextBlock FontSize="14" FontWeight="Bold" Opacity="0.9" Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                            <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.7" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                        </StackPanel>
-                                        <StackPanel x:Name="HoverStackPanel" Grid.Row="2" Opacity="0" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                                            <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.9" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                            <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.7" Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
-                                        </StackPanel>
+                                        <Grid Grid.Row="2" ui:UIElementExtensions.ClipToBounds="True" Padding="8,0,8,6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <TextBlock x:Name="NameTextBlock" Height="18" FontSize="13.5" FontWeight="Bold" Opacity="0.9" 
+                                                       HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,18"
+                                                       Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64">
+                                                <TextBlock.RenderTransform>
+                                                    <TranslateTransform x:Name="TranslationName" Y="0"/>
+                                                </TextBlock.RenderTransform>
+                                            </TextBlock>
+                                            <TextBlock x:Name="AccountTextBlock" Height="18" FontSize="13" FontWeight="Medium" Opacity="0.7"
+                                                       HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,18,0,0"
+                                                       Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64">
+                                                <TextBlock.RenderTransform>
+                                                    <TranslateTransform x:Name="TranslationAccount" Y="0"/>
+                                                </TextBlock.RenderTransform>
+                                            </TextBlock>
+                                            <TextBlock x:Name="PasswordTextBlock" Height="18" FontSize="13" FontWeight="Medium" Opacity="0" 
+                                                       HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,18,0,0"
+                                                       Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64">
+                                                <TextBlock.RenderTransform>
+                                                    <TranslateTransform x:Name="TranslationPassword" Y="18"/>
+                                                </TextBlock.RenderTransform>
+                                            </TextBlock>
+                                        </Grid>
                                     </Grid>
                                 </Button>
                             </DataTemplate>
