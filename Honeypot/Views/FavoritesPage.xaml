@@ -61,10 +61,14 @@
                                         PointerEntered="OnPointerEntered" PointerExited="OnPointerExited">
                                     <Button.Resources>
                                         <Storyboard x:Name="PointerEnterStoryboard">
-
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NormalStackPanel" To="0" Duration="0:0:0.4"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HoverStackPanel" To="1" Duration="0:0:0.4"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="Translation" Storyboard.TargetName="NormalStackPanel" To="0,36,0" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="Translation" Storyboard.TargetName="NormalStackPanel" To="0,36,0" Duration="0:0:0.2"/>
                                         </Storyboard>
                                         <Storyboard x:Name="PointerLeaveStoryboard">
-
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="NormalStackPanel" To="1" Duration="0:0:0.4"/>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="HoverStackPanel" To="0" Duration="0:0:0.4"/>
                                         </Storyboard>
                                     </Button.Resources>
                                     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="4">
@@ -79,11 +83,11 @@
                                             </Border.Background>
                                         </Border>
                                         <Border Grid.Row="1" Height="1" HorizontalAlignment="Stretch" Background="{ThemeResource ControlElevationBorderBrush}"/>
-                                        <StackPanel x:Name="NormalStackPanel" Grid.Row="2" Opacity="1.0" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                        <StackPanel x:Name="NormalStackPanel" Grid.Row="2" Opacity="1" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                             <TextBlock FontSize="14" FontWeight="Bold" Opacity="0.9" Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
                                             <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.7" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
                                         </StackPanel>
-                                        <StackPanel x:Name="HoverStackPanel" Grid.Row="2" Opacity="0.0" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                        <StackPanel x:Name="HoverStackPanel" Grid.Row="2" Opacity="0" Margin="8,0,8,0" Spacing="0" Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                             <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.9" Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
                                             <TextBlock FontSize="14" FontWeight="Medium" Opacity="0.7" Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64"/>
                                         </StackPanel>

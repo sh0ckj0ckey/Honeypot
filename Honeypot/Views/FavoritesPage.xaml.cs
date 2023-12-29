@@ -41,7 +41,7 @@ namespace Honeypot.Views
             {
                 if (sender is Button btn)
                 {
-                    Storyboard sb = btn.Resources["MyStoryboard"] as Storyboard;
+                    Storyboard sb = btn.Resources["PointerEnterStoryboard"] as Storyboard;
                     sb.Begin();
                 }
             }
@@ -57,7 +57,7 @@ namespace Honeypot.Views
             {
                 if (sender is Button btn)
                 {
-                    Storyboard sb = btn.Resources["MyStoryboard"] as Storyboard;
+                    Storyboard sb = btn.Resources["PointerLeaveStoryboard"] as Storyboard;
                     sb.Begin();
                 }
             }
