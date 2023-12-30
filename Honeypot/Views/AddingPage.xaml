@@ -44,53 +44,42 @@
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <FontIcon Grid.Column="0" Margin="8,0,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE168;" FontSize="14"/>
                         <TextBlock Grid.Column="1" Text="账号" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox x:Name="AddingAccountTextBox" Grid.Column="2" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="账号" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddingAccountTextBox" Grid.Column="2" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="账号" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <FontIcon Grid.Column="0" Margin="8,0,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEDAD;" FontSize="14"/>
                         <TextBlock Grid.Column="1" Text="密码" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox x:Name="AddingPasswordTextBox" Grid.Column="2" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="密码" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Grid>
-                    <!--<TextBlock Text="更多" FontSize="14" Margin="20,16,20,8" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
-                    <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,12,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <FontIcon Grid.Column="0" Margin="8,0,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE12B;" FontSize="14"/>
-                        <TextBlock Grid.Column="1" Text="网站" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <TextBox x:Name="AddingWebsiteTextBox" Grid.Column="2" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="https://www.example.com/" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddingPasswordTextBox" Grid.Column="2" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="密码" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <FontIcon Grid.Column="0" Margin="8,2,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE70B;" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBlock Grid.Column="1" Text="备注" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                        <TextBox x:Name="AddingNoteTextBox" Grid.Column="2" TextWrapping="Wrap" Width="240" MinHeight="64" PlaceholderText="备注" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <FontIcon Grid.Column="0" Margin="8,0,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE006;" FontSize="14"/>
+                        <TextBlock Grid.Column="1" Text="收藏夹" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <CheckBox x:Name="AddingFavoriteCheckBox" Grid.Column="2" IsChecked="False" Content="添加到收藏夹" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     </Grid>
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <FontIcon Grid.Column="0" Margin="8,0,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE74C;" FontSize="14"/>
                         <TextBlock Grid.Column="1" Text="分类" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="AddingCategoryComboBox" Grid.Column="2" ItemsSource="{x:Bind MainViewModel.Categoryies,Mode=OneWay}" MinWidth="128" PlaceholderText="选择以添加到分类" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <ComboBox x:Name="AddingCategoryComboBox" Grid.Column="2" ItemsSource="{x:Bind MainViewModel.Categoryies,Mode=OneWay}" MinWidth="128" PlaceholderText="选择分类" HorizontalAlignment="Right" VerticalAlignment="Center">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="models:CategoryModel">
                                     <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
@@ -104,12 +93,22 @@
                     <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <FontIcon Grid.Column="0" Margin="8,0,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE006;" FontSize="14"/>
-                        <TextBlock Grid.Column="1" Text="收藏夹" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                        <CheckBox x:Name="AddingFavoriteCheckBox" Grid.Column="2" IsChecked="False" Content="同时添加到收藏夹" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <FontIcon Grid.Column="0" Margin="8,0,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE12B;" FontSize="14"/>
+                        <TextBlock Grid.Column="1" Text="网站" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddingWebsiteTextBox" Grid.Column="2" TextWrapping="NoWrap" MinWidth="240" PlaceholderText="https://www.example.com/" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid CornerRadius="8" Background="{ThemeResource APPLICATION_ITEM_BK}" Margin="0,4,0,0" Padding="12" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <FontIcon Grid.Column="0" Margin="8,2,0,0" Opacity="0.7" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE70B;" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBlock Grid.Column="1" Text="备注" FontSize="14" Margin="12,0,20,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        <TextBox x:Name="AddingNoteTextBox" Grid.Column="2" TextWrapping="Wrap" Width="240" MinHeight="64" PlaceholderText="备注" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     </Grid>
                 </StackPanel>
             </ScrollViewer>
@@ -125,15 +124,12 @@
                     <animations:ScaleAnimation From="0.9" To="1" EasingMode="EaseInOut" EasingType="Bounce" Duration="0:0:0.4"/>
                     <animations:CenterPointAnimation From="64,64,0" To="64,64,0"/>
                 </animations:Implicit.ShowAnimations>
-
                 <animations:Implicit.HideAnimations>
                     <animations:TranslationAnimation To="0,-48,0" Duration="0:0:0.6"/>
                     <animations:OpacityAnimation To="0.0" Duration="0:0:0.4"/>
                     <animations:ScaleAnimation To="0.9" Duration="0:0:0.4" EasingType="Linear"/>
                     <animations:CenterPointAnimation From="64,64,0" To="64,64,0"/>
                 </animations:Implicit.HideAnimations>
-
-
                 <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="#DEFFFFFF" Glyph="&#xE65F;" FontSize="64" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
         </Grid>

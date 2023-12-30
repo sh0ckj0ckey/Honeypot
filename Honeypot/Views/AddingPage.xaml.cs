@@ -159,10 +159,10 @@ namespace Honeypot.Views
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(AddingAccountTextBox.Text) || string.IsNullOrWhiteSpace(AddingPasswordTextBox.Text))
+                if (string.IsNullOrWhiteSpace(AddingAccountTextBox.Text) && string.IsNullOrWhiteSpace(AddingPasswordTextBox.Text))
                 {
                     _textEmptyDialog.Title = "还不够...";
-                    _textEmptyDialog.Content = "账号和密码不能为空哦，再完善一下吧~";
+                    _textEmptyDialog.Content = "账号和密码至少要填写一个哦，再完善一下吧~";
                     _textEmptyDialog.XamlRoot = this.XamlRoot;
                     _textEmptyDialog.RequestedTheme = this.ActualTheme;
                     await _textEmptyDialog.ShowAsync();

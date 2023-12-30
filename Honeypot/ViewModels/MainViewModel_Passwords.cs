@@ -148,7 +148,7 @@ namespace Honeypot.ViewModels
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
             string date = DateTime.Now.ToString("yyyy年MM月dd日");
-            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, date, website, note, favorite, logoFilePath);
+            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, "", website, note, favorite, logoFilePath);
 
             LoadPasswordsTable();
         }

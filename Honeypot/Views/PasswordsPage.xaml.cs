@@ -33,5 +33,9 @@ namespace Honeypot.Views
             MainViewModel = MainViewModel.Instance;
         }
 
+        private void OnClickClose(object sender, RoutedEventArgs e)
+        {
+            MainViewModel.SelectedPassword = null;
+        }
     }
 }

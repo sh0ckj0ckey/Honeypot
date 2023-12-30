@@ -86,6 +86,20 @@ namespace Honeypot.Views
         }
 
         /// <summary>
+        /// 访问朱雀 GitHub
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnClickGoZhuque(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                await Windows.System.Launcher.LaunchUriAsync(new Uri("https://github.com/TrionesType/zhuque"));
+            }
+            catch { }
+        }
+
+        /// <summary>
         /// 查看 Windows Hello 的设置
         /// </summary>
         /// <param name="sender"></param>
@@ -108,5 +122,6 @@ namespace Honeypot.Views
         {
 
         }
+
     }
 }
