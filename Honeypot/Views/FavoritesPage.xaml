@@ -37,7 +37,7 @@
                             <GroupStyle>
                                 <GroupStyle.HeaderContainerStyle>
                                     <Style TargetType="GridViewHeaderItem">
-                                        <Setter Property="Template" >
+                                        <Setter Property="Template">
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="ContentControl">
                                                     <ContentPresenter Content="{Binding}" Background="Transparent" VerticalAlignment="Center"/>
