@@ -13,6 +13,7 @@ namespace Honeypot.Controls
     public sealed partial class CreateCategoryControl : UserControl
     {
         private MainViewModel MainViewModel = null;
+
         public CreateCategoryControl()
         {
             this.InitializeComponent();

@@ -31,6 +31,7 @@
 		<None Remove="Assets\Tips\img_tips_nofont_light.png" />
 		<None Remove="Controls\CreateCategoryControl.xaml" />
 		<None Remove="Controls\CropImageControl.xaml" />
+		<None Remove="Controls\PasswordDetailControl.xaml" />
 		<None Remove="Fonts\ZhuqueFangsong-Regular.ttf" />
 		<None Remove="ThemeResources\ThemeDictionary.xaml" />
 		<None Remove="Views\AddingPage.xaml" />
@@ -76,6 +77,11 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Honeypot.Core\Honeypot.Core.csproj" />
 	  <ProjectReference Include="..\Honeypot.Data\Honeypot.Data.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Controls\PasswordDetailControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 	<ItemGroup>
 	  <Page Update="Controls\CropImageControl.xaml">

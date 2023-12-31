@@ -7,11 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:fontModel="using:Honeypot.Helpers" 
-    xmlns:cvt="using:Honeypot.Converters"
+    xmlns:converters="using:Honeypot.Converters"
     mc:Ignorable="d" Background="Transparent" Loaded="OnLoaded">
     <UserControl.Resources>
-        <cvt:Int2VisibilityConverter x:Key="Int2Vis"/>
-        <cvt:Bool2VisibilityConverter x:Key="Bool2Vis"/>
+        <converters:Int2VisibilityConverter x:Key="Int2Vis"/>
+        <converters:Bool2VisibilityConverter x:Key="Bool2Vis"/>
     </UserControl.Resources>
 
     <Grid Padding="20" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

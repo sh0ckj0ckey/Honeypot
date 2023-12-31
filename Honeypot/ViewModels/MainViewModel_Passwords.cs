@@ -41,6 +41,16 @@ namespace Honeypot.ViewModels
         }
 
         /// <summary>
+        /// 当前选中查看的收藏的密码
+        /// </summary>
+        private PasswordModel _selectedFavoritePassword = null;
+        public PasswordModel SelectedFavoritePassword
+        {
+            get => _selectedFavoritePassword;
+            set => SetProperty(ref _selectedFavoritePassword, value);
+        }
+
+        /// <summary>
         /// 重新从数据库加载所有密码列表
         /// </summary>
         private async void LoadPasswordsTable()
