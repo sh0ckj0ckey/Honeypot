@@ -59,7 +59,7 @@
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="models:PasswordModel">
                                 <Button Height="148" Width="192" Padding="0" CornerRadius="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-                                        PointerEntered="OnPointerEntered" PointerExited="OnPointerExited">
+                                        Click="OnClickFavoritePassword" PointerEntered="OnPointerEntered" PointerExited="OnPointerExited">
                                     <Button.Resources>
                                         <Storyboard x:Name="PointerEnterStoryboard">
                                             <!--Logo Scale-->

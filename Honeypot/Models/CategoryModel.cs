@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Honeypot.Helpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Honeypot.Models
 {

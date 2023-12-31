@@ -1,19 +1,19 @@
 using System;
+using System.Diagnostics;
+using System.Numerics;
+using System.Threading.Tasks;
+using Honeypot.Controls;
+using Honeypot.Helpers;
+using Honeypot.Models;
+using Honeypot.ViewModels;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Composition;
-using System.Numerics;
-using Honeypot.Controls;
-using Honeypot.ViewModels;
-using Honeypot.Models;
-using Windows.Storage;
-using System.Diagnostics;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Storage.Streams;
 using Windows.Graphics.Imaging;
-using Honeypot.Helpers;
-using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

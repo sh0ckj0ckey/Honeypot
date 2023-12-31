@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Honeypot.Data;
 using Honeypot.Helpers;
 using Honeypot.Models;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Storage.Streams;
 
 namespace Honeypot.ViewModels
 {

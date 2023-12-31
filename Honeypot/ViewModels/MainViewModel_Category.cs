@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Honeypot.Data;
 using Honeypot.Helpers;
 using Honeypot.Models;
-using WinUIEx;
 
 namespace Honeypot.ViewModels
 {

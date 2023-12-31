@@ -1,24 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using CommunityToolkit.WinUI.Controls;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using System.Diagnostics;
 using WinUIEx;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -61,7 +49,7 @@ namespace Honeypot.Controls
                 using var inMemoryRandomStream = new InMemoryRandomAccessStream();
                 await LogoImageCropper.SaveAsync(inMemoryRandomStream, BitmapFileFormat.Png);
                 inMemoryRandomStream.Seek(0);
-                var bitmap = new WriteableBitmap(1,1);
+                var bitmap = new WriteableBitmap(1, 1);
                 bitmap.SetSource(inMemoryRandomStream);
                 return bitmap;
             }

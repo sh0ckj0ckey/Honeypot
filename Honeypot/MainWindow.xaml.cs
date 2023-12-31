@@ -3,17 +3,12 @@
 
 using System;
 using System.IO;
-using System.Diagnostics;
+using Honeypot.ViewModels;
+using Honeypot.Views;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
-using Windows.System;
 using Windows.UI.ViewManagement;
 using WinUIEx;
-using Honeypot.ViewModels;
-using Honeypot.Helpers;
-using Honeypot.Views;
-using Microsoft.UI.Xaml.Controls;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.

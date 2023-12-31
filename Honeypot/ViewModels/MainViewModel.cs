@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Honeypot.Core;
 using Honeypot.Data;
-using Honeypot.Helpers;
 using Honeypot.Models;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 
 namespace Honeypot.ViewModels

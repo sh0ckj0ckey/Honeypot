@@ -1,7 +1,6 @@
 ﻿using System;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml;
 using Honeypot.ViewModels;
+using Microsoft.UI.Xaml.Data;
 
 namespace Honeypot.Converters
 {
