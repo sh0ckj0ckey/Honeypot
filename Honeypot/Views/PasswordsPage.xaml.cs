@@ -61,10 +61,10 @@ namespace Honeypot.Views
                 dataPackage.SetText(MainViewModel.Instance.SelectedPassword.Account);
                 Clipboard.SetContent(dataPackage);
 
-                AccountButtonTextBlock.Visibility = Visibility.Collapsed;
+                AccountButtonTextBlock.Opacity = 0;
                 AccountCopiedFontIcon.Visibility = Visibility.Visible;
-                await Task.Delay(1000);
-                AccountButtonTextBlock.Visibility = Visibility.Visible;
+                await Task.Delay(800);
+                AccountButtonTextBlock.Opacity = 1;
                 AccountCopiedFontIcon.Visibility = Visibility.Collapsed;
             }
         }
@@ -82,10 +82,10 @@ namespace Honeypot.Views
                 dataPackage.SetText(MainViewModel.Instance.SelectedPassword.Password);
                 Clipboard.SetContent(dataPackage);
 
-                PasswordButtonTextBlock.Visibility = Visibility.Collapsed;
+                PasswordButtonTextBlock.Opacity = 0;
                 PasswordCopiedFontIcon.Visibility = Visibility.Visible;
-                await Task.Delay(1000);
-                PasswordButtonTextBlock.Visibility = Visibility.Visible;
+                await Task.Delay(800);
+                PasswordButtonTextBlock.Opacity = 1;
                 PasswordCopiedFontIcon.Visibility = Visibility.Collapsed;
             }
         }
