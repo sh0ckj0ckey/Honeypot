@@ -114,14 +114,14 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="朱雀仿宋" Description="&quot;密罐&quot; 使用了开源字体 &quot;朱雀仿宋&quot;">
+                <controls:SettingsCard Header="开源字体" Description="&quot;密罐&quot; 使用了开源字体 &quot;朱雀仿宋&quot;">
                     <controls:SettingsCard.HeaderIcon>
                         <BitmapIcon UriSource="ms-appx:///Assets/Icon/icon_zhuque.png" Width="20" ShowAsMonochrome="True"/>
                     </controls:SettingsCard.HeaderIcon>
                     <Button Height="34" Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image Width="20" Height="20" Margin="0,0,0,0" Source="{ThemeResource ABOUT_GITHUB_IMG}"/>
-                            <TextBlock Text="朱雀仿宋 on GitHub" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
+                            <!--<TextBlock Text="GitHub 存储库" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>-->
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>

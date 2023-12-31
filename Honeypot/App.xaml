@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="/ThemeResources/ThemeDictionary.xaml"/>
                 <ResourceDictionary>
 
-                    <FontFamily x:Key="ZhuqueFont" >Fonts/ZhuqueFangsong-Regular.ttf#朱雀仿宋（预览测试版）</FontFamily>
+                    <FontFamily x:Key="ZhuqueFont">/Fonts/ZhuqueFangsong-Regular.ttf#朱雀仿宋（预览测试版）</FontFamily>
 
                     <!--<Color x:Key="SystemAccentColor">#333333</Color>
                     <Color x:Key="SystemAccentColorLight1">#333333</Color>
