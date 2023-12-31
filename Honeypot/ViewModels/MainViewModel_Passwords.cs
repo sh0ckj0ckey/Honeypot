@@ -5,8 +5,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Honeypot.Data;
 using Honeypot.Helpers;
 using Honeypot.Models;
@@ -59,7 +61,6 @@ namespace Honeypot.ViewModels
                     SelectedPassword = null;
                     Passwords.Clear();
                     PasswordsGroups.Clear();
-                    FavoritePasswordsGroups.Clear();
                     SearchSuggestPasswords.Clear();
 
                     var passwords = PasswordsDataAccess.GetPasswords();
@@ -101,22 +102,7 @@ namespace Honeypot.ViewModels
                         PasswordsGroups.Add(item);
                     }
 
-                    // 收藏夹
-                    var orderedFavoriteList =
-                        (from item in Passwords
-                         where item.Favorite
-                         group item by item.CategoryId into newItems
-                         select
-                         new FavoritesGroupModel
-                         {
-                             Key = newItems.Key,
-                             Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
-                         }).OrderBy(x => x.Key).ToList();
-
-                    foreach (var item in orderedFavoriteList)
-                    {
-                        FavoritePasswordsGroups.Add(item);
-                    }
+                    UpdateFavorites();
                 }
                 else
                 {
@@ -127,6 +113,31 @@ namespace Honeypot.ViewModels
             {
                 Debug.WriteLine(ex.Message);
                 ShowTipsContentDialog("糟糕...", $"读取密码列表时出现了异常：{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 更新收藏夹列表
+        /// </summary>
+        private void UpdateFavorites()
+        {
+            FavoritePasswordsGroups.Clear();
+
+            // 收藏夹
+            var orderedFavoriteList =
+                (from item in Passwords
+                 where item.Favorite
+                 group item by item.CategoryId into newItems
+                 select
+                 new FavoritesGroupModel
+                 {
+                     Key = newItems.Key,
+                     Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
+                 }).OrderBy(x => x.Key).ToList();
+
+            foreach (var item in orderedFavoriteList)
+            {
+                FavoritePasswordsGroups.Add(item);
             }
         }
 
@@ -148,7 +159,7 @@ namespace Honeypot.ViewModels
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
             string date = DateTime.Now.ToString("yyyy年MM月dd日");
-            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, "", website, note, favorite, logoFilePath);
+            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 
             LoadPasswordsTable();
         }
@@ -170,7 +181,10 @@ namespace Honeypot.ViewModels
         {
             try
             {
-                LogoImageHelper.DeleteLogoImage(passwordItem.LogoFileName);
+                if (logoFilePath != passwordItem.LogoFileName)
+                {
+                    LogoImageHelper.DeleteLogoImage(passwordItem.LogoFileName);
+                }
 
                 string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
                 string date = DateTime.Now.ToString("yyyy年MM月dd日");
@@ -182,6 +196,26 @@ namespace Honeypot.ViewModels
             {
                 Debug.WriteLine(ex.Message);
                 ShowTipsContentDialog("糟糕...", $"编辑密码时出现了异常：{ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 收藏/取消收藏密码
+        /// </summary>
+        /// <param name="passwordItem"></param>
+        public void FavoritePassword(PasswordModel passwordItem)
+        {
+            try
+            {
+                passwordItem.Favorite = !passwordItem.Favorite;
+                PasswordsDataAccess.FavoritePassword(passwordItem.Id, passwordItem.Favorite);
+
+                UpdateFavorites();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                ShowTipsContentDialog("糟糕...", $"收藏密码时出现了异常：{ex.Message}");
             }
         }
 

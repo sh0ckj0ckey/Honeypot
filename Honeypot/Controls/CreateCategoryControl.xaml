@@ -32,7 +32,7 @@
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="fontModel:Character">
                         <Grid Width="56" Height="56">
-                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{x:Bind Char}" FontSize="18"/>
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="{x:Bind Char}" FontSize="18"/>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>

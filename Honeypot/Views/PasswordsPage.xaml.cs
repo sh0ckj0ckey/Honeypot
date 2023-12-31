@@ -39,16 +39,6 @@ namespace Honeypot.Views
         }
 
         /// <summary>
-        /// 点击关闭页面
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnClickClose(object sender, RoutedEventArgs e)
-        {
-            MainViewModel.SelectedPassword = null;
-        }
-
-        /// <summary>
         /// 点击复制账号
         /// </summary>
         /// <param name="sender"></param>
@@ -125,5 +115,51 @@ namespace Honeypot.Views
             }
         }
 
+        /// <summary>
+        /// 点击确认删除密码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickDelete(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MainViewModel.Instance.DeletePassword(MainViewModel.Instance.SelectedPassword);
+                DeletePasswordFlyout.Hide();
+
+                MainViewModel.Instance.SelectedPassword = null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 点击收藏/取消收藏密码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickFavorite(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MainViewModel.Instance.FavoritePassword(MainViewModel.Instance.SelectedPassword);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 点击关闭页面
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickClose(object sender, RoutedEventArgs e)
+        {
+            MainViewModel.Instance.SelectedPassword = null;
+        }
     }
 }

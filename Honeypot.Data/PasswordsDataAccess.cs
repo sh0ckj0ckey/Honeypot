@@ -126,13 +126,13 @@ namespace Honeypot.Data
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public static void AddPassword(int categoryid, string account, string password, string firstLetter, string name, string createDate, string editDate, string website, string note, bool favorite, string logo)
+        public static void AddPassword(int categoryid, string account, string password, string firstLetter, string name, string createDate, string website, string note, bool favorite, string logo)
         {
             SqliteCommand insertCommand = _passwordsDb.CreateCommand();
             insertCommand.CommandText =
             @"
-                    INSERT INTO passwords(categoryid,account,password,firstletter,name,createdate,editdate,website,note,favorite,logo) 
-                    VALUES($categoryid,$account,$password,$firstletter,$name,$createdate,$editdate,$website,$note,$favorite,$logo);
+                    INSERT INTO passwords(categoryid,account,password,firstletter,name,createdate,website,note,favorite,logo) 
+                    VALUES($categoryid,$account,$password,$firstletter,$name,$createdate,$website,$note,$favorite,$logo);
                 ";
 
             insertCommand.Parameters.AddWithValue("$categoryid", categoryid);
@@ -141,7 +141,6 @@ namespace Honeypot.Data
             insertCommand.Parameters.AddWithValue("$firstletter", firstLetter);
             insertCommand.Parameters.AddWithValue("$name", name);
             insertCommand.Parameters.AddWithValue("$createdate", createDate);
-            insertCommand.Parameters.AddWithValue("$editdate", editDate);
             insertCommand.Parameters.AddWithValue("$website", website);
             insertCommand.Parameters.AddWithValue("$note", note);
             insertCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
@@ -167,7 +166,7 @@ namespace Honeypot.Data
         public static void UpdatePassword(long id, int categoryid, string account, string password, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
         {
             SqliteCommand insertCommand = new SqliteCommand(
-                $"UPDATE passwords SET categoryid=$categoryid,account=$account,password=$password,firstletter=$firstletter,name=$name,createdate=$createdate,editdate=$editdate,website=$website,note=$note,favorite=$favorite,logo=$logo WHERE id=$id;",
+                $"UPDATE passwords SET categoryid=$categoryid,account=$account,password=$password,firstletter=$firstletter,name=$name,editdate=$editdate,website=$website,note=$note,favorite=$favorite,logo=$logo WHERE id=$id;",
                 _passwordsDb);
             insertCommand.Parameters.AddWithValue("$categoryid", categoryid);
             insertCommand.Parameters.AddWithValue("$account", account);
@@ -182,6 +181,22 @@ namespace Honeypot.Data
             insertCommand.Parameters.AddWithValue("$id", id);
             insertCommand?.ExecuteNonQuery();
         }
+
+        /// <summary>
+        /// 收藏/取消收藏密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="favorite"></param>
+        public static void FavoritePassword(long id, bool favorite)
+        {
+            SqliteCommand insertCommand = new SqliteCommand(
+                $"UPDATE passwords SET favorite=$favorite WHERE id=$id;",
+                _passwordsDb);
+            insertCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
+            insertCommand.Parameters.AddWithValue("$id", id);
+            insertCommand?.ExecuteNonQuery();
+        }
+
 
         /// <summary>
         /// 删除指定ID的密码
