@@ -14,6 +14,7 @@ namespace Honeypot.Core
         private const string SETTING_NAME_BACKDROPINDEX = "BackdropIndex";
         private const string SETTING_NAME_ENABLELOCK = "EnableLock";
         private const string SETTING_NAME_ORDERMODE = "PasswordsOrderMode";
+        private const string SETTING_NAME_HIDEPASSWORD = "HidePasswordAtEnter";
 
 
         private ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
@@ -176,6 +177,41 @@ namespace Honeypot.Core
             {
                 SetProperty(ref _passwordsOrderMode, value);
                 ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ORDERMODE] = _passwordsOrderMode;
+            }
+        }
+
+        // 是否在详情页默认隐藏密码
+        private bool? _hidePassword = null;
+        public bool HidePassword
+        {
+            get
+            {
+                try
+                {
+                    if (_hidePassword is null)
+                    {
+                        if (_localSettings.Values[SETTING_NAME_HIDEPASSWORD] == null)
+                        {
+                            _hidePassword = false;
+                        }
+                        else if (_localSettings.Values[SETTING_NAME_HIDEPASSWORD]?.ToString() == "True")
+                        {
+                            _hidePassword = true;
+                        }
+                        else
+                        {
+                            _hidePassword = false;
+                        }
+                    }
+                }
+                catch { }
+                _hidePassword ??= false;
+                return _hidePassword == true;
+            }
+            set
+            {
+                SetProperty(ref _hidePassword, value);
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_HIDEPASSWORD] = _hidePassword;
             }
         }
     }
