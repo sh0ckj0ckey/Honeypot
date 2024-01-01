@@ -37,7 +37,7 @@
 		<None Remove="Views\AddingPage.xaml" />
 		<None Remove="Views\CategoriesPage.xaml" />
 		<None Remove="Views\FavoritesPage.xaml" />
-		<None Remove="Views\MainView.xaml" />
+		<None Remove="Views\MainPage.xaml" />
 		<None Remove="Views\PasswordsPage.xaml" />
 		<None Remove="Views\RandomPage.xaml" />
 		<None Remove="Views\SettingsPage.xaml" />
@@ -124,7 +124,7 @@
 	  </Page>
 	</ItemGroup>
 	<ItemGroup>
-		<Page Update="Views\MainView.xaml">
+		<Page Update="Views\MainPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</Page>
 	</ItemGroup>

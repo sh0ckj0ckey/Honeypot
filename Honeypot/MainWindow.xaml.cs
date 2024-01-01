@@ -55,7 +55,7 @@ namespace Honeypot
         private void OnMainFrameLoaded(object sender, RoutedEventArgs e)
         {
             // 初始导航页面
-            MainFrame.Navigate(typeof(MainView));
+            MainFrame.Navigate(typeof(MainPage));
         }
 
         /// <summary>
