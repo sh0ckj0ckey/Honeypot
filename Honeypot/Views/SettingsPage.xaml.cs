@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Honeypot.Core.Utils;
 using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;
@@ -109,8 +110,47 @@ namespace Honeypot.Views
         /// <param name="e"></param>
         private void OnToggleWindowHello(object sender, RoutedEventArgs e)
         {
-
+            SetWindowsHelloEnable(WindowsHelloToggleSwitch.IsOn);
         }
 
+        /// <summary>
+        /// 开关WindowsHello
+        /// </summary>
+        /// <param name="on"></param>
+        private async void SetWindowsHelloEnable(bool on)
+        {
+            try
+            {
+                if (MainViewModel.Instance.AppSettings.EnableLock != on)
+                {
+                    Debug.WriteLine("Verifying Windows Hello...");
+
+                    switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync("验证您的身份"))
+                    {
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
+                            MainViewModel.Instance.AppSettings.EnableLock = on;
+                            break;
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceNotPresent:
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.NotConfiguredForUser:
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DisabledByPolicy:
+                            WindowsHelloToggleSwitch.IsOn = MainViewModel.Instance.AppSettings.EnableLock;
+                            MainViewModel.Instance.ShowTipsContentDialog("无法验证身份", "当前识别设备未配置或被系统策略禁用");
+                            break;
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceBusy:
+                            WindowsHelloToggleSwitch.IsOn = MainViewModel.Instance.AppSettings.EnableLock;
+                            MainViewModel.Instance.ShowTipsContentDialog("无法验证身份", "当前识别设备不可用");
+                            break;
+                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
+                            WindowsHelloToggleSwitch.IsOn = MainViewModel.Instance.AppSettings.EnableLock;
+                            MainViewModel.Instance.ShowTipsContentDialog("无法验证身份", "验证失败，请重试");
+                            break;
+                        default:
+                            WindowsHelloToggleSwitch.IsOn = MainViewModel.Instance.AppSettings.EnableLock;
+                            break;
+                    }
+                }
+            }
+            catch { }
+        }
     }
 }

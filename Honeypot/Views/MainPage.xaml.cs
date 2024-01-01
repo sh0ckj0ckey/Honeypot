@@ -37,11 +37,7 @@ namespace Honeypot.Views
 
         public MainPage()
         {
-            this.InitializeComponent();
-
             MainViewModel = MainViewModel.Instance;
-
-            MainViewModel.Instance.ActSwitchAppTheme?.Invoke();
 
             _tipsContentDialog = new ContentDialog
             {
@@ -59,6 +55,12 @@ namespace Honeypot.Views
                 _tipsContentDialog.RequestedTheme = this.ActualTheme;
                 await _tipsContentDialog.ShowAsync();
             };
+
+            MainViewModel.Instance.UnlockApp();
+
+            this.InitializeComponent();
+
+            MainViewModel.Instance.ActSwitchAppTheme?.Invoke();
         }
 
         private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -210,8 +212,17 @@ namespace Honeypot.Views
             return false;
         }
 
+
         #endregion
 
-
+        /// <summary>
+        /// 点击解锁应用程序
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickUnlock(object sender, RoutedEventArgs e)
+        {
+            MainViewModel.Instance.UnlockApp();
+        }
     }
 }

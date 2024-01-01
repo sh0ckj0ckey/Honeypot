@@ -4,6 +4,7 @@ using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Honeypot.Core;
 using Honeypot.Data;
+using Honeypot.Helpers;
 using Honeypot.Models;
 using Windows.Storage;
 
@@ -31,6 +32,15 @@ namespace Honeypot.ViewModels
         /// </summary>
         public Action<string, string> ActShowTipDialog { get; set; } = null;
 
+        /// <summary>
+        /// 应用程序是否被锁定
+        /// </summary>
+        private bool _isLocked = true;
+        public bool IsLocked
+        {
+            get => _isLocked;
+            set => SetProperty(ref _isLocked, value);
+        }
 
         public ObservableCollection<MainNavigationBase> MainNavigationItems = new ObservableCollection<MainNavigationBase>();
 
@@ -99,32 +109,45 @@ namespace Honeypot.ViewModels
             }
         }
 
-        // 解锁应用程序
+        /// <summary>
+        /// 锁定应用程序
+        /// </summary>
+        public void LockApp()
+        {
+            if (AppSettings.EnableLock == true)
+            {
+                IsLocked = true;
+            }
+        }
+
+        /// <summary>
+        /// 解锁应用程序
+        /// </summary>
         public async void UnlockApp()
         {
             try
             {
                 if (AppSettings.EnableLock == false)
                 {
-                    Unlock();
+                    IsLocked = false;
                     return;
                 }
 
                 switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync("验证您的身份"))
                 {
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
-                        Unlock();
+                        IsLocked = false;
                         break;
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceNotPresent:
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.NotConfiguredForUser:
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.DisabledByPolicy:
-                        await new Windows.UI.Popups.MessageDialog("当前识别设备未配置或被系统策略禁用，请尝试使用密码解锁").ShowAsync();
+                        ShowTipsContentDialog("无法验证身份", "当前识别设备未配置或被系统策略禁用，请尝试使用密码解锁");
                         break;
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceBusy:
-                        await new Windows.UI.Popups.MessageDialog("当前识别设备不可用，请尝试使用密码解锁").ShowAsync();
+                        ShowTipsContentDialog("无法验证身份", "当前识别设备不可用，请尝试使用密码解锁");
                         break;
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
-                        await new Windows.UI.Popups.MessageDialog("验证失败，请尝试使用密码解锁").ShowAsync();
+                        ShowTipsContentDialog("无法验证身份", "验证失败，请尝试使用密码解锁");
                         break;
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.Canceled:
                         break;
@@ -132,38 +155,10 @@ namespace Honeypot.ViewModels
                         break;
                 }
             }
-            catch { }
-        }
-
-        // 开关WindowsHello
-        public async void SetWindowsHelloEnable(bool on)
-        {
-            try
+            catch (Exception ex)
             {
-                if (AppSettings.EnableLock != on)
-                {
-                    switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync("验证您的身份"))
-                    {
-                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
-                            AppSettings.EnableLock = on;
-                            break;
-                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceNotPresent:
-                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.NotConfiguredForUser:
-                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DisabledByPolicy:
-                            await new Windows.UI.Popups.MessageDialog("当前识别设备未配置或被系统策略禁用").ShowAsync();
-                            break;
-                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceBusy:
-                            await new Windows.UI.Popups.MessageDialog("当前识别设备不可用").ShowAsync();
-                            break;
-                        case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
-                            await new Windows.UI.Popups.MessageDialog("验证失败").ShowAsync();
-                            break;
-                        default:
-                            break;
-                    }
-                }
+                ShowTipsContentDialog("验证出错了", $"要不...重启试试？({ex.Message})");
             }
-            catch { }
         }
 
     }

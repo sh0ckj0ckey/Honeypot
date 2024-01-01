@@ -67,7 +67,7 @@
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEB68;"/>
                     </controls:SettingsCard.HeaderIcon>
-                    <ToggleSwitch IsOn="{x:Bind _viewModel.AppSettings.EnableLock,Mode=OneWay}" Toggled="OnToggleWindowHello"/>
+                    <ToggleSwitch x:Name="WindowsHelloToggleSwitch" IsOn="{x:Bind _viewModel.AppSettings.EnableLock,Mode=OneWay}" Toggled="OnToggleWindowHello"/>
                 </controls:SettingsCard>
                 <controls:SettingsCard Header="数据文件" Description="密码明文保存，请妥善保管">
                     <controls:SettingsCard.HeaderIcon>
@@ -127,7 +127,7 @@
                     <HyperlinkButton Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="6">
                             <TextBlock Text="访问项目主页" CharacterSpacing="64"/>
-                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE2B4;" FontSize="15"/>
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE2B4;" FontSize="15"/>
                         </StackPanel>
                     </HyperlinkButton>
                 </controls:SettingsCard>
