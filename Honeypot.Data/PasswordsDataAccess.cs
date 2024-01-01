@@ -80,7 +80,7 @@ namespace Honeypot.Data
             List<PasswordDataModel> results = new List<PasswordDataModel>();
             SqliteCommand selectCommand = null;
 
-            if (categoryId >= 0)
+            if (categoryId > 0)
             {
                 selectCommand = new($"SELECT * FROM passwords WHERE categoryid=$categoryid", _passwordsDb);
                 selectCommand.Parameters.AddWithValue("$categoryid", categoryId);

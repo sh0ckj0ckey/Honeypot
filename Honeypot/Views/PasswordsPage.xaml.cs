@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Honeypot.Models;
 using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -148,6 +149,56 @@ namespace Honeypot.Views
         private void OnClickClose(object sender, RoutedEventArgs e)
         {
             MainViewModel.Instance.SelectedPassword = null;
+        }
+
+        /// <summary>
+        /// 输入文本搜索密码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnSearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            try
+            {
+                var suggests = MainViewModel.Instance.SearchPasswords(sender.Text.Trim());
+                sender.ItemsSource = suggests;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 选中密码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnChosenSuggestion(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            try
+            {
+                if (args.SelectedItem is PasswordModel password)
+                {
+                    if (password.Name.Contains(sender.Text, StringComparison.CurrentCultureIgnoreCase) || password.Name == sender.Text)
+                    {
+                        sender.Text = password.Name;
+                    }
+                    else
+                    {
+                        sender.Text = password.Account;
+                    }
+
+                    MainViewModel.Instance.SelectedPassword = password;
+
+                    GroupedPasswordsList.ScrollIntoView(password);
+                    TimeOrderPasswordsList.ScrollIntoView(password);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

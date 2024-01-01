@@ -55,7 +55,7 @@
                         <TextBlock Grid.Column="2" Text="{x:Bind PasswordLengthSlider.Value,Mode=OneWay}" VerticalAlignment="Center" FontWeight="Medium" FontSize="16" Margin="8,0,0,4" Width="20"/>
                     </Grid>
                     <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,0,0,0"
-                            CornerRadius="8" Style="{StaticResource AccentButtonStyle}" ToolTipService.ToolTip="生成并复制结果" Click="Button_Click">
+                            CornerRadius="8" Style="{StaticResource AccentButtonStyle}" ToolTipService.ToolTip="生成并复制结果" Click="OnClickGenerate">
                         <Button.Content>
                             <BitmapIcon x:Name="RandomImage" UriSource="ms-appx:///Assets/Icon/RandomIcon.png" Margin="-24,0" Height="48" Width="48" Rotation="0" CenterPoint="24,24,0" ShowAsMonochrome="True">
                                 <BitmapIcon.RotationTransition>

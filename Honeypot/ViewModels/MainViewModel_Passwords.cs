@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using Honeypot.Data;
 using Honeypot.Helpers;
 using Honeypot.Models;
+using Windows.ApplicationModel.Search.Core;
 
 namespace Honeypot.ViewModels
 {
@@ -24,11 +26,6 @@ namespace Honeypot.ViewModels
         /// 收藏夹分组列表
         /// </summary>
         public ObservableCollection<FavoritesGroupModel> FavoritePasswordsGroups { get; set; } = new();
-
-        /// <summary>
-        /// 搜索建议列表
-        /// </summary>
-        public ObservableCollection<PasswordModel> SearchSuggestPasswords { get; set; } = new();
 
         /// <summary>
         /// 当前选中查看的密码
@@ -53,7 +50,7 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 重新从数据库加载所有密码列表
         /// </summary>
-        private async void LoadPasswordsTable()
+        private async void LoadPasswordsTable(int categoryId = -1)
         {
             try
             {
@@ -62,9 +59,8 @@ namespace Honeypot.ViewModels
                     SelectedPassword = null;
                     Passwords.Clear();
                     PasswordsGroups.Clear();
-                    SearchSuggestPasswords.Clear();
 
-                    var passwords = PasswordsDataAccess.GetPasswords();
+                    var passwords = PasswordsDataAccess.GetPasswords(categoryId);
                     foreach (var item in passwords)
                     {
                         var password = new PasswordModel
@@ -140,6 +136,29 @@ namespace Honeypot.ViewModels
             {
                 FavoritePasswordsGroups.Add(item);
             }
+        }
+
+        /// <summary>
+        /// 搜索密码
+        /// </summary>
+        /// <param name="search"></param>
+        public List<PasswordModel> SearchPasswords(string search)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(search))
+                {
+                    var suggests = Passwords.Where(p => (p.Name.StartsWith(search, StringComparison.CurrentCultureIgnoreCase)
+                                                                                        || p.Account.StartsWith(search, StringComparison.CurrentCultureIgnoreCase)
+                                                                                        /*|| p.Website.Contains(search, StringComparison.CurrentCultureIgnoreCase)*/)).ToList();
+                    return suggests;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return null;
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Honeypot.Views
             this.InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void OnClickGenerate(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -86,5 +86,6 @@ namespace Honeypot.Views
             }
             return "";
         }
+
     }
 }
