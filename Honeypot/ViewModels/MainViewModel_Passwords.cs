@@ -12,6 +12,8 @@ namespace Honeypot.ViewModels
 {
     public partial class MainViewModel
     {
+        private List<PasswordModel> _allPasswords { get; set; } = new List<PasswordModel>();
+
         /// <summary>
         /// 当前显示的密码列表
         /// </summary>
@@ -50,17 +52,16 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 重新从数据库加载所有密码列表
         /// </summary>
-        private async void LoadPasswordsTable(int categoryId = -1)
+        private async void LoadPasswordsTable()
         {
             try
             {
                 if (PasswordsDataAccess.IsDatabaseConnected())
                 {
                     SelectedPassword = null;
-                    Passwords.Clear();
-                    PasswordsGroups.Clear();
+                    _allPasswords.Clear();
 
-                    var passwords = PasswordsDataAccess.GetPasswords(categoryId);
+                    var passwords = PasswordsDataAccess.GetPasswords();
                     foreach (var item in passwords)
                     {
                         var password = new PasswordModel
@@ -80,24 +81,10 @@ namespace Honeypot.ViewModels
                             Logo = await LogoImageHelper.GetLogoImage(item.Logo)
                         };
 
-                        Passwords.Insert(0, password);
+                        _allPasswords.Insert(0, password);
                     }
 
-                    // 按照首字母分组
-                    var orderedList =
-                        (from item in Passwords
-                         group item by item.FirstLetter into newItems
-                         select
-                         new PasswordsGroupModel
-                         {
-                             Key = newItems.Key,
-                             Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
-                         }).OrderBy(x => x.Key).ToList();
-
-                    foreach (var item in orderedList)
-                    {
-                        PasswordsGroups.Add(item);
-                    }
+                    UpdatePasswords();
 
                     UpdateFavorites();
                 }
@@ -114,6 +101,69 @@ namespace Honeypot.ViewModels
         }
 
         /// <summary>
+        /// 更新密码列表
+        /// </summary>
+        /// <param name="categoryId"></param>
+        private void UpdatePasswords()
+        {
+            Passwords.Clear();
+            PasswordsGroups.Clear();
+
+            if (SelectedCategoryId <= 0)
+            {
+                // 按照添加顺序排列
+                foreach (var item in _allPasswords)
+                {
+                    Passwords.Add(item);
+                }
+
+                // 按照首字母分组
+                var orderedList =
+                    (from item in _allPasswords
+                     group item by item.FirstLetter into newItems
+                     select
+                     new PasswordsGroupModel
+                     {
+                         Key = newItems.Key,
+                         Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
+                     }).OrderBy(x => x.Key).ToList();
+
+                foreach (var item in orderedList)
+                {
+                    PasswordsGroups.Add(item);
+                }
+            }
+            else
+            {
+                // 按照添加顺序排列
+                foreach (var item in _allPasswords)
+                {
+                    if (item.CategoryId == SelectedCategoryId)
+                    {
+                        Passwords.Add(item);
+                    }
+                }
+
+                // 按照首字母分组
+                var orderedList =
+                    (from item in _allPasswords
+                     where item.CategoryId == SelectedCategoryId
+                     group item by item.FirstLetter into newItems
+                     select
+                     new PasswordsGroupModel
+                     {
+                         Key = newItems.Key,
+                         Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
+                     }).OrderBy(x => x.Key).ToList();
+
+                foreach (var item in orderedList)
+                {
+                    PasswordsGroups.Add(item);
+                }
+            }
+        }
+
+        /// <summary>
         /// 更新收藏夹列表
         /// </summary>
         private void UpdateFavorites()
@@ -122,7 +172,7 @@ namespace Honeypot.ViewModels
 
             // 收藏夹
             var orderedFavoriteList =
-                (from item in Passwords
+                (from item in _allPasswords
                  where item.Favorite
                  group item by item.CategoryId into newItems
                  select
@@ -139,7 +189,7 @@ namespace Honeypot.ViewModels
         }
 
         /// <summary>
-        /// 搜索密码
+        /// 在当前分类下搜索密码
         /// </summary>
         /// <param name="search"></param>
         public List<PasswordModel> SearchPasswords(string search)

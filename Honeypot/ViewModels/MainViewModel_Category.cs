@@ -23,6 +23,12 @@ namespace Honeypot.ViewModels
         public ObservableCollection<MainNavigationItem> CategoriesOnNav { get; set; } = new ObservableCollection<MainNavigationItem>();
 
         /// <summary>
+        /// 当前选中的分类ID，-1为全部密码
+        /// 这个属性一方面用于ViewModel去筛选特定分类的密码列表，另一方面也决定着侧边导航栏的选中项
+        /// </summary>
+        public int SelectedCategoryId { get; set; } = -1;
+
+        /// <summary>
         /// 本机 Segoe Fluent Icons 字体的所有字符
         /// </summary>
         private ObservableCollection<Character> _allIcons = null;
@@ -84,7 +90,7 @@ namespace Honeypot.ViewModels
 
                         _categoriesDict[category.Id] = category;
                         Categoryies.Insert(0, category);
-                        CategoriesOnNav.Insert(0, new MainNavigationItem(item.Title, $"category_{item.Id}", item.Icon));
+                        CategoriesOnNav.Insert(0, new MainNavigationItem(item.Title, $"{item.Id}", item.Icon));
                     }
                 }
                 else

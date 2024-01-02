@@ -136,14 +136,21 @@ namespace Honeypot.Views
                             }
                         }
                     }
-                    if (select is null)
+
+                    // 假如页面类型是PasswordsPage，则实际的Tag并不一定是"all"，因为分类密码列表页面也是使用的PasswordsPage
+                    // 这个时候MainViewModel.Instance.SelectedCategoryId大于0，因此根据这个来判断真正选中的到底是“全部账号”还是某个分类
+                    if (tag == _pages[0].Tag || select is null)
                     {
-                        foreach (var menuItem in MainViewModel.Instance.CategoriesOnNav)
+                        if (MainViewModel.Instance.SelectedCategoryId > 0)
                         {
-                            if (menuItem is MainNavigationItem menu && menu?.Tag?.Equals(tag) == true)
+                            string categoryId = MainViewModel.Instance.SelectedCategoryId.ToString();
+                            foreach (var menuItem in MainViewModel.Instance.CategoriesOnNav)
                             {
-                                select = menuItem;
-                                break;
+                                if (menuItem is MainNavigationItem menu && menu?.Tag?.Equals(categoryId) == true)
+                                {
+                                    select = menuItem;
+                                    break;
+                                }
                             }
                         }
                     }
