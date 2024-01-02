@@ -89,7 +89,7 @@ namespace Honeypot.Views
                 if (args.InvokedItemContainer != null)
                 {
                     var navItemTag = args.InvokedItemContainer.Tag.ToString();
-                    MainFramNavigateToPage(navItemTag, args.RecommendedNavigationTransitionInfo);
+                    MainFramNavigateToPage(navItemTag, null, args.RecommendedNavigationTransitionInfo);
                 }
 
                 // 清除返回
