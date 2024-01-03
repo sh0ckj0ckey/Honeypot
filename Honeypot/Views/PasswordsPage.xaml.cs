@@ -27,6 +27,11 @@ namespace Honeypot.Views
             MainViewModel = MainViewModel.Instance;
         }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SearchAutoSuggestBox.Text = "";
+        }
+
         /// <summary>
         /// 点击复制账号
         /// </summary>

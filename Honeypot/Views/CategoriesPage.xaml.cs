@@ -59,7 +59,11 @@ namespace Honeypot.Views
         /// <param name="e"></param>
         private void OnClickCategory(object sender, RoutedEventArgs e)
         {
-
+            if (sender is Button btn && btn.DataContext is CategoryModel category)
+            {
+                MainViewModel.Instance.UpdatePasswords(category.Id);
+                MainViewModel.Instance.ActNavigatePage?.Invoke(NavigatePageEnum.Passwords);
+            }
         }
 
         /// <summary>
@@ -138,6 +142,11 @@ namespace Honeypot.Views
             }
         }
 
+        /// <summary>
+        /// 鼠标移入，显示更多选项按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnPointerEntered(object sender, PointerRoutedEventArgs e)
         {
             try
@@ -157,6 +166,11 @@ namespace Honeypot.Views
             }
         }
 
+        /// <summary>
+        /// 鼠标移走，隐藏更多选项按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnPointerExited(object sender, PointerRoutedEventArgs e)
         {
             try

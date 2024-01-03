@@ -24,8 +24,8 @@ namespace Honeypot.Views
         // 导航栏项的Tag对应的Page
         private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
         {
-            ("all", typeof(PasswordsPage)),
-            ("favorite", typeof(FavoritesPage)),
+            ("passwords", typeof(PasswordsPage)),
+            ("favorites", typeof(FavoritesPage)),
             ("adding", typeof(AddingPage)),
             ("category", typeof(CategoriesPage)),
             ("random", typeof(RandomPage)),
@@ -61,6 +61,30 @@ namespace Honeypot.Views
             this.InitializeComponent();
 
             MainViewModel.Instance.ActSwitchAppTheme?.Invoke();
+
+            MainViewModel.Instance.ActNavigatePage = (page) =>
+            {
+                try
+                {
+                    string tag = page switch
+                    {
+                        NavigatePageEnum.Passwords => "passwords",
+                        NavigatePageEnum.Favorites => "favorite",
+                        NavigatePageEnum.Adding => "adding",
+                        NavigatePageEnum.Category => "category",
+                        NavigatePageEnum.Random => "random",
+                        NavigatePageEnum.Tips => "tips",
+                        NavigatePageEnum.Settings => "settings",
+                        _ => ""
+                    };
+
+                    if (!string.IsNullOrWhiteSpace(tag))
+                    {
+                        MainFramNavigateToPage(tag);
+                    }
+                }
+                catch { }
+            };
         }
 
         private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -70,12 +94,12 @@ namespace Honeypot.Views
                 // 页面发生导航时，更新侧边栏的选中项
                 MainFrame.Navigated += MainFrame_Navigated;
 
-                MainFramNavigateToPage("all", null, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
+                MainFramNavigateToPage("passwords", null, new Microsoft.UI.Xaml.Media.Animation.EntranceNavigationTransitionInfo());
 
                 // 处理系统的返回键和退出键
-                MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu, OnGoBackKeyboardAcceleratorInvoked));
-                MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack, null, OnGoBackKeyboardAcceleratorInvoked));
-                MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.XButton1, null, OnGoBackKeyboardAcceleratorInvoked));
+                // MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu, OnGoBackKeyboardAcceleratorInvoked));
+                // MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack, null, OnGoBackKeyboardAcceleratorInvoked));
+                // MainFrame.KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.XButton1, null, OnGoBackKeyboardAcceleratorInvoked));
             }
             catch { }
         }
@@ -89,12 +113,29 @@ namespace Honeypot.Views
                 if (args.InvokedItemContainer != null)
                 {
                     var navItemTag = args.InvokedItemContainer.Tag.ToString();
-                    MainFramNavigateToPage(navItemTag, null, args.RecommendedNavigationTransitionInfo);
-                }
 
-                // 清除返回
-                MainFrame.BackStack.Clear();
-                MainFrame.ForwardStack.Clear();
+                    // 如果侧边栏选项的Tag是"passwords"，则说明是所有密码选项，需要特殊处理一下分类ID
+                    string allPasswordsPageTag = _pages.FirstOrDefault(p => p.Page == typeof(PasswordsPage)).Tag;
+                    if (navItemTag == allPasswordsPageTag)
+                    {
+                        MainViewModel.Instance.UpdatePasswords(-1);
+                    }
+                    if (navItemTag.StartsWith(HoneypotConsts.CategoryPageTagPrefix))
+                    {
+                        // 如果侧边栏选项的Tag是以"category_"开头的，则说明是分类选项，需要特殊处理
+                        if (int.TryParse(navItemTag.Replace(HoneypotConsts.CategoryPageTagPrefix, ""), out int categoryId))
+                        {
+                            navItemTag = allPasswordsPageTag;
+                            MainViewModel.Instance.UpdatePasswords(categoryId);
+                        }
+                    }
+
+                    MainFramNavigateToPage(navItemTag, null, args.RecommendedNavigationTransitionInfo);
+
+                    // 清除返回
+                    MainFrame.BackStack.Clear();
+                    MainFrame.ForwardStack.Clear();
+                }
             }
             catch { }
         }
@@ -137,16 +178,16 @@ namespace Honeypot.Views
                         }
                     }
 
-                    // 假如页面类型是PasswordsPage，则实际的Tag并不一定是"all"，因为分类密码列表页面也是使用的PasswordsPage
-                    // 这个时候MainViewModel.Instance.SelectedCategoryId大于0，因此根据这个来判断真正选中的到底是“全部账号”还是某个分类
-                    if (tag == _pages[0].Tag || select is null)
+                    // 假如判断得到的页面类型是PasswordsPage，则实际的Tag并不一定是"passwords"，因为分类密码列表页面也是使用的PasswordsPage
+                    // 此时MainViewModel.Instance.SelectedCategoryId大于0，因此根据这个来判断真正选中的到底是“所有账号”还是某个分类
+                    if (tag == _pages[0].Tag)
                     {
-                        if (MainViewModel.Instance.SelectedCategoryId > 0)
+                        if (MainViewModel.Instance.PasswordsCategoryId > 0)
                         {
-                            string categoryId = MainViewModel.Instance.SelectedCategoryId.ToString();
+                            string categoryIdTag = $"{HoneypotConsts.CategoryPageTagPrefix}{MainViewModel.Instance.PasswordsCategoryId}";
                             foreach (var menuItem in MainViewModel.Instance.CategoriesOnNav)
                             {
-                                if (menuItem is MainNavigationItem menu && menu?.Tag?.Equals(categoryId) == true)
+                                if (menuItem is MainNavigationItem menu && menu?.Tag?.Equals(categoryIdTag) == true)
                                 {
                                     select = menuItem;
                                     break;
@@ -154,6 +195,7 @@ namespace Honeypot.Views
                             }
                         }
                     }
+
                     MainNavigationView.SelectedItem = select;
                 }
             }
@@ -218,7 +260,6 @@ namespace Honeypot.Views
             catch { }
             return false;
         }
-
 
         #endregion
 

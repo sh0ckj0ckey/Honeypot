@@ -33,6 +33,11 @@ namespace Honeypot.ViewModels
         public Action<string, string> ActShowTipDialog { get; set; } = null;
 
         /// <summary>
+        /// 控制MainFrame导航页面
+        /// </summary>
+        public Action<NavigatePageEnum> ActNavigatePage { get; set; } = null;
+
+        /// <summary>
         /// 应用程序是否被锁定
         /// </summary>
         private bool _isLocked = true;
@@ -53,8 +58,8 @@ namespace Honeypot.ViewModels
             AppSettings.OnBackdropSettingChanged += (index) => { ActChangeBackdrop?.Invoke(); };
 
             // 导航栏
-            MainNavigationItems.Add(new MainNavigationItem("所有账号", "all", "\uE8D7"));
-            MainNavigationItems.Add(new MainNavigationItem("收藏夹", "favorite", "\uEB51"));
+            MainNavigationItems.Add(new MainNavigationItem(HoneypotConsts.AllPasswordsPageTitle, "passwords", "\uE8D7"));
+            MainNavigationItems.Add(new MainNavigationItem("收藏夹", "favorites", "\uEB51"));
             MainNavigationItems.Add(new MainNavigationItem("添加", "adding", "\uE109"));
             MainNavigationItems.Add(new MainNavigationSeparator());
             MainNavigationItems.Add(new MainNavigationItem("全部分类", "category", "\uE74C", CategoriesOnNav));

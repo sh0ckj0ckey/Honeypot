@@ -40,21 +40,10 @@
                               ItemsSource="{x:Bind FavoritesCollectionViewSource.View,Mode=OneWay}">
                         <GridView.GroupStyle>
                             <GroupStyle>
-                                <GroupStyle.HeaderContainerStyle>
-                                    <Style TargetType="GridViewHeaderItem">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="ContentControl">
-                                                    <ContentPresenter Content="{Binding}" Background="Transparent" VerticalAlignment="Center"/>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </GroupStyle.HeaderContainerStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate x:DataType="models:FavoritesGroupModel">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                            <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,-2" Glyph="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,0" Glyph="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                             <TextBlock FontSize="14" Opacity="0.9" Text="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}" HorizontalAlignment="Left" VerticalAlignment="Center" CharacterSpacing="48"/>
                                         </StackPanel>
                                     </DataTemplate>
