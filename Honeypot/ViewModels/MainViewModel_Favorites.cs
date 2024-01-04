@@ -65,8 +65,6 @@ namespace Honeypot.ViewModels
                 PasswordsDataAccess.FavoritePassword(passwordItem.Id, passwordItem.Favorite);
 
                 UpdateFavorites();
-
-                passwordItem.LargeLogoImage = await LogoImageHelper.GetLogoImage(passwordItem.LogoFileName, LogoSizeEnum.Large);
             }
             catch (Exception ex)
             {
