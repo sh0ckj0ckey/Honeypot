@@ -99,7 +99,6 @@ namespace Honeypot.ViewModels
                             Favorite = item.Favorite != 0,
                             CategoryId = item.CategoryId,
                             LogoFileName = item.Logo,
-                            Logo = await LogoImageHelper.GetLogoImage(item.Logo)
                         };
 
                         _allPasswords.Insert(0, password);
@@ -107,6 +106,15 @@ namespace Honeypot.ViewModels
 
                     UpdatePasswords(PasswordsCategoryId);
                     UpdateFavorites();
+
+                    foreach (var password in _allPasswords)
+                    {
+                        password.NormalLogoImage = await LogoImageHelper.GetLogoImage(password.LogoFileName, LogoSizeEnum.Medium);
+                        if (password.Favorite)
+                        {
+                            password.LargeLogoImage = await LogoImageHelper.GetLogoImage(password.LogoFileName, LogoSizeEnum.Large);
+                        }
+                    }
                 }
                 else
                 {
@@ -246,11 +254,13 @@ namespace Honeypot.ViewModels
                 passwordItem.FirstLetter = firstLetter[0];
                 passwordItem.Name = name;
                 passwordItem.EditDate = date;
+                passwordItem.Website = website;
                 passwordItem.Note = note;
                 passwordItem.Favorite = favorite;
                 passwordItem.CategoryId = categoryid;
                 passwordItem.LogoFileName = logoFilePath;
-                passwordItem.Logo = await LogoImageHelper.GetLogoImage(logoFilePath);
+
+                passwordItem.NormalLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Medium);
             }
             catch (Exception ex)
             {

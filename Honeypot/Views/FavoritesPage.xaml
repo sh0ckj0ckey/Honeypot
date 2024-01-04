@@ -131,7 +131,7 @@
                                         <Border Grid.Row="0" Width="192" Height="96" ui:UIElementExtensions.ClipToBounds="True" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                             <Border x:Name="LogoBorder" Width="192" Height="96" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                 <Border.Background>
-                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind Logo,Mode=OneWay}"/>
+                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind LargeLogoImage,Mode=OneWay}"/>
                                                 </Border.Background>
                                                 <Border.RenderTransform>
                                                     <ScaleTransform x:Name="ScaleLogoBorder" ScaleX="1.0" ScaleY="1.0" CenterX="96" CenterY="48"/>

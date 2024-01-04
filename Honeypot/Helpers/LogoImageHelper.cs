@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using Honeypot.Models;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
@@ -17,7 +18,7 @@ namespace Honeypot.Helpers
 
         private static BitmapImage _defaultLogoBitmapImage = null;
 
-        private static readonly Dictionary<string, BitmapImage> _logoImages = new Dictionary<string, BitmapImage>();
+        private static readonly Dictionary<LogoSizeEnum, Dictionary<string, BitmapImage>> _logoImages = new();
 
         public static async Task<StorageFolder> GetImagesFolder()
         {
@@ -38,11 +39,16 @@ namespace Honeypot.Helpers
         /// </summary>
         /// <param name="logoFileName"></param>
         /// <returns></returns>
-        public static async Task<BitmapImage> GetLogoImage(string logoFileName, int width = 192)
+        public static async Task<BitmapImage> GetLogoImage(string logoFileName, LogoSizeEnum size)
         {
             try
             {
-                if (!_logoImages.ContainsKey(logoFileName))
+                if (!_logoImages.ContainsKey(size))
+                {
+                    _logoImages[size] = new Dictionary<string, BitmapImage>();
+                }
+
+                if (!_logoImages[size].ContainsKey(logoFileName))
                 {
                     var imageFolder = await GetImagesFolder();
                     string imageFilePath = Path.Combine(imageFolder.Path, logoFileName);
@@ -51,15 +57,15 @@ namespace Honeypot.Helpers
                         BitmapImage bitmapImage = new BitmapImage
                         {
                             DecodePixelType = DecodePixelType.Logical,
-                            DecodePixelWidth = width,
+                            DecodePixelWidth = size == LogoSizeEnum.Large ? 192 : (size == LogoSizeEnum.Small ? 48 : 96),
                             UriSource = new Uri(imageFilePath)
                         };
 
-                        _logoImages[logoFileName] = bitmapImage;
+                        _logoImages[size][logoFileName] = bitmapImage;
                     }
                 }
 
-                if (_logoImages.TryGetValue(logoFileName, out BitmapImage image))
+                if (_logoImages[size].TryGetValue(logoFileName, out BitmapImage image))
                 {
                     return image;
                 }
@@ -147,7 +153,11 @@ namespace Honeypot.Helpers
         {
             try
             {
-                _logoImages.Remove(logoFileName);
+                foreach (var size in _logoImages)
+                {
+                    size.Value.Remove(logoFileName);
+                }
+
                 var imageFolder = await GetImagesFolder();
                 string imageFilePath = Path.Combine(imageFolder.Path, logoFileName);
                 if (File.Exists(imageFilePath))

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Honeypot.Data;
+using Honeypot.Helpers;
 using Honeypot.Models;
 
 namespace Honeypot.ViewModels
@@ -56,7 +57,7 @@ namespace Honeypot.ViewModels
         /// 收藏/取消收藏密码
         /// </summary>
         /// <param name="passwordItem"></param>
-        public void FavoritePassword(PasswordModel passwordItem)
+        public async void FavoritePassword(PasswordModel passwordItem)
         {
             try
             {
@@ -64,6 +65,8 @@ namespace Honeypot.ViewModels
                 PasswordsDataAccess.FavoritePassword(passwordItem.Id, passwordItem.Favorite);
 
                 UpdateFavorites();
+
+                passwordItem.LargeLogoImage = await LogoImageHelper.GetLogoImage(passwordItem.LogoFileName, LogoSizeEnum.Large);
             }
             catch (Exception ex)
             {
