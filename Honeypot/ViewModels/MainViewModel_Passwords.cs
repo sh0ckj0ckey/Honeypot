@@ -110,10 +110,7 @@ namespace Honeypot.ViewModels
                     foreach (var password in _allPasswords)
                     {
                         password.NormalLogoImage = await LogoImageHelper.GetLogoImage(password.LogoFileName, LogoSizeEnum.Medium);
-                        if (password.Favorite)
-                        {
-                            password.LargeLogoImage = await LogoImageHelper.GetLogoImage(password.LogoFileName, LogoSizeEnum.Large);
-                        }
+                        password.LargeLogoImage = await LogoImageHelper.GetLogoImage(password.LogoFileName, LogoSizeEnum.Large);
                     }
                 }
                 else
@@ -261,6 +258,7 @@ namespace Honeypot.ViewModels
                 passwordItem.LogoFileName = logoFilePath;
 
                 passwordItem.NormalLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Medium);
+                passwordItem.LargeLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Large);
             }
             catch (Exception ex)
             {
