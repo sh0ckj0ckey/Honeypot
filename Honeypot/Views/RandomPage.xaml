@@ -57,7 +57,7 @@
                     <Button Grid.Column="1" Grid.Row="0" Grid.RowSpan="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="32,0,0,0"
                             CornerRadius="8" Style="{StaticResource AccentButtonStyle}" ToolTipService.ToolTip="生成并复制结果" Click="OnClickGenerate">
                         <Button.Content>
-                            <BitmapIcon x:Name="RandomImage" UriSource="ms-appx:///Assets/Icon/RandomIcon.png" Margin="-24,0" Height="48" Width="48" Rotation="0" CenterPoint="24,24,0" ShowAsMonochrome="True">
+                            <BitmapIcon x:Name="RandomImage" UriSource="ms-appx:///Assets/Icon/icon_random.png" Margin="-24,0" Height="48" Width="48" Rotation="0" CenterPoint="24,24,0" ShowAsMonochrome="True">
                                 <BitmapIcon.RotationTransition>
                                     <ScalarTransition />
                                 </BitmapIcon.RotationTransition>

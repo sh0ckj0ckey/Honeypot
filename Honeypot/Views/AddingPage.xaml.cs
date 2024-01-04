@@ -71,7 +71,7 @@ namespace Honeypot.Views
             {
                 if (_defaultLogoWriteableBitmap is null)
                 {
-                    var defaultLogoImage = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Icon/DefaultLogo.png"));
+                    var defaultLogoImage = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Icon/img_default.png"));
                     WriteableBitmap defaultImage = null;
 
                     using (IRandomAccessStream stream = await defaultLogoImage.OpenAsync(FileAccessMode.Read))

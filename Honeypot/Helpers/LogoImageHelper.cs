@@ -81,7 +81,7 @@ namespace Honeypot.Helpers
                 {
                     DecodePixelType = DecodePixelType.Logical,
                     DecodePixelWidth = 192,
-                    UriSource = new Uri("ms-appx:///Assets/Icon/DefaultLogo.png")
+                    UriSource = new Uri("ms-appx:///Assets/Icon/img_default.png")
                 };
             }
             catch (Exception ex)

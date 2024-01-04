@@ -18,7 +18,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Image Height="42" Width="42">
                                 <Image.Source>
-                                    <BitmapImage DecodePixelHeight="84" DecodePixelType="Logical" UriSource="/Assets/Icon/logo.png"/>
+                                    <BitmapImage DecodePixelHeight="84" DecodePixelType="Logical" UriSource="/Assets/Icon/img_logo.png"/>
                                 </Image.Source>
                             </Image>
                             <StackPanel Margin="12,6,0,-6" Spacing="0" Orientation="Vertical">

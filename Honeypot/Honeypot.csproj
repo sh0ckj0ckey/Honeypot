@@ -24,7 +24,7 @@
 		<None Remove="Assets\Icon\icon_github_light.png" />
 		<None Remove="Assets\Icon\icon_mail.png" />
 		<None Remove="Assets\Icon\icon_zhuque.png" />
-		<None Remove="Assets\Icon\logo.png" />
+		<None Remove="Assets\Icon\img_logo.png" />
 		<None Remove="Assets\Tips\img_tips_dbfile_dark.png" />
 		<None Remove="Assets\Tips\img_tips_dbfile_light.png" />
 		<None Remove="Assets\Tips\img_tips_nofont_dark.png" />

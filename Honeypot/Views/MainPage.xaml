@@ -76,7 +76,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="14" Margin="12,24,12,20" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Image Height="24" Width="24" VerticalAlignment="Center">
                         <Image.Source>
-                            <BitmapImage UriSource="/Assets/Icon/logo.png" DecodePixelType="Logical" DecodePixelHeight="48"/>
+                            <BitmapImage UriSource="/Assets/Icon/img_logo.png" DecodePixelType="Logical" DecodePixelHeight="48"/>
                         </Image.Source>
                     </Image>
                     <TextBlock Text="密罐" FontSize="17" FontWeight="Bold" CharacterSpacing="48" VerticalAlignment="Center"/>
