@@ -57,7 +57,7 @@ namespace Honeypot.ViewModels
         /// 收藏/取消收藏密码
         /// </summary>
         /// <param name="passwordItem"></param>
-        public async void FavoritePassword(PasswordModel passwordItem)
+        public void FavoritePassword(PasswordModel passwordItem)
         {
             try
             {

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using Honeypot.ViewModels;
 using Honeypot.Views;
@@ -45,6 +46,8 @@ namespace Honeypot
 
             // 监听系统主题变化
             ListenThemeColorChange();
+
+            Debug.WriteLine("MainWindow Initialized");
         }
 
         /// <summary>
