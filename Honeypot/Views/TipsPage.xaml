@@ -9,14 +9,21 @@
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock Grid.Row="0" Text="使用提示" Margin="20,28,20,2" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Text="常见疑问的说明，如有其他问题" FontSize="14" Opacity="0.8" CharacterSpacing="48" VerticalAlignment="Center"/>
+                <HyperlinkButton Content="请联系我" FontSize="14" Padding="4,0" NavigateUri="mailto:yaoyiming123@live.com" VerticalAlignment="Center" ToolTipService.ToolTip="向 yaoyiming123@live.com 发送邮件"/>
+            </StackPanel>
+        </StackPanel>
+        <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,8,0,0" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
             <StackPanel Orientation="Vertical" Margin="16,0,20,20">
-                <TextBlock Text="使用提示" Margin="4,28,0,4" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
-                <StackPanel Orientation="Horizontal" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock Text="一些常见疑问的说明，如有其他疑问，" FontSize="16" Opacity="0.8" CharacterSpacing="48" VerticalAlignment="Center"/>
-                    <HyperlinkButton Content="欢迎联系" FontSize="16" Padding="4,0" NavigateUri="mailto:yaoyiming123@live.com" VerticalAlignment="Center" ToolTipService.ToolTip="向 yaoyiming123@live.com 发送邮件"/>
-                </StackPanel>
-
                 <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
                     <Expander.Header>
                         <TextBlock Text="我的数据存储在哪里？我该如何备份？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>

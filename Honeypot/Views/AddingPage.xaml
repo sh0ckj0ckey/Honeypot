@@ -40,7 +40,7 @@
                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;" FontSize="14"/>
                         </Button>
                     </Grid>
-                    <TextBox x:Name="AddingNameTextBox" MaxLength="40" TextWrapping="NoWrap" Margin="20" MinWidth="160" PlaceholderText="名称" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBox x:Name="AddingNameTextBox" Height="32" MaxLength="40" TextWrapping="NoWrap" Margin="20" MinWidth="160" PlaceholderText="名称" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Grid CornerRadius="8,8,0,0" BorderThickness="1,1,1,0" BorderBrush="{ThemeResource ControlElevationBorderBrush}" Margin="0,4,0,0" Padding="16" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>

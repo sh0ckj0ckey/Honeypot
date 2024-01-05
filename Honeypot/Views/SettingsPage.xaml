@@ -10,9 +10,15 @@
     mc:Ignorable="d" NavigationCacheMode="Required">
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
-            <StackPanel Orientation="Vertical" Margin="16,0,20,0" Spacing="4">
-                <TextBlock Text="设置" Margin="4,28,0,16" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="设置" Margin="20,28,20,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+        <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,8,0,0" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
+            <StackPanel Orientation="Vertical" Margin="16,20,20,0" Spacing="4">
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>
                         <StackPanel Orientation="Horizontal">
@@ -131,7 +137,7 @@
                         </StackPanel>
                     </HyperlinkButton>
                 </controls:SettingsCard>
-                <TextBlock Text="©2023 sh0ckj0ckey." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,4,0,8"/>
+                <TextBlock Text="©2023 NoMewing." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,4,0,8"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
