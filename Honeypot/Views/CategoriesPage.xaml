@@ -17,6 +17,14 @@
     </Page.Resources>
 
     <Grid>
+        <!--不知道什么毛病，从这个页面点击跳转到特定分类的密码列表页时，会有画面残留的问题，
+            所以离开页面时把这个页面变成透明，这样残留也看不出来了-->
+        <animations:Implicit.ShowAnimations>
+            <animations:OpacityAnimation To="1.0" Duration="0:0:0.2"/>
+        </animations:Implicit.ShowAnimations>
+        <animations:Implicit.HideAnimations>
+            <animations:OpacityAnimation To="0.0" Duration="0:0:0.2"/>
+        </animations:Implicit.HideAnimations>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
