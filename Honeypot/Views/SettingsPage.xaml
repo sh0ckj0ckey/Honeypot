@@ -22,12 +22,12 @@
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Height="42" Width="42">
+                            <Image Height="48" Width="48">
                                 <Image.Source>
-                                    <BitmapImage DecodePixelHeight="84" DecodePixelType="Logical" UriSource="/Assets/Icon/img_logo.png"/>
+                                    <BitmapImage DecodePixelHeight="96" DecodePixelType="Logical" UriSource="/Assets/Icon/img_logo.png"/>
                                 </Image.Source>
                             </Image>
-                            <StackPanel Margin="12,6,0,-6" Spacing="0" Orientation="Vertical">
+                            <StackPanel Margin="16,6,0,-6" Spacing="0" Orientation="Vertical">
                                 <TextBlock FontSize="15" FontWeight="Bold" CharacterSpacing="64">
                                     <Run Text="密罐"/>
                                     <Run Text="{x:Bind _appVersion}" FontSize="12"/>
@@ -38,7 +38,7 @@
                     </controls:SettingsCard.Header>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="OnClickGoToStoreRate">
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBlock Text="❤" VerticalAlignment="Center"/>
+                            <TextBlock Text="🍯" VerticalAlignment="Center"/>
                             <TextBlock Text="给个好评" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
@@ -137,7 +137,7 @@
                         </StackPanel>
                     </HyperlinkButton>
                 </controls:SettingsCard>
-                <TextBlock Text="©2023 NoMewing." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,4,0,8"/>
+                <TextBlock Text="©2024 NoMewing." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,4,0,8"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

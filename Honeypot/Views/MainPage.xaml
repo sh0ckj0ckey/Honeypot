@@ -73,14 +73,24 @@
                              MenuItemsSource="{x:Bind MainViewModel.MainNavigationItems,Mode=OneWay}"
                              FooterMenuItemsSource="{x:Bind MainViewModel.MainNavigationFooterItems,Mode=OneWay}">
             <NavigationView.PaneCustomContent>
-                <StackPanel Orientation="Horizontal" Spacing="14" Margin="12,24,12,20" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <Image Height="24" Width="24" VerticalAlignment="Center">
-                        <Image.Source>
-                            <BitmapImage UriSource="/Assets/Icon/img_logo.png" DecodePixelType="Logical" DecodePixelHeight="48"/>
-                        </Image.Source>
-                    </Image>
-                    <TextBlock Text="密罐" FontSize="17" FontWeight="Bold" CharacterSpacing="48" VerticalAlignment="Center"/>
-                </StackPanel>
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel x:Name="ExpandedLogo" Orientation="Horizontal" Spacing="14" Margin="12,18,12,20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Image Height="34" Width="34" VerticalAlignment="Center">
+                            <Image.Source>
+                                <BitmapImage UriSource="/Assets/Icon/img_logo.png" DecodePixelType="Logical" DecodePixelHeight="68"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="密罐" FontSize="17" FontWeight="Bold" CharacterSpacing="48" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel x:Name="CompactLogo" Orientation="Horizontal" Spacing="14" Margin="12,26,12,20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Image Height="24" Width="24" VerticalAlignment="Center">
+                            <Image.Source>
+                                <BitmapImage UriSource="/Assets/Icon/img_logo.png" DecodePixelType="Logical" DecodePixelHeight="48"/>
+                            </Image.Source>
+                        </Image>
+                        <!--<TextBlock Text="密罐" FontSize="17" FontWeight="Bold" CharacterSpacing="48" VerticalAlignment="Top"/>-->
+                    </StackPanel>
+                </Grid>
             </NavigationView.PaneCustomContent>
             <Frame x:Name="MainFrame" Padding="0,0,0,0">
                 <Frame.ContentTransitions>
@@ -115,6 +125,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="MainNavigationView.PaneDisplayMode" Value="Left"/>
+                        <Setter Target="ExpandedLogo.Visibility" Value="Visible"/>
+                        <Setter Target="CompactLogo.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -123,6 +135,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="MainNavigationView.PaneDisplayMode" Value="LeftCompact"/>
+                        <Setter Target="ExpandedLogo.Visibility" Value="Collapsed"/>
+                        <Setter Target="CompactLogo.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
