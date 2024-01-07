@@ -37,7 +37,7 @@
                         </Border>
                         <Button Height="36" Width="36" CornerRadius="18" Padding="0" Margin="0,0,-8,-8" CenterPoint="18,18,0" Style="{ThemeResource AccentButtonStyle}" 
                                 Click="OnClickChangeImage" PointerEntered="SpringAnimationPointerEntered" PointerExited="SpringAnimationPointerExited" HorizontalAlignment="Right" VerticalAlignment="Bottom" ToolTipService.ToolTip="点击修改图像">
-                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;" FontSize="14"/>
+                            <FontIcon Foreground="White" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;" FontSize="14"/>
                         </Button>
                     </Grid>
                     <TextBox x:Name="AddingNameTextBox" Height="32" MaxLength="40" TextWrapping="NoWrap" Margin="20" MinWidth="160" PlaceholderText="名称" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -138,8 +138,8 @@
         <Grid Grid.Row="4" Padding="20">
             <Button Padding="36,10" Click="OnClickConfirmAdd" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Right">
                 <StackPanel Spacing="6" Orientation="Horizontal" VerticalAlignment="Center">
-                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE109;" FontSize="16"/>
-                    <TextBlock Text="添加" FontSize="16" CharacterSpacing="64"/>
+                    <FontIcon Foreground="White" FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE109;" FontSize="16"/>
+                    <TextBlock Foreground="White" Text="添加" FontSize="16" CharacterSpacing="64"/>
                 </StackPanel>
             </Button>
         </Grid>

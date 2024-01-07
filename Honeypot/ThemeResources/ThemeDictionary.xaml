@@ -10,7 +10,7 @@
                     <Color x:Key="APPLICATION_LINE_BK">#16FFFFFF</Color>
 
                     <BitmapImage x:Key="APPLICATION_BLANK_IMG" UriSource="ms-appx:///Assets/Icon/img_blank_dark.png" DecodePixelWidth="800" DecodePixelType="Logical"/>
-                    <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/img_empty_dark.png" DecodePixelHeight="96" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/img_empty_dark.png" DecodePixelHeight="384" DecodePixelType="Logical"/>
 
                     <BitmapImage x:Key="TIPS_DBFILE_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_dbfile_dark.png" DecodePixelWidth="730" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="TIPS_RIGHTCLICK_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_rightclick_dark.png" DecodePixelWidth="240" DecodePixelType="Logical"/>
@@ -28,7 +28,7 @@
                     <Color x:Key="APPLICATION_LINE_BK">#10000000</Color>
 
                     <BitmapImage x:Key="APPLICATION_BLANK_IMG" UriSource="ms-appx:///Assets/Icon/img_blank_light.png" DecodePixelWidth="800" DecodePixelType="Logical"/>
-                    <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/img_empty_light.png" DecodePixelHeight="96" DecodePixelType="Logical"/>
+                    <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/img_empty_light.png" DecodePixelHeight="384" DecodePixelType="Logical"/>
 
                     <BitmapImage x:Key="TIPS_DBFILE_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_dbfile_light.png" DecodePixelWidth="730" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="TIPS_RIGHTCLICK_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_rightclick_light.png" DecodePixelWidth="240" DecodePixelType="Logical"/>
