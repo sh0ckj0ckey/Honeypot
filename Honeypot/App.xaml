@@ -16,13 +16,13 @@
 
                     <FontFamily x:Key="ZhuqueFont">/Fonts/ZhuqueFangsong-Regular.ttf#朱雀仿宋（预览测试版）</FontFamily>
 
-                    <Color x:Key="SystemAccentColor">#7f504a</Color>
+                    <!--<Color x:Key="SystemAccentColor">#7f504a</Color>
                     <Color x:Key="SystemAccentColorLight1">#7f504a</Color>
                     <Color x:Key="SystemAccentColorLight2">#7f504a</Color>
                     <Color x:Key="SystemAccentColorLight3">#7f504a</Color>
                     <Color x:Key="SystemAccentColorDark1">#7f504a</Color>
                     <Color x:Key="SystemAccentColorDark2">#7f504a</Color>
-                    <Color x:Key="SystemAccentColorDark3">#7f504a</Color>
+                    <Color x:Key="SystemAccentColorDark3">#7f504a</Color>-->
 
                     <!--移除GridView和ListView的Reveal效果-->
                     <SolidColorBrush x:Key="SystemControlTransparentRevealBackgroundBrush" Color="Transparent" />
