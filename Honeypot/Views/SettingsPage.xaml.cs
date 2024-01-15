@@ -26,7 +26,7 @@ namespace Honeypot.Views
             this.InitializeComponent();
 
             _viewModel = MainViewModel.Instance;
-            _appVersion = $"v{AppVersionUtil.GetAppVersion()}";
+            _appVersion = $"{AppVersionUtil.GetAppVersion()}";
         }
 
         /// <summary>

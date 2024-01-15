@@ -22,24 +22,22 @@
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Height="48" Width="48">
+                            <Image Height="64" Width="64">
                                 <Image.Source>
-                                    <BitmapImage DecodePixelHeight="96" DecodePixelType="Logical" UriSource="/Assets/Icon/img_logo.png"/>
+                                    <BitmapImage DecodePixelHeight="128" DecodePixelType="Logical" UriSource="/Assets/Icon/img_logo.png"/>
                                 </Image.Source>
                             </Image>
                             <StackPanel Margin="16,6,0,-6" Spacing="0" Orientation="Vertical">
-                                <TextBlock FontSize="15" FontWeight="Bold" CharacterSpacing="64">
-                                    <Run Text="密罐"/>
-                                    <Run Text="{x:Bind _appVersion}" FontSize="12"/>
-                                </TextBlock>
+                                <TextBlock Text="密罐" FontSize="15" FontWeight="Bold" CharacterSpacing="64"/>
                                 <TextBlock Text="妥善保存蜜码" FontSize="12" Opacity="0.7" CharacterSpacing="64"/>
+                                <TextBlock Text="{x:Bind _appVersion}" FontSize="12" Opacity="0.5" CharacterSpacing="64"/>
                             </StackPanel>
                         </StackPanel>
                     </controls:SettingsCard.Header>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="OnClickGoToStoreRate">
                         <StackPanel Orientation="Horizontal" Spacing="4">
-                            <TextBlock Text="🍯" VerticalAlignment="Center"/>
-                            <TextBlock Text="给个好评" VerticalAlignment="Center"/>
+                            <TextBlock Text="🍯" FontSize="18" VerticalAlignment="Center"/>
+                            <TextBlock Text="给个好评" VerticalAlignment="Center" CharacterSpacing="64"/>
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>

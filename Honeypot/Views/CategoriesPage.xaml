@@ -42,8 +42,8 @@
         <Border Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,16,0,16" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
         <Grid Grid.Row="3">
             <StackPanel Visibility="{x:Bind MainViewModel.Categoryies.Count,Mode=OneWay,Converter={StaticResource Int2Vis},ConverterParameter=-}" Spacing="6" Orientation="Vertical" Margin="0,-20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image Source="{ThemeResource APPLICATION_EMPTY_IMG}" Height="192" Stretch="Uniform" Opacity="0.3"/>
-                <TextBlock FontFamily="{ThemeResource ZhuqueFont}" Text="这里空空如也" FontSize="18" CharacterSpacing="64" Opacity="0.2" HorizontalAlignment="Center"/>
+                <Image Source="{ThemeResource APPLICATION_EMPTY_IMG}" Height="96" Stretch="Uniform" Opacity="0.5"/>
+                <!--<TextBlock Text="这里空空如也" FontSize="16" CharacterSpacing="64" Opacity="0.15" HorizontalAlignment="Center"/>-->
             </StackPanel>
             <ScrollViewer Visibility="{x:Bind MainViewModel.Categoryies.Count,Mode=OneWay,Converter={StaticResource Int2Vis}}" Padding="20,0,4,20" Background="Transparent" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
