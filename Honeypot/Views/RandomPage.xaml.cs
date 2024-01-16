@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,25 +30,38 @@ namespace Honeypot.Views
             this.InitializeComponent();
         }
 
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                CopiedInfoBar.IsOpen = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
         private void OnClickGenerate(object sender, RoutedEventArgs e)
         {
             try
             {
                 RandomImage.Rotation += _nextRotate[_rotateIndex % 6];
                 _rotateIndex = (_rotateIndex + 1) % 6;
-            }
-            catch { }
 
-            try
-            {
                 GeneratedTextBox.Text = GeneratePassword(LetterToggle.IsOn, NumberToggle.IsOn, SymbolToggle.IsOn, Convert.ToInt32(PasswordLengthSlider.Value));
 
                 // 自动复制
                 Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new Windows.ApplicationModel.DataTransfer.DataPackage();
                 dataPackage.SetText(GeneratedTextBox.Text);
                 Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
+
+                CopiedInfoBar.IsOpen = true;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private string GeneratePassword(bool letter, bool number, bool symbol, int length)
@@ -78,7 +92,7 @@ namespace Honeypot.Views
                 }
                 return sb.ToString();
             }
-            catch { }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
             finally
             {
                 randomList.Clear();
@@ -86,6 +100,5 @@ namespace Honeypot.Views
             }
             return "";
         }
-
     }
 }

@@ -7,7 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:Honeypot.Converters"
-    mc:Ignorable="d" NavigationCacheMode="Required">
+    mc:Ignorable="d" NavigationCacheMode="Required"
+    Unloaded="OnUnloaded">
     <Page.Resources>
         <converters:NullOrEmpty2VisibilityConverter x:Key="Null2Vis"/>
     </Page.Resources>
@@ -72,5 +73,6 @@
                 </Button.Content>
             </Button>
         </Grid>
+        <InfoBar x:Name="CopiedInfoBar" Grid.Row="2" Margin="4,4" IsOpen="False" VerticalAlignment="Bottom" Severity="Success" Title="密码已复制" Message="每次点击生成随机密码后，会自动复制到剪贴板。" />
     </Grid>
 </Page>
