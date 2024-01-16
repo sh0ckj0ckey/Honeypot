@@ -25,6 +25,8 @@ namespace Honeypot.Views
             this.InitializeComponent();
 
             MainViewModel = MainViewModel.Instance;
+
+            MainViewModel.Instance.ActNoticeUserToBackup = CheckToNoticeUserBackup;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -199,6 +201,80 @@ namespace Honeypot.Views
                     GroupedPasswordsList.ScrollIntoView(password);
                     TimeOrderPasswordsList.ScrollIntoView(password);
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 点击了解更多关于备份数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickGetInfoAboutBackup(object sender, RoutedEventArgs e)
+        {
+            MainViewModel.Instance.ActNavigatePage?.Invoke(NavigatePageEnum.Tips);
+        }
+
+        /// <summary>
+        /// 如果时机合适，则提示用户记得备份
+        /// </summary>
+        /// <param name="count"></param>
+        private void CheckToNoticeUserBackup(int count)
+        {
+            try
+            {
+                var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                if (count == 1 && localSettings.Values["countReach1"] == null)
+                {
+                    localSettings.Values["countReach1"] = true;
+                }
+                else if (count == 10 && localSettings.Values["countReach10"] == null)
+                {
+                    localSettings.Values["countReach10"] = true;
+                }
+                else if (count == 20 && localSettings.Values["countReach20"] == null)
+                {
+                    localSettings.Values["countReach20"] = true;
+                }
+                else if (count == 50 && localSettings.Values["countReach50"] == null)
+                {
+                    localSettings.Values["countReach50"] = true;
+                }
+                else if (count == 100 && localSettings.Values["countReach100"] == null)
+                {
+                    localSettings.Values["countReach100"] = true;
+                }
+                else if (count == 200 && localSettings.Values["countReach200"] == null)
+                {
+                    localSettings.Values["countReach200"] = true;
+                }
+                else if (count == 300 && localSettings.Values["countReach300"] == null)
+                {
+                    localSettings.Values["countReach300"] = true;
+                }
+                else if (count == 500 && localSettings.Values["countReach500"] == null)
+                {
+                    localSettings.Values["countReach500"] = true;
+                }
+                else
+                {
+                    return;
+                }
+
+                string message = "哇，你已经记录了这么多个账号，真不错，但是要记得定期备份一下数据哦，不要让数据面临丢失的风险。";
+                if (count == 1)
+                {
+                    message = "恭喜！你刚刚记录了第一个账号，真不错，要记得定期备份一下数据哦，不要让数据面临丢失的风险。";
+                }
+                else if (count > 1)
+                {
+                    message = $"哇，你已经记录了 {count} 个账号，真不错，但是要记得定期备份一下数据哦，不要让数据面临丢失的风险。";
+                }
+                RememberBackupInfoBar.Message = message;
+                RememberBackupInfoBar.IsOpen = true;
             }
             catch (Exception ex)
             {

@@ -104,6 +104,8 @@ namespace Honeypot.ViewModels
                         _allPasswords.Insert(0, password);
                     }
 
+                    ActNoticeUserToBackup?.Invoke(_allPasswords.Count);
+
                     UpdatePasswords(PasswordsCategoryId);
                     UpdateFavorites();
 

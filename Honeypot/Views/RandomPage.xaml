@@ -73,6 +73,6 @@
                 </Button.Content>
             </Button>
         </Grid>
-        <InfoBar x:Name="CopiedInfoBar" Grid.Row="2" Margin="4,4" IsOpen="False" VerticalAlignment="Bottom" Severity="Success" Title="密码已复制" Message="每次点击生成随机密码后，会自动复制到剪贴板。" />
+        <InfoBar x:Name="CopiedInfoBar" Grid.Row="2" Margin="4,4" IsOpen="False" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Severity="Success" Title="密码已复制" Message="每次点击生成随机密码后，会自动复制到剪贴板。" />
     </Grid>
 </Page>
