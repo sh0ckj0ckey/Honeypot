@@ -141,6 +141,20 @@ namespace Honeypot.Views
         }
 
         /// <summary>
+        /// 点击生成随机密码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickGenerateRandom(SplitButton sender, SplitButtonClickEventArgs args)
+        {
+            bool letter = LetterCheckBox.IsChecked == true;
+            bool number = NumberCheckBox.IsChecked == true;
+            bool symbol = SymbolCheckBox.IsChecked == true;
+            int length = (int)PasswordLengthNumberBox.Value;
+            AddingPasswordTextBox.Text = RandomPasswordGenerator.GeneratePassword(letter, number, symbol, length);
+        }
+
+        /// <summary>
         /// 确认添加
         /// </summary>
         /// <param name="sender"></param>
