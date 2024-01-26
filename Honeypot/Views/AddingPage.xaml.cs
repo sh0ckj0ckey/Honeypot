@@ -107,6 +107,8 @@ namespace Honeypot.Views
                 AddingNoteTextBox.Text = "";
                 AddingCategoryComboBox.SelectedIndex = -1;
                 AddingFavoriteCheckBox.IsChecked = false;
+
+                CopiedInfoBar.IsOpen = false;
             }
             catch (Exception ex)
             {
@@ -147,11 +149,30 @@ namespace Honeypot.Views
         /// <param name="e"></param>
         private void OnClickGenerateRandom(SplitButton sender, SplitButtonClickEventArgs args)
         {
-            bool letter = LetterCheckBox.IsChecked == true;
-            bool number = NumberCheckBox.IsChecked == true;
-            bool symbol = SymbolCheckBox.IsChecked == true;
-            int length = (int)PasswordLengthNumberBox.Value;
-            AddingPasswordTextBox.Text = RandomPasswordGenerator.GeneratePassword(letter, number, symbol, length);
+            try
+            {
+                bool letter = LetterCheckBox.IsChecked == true;
+                bool number = NumberCheckBox.IsChecked == true;
+                bool symbol = SymbolCheckBox.IsChecked == true;
+                int length = (int)PasswordLengthNumberBox.Value;
+                
+                string password = RandomPasswordGenerator.GeneratePassword(letter, number, symbol, length);
+                AddingPasswordTextBox.Text = password;
+
+                // 自动复制
+                Windows.ApplicationModel.DataTransfer.DataPackage dataPackage = new Windows.ApplicationModel.DataTransfer.DataPackage();
+                dataPackage.SetText(password);
+                Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(dataPackage);
+
+                if (!MainViewModel.Instance.AppSettings.NoTipAtAdding)
+                {
+                    CopiedInfoBar.IsOpen = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         /// <summary>

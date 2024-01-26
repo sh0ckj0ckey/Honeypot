@@ -10,11 +10,16 @@ namespace Honeypot.Core
 {
     public class SettingsService : ObservableObject
     {
-        private const string SETTING_NAME_APPEARANCEINDEX = "AppearanceIndex";
-        private const string SETTING_NAME_BACKDROPINDEX = "BackdropIndex";
-        private const string SETTING_NAME_ENABLELOCK = "EnableLock";
-        private const string SETTING_NAME_ORDERMODE = "PasswordsOrderMode";
-        private const string SETTING_NAME_HIDEPASSWORD = "HidePasswordAtEnter";
+        private const string SETTING_NAME_APPEARANCE_INDEX = "AppearanceIndex";
+        private const string SETTING_NAME_BACKDROP_INDEX = "BackdropIndex";
+        private const string SETTING_NAME_ENABLE_LOCK = "EnableLock";
+
+        private const string SETTING_NAME_ORDER_MODE = "PasswordsOrderMode";
+
+        private const string SETTING_NAME_HIDE_PASSWORD = "HidePasswordAtEnter";
+
+        private const string SETTING_NAME_NO_RANDOM_TIP_AT_ADDING = "NoRandomTipAtAdding";
+        private const string SETTING_NAME_NO_RANDOM_TIP_AT_RANDOM = "NoRandomTipAtRandom";
 
 
         private ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
@@ -32,19 +37,19 @@ namespace Honeypot.Core
                 {
                     if (_appearanceIndex < 0)
                     {
-                        if (_localSettings.Values[SETTING_NAME_APPEARANCEINDEX] == null)
+                        if (_localSettings.Values[SETTING_NAME_APPEARANCE_INDEX] == null)
                         {
                             _appearanceIndex = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCEINDEX]?.ToString() == "0")
+                        else if (_localSettings.Values[SETTING_NAME_APPEARANCE_INDEX]?.ToString() == "0")
                         {
                             _appearanceIndex = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCEINDEX]?.ToString() == "1")
+                        else if (_localSettings.Values[SETTING_NAME_APPEARANCE_INDEX]?.ToString() == "1")
                         {
                             _appearanceIndex = 1;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCEINDEX]?.ToString() == "2")
+                        else if (_localSettings.Values[SETTING_NAME_APPEARANCE_INDEX]?.ToString() == "2")
                         {
                             _appearanceIndex = 2;
                         }
@@ -61,7 +66,7 @@ namespace Honeypot.Core
             set
             {
                 SetProperty(ref _appearanceIndex, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_APPEARANCEINDEX] = _appearanceIndex;
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_APPEARANCE_INDEX] = _appearanceIndex;
                 OnAppearanceSettingChanged?.Invoke(_appearanceIndex);
             }
         }
@@ -76,15 +81,15 @@ namespace Honeypot.Core
                 {
                     if (_backdropIndex < 0)
                     {
-                        if (_localSettings.Values[SETTING_NAME_BACKDROPINDEX] == null)
+                        if (_localSettings.Values[SETTING_NAME_BACKDROP_INDEX] == null)
                         {
                             _backdropIndex = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_BACKDROPINDEX]?.ToString() == "0")
+                        else if (_localSettings.Values[SETTING_NAME_BACKDROP_INDEX]?.ToString() == "0")
                         {
                             _backdropIndex = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_BACKDROPINDEX]?.ToString() == "1")
+                        else if (_localSettings.Values[SETTING_NAME_BACKDROP_INDEX]?.ToString() == "1")
                         {
                             _backdropIndex = 1;
                         }
@@ -101,7 +106,7 @@ namespace Honeypot.Core
             set
             {
                 SetProperty(ref _backdropIndex, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_BACKDROPINDEX] = _backdropIndex;
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_BACKDROP_INDEX] = _backdropIndex;
                 OnBackdropSettingChanged?.Invoke(_backdropIndex);
             }
         }
@@ -116,11 +121,11 @@ namespace Honeypot.Core
                 {
                     if (_enableLock is null)
                     {
-                        if (_localSettings.Values[SETTING_NAME_ENABLELOCK] == null)
+                        if (_localSettings.Values[SETTING_NAME_ENABLE_LOCK] == null)
                         {
                             _enableLock = false;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_ENABLELOCK]?.ToString() == "True")
+                        else if (_localSettings.Values[SETTING_NAME_ENABLE_LOCK]?.ToString() == "True")
                         {
                             _enableLock = true;
                         }
@@ -137,7 +142,7 @@ namespace Honeypot.Core
             set
             {
                 SetProperty(ref _enableLock, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ENABLELOCK] = _enableLock;
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ENABLE_LOCK] = _enableLock;
             }
         }
 
@@ -151,15 +156,15 @@ namespace Honeypot.Core
                 {
                     if (_passwordsOrderMode < 0)
                     {
-                        if (_localSettings.Values[SETTING_NAME_ORDERMODE] == null)
+                        if (_localSettings.Values[SETTING_NAME_ORDER_MODE] == null)
                         {
                             _passwordsOrderMode = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_ORDERMODE]?.ToString() == "0")
+                        else if (_localSettings.Values[SETTING_NAME_ORDER_MODE]?.ToString() == "0")
                         {
                             _passwordsOrderMode = 0;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_ORDERMODE]?.ToString() == "1")
+                        else if (_localSettings.Values[SETTING_NAME_ORDER_MODE]?.ToString() == "1")
                         {
                             _passwordsOrderMode = 1;
                         }
@@ -176,7 +181,7 @@ namespace Honeypot.Core
             set
             {
                 SetProperty(ref _passwordsOrderMode, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ORDERMODE] = _passwordsOrderMode;
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ORDER_MODE] = _passwordsOrderMode;
             }
         }
 
@@ -190,11 +195,11 @@ namespace Honeypot.Core
                 {
                     if (_hidePassword is null)
                     {
-                        if (_localSettings.Values[SETTING_NAME_HIDEPASSWORD] == null)
+                        if (_localSettings.Values[SETTING_NAME_HIDE_PASSWORD] == null)
                         {
                             _hidePassword = false;
                         }
-                        else if (_localSettings.Values[SETTING_NAME_HIDEPASSWORD]?.ToString() == "True")
+                        else if (_localSettings.Values[SETTING_NAME_HIDE_PASSWORD]?.ToString() == "True")
                         {
                             _hidePassword = true;
                         }
@@ -211,7 +216,77 @@ namespace Honeypot.Core
             set
             {
                 SetProperty(ref _hidePassword, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_HIDEPASSWORD] = _hidePassword;
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_HIDE_PASSWORD] = _hidePassword;
+            }
+        }
+
+        // 是否隐藏在创建密码页面点击随机密码时，已复制的提示
+        private bool? _noTipAtAdding = null;
+        public bool NoTipAtAdding
+        {
+            get
+            {
+                try
+                {
+                    if (_noTipAtAdding is null)
+                    {
+                        if (_localSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_ADDING] == null)
+                        {
+                            _noTipAtAdding = false;
+                        }
+                        else if (_localSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_ADDING]?.ToString() == "True")
+                        {
+                            _noTipAtAdding = true;
+                        }
+                        else
+                        {
+                            _noTipAtAdding = false;
+                        }
+                    }
+                }
+                catch { }
+                _noTipAtAdding ??= false;
+                return _noTipAtAdding == true;
+            }
+            set
+            {
+                SetProperty(ref _noTipAtAdding, value);
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_ADDING] = _noTipAtAdding;
+            }
+        }
+
+        // 是否隐藏在随机生成页面点击随机密码时，已复制的提示
+        private bool? _noTipAtRandom = null;
+        public bool NoTipAtRandom
+        {
+            get
+            {
+                try
+                {
+                    if (_noTipAtRandom is null)
+                    {
+                        if (_localSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_RANDOM] == null)
+                        {
+                            _noTipAtRandom = false;
+                        }
+                        else if (_localSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_RANDOM]?.ToString() == "True")
+                        {
+                            _noTipAtRandom = true;
+                        }
+                        else
+                        {
+                            _noTipAtRandom = false;
+                        }
+                    }
+                }
+                catch { }
+                _noTipAtRandom ??= false;
+                return _noTipAtRandom == true;
+            }
+            set
+            {
+                SetProperty(ref _noTipAtRandom, value);
+                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_RANDOM] = _noTipAtRandom;
             }
         }
     }

@@ -71,11 +71,12 @@
                                 <SplitButton.Flyout>
                                     <Flyout Placement="Bottom">
                                         <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                                            <TextBlock Text="密码配方" FontWeight="Bold" FontSize="14" Margin="0,0,0,4"/>
+                                            <TextBlock Text="密码配方" FontWeight="Bold" FontSize="14" Margin="0,0,0,4" CharacterSpacing="32"/>
                                             <CheckBox x:Name="LetterCheckBox" IsChecked="True" Content="字母"/>
                                             <CheckBox x:Name="NumberCheckBox" IsChecked="True" Content="数字"/>
                                             <CheckBox x:Name="SymbolCheckBox" IsChecked="True" Content="特殊字符"/>
-                                            <NumberBox x:Name="PasswordLengthNumberBox" Margin="0,8,0,0" Value="16" Minimum="6" Maximum="32" SpinButtonPlacementMode="Compact" SmallChange="1" LargeChange="1"/>
+                                            <TextBlock Text="密码长度" FontWeight="Bold" FontSize="14" Margin="0,4,0,8" CharacterSpacing="32"/>
+                                            <NumberBox x:Name="PasswordLengthNumberBox" Value="16" Minimum="6" Maximum="32" SpinButtonPlacementMode="Compact" SmallChange="1" LargeChange="1"/>
                                         </StackPanel>
                                     </Flyout>
                                 </SplitButton.Flyout>
@@ -157,8 +158,17 @@
             </Border>
         </Grid>
         <Border Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,5" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
-        <Grid Grid.Row="4" Padding="20">
-            <Button Padding="36,10" Click="OnClickConfirmAdd" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Right">
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <InfoBar x:Name="CopiedInfoBar" Grid.Column="0" Margin="20,0,0,0" IsOpen="False" HorizontalAlignment="Stretch" VerticalAlignment="Center" Severity="Success" Title="密码已复制" Message="每次点击生成随机密码后，会自动复制到剪贴板。" >
+                <InfoBar.ActionButton>
+                    <CheckBox Content="不再提示" IsChecked="{x:Bind MainViewModel.AppSettings.NoTipAtAdding,Mode=TwoWay}"/>
+                </InfoBar.ActionButton>
+            </InfoBar>
+            <Button Grid.Column="1" Padding="36,10" Margin="20,20" Click="OnClickConfirmAdd" Style="{ThemeResource AccentButtonStyle}" HorizontalAlignment="Right">
                 <StackPanel Spacing="6" Orientation="Horizontal" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE109;" FontSize="16"/>
                     <TextBlock Text="添加" FontSize="16" CharacterSpacing="64"/>
