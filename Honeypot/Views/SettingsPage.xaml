@@ -160,7 +160,7 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="第三方字体" Description="使用了开源字体 &quot;朱雀仿宋&quot;">
+                <controls:SettingsCard Header="字体引用" Description="&quot;密罐&quot; 使用了开源字体 &quot;朱雀仿宋&quot;">
                     <controls:SettingsCard.HeaderIcon>
                         <BitmapIcon UriSource="ms-appx:///Assets/Icon/icon_zhuque.png" Width="20" ShowAsMonochrome="True"/>
                     </controls:SettingsCard.HeaderIcon>
