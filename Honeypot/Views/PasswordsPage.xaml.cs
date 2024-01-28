@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Honeypot.Controls;
 using Honeypot.Models;
 using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;
@@ -20,6 +21,9 @@ namespace Honeypot.Views
     {
         private MainViewModel MainViewModel = null;
 
+        private PasswordEditingControl _editingPasswordControl = null;
+        private ContentDialog _editPasswordDialog = null;
+
         public PasswordsPage()
         {
             this.InitializeComponent();
@@ -27,6 +31,18 @@ namespace Honeypot.Views
             MainViewModel = MainViewModel.Instance;
 
             MainViewModel.Instance.ActNoticeUserToBackup = CheckToNoticeUserBackup;
+
+            _editingPasswordControl = new PasswordEditingControl();
+
+            _editPasswordDialog = new ContentDialog
+            {
+                XamlRoot = this.XamlRoot,
+                Content = _editingPasswordControl,
+                Padding = new Thickness(0, 0, 0, 0),
+                PrimaryButtonText = "保存",
+                CloseButtonText = "取消",
+                DefaultButton = ContentDialogButton.Primary
+            };
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)
@@ -141,6 +157,33 @@ namespace Honeypot.Views
             try
             {
                 MainViewModel.Instance.FavoritePassword(MainViewModel.Instance.SelectedPassword);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 点击编辑密码
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void OnClickEdit(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                _editPasswordDialog.XamlRoot = this.XamlRoot;
+                _editPasswordDialog.RequestedTheme = this.ActualTheme;
+                ContentDialogResult result = await _editPasswordDialog.ShowAsync();
+                
+                if (result == ContentDialogResult.Primary)
+                {
+                    // Update password info
+                    // var updatedPassword = _editingPasswordControl?.GetUpdatedPassword();
+                }
+
+                //_editingPasswordControl?.ResetView();
             }
             catch (Exception ex)
             {
