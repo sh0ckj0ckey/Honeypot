@@ -54,6 +54,36 @@
                         </Grid>
                     </Expander.Content>
                 </Expander>
+                
+                <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
+                    <Expander.Header>
+                        <TextBlock Text="怎样编辑或者删除一个分类？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" FontSize="14" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left">
+                                <Run Text="想要修改一个账号分类，只需点击左侧导航栏中的"/>
+                                <Run Text="&quot;&#xE74C;" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
+                                <Run Text="全部分类&quot;"/>
+                                <Run Text="跳转到分类页面，然后将鼠标指向想要修改的分类，即可点击浮现出来的菜单按钮来进行操作了。"/>
+                            </TextBlock>
+                            <Border Grid.Column="1" CornerRadius="8" Width="176" Height="108" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <TextBlock Text="我的分类" FontWeight="Bold" FontSize="14" Margin="16,12"/>
+                                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE72E;" Opacity="0.2" FontSize="40" Margin="12" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8B0;" FontSize="20" Margin="0,0,0,-12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Border Height="26" Width="26" CornerRadius="14" Padding="0" Margin="16,12" Background="{ThemeResource APPLICATION_LINE_BK}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                        <TextBlock FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Text="&#xE10C;" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Expander.Content>
+                </Expander>
 
                 <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
                     <Expander.Header>
