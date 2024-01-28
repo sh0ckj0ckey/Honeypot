@@ -85,7 +85,7 @@
                     </Button>
                 </controls:SettingsCard>
                 <TextBlock Text="关于" Margin="4,12,0,6" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
-                <controls:SettingsCard Header="反馈" Description="如果您遇到问题或有任何建议">
+                <controls:SettingsCard Header="与我联系" Description="如果您遇到问题或有任何建议">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xED15;"/>
                     </controls:SettingsCard.HeaderIcon>
@@ -160,24 +160,24 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="字体引用" Description="&quot;密罐&quot; 使用了开源字体 &quot;朱雀仿宋&quot;">
+                <!--<controls:SettingsCard Header="字体引用" Description="&quot;密罐&quot; 使用了开源字体 &quot;朱雀仿宋&quot;">
                     <controls:SettingsCard.HeaderIcon>
                         <BitmapIcon UriSource="ms-appx:///Assets/Icon/icon_zhuque.png" Width="20" ShowAsMonochrome="True"/>
                     </controls:SettingsCard.HeaderIcon>
-                    <!--<Button Height="34" Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
+                    --><!--<Button Height="34" Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image Width="20" Height="20" Margin="0,0,0,0" Source="{ThemeResource ABOUT_GITHUB_IMG}"/>
                             <TextBlock Text="朱雀仿宋 on GitHub" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
                         </StackPanel>
-                    </Button>-->
+                    </Button>--><!--
                     <HyperlinkButton Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="6">
                             <TextBlock Text="访问项目主页" CharacterSpacing="64"/>
                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE2B4;" FontSize="15"/>
                         </StackPanel>
                     </HyperlinkButton>
-                </controls:SettingsCard>
-                <TextBlock Text="©2024 NoMewing." Opacity="0.5" FontFamily="Consolas" CharacterSpacing="48" FontSize="12" Margin="4,4,0,8"/>
+                </controls:SettingsCard>-->
+                <TextBlock Text="© NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="13" Margin="4,4,0,8"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
