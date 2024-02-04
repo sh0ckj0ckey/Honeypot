@@ -199,7 +199,7 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 添加密码
         /// </summary>
-        /// <param name="categoryid"></param>
+        /// <param name="categoryId"></param>
         /// <param name="account"></param>
         /// <param name="password"></param>
         /// <param name="firstLetter"></param>
@@ -210,11 +210,11 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public void AddPassword(int categoryid, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
+        public void AddPassword(int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
             string date = DateTime.Now.ToString("yyyy年MM月dd日");
-            PasswordsDataAccess.AddPassword(categoryid, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
+            PasswordsDataAccess.AddPassword(categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 
             LoadPasswordsTable();
         }
@@ -223,7 +223,7 @@ namespace Honeypot.ViewModels
         /// 编辑密码
         /// </summary>
         /// <param name="password"></param>
-        /// <param name="categoryid"></param>
+        /// <param name="categoryId"></param>
         /// <param name="account"></param>
         /// <param name="password"></param>
         /// <param name="name"></param>
@@ -232,7 +232,7 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public async void EditPassword(PasswordModel passwordItem, int categoryid, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
+        public async void EditPassword(PasswordModel passwordItem, int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
         {
             try
             {
@@ -243,7 +243,7 @@ namespace Honeypot.ViewModels
 
                 string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
                 string date = DateTime.Now.ToString("yyyy年MM月dd日");
-                PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryid, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
+                PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 
                 // 编辑密码后，不需要重新加载数据库，只需要更新对应的属性即可
                 // LoadPasswordsTable();
@@ -256,7 +256,7 @@ namespace Honeypot.ViewModels
                 passwordItem.Website = website;
                 passwordItem.Note = note;
                 passwordItem.Favorite = favorite;
-                passwordItem.CategoryId = categoryid;
+                passwordItem.CategoryId = categoryId;
                 passwordItem.LogoFileName = logoFilePath;
 
                 passwordItem.NormalLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Medium);

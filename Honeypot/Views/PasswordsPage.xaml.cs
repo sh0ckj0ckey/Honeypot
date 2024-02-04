@@ -173,17 +173,44 @@ namespace Honeypot.Views
         {
             try
             {
+                var editing = MainViewModel.Instance.SelectedPassword;
+
+
+                //_editPasswordDialog.IsPrimaryButtonEnabled = false;
+
+
+                _editingPasswordControl.SetOriginInfo(
+                    editing.Id,
+                    editing.Account,
+                    editing.Password,
+                    editing.Name,
+                    editing.Website,
+                    editing.Note,
+                    editing.CategoryId,
+                    editing.LogoFileName);
+
                 _editPasswordDialog.XamlRoot = this.XamlRoot;
                 _editPasswordDialog.RequestedTheme = this.ActualTheme;
                 ContentDialogResult result = await _editPasswordDialog.ShowAsync();
-                
+
                 if (result == ContentDialogResult.Primary)
                 {
-                    // Update password info
-                    // var updatedPassword = _editingPasswordControl?.GetUpdatedPassword();
+                    int id = _editingPasswordControl.GetModifiedInfo(
+                                 out string account,
+                                 out string password,
+                                 out string name,
+                                 out string website,
+                                 out string note,
+                                 out int categoryId,
+                                 out string logoFile);
+
+                    if (id == editing.Id)
+                    {
+                        MainViewModel.Instance.EditPassword(editing, categoryId, account, password, name, website, note, editing.Favorite, logoFile);
+                    }
                 }
 
-                //_editingPasswordControl?.ResetView();
+                _editingPasswordControl.ResetView();
             }
             catch (Exception ex)
             {
