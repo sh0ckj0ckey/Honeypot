@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Honeypot.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -20,11 +21,15 @@ namespace Honeypot.Controls
 {
     public sealed partial class PasswordEditingControl : UserControl
     {
+        private MainViewModel MainViewModel = null;
+
         private int _editingId = -1;
 
         public PasswordEditingControl()
         {
             this.InitializeComponent();
+
+            MainViewModel = MainViewModel.Instance;
         }
 
         public void SetOriginInfo(int id, string account, string password, string name, string website, string note, int categoryId, string logoFile)
@@ -32,8 +37,9 @@ namespace Honeypot.Controls
             _editingId = id;
 
             AccountTextBox.Text = account;
-            PasswordTextBox.Password = password;
+            PasswordTextBox.Text = password;
             NameTextBox.Text = name;
+            NameTextBox.PlaceholderText = name;
             WebsiteTextBox.Text = website;
             NoteTextBox.Text = note;
         }
@@ -41,7 +47,7 @@ namespace Honeypot.Controls
         public int GetModifiedInfo(out string account, out string password, out string name, out string website, out string note, out int categoryId, out string logoFile)
         {
             account = AccountTextBox.Text;
-            password = PasswordTextBox.Password;
+            password = PasswordTextBox.Text;
             name = NameTextBox.Text;
             website = WebsiteTextBox.Text;
             note = NoteTextBox.Text;
@@ -52,6 +58,11 @@ namespace Honeypot.Controls
         }
 
         public void ResetView()
+        {
+
+        }
+
+        private void OnClickPickFile(object sender, RoutedEventArgs e)
         {
 
         }

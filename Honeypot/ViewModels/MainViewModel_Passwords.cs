@@ -212,7 +212,7 @@ namespace Honeypot.ViewModels
         /// <param name="image"></param>
         public void AddPassword(int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
         {
-            string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
+            string firstLetter = PinyinHelper.GetFirstSpell(name.Trim()).ToString();
             string date = DateTime.Now.ToString("yyyy年MM月dd日");
             PasswordsDataAccess.AddPassword(categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 

@@ -37,6 +37,7 @@ namespace Honeypot.Views
             _editPasswordDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
+                Title = "编辑",
                 Content = _editingPasswordControl,
                 Padding = new Thickness(0, 0, 0, 0),
                 PrimaryButtonText = "保存",
@@ -175,9 +176,7 @@ namespace Honeypot.Views
             {
                 var editing = MainViewModel.Instance.SelectedPassword;
 
-
                 //_editPasswordDialog.IsPrimaryButtonEnabled = false;
-
 
                 _editingPasswordControl.SetOriginInfo(
                     editing.Id,
@@ -203,6 +202,11 @@ namespace Honeypot.Views
                                  out string note,
                                  out int categoryId,
                                  out string logoFile);
+
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        name = editing.Name;
+                    }
 
                     if (id == editing.Id)
                     {
