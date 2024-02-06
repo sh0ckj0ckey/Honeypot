@@ -171,5 +171,29 @@ namespace Honeypot.Helpers
                 Debug.WriteLine(ex.Message);
             }
         }
+
+        /// <summary>
+        /// 根据文件名获取图片文件
+        /// </summary>
+        /// <param name="logoFileName"></param>
+        /// <returns></returns>
+        public static async Task<StorageFile> GetLogoImageFile(string logoFileName)
+        {
+            try
+            {
+                var imageFolder = await GetImagesFolder();
+                string imageFilePath = Path.Combine(imageFolder.Path, logoFileName);
+                if (File.Exists(imageFilePath))
+                {
+                    return await imageFolder.GetFileAsync(logoFileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return null;
+        }
     }
 }
