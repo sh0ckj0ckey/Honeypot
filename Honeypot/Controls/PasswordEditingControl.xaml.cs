@@ -20,6 +20,9 @@ using CommunityToolkit.WinUI.Controls;
 using Honeypot.Helpers;
 using Windows.Storage.Pickers;
 using WinUIEx;
+using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage.Streams;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -35,6 +38,9 @@ namespace Honeypot.Controls
 
         // 指示是否选择过新的图片，如果没选择过，并且裁剪控件范围为100%，说明图片没有改变
         private bool _changedLogoImage = false;
+
+        // 裁剪控件的原始裁剪范围
+        private Rect _originalCropRect = Rect.Empty;
 
         public PasswordEditingControl()
         {
@@ -81,6 +87,8 @@ namespace Honeypot.Controls
 
             var imageLogoFile = await LogoImageHelper.GetLogoImageFile(logoFile);
             await LogoImageCropper.LoadImageFromFile(imageLogoFile);
+            // 保存原始的裁剪范围
+            _originalCropRect = LogoImageCropper.CroppedRegion;
         }
 
         /// <summary>
@@ -94,7 +102,7 @@ namespace Honeypot.Controls
         /// <param name="categoryId"></param>
         /// <param name="logoFile"></param>
         /// <returns></returns>
-        public int GetModifiedInfo(out string account, out string password, out string name, out string website, out string note, out int categoryId, out string logoFile)
+        public int GetModifiedInfo(out string account, out string password, out string name, out string website, out string note, out int categoryId, out bool logoModified)
         {
             name = "";
             account = "";
@@ -102,7 +110,8 @@ namespace Honeypot.Controls
             website = "";
             note = "";
             categoryId = -1;
-            logoFile = "";
+
+            logoModified = _changedLogoImage || _originalCropRect != LogoImageCropper.CroppedRegion;
 
             try
             {
@@ -116,8 +125,6 @@ namespace Honeypot.Controls
                 {
                     categoryId = category.Id;
                 }
-
-                logoFile = "";
             }
             catch (Exception ex)
             {
@@ -128,12 +135,36 @@ namespace Honeypot.Controls
         }
 
         /// <summary>
+        /// 获取裁剪最后得到的图片
+        /// </summary>
+        /// <returns></returns>
+        public async Task<WriteableBitmap> GetCroppedImage()
+        {
+            try
+            {
+                using var inMemoryRandomStream = new InMemoryRandomAccessStream();
+                await LogoImageCropper.SaveAsync(inMemoryRandomStream, BitmapFileFormat.Png);
+                inMemoryRandomStream.Seek(0);
+                var bitmap = new WriteableBitmap(1, 1);
+                bitmap.SetSource(inMemoryRandomStream);
+                return bitmap;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return null;
+        }
+
+        /// <summary>
         /// 重置控件的状态
         /// </summary>
         public void ResetView()
         {
             _editingId = -1;
             _changedLogoImage = false;
+            _originalCropRect = Rect.Empty;
 
             NameTextBox.Text = "";
             NameTextBox.PlaceholderText = "";
@@ -168,6 +199,8 @@ namespace Honeypot.Controls
                 var file = await filePicker.PickSingleFileAsync();
                 if (file != null && LogoImageCropper != null)
                 {
+                    _changedLogoImage = true;
+
                     await LogoImageCropper.LoadImageFromFile(file);
                 }
             }

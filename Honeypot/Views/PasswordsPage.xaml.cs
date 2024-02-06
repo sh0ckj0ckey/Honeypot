@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Honeypot.Controls;
+using Honeypot.Helpers;
 using Honeypot.Models;
 using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;
@@ -174,9 +175,9 @@ namespace Honeypot.Views
         {
             try
             {
-                var editing = MainViewModel.Instance.SelectedPassword;
-
                 //_editPasswordDialog.IsPrimaryButtonEnabled = false;
+
+                var editing = MainViewModel.Instance.SelectedPassword;
 
                 _editingPasswordControl.SetOriginInfo(
                     editing.Id,
@@ -201,7 +202,15 @@ namespace Honeypot.Views
                                  out string website,
                                  out string note,
                                  out int categoryId,
-                                 out string logoFile);
+                                 out bool logoModified);
+
+                    string logoFilePath = editing.LogoFileName;
+                    if (logoModified)
+                    {
+                        logoFilePath = DateTime.Now.Ticks.ToString();
+                        var croppedWriteableBitmap = await _editingPasswordControl.GetCroppedImage();
+                        _ = await LogoImageHelper.SaveLogoImage(logoFilePath, croppedWriteableBitmap);
+                    }
 
                     if (string.IsNullOrWhiteSpace(name))
                     {
@@ -210,7 +219,7 @@ namespace Honeypot.Views
 
                     if (id == editing.Id)
                     {
-                        MainViewModel.Instance.EditPassword(editing, categoryId, account, password, name, website, note, editing.Favorite, logoFile);
+                        MainViewModel.Instance.EditPassword(editing, categoryId, account, password, name, website, note, editing.Favorite, logoFilePath);
                     }
                 }
 
