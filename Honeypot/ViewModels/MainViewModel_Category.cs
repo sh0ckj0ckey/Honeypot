@@ -158,6 +158,7 @@ namespace Honeypot.ViewModels
 
                 PasswordsDataAccess.UpdateCategory(category.Id, title, icon, category.Order);
 
+                LoadPasswordsTable();
                 LoadCategoriesTable();
             }
             catch (Exception ex)
@@ -197,6 +198,7 @@ namespace Honeypot.ViewModels
             {
                 PasswordsDataAccess.DeleteCategory(id);
 
+                LoadPasswordsTable();
                 LoadCategoriesTable();
             }
             catch (Exception ex)

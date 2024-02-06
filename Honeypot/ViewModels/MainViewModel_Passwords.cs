@@ -131,7 +131,7 @@ namespace Honeypot.ViewModels
         /// 更新密码列表
         /// </summary>
         /// <param name="categoryId"></param>
-        public void UpdatePasswords(int categoryId)
+        public void UpdatePasswords(int categoryId, int keepSelectId = -1)
         {
             Debug.WriteLine($"Updateing Passwords, CategoryId = {categoryId}");
 
@@ -142,12 +142,19 @@ namespace Honeypot.ViewModels
             Passwords.Clear();
             PasswordsGroups.Clear();
 
+            PasswordModel selectedPassword = null;
+
             if (PasswordsCategoryId <= 0)
             {
                 // 按照添加顺序排列
                 foreach (var item in _allPasswords)
                 {
                     Passwords.Add(item);
+
+                    if (keepSelectId > 0 && item.Id == keepSelectId)
+                    {
+                        selectedPassword = item;
+                    }
                 }
 
                 // 按照首字母分组
@@ -174,6 +181,11 @@ namespace Honeypot.ViewModels
                     if (item.CategoryId == PasswordsCategoryId)
                     {
                         Passwords.Add(item);
+
+                        if (keepSelectId > 0 && item.Id == keepSelectId)
+                        {
+                            selectedPassword = item;
+                        }
                     }
                 }
 
@@ -194,6 +206,8 @@ namespace Honeypot.ViewModels
                     PasswordsGroups.Add(item);
                 }
             }
+
+            SelectedPassword = selectedPassword;
         }
 
         /// <summary>
@@ -245,9 +259,6 @@ namespace Honeypot.ViewModels
                 string date = DateTime.Now.ToString("yyyy年MM月dd日");
                 PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 
-                // 编辑密码后，不需要重新加载数据库，只需要更新对应的属性并刷新列表
-                // LoadPasswordsTable();
-
                 passwordItem.Account = account;
                 passwordItem.Password = password;
                 passwordItem.FirstLetter = firstLetter[0];
@@ -262,7 +273,7 @@ namespace Honeypot.ViewModels
                 passwordItem.NormalLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Medium);
                 passwordItem.LargeLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Large);
 
-                UpdatePasswords(PasswordsCategoryId);
+                UpdatePasswords(PasswordsCategoryId, passwordItem.Id);
                 UpdateFavorites();
             }
             catch (Exception ex)
