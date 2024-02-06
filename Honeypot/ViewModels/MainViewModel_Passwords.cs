@@ -245,7 +245,7 @@ namespace Honeypot.ViewModels
                 string date = DateTime.Now.ToString("yyyy年MM月dd日");
                 PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 
-                // 编辑密码后，不需要重新加载数据库，只需要更新对应的属性即可
+                // 编辑密码后，不需要重新加载数据库，只需要更新对应的属性并刷新列表
                 // LoadPasswordsTable();
 
                 passwordItem.Account = account;
@@ -261,6 +261,9 @@ namespace Honeypot.ViewModels
 
                 passwordItem.NormalLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Medium);
                 passwordItem.LargeLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Large);
+
+                UpdatePasswords(PasswordsCategoryId);
+                UpdateFavorites();
             }
             catch (Exception ex)
             {
