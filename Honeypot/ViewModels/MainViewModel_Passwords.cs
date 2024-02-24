@@ -224,12 +224,15 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="image"></param>
-        public void AddPassword(int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
+        public void AddPassword(int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath, string date = "")
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name.Trim()).ToString();
-            string date = DateTime.Now.ToString("yyyy年MM月dd日");
-            PasswordsDataAccess.AddPassword(categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
+            if (string.IsNullOrWhiteSpace(date))
+            {
+                date = DateTime.Now.ToString("yyyy年MM月dd日");
+            }
 
+            PasswordsDataAccess.AddPassword(categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
             LoadPasswordsTable();
         }
 

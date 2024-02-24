@@ -7,7 +7,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:Honeypot.Converters"
     mc:Ignorable="d" NavigationCacheMode="Required">
+    <Page.Resources>
+        <converters:Bool2VisibilityConverter x:Key="Bool2Vis"/>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -64,6 +68,19 @@
                     </ComboBox>
                 </controls:SettingsCard>
                 <TextBlock Text="安全和数据" Margin="4,12,0,6" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
+                <controls:SettingsCard Header="迁移数据" Description="将 &quot;好多密码&quot; 的数据导入到 &quot;密罐&quot; 中"
+                                       Visibility="{x:Bind _viewModel.ShowMigrater,Mode=OneWay,Converter={StaticResource Bool2Vis}}">
+                    <controls:SettingsCard.HeaderIcon>
+                        <BitmapIcon UriSource="ms-appx:///Assets/Icon/icon_manypasswords.png" Opacity="0.9" Width="20" ShowAsMonochrome="True"/>
+                    </controls:SettingsCard.HeaderIcon>
+
+                    <Button Height="32" MinWidth="114" Click="OnClickMigrate">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA3C;" FontSize="12"/>
+                            <TextBlock Text="开始迁移" CharacterSpacing="64"/>
+                        </StackPanel>
+                    </Button>
+                </controls:SettingsCard>
                 <controls:SettingsCard Header="使用 Windows Hello 锁定应用">
                     <controls:SettingsCard.Description>
                         <HyperlinkButton Content="在 &quot;系统设置&quot; 中查看" Click="OnClickGoWindowsHelloSettings"/>
@@ -160,23 +177,25 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <!--<controls:SettingsCard Header="字体引用" Description="&quot;密罐&quot; 使用了开源字体 &quot;朱雀仿宋&quot;">
+                <controls:SettingsCard Header="朱雀仿宋" Description="此应用程序使用了开源字体 &quot;朱雀仿宋&quot;">
                     <controls:SettingsCard.HeaderIcon>
                         <BitmapIcon UriSource="ms-appx:///Assets/Icon/icon_zhuque.png" Width="20" ShowAsMonochrome="True"/>
                     </controls:SettingsCard.HeaderIcon>
-                    --><!--<Button Height="34" Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
+
+                    <!--<Button Height="34" Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image Width="20" Height="20" Margin="0,0,0,0" Source="{ThemeResource ABOUT_GITHUB_IMG}"/>
                             <TextBlock Text="朱雀仿宋 on GitHub" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
                         </StackPanel>
-                    </Button>--><!--
+                    </Button>-->
+
                     <HyperlinkButton Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="6">
                             <TextBlock Text="访问项目主页" CharacterSpacing="64"/>
                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE2B4;" FontSize="15"/>
                         </StackPanel>
                     </HyperlinkButton>
-                </controls:SettingsCard>-->
+                </controls:SettingsCard>
                 <TextBlock Text="© NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="13" Margin="4,4,0,8"/>
             </StackPanel>
         </ScrollViewer>

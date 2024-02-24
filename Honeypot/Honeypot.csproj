@@ -23,6 +23,7 @@
 		<None Remove="Assets\Icon\icon_github_dark.png" />
 		<None Remove="Assets\Icon\icon_github_light.png" />
 		<None Remove="Assets\Icon\icon_mail.png" />
+		<None Remove="Assets\Icon\icon_manypasswords.png" />
 		<None Remove="Assets\Icon\icon_qq.png" />
 		<None Remove="Assets\Icon\icon_random.png" />
 		<None Remove="Assets\Icon\icon_random_small.png" />
@@ -38,12 +39,52 @@
 		<None Remove="Assets\Icon\img_logo.png" />
 		<None Remove="Assets\Icon\img_logo_origin.png" />
 		<None Remove="Assets\Icon\img_logo2.png" />
+		<None Remove="Assets\Icon\img_manypasswords.png" />
+		<None Remove="Assets\BuildInIcon\Alipay.jpg" />
+		<None Remove="Assets\BuildInIcon\Apple.jpg" />
+		<None Remove="Assets\BuildInIcon\Baidu.jpg" />
+		<None Remove="Assets\BuildInIcon\BattleNet.jpg" />
+		<None Remove="Assets\BuildInIcon\bilibili.jpg" />
+		<None Remove="Assets\BuildInIcon\default.jpg" />
+		<None Remove="Assets\BuildInIcon\douyin.jpg" />
+		<None Remove="Assets\BuildInIcon\Douyu.jpg" />
+		<None Remove="Assets\BuildInIcon\Facebook.jpg" />
+		<None Remove="Assets\BuildInIcon\GitHub.jpg" />
+		<None Remove="Assets\BuildInIcon\Google.jpg" />
+		<None Remove="Assets\BuildInIcon\Huya.jpg" />
+		<None Remove="Assets\BuildInIcon\Instagram.jpg" />
+		<None Remove="Assets\BuildInIcon\iQIYI.jpg" />
+		<None Remove="Assets\BuildInIcon\ITHome.jpg" />
+		<None Remove="Assets\BuildInIcon\JD.jpg" />
+		<None Remove="Assets\BuildInIcon\Line.jpg" />
+		<None Remove="Assets\BuildInIcon\LinkedIn.jpg" />
+		<None Remove="Assets\BuildInIcon\Microsoft.jpg" />
+		<None Remove="Assets\BuildInIcon\Naver.jpg" />
+		<None Remove="Assets\BuildInIcon\NetEase.jpg" />
+		<None Remove="Assets\BuildInIcon\paypal.jpg" />
+		<None Remove="Assets\BuildInIcon\Pinterest.jpg" />
+		<None Remove="Assets\BuildInIcon\pixiv.jpg" />
+		<None Remove="Assets\BuildInIcon\PSN.jpg" />
+		<None Remove="Assets\BuildInIcon\Reddit.jpg" />
+		<None Remove="Assets\BuildInIcon\Snapchat.jpg" />
+		<None Remove="Assets\BuildInIcon\Spotify.jpg" />
+		<None Remove="Assets\BuildInIcon\Steam.jpg" />
+		<None Remove="Assets\BuildInIcon\Taobao.jpg" />
+		<None Remove="Assets\BuildInIcon\Tencent.jpg" />
+		<None Remove="Assets\BuildInIcon\Twitch.jpg" />
+		<None Remove="Assets\BuildInIcon\Twitter.jpg" />
+		<None Remove="Assets\BuildInIcon\WeChat.jpg" />
+		<None Remove="Assets\BuildInIcon\Weibo.jpg" />
+		<None Remove="Assets\BuildInIcon\Whatsapp.jpg" />
+		<None Remove="Assets\BuildInIcon\Yahoo.jpg" />
+		<None Remove="Assets\BuildInIcon\Zhihu.jpg" />
 		<None Remove="Assets\Tips\img_tips_dbfile_dark.png" />
 		<None Remove="Assets\Tips\img_tips_dbfile_light.png" />
 		<None Remove="Assets\Tips\img_tips_nofont_dark.png" />
 		<None Remove="Assets\Tips\img_tips_nofont_light.png" />
 		<None Remove="Controls\CreateCategoryControl.xaml" />
 		<None Remove="Controls\CropImageControl.xaml" />
+		<None Remove="Controls\MigrateControl.xaml" />
 		<None Remove="Controls\PasswordDetailControl.xaml" />
 		<None Remove="Controls\PasswordEditingControl.xaml" />
 		<None Remove="Fonts\ZhuqueFangsong-Regular.ttf" />
@@ -63,19 +104,20 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
-		<PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.0.230907" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.0.230907" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.230907" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
-		<PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230907" />
+		<PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.0.240109" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.0.240109" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.240109" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.240109" />
+		<PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.240109" />
 		<PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428" />
 		<PackageReference Include="MinecraftLaunch.PinyinConverter" Version="1.0.0" />
 		<PackageReference Include="NPinyin.Core" Version="3.0.0" />
 		<PackageReference Include="SharpDX" Version="4.2.0" />
 		<PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
 		<PackageReference Include="SharpDX.DXGI" Version="4.2.0" />
+		<PackageReference Include="System.Text.Json" Version="8.0.2" />
 		<PackageReference Include="WinUIEx" Version="2.3.3" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
@@ -91,6 +133,11 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Honeypot.Core\Honeypot.Core.csproj" />
 		<ProjectReference Include="..\Honeypot.Data\Honeypot.Data.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Controls\MigrateControl.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 	<ItemGroup>
 	  <Page Update="Controls\PasswordEditingControl.xaml">

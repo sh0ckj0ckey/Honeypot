@@ -62,6 +62,20 @@ namespace Honeypot.Views
         }
 
         /// <summary>
+        /// 点击开始迁移数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickMigrate(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                MainViewModel.Instance.ActInvokeMigrater?.Invoke(true);
+            }
+            catch { }
+        }
+
+        /// <summary>
         /// 访问 GitHub
         /// </summary>
         /// <param name="sender"></param>
