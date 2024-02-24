@@ -8,9 +8,9 @@
   IgnorableNamespaces="uap rescap mp">
 
   <Identity
-    Name="22189NoMewing.Honeypot"
+    Name="22189NoMewing.Pass.Note"
     Publisher="CN=E6D8FAFA-3EF4-4E47-B885-52144C67BFF5"
-    Version="3.0.0.0" />
+    Version="3.0.4.0" />
 
   <Properties>
     <DisplayName>密罐</DisplayName>
@@ -57,5 +57,5 @@
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 
-  <mp:PhoneIdentity PhoneProductId="e0c80fc1-eef0-48bb-ba5c-036b536ed070" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="8d83ae7b-1aef-4df6-b23b-01fdac4b3d1c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 </Package>
