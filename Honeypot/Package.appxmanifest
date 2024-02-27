@@ -10,7 +10,7 @@
   <Identity
     Name="22189NoMewing.Pass.Note"
     Publisher="CN=E6D8FAFA-3EF4-4E47-B885-52144C67BFF5"
-    Version="3.0.7.0" />
+    Version="3.1.0.0" />
 
   <Properties>
     <DisplayName>密罐</DisplayName>
