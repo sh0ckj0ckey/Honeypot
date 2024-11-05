@@ -11,7 +11,7 @@
 - 通过账号详情页面可以直接打开相应官网 
 - 点击收藏可以在收藏页面更快捷地看到账号密码
 
-<a href="https://apps.microsoft.com/store/detail/9NLZPBCS0F5C?launch=true&mode=mini">
+<a href="https://apps.microsoft.com/store/detail/9NLZPBCS0F5C?launch=true&mode=full">
 	<img src="https://get.microsoft.com/images/zh-CN%20dark.svg"/>
 </a>
 
