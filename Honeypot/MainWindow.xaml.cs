@@ -29,10 +29,13 @@ namespace Honeypot
         {
             this.InitializeComponent();
             this.SystemBackdrop = MainViewModel.Instance.AppSettings.BackdropIndex == 1 ? new Microsoft.UI.Xaml.Media.DesktopAcrylicBackdrop() : new Microsoft.UI.Xaml.Media.MicaBackdrop();
-            this.AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/Icon/Honeypot.ico"));
             this.PersistenceId = "HoneypotMainWindow";
             this.ExtendsContentIntoTitleBar = true;
             //this.SetTitleBar(AppTitleBar);
+
+            string iconPath = Path.Combine(AppContext.BaseDirectory, "Assets/Icon/Honeypot.ico");
+            this.SetIcon(iconPath);
+            this.SetTaskBarIcon(Icon.FromFile(iconPath));
 
             _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 
@@ -47,7 +50,15 @@ namespace Honeypot
             // 监听系统主题变化
             ListenThemeColorChange();
 
-            Debug.WriteLine("MainWindow Initialized");
+            // 首次启动设置默认窗口尺寸
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["firstRun"] == null)
+            {
+                localSettings.Values["firstRun"] = true;
+                this.Height = 680;
+                this.Width = 960;
+                this.CenterOnScreen();
+            }
         }
 
         /// <summary>
