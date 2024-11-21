@@ -139,7 +139,9 @@ namespace Honeypot.Views
                 {
                     Debug.WriteLine("Verifying Windows Hello...");
 
-                    switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync("验证您的身份"))
+                    var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
+                    switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync(resourceLoader.GetString("UnlockAppUnlockingMessage")))
                     {
                         case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
                             MainViewModel.Instance.AppSettings.EnableLock = on;
@@ -148,15 +150,15 @@ namespace Honeypot.Views
                         case Windows.Security.Credentials.UI.UserConsentVerificationResult.NotConfiguredForUser:
                         case Windows.Security.Credentials.UI.UserConsentVerificationResult.DisabledByPolicy:
                             WindowsHelloToggleSwitch.IsOn = MainViewModel.Instance.AppSettings.EnableLock;
-                            MainViewModel.Instance.ShowTipsContentDialog("无法验证身份", "当前识别设备未配置或被系统策略禁用");
+                            MainViewModel.Instance.ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppDeviceUnavailable"));
                             break;
                         case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceBusy:
                             WindowsHelloToggleSwitch.IsOn = MainViewModel.Instance.AppSettings.EnableLock;
-                            MainViewModel.Instance.ShowTipsContentDialog("无法验证身份", "当前识别设备不可用");
+                            MainViewModel.Instance.ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppDeviceBusy"));
                             break;
                         case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
                             WindowsHelloToggleSwitch.IsOn = MainViewModel.Instance.AppSettings.EnableLock;
-                            MainViewModel.Instance.ShowTipsContentDialog("无法验证身份", "验证失败，请重试");
+                            MainViewModel.Instance.ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppRetriesExhausted"));
                             break;
                         default:
                             WindowsHelloToggleSwitch.IsOn = MainViewModel.Instance.AppSettings.EnableLock;

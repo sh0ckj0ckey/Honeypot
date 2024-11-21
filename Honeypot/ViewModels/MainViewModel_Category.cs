@@ -102,7 +102,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"读取分类列表时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongLoadCategories")}: {ex.Message}");
             }
         }
 
@@ -115,12 +117,12 @@ namespace Honeypot.ViewModels
         {
             try
             {
-                if (string.IsNullOrEmpty(title))
+                if (string.IsNullOrWhiteSpace(title))
                 {
-                    title = "未命名分类";
+                    title = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader().GetString("UnknownCategoryTitle");
                 }
 
-                if (string.IsNullOrEmpty(icon))
+                if (string.IsNullOrWhiteSpace(icon))
                 {
                     icon = "\uE72E";
                 }
@@ -132,7 +134,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"添加分类时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddCategories")}: {ex.Message}");
             }
         }
 
@@ -146,14 +150,14 @@ namespace Honeypot.ViewModels
         {
             try
             {
-                if (string.IsNullOrEmpty(title))
+                if (string.IsNullOrWhiteSpace(title))
                 {
-                    title = "未命名分类";
+                    title = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader().GetString("UnknownCategoryTitle");
                 }
 
-                if (string.IsNullOrEmpty(icon))
+                if (string.IsNullOrWhiteSpace(icon))
                 {
-                    icon = "\uE003";
+                    icon = "\uE72E";
                 }
 
                 PasswordsDataAccess.UpdateCategory(category.Id, title, icon, category.Order);
@@ -164,7 +168,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"编辑分类时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongEditCategories")}: {ex.Message}");
             }
         }
 
@@ -184,7 +190,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"移动分类时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongMoveCategories")}: {ex.Message}");
             }
         }
 
@@ -204,7 +212,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"删除密码时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongDeleteCategories")}: {ex.Message}");
             }
         }
     }

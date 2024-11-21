@@ -6,6 +6,8 @@ namespace Honeypot.Converters
 {
     class CategoryId2CategoryConverter : IValueConverter
     {
+        private static Microsoft.Windows.ApplicationModel.Resources.ResourceLoader _resourceLoader = null;
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             try
@@ -29,7 +31,8 @@ namespace Honeypot.Converters
                         string title = MainViewModel.Instance.GetCategoryById(categoryId)?.Title;
                         if (string.IsNullOrWhiteSpace(title))
                         {
-                            title = "未分类";
+                            _resourceLoader ??= new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                            title = _resourceLoader.GetString("UnknownCategoryTitle");
                         }
 
                         return title;

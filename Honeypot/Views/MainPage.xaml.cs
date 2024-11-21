@@ -42,12 +42,14 @@ namespace Honeypot.Views
         {
             MainViewModel = MainViewModel.Instance;
 
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
             _tipsContentDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
                 Title = "",
                 Content = "",
-                CloseButtonText = "我知道了"
+                CloseButtonText = resourceLoader.GetString("DialogButtonGotIt")
             };
 
             MainViewModel.Instance.ActShowTipDialog = async (title, content) =>

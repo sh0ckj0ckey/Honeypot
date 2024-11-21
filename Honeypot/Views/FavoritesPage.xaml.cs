@@ -28,13 +28,15 @@ namespace Honeypot.Views
 
             MainViewModel = MainViewModel.Instance;
 
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
             _favoriteDetailDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
                 Content = new PasswordDetailControl(),
                 Padding = new Thickness(0, 0, 0, 0),
-                PrimaryButtonText = "取消收藏",
-                CloseButtonText = "关闭",
+                PrimaryButtonText = resourceLoader.GetString("DialogButtonRemoveFavorite"),
+                CloseButtonText = resourceLoader.GetString("DialogButtonClose"),
                 DefaultButton = ContentDialogButton.Close
             };
         }

@@ -42,20 +42,22 @@ namespace Honeypot.Views
 
             MainViewModel = MainViewModel.Instance;
 
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
             _setImageContentDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
-                Title = "裁剪图像",
+                Title = resourceLoader.GetString("DialogTitleCropImage"),
                 Content = _cropImageControl,
-                PrimaryButtonText = "确定",
-                CloseButtonText = "取消",
+                PrimaryButtonText = resourceLoader.GetString("DialogButtonConfirm"),
+                CloseButtonText = resourceLoader.GetString("DialogButtonCancel"),
                 DefaultButton = ContentDialogButton.Primary
             };
 
             _textEmptyDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
-                CloseButtonText = "我知道了",
+                CloseButtonText = resourceLoader.GetString("DialogButtonGotIt"),
                 DefaultButton = ContentDialogButton.Close
             };
 
@@ -184,10 +186,12 @@ namespace Honeypot.Views
         {
             try
             {
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
                 if (string.IsNullOrWhiteSpace(AddingNameTextBox.Text))
                 {
-                    _textEmptyDialog.Title = "还不够...";
-                    _textEmptyDialog.Content = "名称不能为空哦，再完善一下吧~";
+                    _textEmptyDialog.Title = resourceLoader.GetString("DialogTitleNotEnough");
+                    _textEmptyDialog.Content = resourceLoader.GetString("DialogContentCompleteName");
                     _textEmptyDialog.XamlRoot = this.XamlRoot;
                     _textEmptyDialog.RequestedTheme = this.ActualTheme;
                     await _textEmptyDialog.ShowAsync();
@@ -196,8 +200,8 @@ namespace Honeypot.Views
 
                 if (string.IsNullOrWhiteSpace(AddingAccountTextBox.Text) && string.IsNullOrWhiteSpace(AddingPasswordTextBox.Text))
                 {
-                    _textEmptyDialog.Title = "还不够...";
-                    _textEmptyDialog.Content = "账号和密码至少要填写一个哦，再完善一下吧~";
+                    _textEmptyDialog.Title = resourceLoader.GetString("DialogTitleNotEnough");
+                    _textEmptyDialog.Content = resourceLoader.GetString("DialogContentCompleteAccountOrPassword");
                     _textEmptyDialog.XamlRoot = this.XamlRoot;
                     _textEmptyDialog.RequestedTheme = this.ActualTheme;
                     await _textEmptyDialog.ShowAsync();
@@ -225,7 +229,9 @@ namespace Honeypot.Views
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                MainViewModel.Instance.ShowTipsContentDialog("糟糕...", $"添加密码时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                MainViewModel.Instance.ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddPasswords")}: {ex.Message}");
             }
         }
 

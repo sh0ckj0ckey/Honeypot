@@ -56,7 +56,7 @@ namespace Honeypot
             {
                 localSettings.Values["firstRun"] = true;
                 this.Height = 680;
-                this.Width = 960;
+                this.Width = 980;
                 this.CenterOnScreen();
             }
         }

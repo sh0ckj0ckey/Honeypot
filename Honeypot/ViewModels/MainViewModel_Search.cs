@@ -30,6 +30,7 @@ namespace Honeypot.ViewModels
             {
                 Debug.WriteLine(ex.Message);
             }
+
             return null;
         }
     }

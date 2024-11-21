@@ -77,7 +77,7 @@ namespace Honeypot.Controls
             }
         }
 
-        [GeneratedRegex("^https?:\\/\\/", RegexOptions.IgnoreCase, "zh-CN")]
+        [GeneratedRegex("^https?:\\/\\/", RegexOptions.IgnoreCase)]
         private static partial Regex _urlSchemeRegex();
 
         /// <summary>

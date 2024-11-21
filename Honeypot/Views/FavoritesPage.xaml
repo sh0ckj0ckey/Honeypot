@@ -24,7 +24,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="收藏夹" Margin="20,28,20,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+        <TextBlock x:Uid="FavoritesTitleTextBlock" Grid.Row="0" Margin="20,28,20,20" FontWeight="Bold" FontSize="20"/>
         <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,8,0,0" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
         <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid.Resources>
@@ -32,7 +32,6 @@
             </Grid.Resources>
             <StackPanel Visibility="{x:Bind MainViewModel.FavoritePasswordsGroups.Count,Mode=OneWay,Converter={StaticResource Int2Vis},ConverterParameter=-}" Spacing="12" Orientation="Vertical" Margin="0,-20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="{ThemeResource APPLICATION_EMPTY_IMG}" Height="96" Stretch="Uniform" Opacity="0.5"/>
-                <!--<TextBlock Text="这里空空如也" FontSize="16" CharacterSpacing="64" Opacity="0.15" HorizontalAlignment="Center"/>-->
             </StackPanel>
             <muxc:SemanticZoom Visibility="{x:Bind MainViewModel.FavoritePasswordsGroups.Count,Mode=OneWay,Converter={StaticResource Int2Vis}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <muxc:SemanticZoom.ZoomedInView>
@@ -47,7 +46,7 @@
                                     <DataTemplate x:DataType="models:FavoritesGroupModel">
                                         <StackPanel Margin="0,4,0,-4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                             <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,-1" Glyph="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock FontSize="14" Opacity="0.9" Text="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}" HorizontalAlignment="Left" VerticalAlignment="Center" CharacterSpacing="64"/>
+                                            <TextBlock FontSize="14" Opacity="0.9" Text="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
@@ -145,21 +144,21 @@
                                         <Grid Grid.Row="2" ui:UIElementExtensions.ClipToBounds="True" Padding="8,0,8,6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <TextBlock x:Name="NameTextBlock" Height="18" FontSize="13.5" FontWeight="Bold" Opacity="0.9" 
                                                        HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,18"
-                                                       Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64">
+                                                       Text="{x:Bind Name,Mode=OneWay}" TextTrimming="CharacterEllipsis">
                                                 <TextBlock.RenderTransform>
                                                     <TranslateTransform x:Name="TranslationName" Y="0"/>
                                                 </TextBlock.RenderTransform>
                                             </TextBlock>
                                             <TextBlock x:Name="AccountTextBlock" Height="18" FontSize="13" FontWeight="Medium" Opacity="0.7"
                                                        HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,18,0,0"
-                                                       Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64">
+                                                       Text="{x:Bind Account,Mode=OneWay}" TextTrimming="CharacterEllipsis">
                                                 <TextBlock.RenderTransform>
                                                     <TranslateTransform x:Name="TranslationAccount" Y="0"/>
                                                 </TextBlock.RenderTransform>
                                             </TextBlock>
                                             <TextBlock x:Name="PasswordTextBlock" Height="18" FontSize="13" FontWeight="Medium" Opacity="0" 
                                                        HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,18,0,0"
-                                                       Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis" CharacterSpacing="64">
+                                                       Text="{x:Bind Password,Mode=OneWay}" TextTrimming="CharacterEllipsis">
                                                 <TextBlock.RenderTransform>
                                                     <TranslateTransform x:Name="TranslationPassword" Y="18"/>
                                                 </TextBlock.RenderTransform>

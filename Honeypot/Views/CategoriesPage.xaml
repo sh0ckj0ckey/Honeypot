@@ -32,18 +32,17 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="全部分类" Margin="20,28,20,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+        <TextBlock x:Uid="CategoriesTitleTextBlock" Grid.Row="0" Margin="20,28,20,20" FontWeight="Bold" FontSize="20"/>
         <Button Grid.Row="1" Height="64" Margin="20,0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Click="OnClickCreateCategory">
             <StackPanel Orientation="Horizontal" Margin="-28,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF8AA;" FontSize="16" Width="28" VerticalAlignment="Center"/>
-                <TextBlock Text="新建分类" FontSize="15" VerticalAlignment="Center" CharacterSpacing="96"/>
+                <TextBlock x:Uid="CategoriesAddButtonTextBlock" FontSize="15" VerticalAlignment="Center"/>
             </StackPanel>
         </Button>
         <Border Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,16,0,16" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
         <Grid Grid.Row="3">
             <StackPanel Visibility="{x:Bind MainViewModel.Categoryies.Count,Mode=OneWay,Converter={StaticResource Int2Vis},ConverterParameter=-}" Spacing="6" Orientation="Vertical" Margin="0,-20,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Source="{ThemeResource APPLICATION_EMPTY_IMG}" Height="96" Stretch="Uniform" Opacity="0.5"/>
-                <!--<TextBlock Text="这里空空如也" FontSize="16" CharacterSpacing="64" Opacity="0.15" HorizontalAlignment="Center"/>-->
             </StackPanel>
             <ScrollViewer Visibility="{x:Bind MainViewModel.Categoryies.Count,Mode=OneWay,Converter={StaticResource Int2Vis}}" Padding="20,0,4,20" Background="Transparent" 
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
@@ -55,8 +54,28 @@
                         <Button Padding="0" ToolTipService.ToolTip="{x:Bind Title,Mode=OneWay}"
                                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                 DataContext="{x:Bind }" Click="OnClickCategory" PointerEntered="OnPointerEntered" PointerExited="OnPointerExited">
+                            <Button.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Uid="CategoriesMoveToTopMenuItem" Click="OnClickMoveCategory">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE1AA;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem x:Uid="CategoriesEditMenuItem" Click="OnClickEditCategory">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem x:Uid="CategoriesDeleteMenuItem" DataContext="{x:Bind }" Click="OnClickDeleteCategory">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE107;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Button.ContextFlyout>
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <TextBlock FontSize="14" Margin="12,12,8,0" FontWeight="Bold" Text="{x:Bind Title,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top" CharacterSpacing="64"/>
+                                <TextBlock FontSize="14" Margin="12,12,8,0" FontWeight="Bold" Text="{x:Bind Title,Mode=OneWay}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" MaxLines="2" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                 <TextBlock FontSize="40" Opacity="0.2" Margin="0,0,8,8" Text="{x:Bind Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                 <Button x:Name="OptionButton" Visibility="Collapsed" Height="26" Width="26" CornerRadius="14" Padding="0" Margin="8,0,0,8" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="14" Content="&#xE10C;" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                                     <animations:Implicit.ShowAnimations>
@@ -69,18 +88,18 @@
                                     </animations:Implicit.HideAnimations>
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                            <MenuFlyoutItem Text="置于最前" Click="OnClickMoveCategory">
+                                            <MenuFlyoutItem x:Uid="CategoriesMoveToTopMenuItem" Click="OnClickMoveCategory">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE1AA;"/>
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
-                                            <MenuFlyoutItem Text="编辑" Click="OnClickEditCategory">
+                                            <MenuFlyoutItem x:Uid="CategoriesEditMenuItem" Click="OnClickEditCategory">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE104;"/>
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                             <MenuFlyoutSeparator/>
-                                            <MenuFlyoutItem Text="删除" DataContext="{x:Bind }" Click="OnClickDeleteCategory">
+                                            <MenuFlyoutItem x:Uid="CategoriesDeleteMenuItem" DataContext="{x:Bind }" Click="OnClickDeleteCategory">
                                                 <MenuFlyoutItem.Icon>
                                                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE107;"/>
                                                 </MenuFlyoutItem.Icon>

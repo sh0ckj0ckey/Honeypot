@@ -12,7 +12,7 @@
 - 点击收藏可以在收藏页面更快捷地看到账号密码
 
 <a href="https://apps.microsoft.com/store/detail/9NLZPBCS0F5C?launch=true&mode=full">
-	<img src="https://get.microsoft.com/images/zh-CN%20dark.svg"/>
+	<img src="https://get.microsoft.com/images/zh-CN%20dark.svg" height="64"/>
 </a>
 
 ![截图](ARCHIVE/screenshot.png)

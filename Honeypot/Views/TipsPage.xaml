@@ -15,10 +15,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center">
-            <TextBlock Grid.Row="0" Text="使用提示" Margin="20,28,20,2" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+            <TextBlock x:Uid="TipsTitleTextBlock" Grid.Row="0" Margin="20,28,20,2" FontWeight="Bold" FontSize="20"/>
             <StackPanel Orientation="Horizontal" Margin="20,0,0,2" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <TextBlock Text="常见疑问的说明，如有其他问题" FontSize="14" Opacity="0.8" CharacterSpacing="48" VerticalAlignment="Center"/>
-                <HyperlinkButton Content="请联系我" FontSize="14" Padding="4,0" NavigateUri="mailto:yaoyiming123@live.com" VerticalAlignment="Center" ToolTipService.ToolTip="向 yaoyiming123@live.com 发送邮件"/>
+                <TextBlock x:Uid="TipsDescriptionTextBlock" FontSize="14" Opacity="0.8" VerticalAlignment="Center"/>
+                <HyperlinkButton x:Uid="TipsContactMeButton" FontSize="14" Padding="4,0" NavigateUri="mailto:yaoyiming123@live.com" VerticalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
         <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,8,0,0" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
@@ -26,7 +26,7 @@
             <StackPanel Orientation="Vertical" Margin="16,0,20,20">
                 <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
                     <Expander.Header>
-                        <TextBlock Text="我的数据存储在哪里？我该如何备份？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                        <TextBlock x:Uid="TipsWhereIsMyDataHeaderTextBlock" Opacity="0.9" FontSize="14"/>
                     </Expander.Header>
                     <Expander.Content>
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -39,12 +39,12 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" FontSize="14" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left">
-                                    <Run Text="所有的数据保存在如图所示的文件夹和 SQLite 数据库文件中，&quot;密罐&quot;目前并没有云备份功能，因此您可自行将此文件备份。"/>
-                                    <Run Text="请注意，所有数据均为明文存储，务必妥善保管！" FontWeight="Bold" Foreground="#DD0000"/>
-                                    <Run Text="明文存储意味着任何人都可以使用诸如 SQLiteStudio 等程序查看该数据库文件的一切内容。"/>
+                                <TextBlock Grid.Row="0" FontSize="14" TextWrapping="Wrap" LineHeight="24" HorizontalAlignment="Left">
+                                    <Run x:Uid="TipsWhereIsMyDataContentTextBlockRun1"/>
+                                    <LineBreak/><Run x:Uid="TipsWhereIsMyDataContentTextBlockRun2" FontWeight="Bold" Foreground="#DD0000"/>
+                                    <LineBreak/><Run x:Uid="TipsWhereIsMyDataContentTextBlockRun3"/>
                                 </TextBlock>
-                                <HyperlinkButton Grid.Row="1" Content="查看数据库文件" Margin="-10,4,0,0" Click="OnClickDbFile" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                <HyperlinkButton x:Uid="TipsWhereIsMyDataViewFileButton" Grid.Row="1" Margin="-10,4,0,0" Click="OnClickDbFile" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                             </Grid>
                             <Border Grid.Column="1" CornerRadius="8" Width="365" Height="169" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
                                 <Border.Background>
@@ -57,7 +57,7 @@
                 
                 <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
                     <Expander.Header>
-                        <TextBlock Text="怎样编辑或者删除一个分类？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                        <TextBlock x:Uid="TipsHowToEditHeaderTextBlock" Opacity="0.9" FontSize="14"/>
                     </Expander.Header>
                     <Expander.Content>
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -65,15 +65,15 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" FontSize="14" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left">
-                                <Run Text="想要修改一个账号分类，只需点击左侧导航栏中的"/>
+                            <TextBlock Grid.Column="0" FontSize="14" TextWrapping="Wrap" LineHeight="24" HorizontalAlignment="Left">
+                                <Run x:Uid="TipsHowToEditContentTextBlockRun1"/>
                                 <Run Text="&quot;&#xE74C;" FontFamily="{ThemeResource SymbolThemeFontFamily}"/>
-                                <Run Text="全部分类&quot;"/>
-                                <Run Text="跳转到分类页面，然后将鼠标指向想要修改的分类，即可点击浮现出来的菜单按钮来进行操作了。"/>
+                                <Run x:Uid="TipsHowToEditContentTextBlockRun2"/>
+                                <Run x:Uid="TipsHowToEditContentTextBlockRun3"/>
                             </TextBlock>
                             <Border Grid.Column="1" CornerRadius="8" Width="176" Height="108" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <TextBlock Text="我的分类" FontWeight="Bold" FontSize="14" Margin="16,12"/>
+                                    <TextBlock x:Uid="TipsHowToEditDemoTextBlock" FontWeight="Bold" FontSize="14" Margin="16,12"/>
                                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE72E;" Opacity="0.2" FontSize="40" Margin="12" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE8B0;" FontSize="20" Margin="0,0,0,-12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Border Height="26" Width="26" CornerRadius="14" Padding="0" Margin="16,12" Background="{ThemeResource APPLICATION_LINE_BK}" HorizontalAlignment="Left" VerticalAlignment="Bottom">
@@ -87,7 +87,7 @@
 
                 <Expander Margin="0,12,0,0" IsExpanded="True" ExpandDirection="Down" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch">
                     <Expander.Header>
-                        <TextBlock Text="为什么我创建分类时，无法设置图标？" Opacity="0.9" FontSize="14" CharacterSpacing="64"/>
+                        <TextBlock x:Uid="TipsWhyNoIconHeaderTextBlock" Opacity="0.9" FontSize="14"/>
                     </Expander.Header>
                     <Expander.Content>
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
@@ -95,7 +95,7 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" FontSize="14" Text="分类的图标来自 Windows 11 内置字体 Segoe Fluent Icons，这个字体通常会内置在您的设备上。如果这个字体被删除，&quot;密罐&quot;就获取不到相应的图标列表，也就无法供您选择分类的图标了。" TextWrapping="Wrap" LineHeight="24" CharacterSpacing="64" HorizontalAlignment="Left"/>
+                            <TextBlock x:Uid="TipsWhyNoIconContentTextBlock" Grid.Column="0" FontSize="14" TextWrapping="Wrap" LineHeight="24" HorizontalAlignment="Left"/>
                             <Border Grid.Column="1" CornerRadius="8" Width="150" Height="85" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
                                 <Border.Background>
                                     <ImageBrush ImageSource="{ThemeResource TIPS_NOFONT_IMG}" Stretch="UniformToFill"/>

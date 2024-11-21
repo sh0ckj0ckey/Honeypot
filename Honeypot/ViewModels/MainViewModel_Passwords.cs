@@ -123,7 +123,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"读取密码列表时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongLoadPasswords")}: {ex.Message}");
             }
         }
 
@@ -216,20 +218,18 @@ namespace Honeypot.ViewModels
         /// <param name="categoryId"></param>
         /// <param name="account"></param>
         /// <param name="password"></param>
-        /// <param name="firstLetter"></param>
         /// <param name="name"></param>
-        /// <param name="createDate"></param>
-        /// <param name="editDate"></param>
         /// <param name="website"></param>
         /// <param name="note"></param>
         /// <param name="favorite"></param>
-        /// <param name="image"></param>
+        /// <param name="logoFilePath"></param>
+        /// <param name="date"></param>
         public void AddPassword(int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath, string date = "")
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name.Trim()).ToString();
             if (string.IsNullOrWhiteSpace(date))
             {
-                date = DateTime.Now.ToString("yyyy年MM月dd日");
+                date = DateTime.Now.ToString("yyyy/MM/dd");
             }
 
             PasswordsDataAccess.AddPassword(categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
@@ -239,16 +239,15 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 编辑密码
         /// </summary>
-        /// <param name="password"></param>
+        /// <param name="passwordItem"></param>
         /// <param name="categoryId"></param>
         /// <param name="account"></param>
         /// <param name="password"></param>
         /// <param name="name"></param>
-        /// <param name="editDate"></param>
         /// <param name="website"></param>
         /// <param name="note"></param>
         /// <param name="favorite"></param>
-        /// <param name="image"></param>
+        /// <param name="logoFilePath"></param>
         public async void EditPassword(PasswordModel passwordItem, int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
         {
             try
@@ -259,7 +258,7 @@ namespace Honeypot.ViewModels
                 }
 
                 string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
-                string date = DateTime.Now.ToString("yyyy年MM月dd日");
+                string date = DateTime.Now.ToString("yyyy/MM/dd");
                 PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
 
                 passwordItem.Account = account;
@@ -282,7 +281,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"编辑密码时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongEditPasswords")}: {ex.Message}");
             }
         }
 
@@ -302,7 +303,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"删除密码时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongDeletePasswords")}: {ex.Message}");
             }
         }
     }

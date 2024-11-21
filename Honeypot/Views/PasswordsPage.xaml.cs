@@ -33,16 +33,18 @@ namespace Honeypot.Views
 
             MainViewModel.Instance.ActNoticeUserToBackup = CheckToNoticeUserBackup;
 
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
             _editingPasswordControl = new PasswordEditingControl();
 
             _editPasswordDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
-                Title = "编辑",
+                Title = resourceLoader.GetString("DialogTitleEdit"),
                 Content = _editingPasswordControl,
                 Padding = new Thickness(0, 0, 0, 0),
-                PrimaryButtonText = "保存",
-                CloseButtonText = "取消",
+                PrimaryButtonText = resourceLoader.GetString("DialogButtonSave"),
+                CloseButtonText = resourceLoader.GetString("DialogButtonCancel"),
                 DefaultButton = ContentDialogButton.Primary
             };
         }
@@ -94,7 +96,7 @@ namespace Honeypot.Views
             }
         }
 
-        [GeneratedRegex("^https?:\\/\\/", RegexOptions.IgnoreCase, "zh-CN")]
+        [GeneratedRegex("^https?:\\/\\/", RegexOptions.IgnoreCase)]
         private static partial Regex _urlSchemeRegex();
 
         /// <summary>
@@ -347,15 +349,18 @@ namespace Honeypot.Views
                     return;
                 }
 
-                string message = "哇，你已经记录了这么多个账号，真不错，但是要记得定期备份一下数据哦，不要让数据面临丢失的风险。";
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
+                string message = resourceLoader.GetString("BackupRemindSoMany");
                 if (count == 1)
                 {
-                    message = "恭喜！你刚刚记录了第一个账号，真不错，要记得定期备份一下数据哦，不要让数据面临丢失的风险。";
+                    message = resourceLoader.GetString("BackupRemindFirstOne");
                 }
                 else if (count > 1)
                 {
-                    message = $"哇，你已经记录了 {count} 个账号，真不错，但是要记得定期备份一下数据哦，不要让数据面临丢失的风险。";
+                    message = $"{resourceLoader.GetString("BackupRemindSpecificCount1")} {count} {resourceLoader.GetString("BackupRemindSpecificCount2")}";
                 }
+
                 RememberBackupInfoBar.Message = message;
                 RememberBackupInfoBar.IsOpen = true;
             }

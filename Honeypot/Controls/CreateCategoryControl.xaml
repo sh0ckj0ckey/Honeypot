@@ -23,10 +23,10 @@
         <Border Grid.Row="0" Height="72" Width="72" CornerRadius="36" BorderThickness="1" BorderBrush="{ThemeResource ControlElevationBorderBrush}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <FontIcon x:Name="AddingCategoryIconPreview" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
-        <TextBox x:Name="AddingCategoryNameTextBox" Grid.Row="1" Height="32" MaxLength="20" Margin="20,16" MinWidth="164" PlaceholderText="新建分类名称" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox x:Name="AddingCategoryNameTextBox" x:Uid="AddingCategoryNameTextBox" Grid.Row="1" Height="32" MaxLength="20" Margin="20,16" MinWidth="164" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="2" CornerRadius="8" Background="#10888888" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock Visibility="{x:Bind MainViewModel.AllIcons.Count,Mode=OneWay,Converter={StaticResource Int2Vis},ConverterParameter=-}" HorizontalAlignment="Center" VerticalAlignment="Center"
-                       Text="您的设备似乎没有 Segoe Fluent Icons 字体，这样的话无法设置图标哦" Opacity="0.5" FontSize="14" CharacterSpacing="64" TextWrapping="Wrap" Margin="0,-16,0,0"/>
+            <TextBlock x:Uid="NoFluentIconTextBlock" Visibility="{x:Bind MainViewModel.AllIcons.Count,Mode=OneWay,Converter={StaticResource Int2Vis},ConverterParameter=-}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Opacity="0.5" FontSize="14" TextWrapping="Wrap" Margin="0,-16,0,0"/>
             <GridView x:Name="AddingCategoryIconGridView" Padding="8" SelectedIndex="-1" SelectionMode="Single" HorizontalAlignment="Center" VerticalAlignment="Stretch"
                       SelectionChanged="OnSelectIcon" ItemsSource="{x:Bind MainViewModel.AllIcons,Mode=OneWay}" Visibility="{x:Bind MainViewModel.AllIcons.Count,Mode=OneWay,Converter={StaticResource Int2Vis}}">
                 <GridView.ItemTemplate>

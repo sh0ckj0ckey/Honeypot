@@ -58,24 +58,21 @@ namespace Honeypot.ViewModels
 
         public MainViewModel()
         {
-            // 注册设置变更事件
             AppSettings.OnAppearanceSettingChanged += (index) => { ActSwitchAppTheme?.Invoke(); };
             AppSettings.OnBackdropSettingChanged += (index) => { ActChangeBackdrop?.Invoke(); };
 
-            // 导航栏
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
             MainNavigationItems.Add(new MainNavigationItem(HoneypotConsts.AllPasswordsPageTitle, "passwords", "\uE8D7"));
-            MainNavigationItems.Add(new MainNavigationItem("收藏夹", "favorites", "\uEB51"));
-            MainNavigationItems.Add(new MainNavigationItem("添加", "adding", "\uE109"));
+            MainNavigationItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemFavorites"), "favorites", "\uEB51"));
+            MainNavigationItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemAdd"), "adding", "\uE109"));
             MainNavigationItems.Add(new MainNavigationSeparator());
-            MainNavigationItems.Add(new MainNavigationItem("全部分类", "category", "\uE74C", CategoriesOnNav));
-
-            // 导航栏底部
-            MainNavigationFooterItems.Add(new MainNavigationItem("密码生成器", "random", "\uF439"));
+            MainNavigationItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemCategories"), "category", "\uE74C", CategoriesOnNav));
+            MainNavigationFooterItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemGenerator"), "random", "\uF439"));
             MainNavigationFooterItems.Add(new MainNavigationSeparator());
-            MainNavigationFooterItems.Add(new MainNavigationItem("使用提示", "tips", "\uE82F"));
-            MainNavigationFooterItems.Add(new MainNavigationSettingItem());
+            MainNavigationFooterItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemTips"), "tips", "\uE82F"));
+            MainNavigationFooterItems.Add(new MainNavigationSettingItem(resourceLoader.GetString("NavigationItemSettings")));
 
-            // 加载数据库
             InitPasswordsDataBase();
         }
 
@@ -98,7 +95,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"连接数据库时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongConnectToDb")}: {ex.Message}");
             }
         }
 
@@ -143,7 +142,9 @@ namespace Honeypot.ViewModels
                     return;
                 }
 
-                switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync("验证您的身份"))
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
+                switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync(resourceLoader.GetString("UnlockAppUnlockingMessage")))
                 {
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
                         IsLocked = false;
@@ -151,13 +152,13 @@ namespace Honeypot.ViewModels
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceNotPresent:
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.NotConfiguredForUser:
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.DisabledByPolicy:
-                        ShowTipsContentDialog("无法验证身份", "当前识别设备未配置或被系统策略禁用，请尝试使用密码解锁");
+                        ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppDeviceUnavailable"));
                         break;
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceBusy:
-                        ShowTipsContentDialog("无法验证身份", "当前识别设备不可用，请尝试使用密码解锁");
+                        ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppDeviceBusy"));
                         break;
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
-                        ShowTipsContentDialog("无法验证身份", "验证失败，请尝试使用密码解锁");
+                        ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppRetriesExhausted"));
                         break;
                     case Windows.Security.Credentials.UI.UserConsentVerificationResult.Canceled:
                         break;
@@ -167,7 +168,8 @@ namespace Honeypot.ViewModels
             }
             catch (Exception ex)
             {
-                ShowTipsContentDialog("验证出错了", $"要不...重启试试？({ex.Message})");
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("UnlockAppError"), $"{ex.Message}");
             }
         }
 

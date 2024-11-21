@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DisplayName" xml:space="preserve">
+    <value>密罐</value>
+  </data>
+  <data name="DisplayDesc" xml:space="preserve">
+    <value>妥善保存蜜码</value>
+  </data>
+  <data name="PackageName" xml:space="preserve">
+    <value>密罐</value>
+  </data>
+  <data name="AppNameTextBlock.Text" xml:space="preserve">
+    <value>密罐</value>
+  </data>
+  <data name="LockedTextBlock.Text" xml:space="preserve">
+    <value>密罐已锁定</value>
+  </data>
+  <data name="UnlockTextBlock.Text" xml:space="preserve">
+    <value>点击以使用 Windows Hello 解锁</value>
+  </data>
+  <data name="UnknownCategoryTitle" xml:space="preserve">
+    <value>未分类</value>
+  </data>
+  <data name="AddingCategoryNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>新建分类名称</value>
+  </data>
+  <data name="NoFluentIconTextBlock.Text" xml:space="preserve">
+    <value>您的设备似乎没有 Segoe Fluent Icons 字体，这样的话无法设置图标哦</value>
+  </data>
+  <data name="LogoCropperSelectImageTextBlock.Text" xml:space="preserve">
+    <value>选择图片</value>
+  </data>
+  <data name="DetailAccountTextBlock.Text" xml:space="preserve">
+    <value>账号</value>
+  </data>
+  <data name="DetailAccountCopyButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>点击以复制账号</value>
+  </data>
+  <data name="EmptyAccountButtonTextBlock.Text" xml:space="preserve">
+    <value>未填写账号</value>
+  </data>
+  <data name="DetailPasswordTextBlock.Text" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="DetailPasswordCopyButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>点击以复制密码</value>
+  </data>
+  <data name="EmptyPasswordButtonTextBlock.Text" xml:space="preserve">
+    <value>未填写密码</value>
+  </data>
+  <data name="LogoEditSelectImageTextBlock.Text" xml:space="preserve">
+    <value>选择图片</value>
+  </data>
+  <data name="EditingAccountTextBox.PlaceholderText" xml:space="preserve">
+    <value>账号</value>
+  </data>
+  <data name="EditingPasswordTextBox.PlaceholderText" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="EditingCategoryComboBox.PlaceholderText" xml:space="preserve">
+    <value>选择分类</value>
+  </data>
+  <data name="EditingCategoryRemoveButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>取消分类</value>
+  </data>
+  <data name="EditingWebsiteTextBox.PlaceholderText" xml:space="preserve">
+    <value>网站</value>
+  </data>
+  <data name="EditingNoteTextBox.PlaceholderText" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="AddingTitleTextBlock.Text" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="AddingNameTextBox.PlaceholderText" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="AddingAccountTextBlock.Text" xml:space="preserve">
+    <value>账号</value>
+  </data>
+  <data name="AddingAccountTextBox.PlaceholderText" xml:space="preserve">
+    <value>账号</value>
+  </data>
+  <data name="AddingPasswordTextBlock.Text" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="AddingPasswordRecipeTextBlock.Text" xml:space="preserve">
+    <value>密码配方</value>
+  </data>
+  <data name="AddingPasswordRecipeLetterTextBlock.Content" xml:space="preserve">
+    <value>字母</value>
+  </data>
+  <data name="AddingPasswordRecipeNumberTextBlock.Content" xml:space="preserve">
+    <value>数字</value>
+  </data>
+  <data name="AddingPasswordRecipeSymbolTextBlock.Content" xml:space="preserve">
+    <value>特殊字符</value>
+  </data>
+  <data name="AddingPasswordLengthTextBlock.Text" xml:space="preserve">
+    <value>密码长度</value>
+  </data>
+  <data name="AddingPasswordTextBox.PlaceholderText" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="AddingGeneratePasswordSplitButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>随机密码</value>
+  </data>
+  <data name="AddingFavoriteTextBlock.Text" xml:space="preserve">
+    <value>收藏夹</value>
+  </data>
+  <data name="AddingFavoriteCheckBox.Content" xml:space="preserve">
+    <value>添加到收藏夹</value>
+  </data>
+  <data name="AddingCategoryTextBlock.Text" xml:space="preserve">
+    <value>分类</value>
+  </data>
+  <data name="AddingCategoryComboBox.PlaceholderText" xml:space="preserve">
+    <value>选择分类</value>
+  </data>
+  <data name="AddingWebsiteTextBlock.Text" xml:space="preserve">
+    <value>网站</value>
+  </data>
+  <data name="AddingNoteTextBlock.Text" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="AddingNoteTextBox.PlaceholderText" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="CopiedInfoBar.Title" xml:space="preserve">
+    <value>密码已复制</value>
+  </data>
+  <data name="CopiedInfoBar.Message" xml:space="preserve">
+    <value>每次点击生成随机密码后，会自动复制到剪贴板。</value>
+  </data>
+  <data name="CopiedInfoBarDismissCheckBox.Content" xml:space="preserve">
+    <value>不再提示</value>
+  </data>
+  <data name="AddingButtonTextBlock.Text" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="CategoriesTitleTextBlock.Text" xml:space="preserve">
+    <value>全部分类</value>
+  </data>
+  <data name="CategoriesAddButtonTextBlock.Text" xml:space="preserve">
+    <value>新建分类</value>
+  </data>
+  <data name="CategoriesMoveToTopMenuItem.Text" xml:space="preserve">
+    <value>置于最前</value>
+  </data>
+  <data name="CategoriesEditMenuItem.Text" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="CategoriesDeleteMenuItem.Text" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="FavoritesTitleTextBlock.Text" xml:space="preserve">
+    <value>收藏夹</value>
+  </data>
+  <data name="MainWindow.Title" xml:space="preserve">
+    <value>密罐</value>
+  </data>
+  <data name="RandomTitleTextBlock.Text" xml:space="preserve">
+    <value>随机密码生成器</value>
+  </data>
+  <data name="RandomDescriptionTextBlock.Text" xml:space="preserve">
+    <value>产生一个随机的、难以记住的密码</value>
+  </data>
+  <data name="RandomTipsTextBlock.Text" xml:space="preserve">
+    <value>点击右侧按钮，生成密码</value>
+  </data>
+  <data name="RandomRecipeTextBlock.Text" xml:space="preserve">
+    <value>密码配方</value>
+  </data>
+  <data name="RandomLetterToggle.OffContent" xml:space="preserve">
+    <value>字母</value>
+  </data>
+  <data name="RandomLetterToggle.OnContent" xml:space="preserve">
+    <value>字母</value>
+  </data>
+  <data name="RandomNumberToggle.OffContent" xml:space="preserve">
+    <value>数字</value>
+  </data>
+  <data name="RandomNumberToggle.OnContent" xml:space="preserve">
+    <value>数字</value>
+  </data>
+  <data name="RandomSymbolToggle.OffContent" xml:space="preserve">
+    <value>特殊字符</value>
+  </data>
+  <data name="RandomSymbolToggle.OnContent" xml:space="preserve">
+    <value>特殊字符</value>
+  </data>
+  <data name="RandomLengthTextBlock.Text" xml:space="preserve">
+    <value>密码长度</value>
+  </data>
+  <data name="RandomGenerateButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>生成并复制结果</value>
+  </data>
+  <data name="RandomCopiedInfoBar.Title" xml:space="preserve">
+    <value>密码已复制</value>
+  </data>
+  <data name="RandomCopiedInfoBar.Message" xml:space="preserve">
+    <value>每次点击生成随机密码后，会自动复制到剪贴板。</value>
+  </data>
+  <data name="RandomCopiedDismissCheckBox.Content" xml:space="preserve">
+    <value>不再提示</value>
+  </data>
+  <data name="NavigationItemAllPasswords" xml:space="preserve">
+    <value>所有账号</value>
+  </data>
+  <data name="PasswordsSearchAutoSuggestBox.PlaceholderText" xml:space="preserve">
+    <value>在当前页面中搜索</value>
+  </data>
+  <data name="PasswordsTotalCountTextBlockRun1.Text" xml:space="preserve">
+    <value>共</value>
+  </data>
+  <data name="PasswordsTotalCountTextBlockRun2.Text" xml:space="preserve">
+    <value>个账号</value>
+  </data>
+  <data name="PasswordsSortByLetterSegmentedItem.ToolTipService.ToolTip" xml:space="preserve">
+    <value>按首字母排序</value>
+  </data>
+  <data name="PasswordsSortByTimeSegmentedItem.ToolTipService.ToolTip" xml:space="preserve">
+    <value>按添加时间排序</value>
+  </data>
+  <data name="PasswordsDetailAccountTextBlock.Text" xml:space="preserve">
+    <value>账号</value>
+  </data>
+  <data name="PasswordsDetailAccountButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>点击以复制账号</value>
+  </data>
+  <data name="PasswordsDetailAccountEmptyTextBlock.Text" xml:space="preserve">
+    <value>未填写账号</value>
+  </data>
+  <data name="PasswordsDetailPasswordTextBlock.Text" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="PasswordsDetailPasswordButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>点击以复制密码</value>
+  </data>
+  <data name="PasswordsDetailPasswordEmptyTextBlock.Text" xml:space="preserve">
+    <value>未填写密码</value>
+  </data>
+  <data name="PasswordsDetailWebsiteTextBlock.Text" xml:space="preserve">
+    <value>网站</value>
+  </data>
+  <data name="PasswordsDetailNoteTextBlock.Text" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="PasswordsDetailAddDateTextBlock.Text" xml:space="preserve">
+    <value>创建于</value>
+  </data>
+  <data name="PasswordsDetailEditDateTextBlock.Text" xml:space="preserve">
+    <value>上次修改于</value>
+  </data>
+  <data name="PasswordsDetailDeleteTextBlock.Text" xml:space="preserve">
+    <value>删除账号</value>
+  </data>
+  <data name="PasswordsDetailDeleteTextBlockRun1.Text" xml:space="preserve">
+    <value>确认要删除</value>
+  </data>
+  <data name="PasswordsDetailDeleteTextBlockRun2.Text" xml:space="preserve">
+    <value>吗，删除后将无法恢复哦。</value>
+  </data>
+  <data name="PasswordsDetailDeleteConfirmButton.Content" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="PasswordsRememberBackupInfoBar.Title" xml:space="preserve">
+    <value>记得备份</value>
+  </data>
+  <data name="PasswordsRememberBackupLearnMoreButton.Content" xml:space="preserve">
+    <value>了解更多</value>
+  </data>
+  <data name="SettingsTitleTextBlock.Text" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="SettingsAppNameTextBlock.Text" xml:space="preserve">
+    <value>密罐</value>
+  </data>
+  <data name="SettingsAppSloganTextBlock.Text" xml:space="preserve">
+    <value>妥善保存蜜码</value>
+  </data>
+  <data name="SettingsRateTextBlock.Text" xml:space="preserve">
+    <value>给个好评</value>
+  </data>
+  <data name="SettingsPersonalizationTextBlock.Text" xml:space="preserve">
+    <value>个性化</value>
+  </data>
+  <data name="SettingsThemeSettingsCard.Header" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="SettingsThemeSettingsCard.Description" xml:space="preserve">
+    <value>选择 "密罐" 的外观</value>
+  </data>
+  <data name="SettingsThemeDefaultComboBoxItem.Content" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
+  <data name="SettingsThemeDarkComboBoxItem.Content" xml:space="preserve">
+    <value>黑暗</value>
+  </data>
+  <data name="SettingsThemeLightComboBoxItem.Content" xml:space="preserve">
+    <value>明亮</value>
+  </data>
+  <data name="SettingsBackdropSettingsCard.Header" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="SettingsBackdropSettingsCard.Description" xml:space="preserve">
+    <value>选择 "密罐" 的背景材质</value>
+  </data>
+  <data name="SettingsBackdropMicaComboBoxItem.Content" xml:space="preserve">
+    <value>云母</value>
+  </data>
+  <data name="SettingsBackdropAcrylicComboBoxItem.Content" xml:space="preserve">
+    <value>亚克力</value>
+  </data>
+  <data name="SettingsSecurityDataTextBlock.Text" xml:space="preserve">
+    <value>安全和数据</value>
+  </data>
+  <data name="SettingsMigrateSettingsCard.Header" xml:space="preserve">
+    <value>迁移数据</value>
+  </data>
+  <data name="SettingsMigrateSettingsCard.Description" xml:space="preserve">
+    <value>将 "好多密码" 的数据导入到 "密罐" 中</value>
+  </data>
+  <data name="SettingsStartMigrateTextBlock.Text" xml:space="preserve">
+    <value>开始迁移</value>
+  </data>
+  <data name="SettingsLockSettingsCard.Header" xml:space="preserve">
+    <value>使用 Windows Hello 锁定应用</value>
+  </data>
+  <data name="SettingsLockViewWindowsHelloSettingButton.Content" xml:space="preserve">
+    <value>在 "系统设置" 中查看</value>
+  </data>
+  <data name="SettingsDataFileSettingsCard.Header" xml:space="preserve">
+    <value>数据文件</value>
+  </data>
+  <data name="SettingsDataFileSettingsCard.Description" xml:space="preserve">
+    <value>密码明文保存，请妥善保管</value>
+  </data>
+  <data name="SettingsViewDataFileTextBlock.Text" xml:space="preserve">
+    <value>前往查看</value>
+  </data>
+  <data name="SettingsAboutTextBlock.Text" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="SettingsContactSettingsCard.Header" xml:space="preserve">
+    <value>与我联系</value>
+  </data>
+  <data name="SettingsContactSettingsCard.Description" xml:space="preserve">
+    <value>如果您遇到问题或有任何建议</value>
+  </data>
+  <data name="SettingsContactQQButton.Visibility" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="SettingsContactWeChatButton.Visibility" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="SettingsCodeSettingsCard.Header" xml:space="preserve">
+    <value>源代码</value>
+  </data>
+  <data name="SettingsCodeSettingsCard.Description" xml:space="preserve">
+    <value>前往 GitHub 查看源代码</value>
+  </data>
+  <data name="SettingsGithubTextBlock.Text" xml:space="preserve">
+    <value>GitHub 存储库</value>
+  </data>
+  <data name="SettingsZhuqueSettingsCard.Header" xml:space="preserve">
+    <value>朱雀仿宋</value>
+  </data>
+  <data name="SettingsZhuqueSettingsCard.Description" xml:space="preserve">
+    <value>此应用程序使用了开源字体 "朱雀仿宋"</value>
+  </data>
+  <data name="SettingsZhuqueGithubTextBlock.Text" xml:space="preserve">
+    <value>GitHub 页面</value>
+  </data>
+  <data name="SettingsEmailButton.Text" xml:space="preserve">
+    <value>发送邮件</value>
+  </data>
+  <data name="NavigationItemFavorites" xml:space="preserve">
+    <value>收藏夹</value>
+  </data>
+  <data name="NavigationItemAdd" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="NavigationItemCategories" xml:space="preserve">
+    <value>全部分类</value>
+  </data>
+  <data name="NavigationItemGenerator" xml:space="preserve">
+    <value>密码生成器</value>
+  </data>
+  <data name="NavigationItemTips" xml:space="preserve">
+    <value>使用提示</value>
+  </data>
+  <data name="NavigationItemSettings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="DialogTitleOops" xml:space="preserve">
+    <value>糟糕...</value>
+  </data>
+  <data name="DialogContentWrongConnectToDb" xml:space="preserve">
+    <value>连接数据库时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongLoadCategories" xml:space="preserve">
+    <value>读取分类列表时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongAddCategories" xml:space="preserve">
+    <value>添加分类时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongEditCategories" xml:space="preserve">
+    <value>编辑分类时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongMoveCategories" xml:space="preserve">
+    <value>移动分类时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongDeleteCategories" xml:space="preserve">
+    <value>删除密码时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongAddFavorite" xml:space="preserve">
+    <value>收藏密码时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongLoadPasswords" xml:space="preserve">
+    <value>读取密码列表时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongEditPasswords" xml:space="preserve">
+    <value>编辑密码时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongDeletePasswords" xml:space="preserve">
+    <value>删除密码时出现了异常</value>
+  </data>
+  <data name="DialogContentWrongAddPasswords" xml:space="preserve">
+    <value>添加密码时出现了异常</value>
+  </data>
+  <data name="DialogButtonConfirm" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="DialogButtonCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="DialogButtonGotIt" xml:space="preserve">
+    <value>我知道了</value>
+  </data>
+  <data name="DialogTitleCropImage" xml:space="preserve">
+    <value>裁剪图像</value>
+  </data>
+  <data name="DialogTitleNotEnough" xml:space="preserve">
+    <value>还不够...</value>
+  </data>
+  <data name="DialogContentCompleteName" xml:space="preserve">
+    <value>名称不能为空哦，再完善一下吧~</value>
+  </data>
+  <data name="DialogContentCompleteAccountOrPassword" xml:space="preserve">
+    <value>账号和密码至少要填写一个哦，再完善一下吧~</value>
+  </data>
+  <data name="DialogButtonSave" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="DialogTitleEdit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="DialogTitleConfirmDelete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="DialogButtonClose" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="DialogButtonRemoveFavorite" xml:space="preserve">
+    <value>取消收藏</value>
+  </data>
+  <data name="DialogContentConfirmDelete" xml:space="preserve">
+    <value>确定要删除吗，删除后将无法恢复</value>
+  </data>
+  <data name="DialogTitleNewCategory" xml:space="preserve">
+    <value>新建分类</value>
+  </data>
+  <data name="DialogButtonNewCategory" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="DialogTitleEditCategory" xml:space="preserve">
+    <value>编辑分类</value>
+  </data>
+  <data name="DialogButtonEditCategory" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="DialogContentDeleteCategory1" xml:space="preserve">
+    <value>确定要删除分类</value>
+  </data>
+  <data name="DialogContentDeleteCategory2" xml:space="preserve">
+    <value>吗？该分类下的密码不会被删除。</value>
+  </data>
+  <data name="UnlockAppUnlockingMessage" xml:space="preserve">
+    <value>密罐需要确认您的身份才能继续</value>
+  </data>
+  <data name="UnlockAppUnlockFailed" xml:space="preserve">
+    <value>无法验证身份</value>
+  </data>
+  <data name="UnlockAppDeviceUnavailable" xml:space="preserve">
+    <value>当前识别设备未配置或被系统策略禁用</value>
+  </data>
+  <data name="UnlockAppDeviceBusy" xml:space="preserve">
+    <value>当前识别设备正忙，请稍后重试</value>
+  </data>
+  <data name="UnlockAppRetriesExhausted" xml:space="preserve">
+    <value>验证失败次数过多</value>
+  </data>
+  <data name="UnlockAppError" xml:space="preserve">
+    <value>验证出错了</value>
+  </data>
+  <data name="BackupRemindSoMany" xml:space="preserve">
+    <value>哇，你已经记录了这么多个账号，真不错，但是要记得定期备份一下数据哦，不要让数据面临丢失的风险。</value>
+  </data>
+  <data name="BackupRemindFirstOne" xml:space="preserve">
+    <value>恭喜！你刚刚记录了第一个账号，真不错，要记得定期备份一下数据哦，不要让数据面临丢失的风险。</value>
+  </data>
+  <data name="BackupRemindSpecificCount1" xml:space="preserve">
+    <value>哇，你已经记录了</value>
+  </data>
+  <data name="BackupRemindSpecificCount2" xml:space="preserve">
+    <value>个账号，真不错，但是要记得定期备份一下数据哦，不要让数据面临丢失的风险。</value>
+  </data>
+  <data name="TipsTitleTextBlock.Text" xml:space="preserve">
+    <value>使用提示</value>
+  </data>
+  <data name="TipsDescriptionTextBlock.Text" xml:space="preserve">
+    <value>常见疑问的说明，如有其他问题</value>
+  </data>
+  <data name="TipsContactMeButton.Content" xml:space="preserve">
+    <value>请联系我</value>
+  </data>
+  <data name="TipsContactMeButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>向 yaoyiming123@live.com 发送邮件</value>
+  </data>
+  <data name="TipsWhereIsMyDataHeaderTextBlock.Text" xml:space="preserve">
+    <value>我的数据存储在哪里？我该如何备份？</value>
+  </data>
+  <data name="TipsWhereIsMyDataContentTextBlockRun1.Text" xml:space="preserve">
+    <value>所有的数据保存在如图所示的文件夹和 SQLite 数据库文件中，"密罐" 不会将数据上传到网络，因此您需要自行将此文件备份。</value>
+  </data>
+  <data name="TipsWhereIsMyDataContentTextBlockRun2.Text" xml:space="preserve">
+    <value>请注意，所有数据均为明文存储，务必妥善保管！</value>
+  </data>
+  <data name="TipsWhereIsMyDataContentTextBlockRun3.Text" xml:space="preserve">
+    <value>明文存储意味着任何人都可以使用诸如 SQLiteStudio 等程序查看该数据库文件的一切内容。</value>
+  </data>
+  <data name="TipsWhereIsMyDataViewFileButton.Content" xml:space="preserve">
+    <value>查看数据库文件</value>
+  </data>
+  <data name="TipsHowToEditHeaderTextBlock.Text" xml:space="preserve">
+    <value>怎样编辑或者删除一个分类？</value>
+  </data>
+  <data name="TipsHowToEditDemoTextBlock.Text" xml:space="preserve">
+    <value>我的分类</value>
+  </data>
+  <data name="TipsHowToEditContentTextBlockRun1.Text" xml:space="preserve">
+    <value>想要修改一个账号分类，只需点击左侧导航栏中的</value>
+  </data>
+  <data name="TipsHowToEditContentTextBlockRun2.Text" xml:space="preserve">
+    <value>全部分类"</value>
+  </data>
+  <data name="TipsHowToEditContentTextBlockRun3.Text" xml:space="preserve">
+    <value>跳转到分类页面，然后将鼠标指向想要修改的分类项，即可单击右键来进行操作了。</value>
+  </data>
+  <data name="TipsWhyNoIconHeaderTextBlock.Text" xml:space="preserve">
+    <value>为什么我创建分类时，无法设置图标？</value>
+  </data>
+  <data name="TipsWhyNoIconContentTextBlock.Text" xml:space="preserve">
+    <value>分类的图标来自 Windows 11 内置字体 Segoe Fluent Icons，这个字体通常会内置在您的设备上。如果这个字体被删除，"密罐" 就获取不到相应的图标列表，也就无法供您选择分类的图标了。</value>
+  </data>
+</root>

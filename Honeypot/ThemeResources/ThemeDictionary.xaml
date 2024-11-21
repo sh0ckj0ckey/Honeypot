@@ -13,7 +13,6 @@
                     <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/img_empty.png" DecodePixelHeight="384" DecodePixelType="Logical"/>
 
                     <BitmapImage x:Key="TIPS_DBFILE_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_dbfile_dark.png" DecodePixelWidth="730" DecodePixelType="Logical"/>
-                    <BitmapImage x:Key="TIPS_RIGHTCLICK_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_rightclick_dark.png" DecodePixelWidth="240" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="TIPS_NOFONT_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_nofont_dark.png" DecodePixelWidth="300" DecodePixelType="Logical"/>
 
                     <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icon/icon_github_dark.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
@@ -31,7 +30,6 @@
                     <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/img_empty.png" DecodePixelHeight="384" DecodePixelType="Logical"/>
 
                     <BitmapImage x:Key="TIPS_DBFILE_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_dbfile_light.png" DecodePixelWidth="730" DecodePixelType="Logical"/>
-                    <BitmapImage x:Key="TIPS_RIGHTCLICK_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_rightclick_light.png" DecodePixelWidth="240" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="TIPS_NOFONT_IMG" UriSource="ms-appx:///Assets/Tips/img_tips_nofont_light.png" DecodePixelWidth="300" DecodePixelType="Logical"/>
 
                     <BitmapImage x:Key="ABOUT_GITHUB_IMG" UriSource="ms-appx:///Assets/Icon/icon_github_light.png" DecodePixelHeight="40" DecodePixelType="Logical"/>

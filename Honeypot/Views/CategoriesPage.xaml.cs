@@ -31,23 +31,25 @@ namespace Honeypot.Views
 
             MainViewModel = MainViewModel.Instance;
 
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
             _createCategoryDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
                 Title = "",
                 Content = _createCategoryControl,
                 PrimaryButtonText = "",
-                CloseButtonText = "取消",
+                CloseButtonText = resourceLoader.GetString("DialogButtonCancel"),
                 DefaultButton = ContentDialogButton.Primary
             };
 
             _deleteConfirmDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
-                Title = "删除确认",
-                Content = "确定要删除吗，删除后将无法恢复",
-                PrimaryButtonText = "确认",
-                CloseButtonText = "取消",
+                Title = resourceLoader.GetString("DialogTitleConfirmDelete"),
+                Content = resourceLoader.GetString("DialogContentConfirmDelete"),
+                PrimaryButtonText = resourceLoader.GetString("DialogButtonConfirm"),
+                CloseButtonText = resourceLoader.GetString("DialogButtonCancel"),
                 DefaultButton = ContentDialogButton.Close
             };
         }
@@ -73,9 +75,10 @@ namespace Honeypot.Views
         /// <param name="e"></param>
         private async void OnClickCreateCategory(object sender, RoutedEventArgs e)
         {
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
             _createCategoryControl.ResetView();
-            _createCategoryDialog.Title = "新建分类";
-            _createCategoryDialog.PrimaryButtonText = "创建";
+            _createCategoryDialog.Title = resourceLoader.GetString("DialogTitleNewCategory");
+            _createCategoryDialog.PrimaryButtonText = resourceLoader.GetString("DialogButtonNewCategory");
             _createCategoryDialog.XamlRoot = this.XamlRoot;
             _createCategoryDialog.RequestedTheme = this.ActualTheme;
             ContentDialogResult result = await _createCategoryDialog.ShowAsync();
@@ -108,9 +111,10 @@ namespace Honeypot.Views
         {
             if (sender is MenuFlyoutItem item && item.DataContext is CategoryModel categoty)
             {
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
                 _createCategoryControl.ResetView(categoty.Title, categoty.Icon);
-                _createCategoryDialog.Title = "编辑分类";
-                _createCategoryDialog.PrimaryButtonText = "修改";
+                _createCategoryDialog.Title = resourceLoader.GetString("DialogTitleEditCategory");
+                _createCategoryDialog.PrimaryButtonText = resourceLoader.GetString("DialogButtonEditCategory");
                 _createCategoryDialog.XamlRoot = this.XamlRoot;
                 _createCategoryDialog.RequestedTheme = this.ActualTheme;
                 ContentDialogResult result = await _createCategoryDialog.ShowAsync();
@@ -131,7 +135,8 @@ namespace Honeypot.Views
         {
             if (sender is MenuFlyoutItem item && item.DataContext is CategoryModel categoty)
             {
-                _deleteConfirmDialog.Content = $"确定要删除分类 \"{categoty.Title}\" 吗？该分类下的密码不会被删除。";
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                _deleteConfirmDialog.Content = $"{resourceLoader.GetString("DialogContentDeleteCategory1")} \"{categoty.Title}\" {resourceLoader.GetString("DialogContentDeleteCategory2")}";
                 _deleteConfirmDialog.XamlRoot = this.XamlRoot;
                 _deleteConfirmDialog.RequestedTheme = this.ActualTheme;
                 ContentDialogResult result = await _deleteConfirmDialog.ShowAsync();

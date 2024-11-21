@@ -69,7 +69,9 @@ namespace Honeypot.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                ShowTipsContentDialog("糟糕...", $"收藏密码时出现了异常：{ex.Message}");
+
+                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddFavorite")}: {ex.Message}");
             }
         }
     }

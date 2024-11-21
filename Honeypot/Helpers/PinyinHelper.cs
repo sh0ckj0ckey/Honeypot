@@ -12,7 +12,7 @@ namespace Honeypot.Helpers
     */
     public class PinyinHelper
     {
-        private static Encoding gb2312 = Encoding.GetEncoding("GB2312");
+        private static Encoding _gb2312 = Encoding.GetEncoding("GB2312");
 
         /// <summary>
         /// 取第一个字的首字母

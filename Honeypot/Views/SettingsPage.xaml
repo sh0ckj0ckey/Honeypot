@@ -19,7 +19,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="设置" Margin="20,28,20,20" FontWeight="Bold" FontSize="20" CharacterSpacing="48"/>
+        <TextBlock x:Uid="SettingsTitleTextBlock" Grid.Row="0" Margin="20,28,20,20" FontWeight="Bold" FontSize="20"/>
         <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,8,0,0" Height="1" Background="{ThemeResource ControlElevationBorderBrush}"/>
         <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled">
             <StackPanel Orientation="Vertical" Margin="16,20,20,0" Spacing="4">
@@ -32,44 +32,43 @@
                                 </Image.Source>
                             </Image>
                             <StackPanel Margin="16,6,0,-6" Spacing="0" Orientation="Vertical">
-                                <TextBlock Text="密罐" FontSize="15" FontWeight="Bold" CharacterSpacing="64"/>
-                                <TextBlock Text="妥善保存蜜码" FontSize="12" Opacity="0.7" CharacterSpacing="64"/>
-                                <TextBlock Text="{x:Bind _appVersion}" FontSize="12" Opacity="0.5" CharacterSpacing="64"/>
+                                <TextBlock x:Uid="SettingsAppNameTextBlock" FontSize="16" FontWeight="Bold"/>
+                                <TextBlock x:Uid="SettingsAppSloganTextBlock" FontSize="12" Opacity="0.7"/>
+                                <TextBlock Text="{x:Bind _appVersion}" FontSize="12" Opacity="0.5"/>
                             </StackPanel>
                         </StackPanel>
                     </controls:SettingsCard.Header>
                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="OnClickGoToStoreRate">
                         <StackPanel Orientation="Horizontal" Spacing="4">
                             <TextBlock Text="🍯" FontSize="18" VerticalAlignment="Center"/>
-                            <TextBlock Text="给个好评" VerticalAlignment="Center" CharacterSpacing="64"/>
+                            <TextBlock x:Uid="SettingsRateTextBlock" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <TextBlock Text="个性化" Margin="4,12,0,6" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
-                <controls:SettingsCard Header="主题" Description="选择 &quot;密罐&quot; 的外观">
+                <TextBlock x:Uid="SettingsPersonalizationTextBlock" Margin="4,12,0,6" FontWeight="Bold" FontSize="14"/>
+                <controls:SettingsCard x:Uid="SettingsThemeSettingsCard">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE771;"/>
                     </controls:SettingsCard.HeaderIcon>
                     <ComboBox x:Name="ThemeComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,0,0,0" MinWidth="128"
                               SelectedIndex="{x:Bind _viewModel.AppSettings.AppearanceIndex,Mode=TwoWay}">
-                        <ComboBoxItem Content="跟随系统"/>
-                        <ComboBoxItem Content="黑暗"/>
-                        <ComboBoxItem Content="明亮"/>
+                        <ComboBoxItem x:Uid="SettingsThemeDefaultComboBoxItem"/>
+                        <ComboBoxItem x:Uid="SettingsThemeDarkComboBoxItem"/>
+                        <ComboBoxItem x:Uid="SettingsThemeLightComboBoxItem"/>
                     </ComboBox>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="背景" Description="选择 &quot;密罐&quot; 的背景材质">
+                <controls:SettingsCard x:Uid="SettingsBackdropSettingsCard">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE727;"/>
                     </controls:SettingsCard.HeaderIcon>
                     <ComboBox x:Name="BackdropComboBox" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4,0,0,0" MinWidth="128"
                               SelectedIndex="{x:Bind _viewModel.AppSettings.BackdropIndex,Mode=TwoWay}">
-                        <ComboBoxItem Content="云母"/>
-                        <ComboBoxItem Content="亚克力"/>
+                        <ComboBoxItem x:Uid="SettingsBackdropMicaComboBoxItem"/>
+                        <ComboBoxItem x:Uid="SettingsBackdropAcrylicComboBoxItem"/>
                     </ComboBox>
                 </controls:SettingsCard>
-                <TextBlock Text="安全和数据" Margin="4,12,0,6" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
-                <controls:SettingsCard Header="迁移数据" Description="将 &quot;好多密码&quot; 的数据导入到 &quot;密罐&quot; 中"
-                                       Visibility="{x:Bind _viewModel.ShowMigrater,Mode=OneWay,Converter={StaticResource Bool2Vis}}">
+                <TextBlock x:Uid="SettingsSecurityDataTextBlock" Margin="4,12,0,6" FontWeight="Bold" FontSize="14"/>
+                <controls:SettingsCard x:Uid="SettingsMigrateSettingsCard" Visibility="{x:Bind _viewModel.ShowMigrater,Mode=OneWay,Converter={StaticResource Bool2Vis}}">
                     <controls:SettingsCard.HeaderIcon>
                         <BitmapIcon UriSource="ms-appx:///Assets/Icon/icon_manypasswords.png" Opacity="0.9" Width="20" ShowAsMonochrome="True"/>
                     </controls:SettingsCard.HeaderIcon>
@@ -77,32 +76,32 @@
                     <Button Height="32" MinWidth="114" Click="OnClickMigrate">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEA3C;" FontSize="12"/>
-                            <TextBlock Text="开始迁移" CharacterSpacing="64"/>
+                            <TextBlock x:Uid="SettingsStartMigrateTextBlock"/>
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="使用 Windows Hello 锁定应用">
+                <controls:SettingsCard x:Uid="SettingsLockSettingsCard">
                     <controls:SettingsCard.Description>
-                        <HyperlinkButton Content="在 &quot;系统设置&quot; 中查看" Click="OnClickGoWindowsHelloSettings"/>
+                        <HyperlinkButton x:Uid="SettingsLockViewWindowsHelloSettingButton" Click="OnClickGoWindowsHelloSettings"/>
                     </controls:SettingsCard.Description>
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xEB68;"/>
                     </controls:SettingsCard.HeaderIcon>
                     <ToggleSwitch x:Name="WindowsHelloToggleSwitch" IsOn="{x:Bind _viewModel.AppSettings.EnableLock,Mode=OneWay}" Toggled="OnToggleWindowHello"/>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="数据文件" Description="密码明文保存，请妥善保管">
+                <controls:SettingsCard x:Uid="SettingsDataFileSettingsCard">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xF540;"/>
                     </controls:SettingsCard.HeaderIcon>
                     <Button Height="32" MinWidth="114" Click="OnClickDbPath">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE838;" FontSize="12"/>
-                            <TextBlock Text="前往查看" CharacterSpacing="64"/>
+                            <TextBlock x:Uid="SettingsViewDataFileTextBlock"/>
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <TextBlock Text="关于" Margin="4,12,0,6" FontWeight="Bold" FontSize="14" CharacterSpacing="48"/>
-                <controls:SettingsCard Header="与我联系" Description="如果您遇到问题或有任何建议">
+                <TextBlock x:Uid="SettingsAboutTextBlock" Margin="4,12,0,6" FontWeight="Bold" FontSize="14"/>
+                <controls:SettingsCard x:Uid="SettingsContactSettingsCard">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xED15;"/>
                     </controls:SettingsCard.HeaderIcon>
@@ -114,7 +113,7 @@
                                         <BitmapImage UriSource="ms-appx:///Assets/Icon/icon_mail.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
                                     </Image.Source>
                                 </Image>
-                                <TextBlock Text="发送邮件" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
+                                <TextBlock x:Uid="SettingsEmailButton" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
                             </StackPanel>
                             <Button.Flyout>
                                 <Flyout>
@@ -124,7 +123,7 @@
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
-                        <Button Height="34">
+                        <Button x:Uid="SettingsContactQQButton" Height="34">
                             <Image Width="20" Height="20" Margin="0,0,0,0">
                                 <Image.Source>
                                     <BitmapImage UriSource="ms-appx:///Assets/Icon/icon_qq.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
@@ -144,7 +143,7 @@
                                 </Flyout>
                             </Button.Flyout>
                         </Button>
-                        <Button Height="34">
+                        <Button x:Uid="SettingsContactWeChatButton" Height="34">
                             <Image Width="20" Height="20" Margin="0,0,0,0">
                                 <Image.Source>
                                     <BitmapImage UriSource="ms-appx:///Assets/Icon/icon_wechat.png" DecodePixelHeight="40" DecodePixelType="Logical"/>
@@ -166,35 +165,28 @@
                         </Button>
                     </StackPanel>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="源代码" Description="前往 GitHub 查看源代码">
+                <controls:SettingsCard x:Uid="SettingsCodeSettingsCard">
                     <controls:SettingsCard.HeaderIcon>
                         <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE943;"/>
                     </controls:SettingsCard.HeaderIcon>
-                    <Button Height="34" Click="OnClickGoGitHub" ToolTipService.ToolTip="GitHub 存储库">
+                    <Button Height="34" Click="OnClickGoGitHub">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image Width="20" Height="20" Margin="0,0,0,0" Source="{ThemeResource ABOUT_GITHUB_IMG}"/>
-                            <TextBlock Text="GitHub 存储库" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
+                            <TextBlock x:Uid="SettingsGithubTextBlock" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <controls:SettingsCard Header="朱雀仿宋" Description="此应用程序使用了开源字体 &quot;朱雀仿宋&quot;">
+                <controls:SettingsCard x:Uid="SettingsZhuqueSettingsCard">
                     <controls:SettingsCard.HeaderIcon>
                         <BitmapIcon UriSource="ms-appx:///Assets/Icon/icon_zhuque.png" Width="20" ShowAsMonochrome="True"/>
                     </controls:SettingsCard.HeaderIcon>
 
-                    <!--<Button Height="34" Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
+                    <Button Height="34" Click="OnClickGoZhuque">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Image Width="20" Height="20" Margin="0,0,0,0" Source="{ThemeResource ABOUT_GITHUB_IMG}"/>
-                            <TextBlock Text="朱雀仿宋 on GitHub" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0" CharacterSpacing="40"/>
+                            <TextBlock x:Uid="SettingsZhuqueGithubTextBlock" VerticalAlignment="Center" FontSize="13" Margin="8,0,2,0"/>
                         </StackPanel>
-                    </Button>-->
-
-                    <HyperlinkButton Click="OnClickGoZhuque" ToolTipService.ToolTip="朱雀仿宋的 GitHub 存储库">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="6">
-                            <TextBlock Text="访问项目主页" CharacterSpacing="64"/>
-                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE2B4;" FontSize="15"/>
-                        </StackPanel>
-                    </HyperlinkButton>
+                    </Button>
                 </controls:SettingsCard>
                 <TextBlock Text="© NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="13" Margin="4,4,0,8"/>
             </StackPanel>

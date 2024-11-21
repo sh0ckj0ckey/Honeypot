@@ -48,7 +48,12 @@ namespace Honeypot.Models
 
     public class MainNavigationSettingItem : MainNavigationBase
     {
+        public string Name { get; set; }
 
+        public MainNavigationSettingItem(string name)
+        {
+            Name = name;
+        }
     }
 
     class MenuItemTemplateSelector : DataTemplateSelector

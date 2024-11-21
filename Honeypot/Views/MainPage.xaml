@@ -47,7 +47,7 @@
             </models:MenuItemTemplateSelector.SeparatorTemplate>
             <models:MenuItemTemplateSelector.SettingItemTemplate>
                 <DataTemplate x:DataType="models:MainNavigationSettingItem">
-                    <muxc:NavigationViewItem Content="设置" Tag="settings" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
+                    <muxc:NavigationViewItem Content="{x:Bind Name}" Tag="settings" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
                         <muxc:NavigationViewItem.Icon>
                             <muxc:AnimatedIcon>
                                 <muxc:AnimatedIcon.Source>
@@ -80,7 +80,7 @@
                                 <BitmapImage UriSource="/Assets/Icon/img_logo.png" DecodePixelType="Logical" DecodePixelHeight="68"/>
                             </Image.Source>
                         </Image>
-                        <TextBlock Text="密罐" FontSize="17" FontWeight="Bold" CharacterSpacing="48" VerticalAlignment="Center"/>
+                        <TextBlock x:Uid="AppNameTextBlock" FontSize="17" FontWeight="Bold" VerticalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel x:Name="CompactLogo" Orientation="Horizontal" Spacing="14" Margin="12,26,12,20" HorizontalAlignment="Left" VerticalAlignment="Center">
                         <Image Height="24" Width="24" VerticalAlignment="Center">
@@ -88,7 +88,6 @@
                                 <BitmapImage UriSource="/Assets/Icon/img_logo.png" DecodePixelType="Logical" DecodePixelHeight="48"/>
                             </Image.Source>
                         </Image>
-                        <!--<TextBlock Text="密罐" FontSize="17" FontWeight="Bold" CharacterSpacing="48" VerticalAlignment="Top"/>-->
                     </StackPanel>
                 </Grid>
             </NavigationView.PaneCustomContent>
@@ -135,8 +134,8 @@
             <Button Background="Transparent" Padding="0" BorderThickness="0" Click="OnClickUnlock" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE25B;" FontSize="36"/>
-                    <TextBlock Text="密罐已锁定" FontWeight="Bold" FontSize="18" Margin="0,12,0,0" HorizontalAlignment="Center" CharacterSpacing="64"/>
-                    <TextBlock Text="点击以使用 Windows Hello 解锁" FontSize="14" Opacity="0.9" HorizontalAlignment="Center" CharacterSpacing="64"/>
+                    <TextBlock x:Uid="LockedTextBlock" FontWeight="Bold" FontSize="18" Margin="0,12,0,0" HorizontalAlignment="Center"/>
+                    <TextBlock x:Uid="UnlockTextBlock" FontSize="14" Opacity="0.9" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
         </Grid>
@@ -145,7 +144,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="960"/>
+                        <AdaptiveTrigger MinWindowWidth="940"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="MainNavigationView.PaneDisplayMode" Value="Left"/>

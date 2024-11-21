@@ -25,13 +25,13 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Vertical" Margin="32,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <TextBlock FontSize="14" CharacterSpacing="96" Opacity="0.7">
+                <TextBlock FontSize="14" Opacity="0.7">
                     <Run Text="好多密码" FontWeight="Bold"/>
                     <Run Text="现已升级为"/>
                 </TextBlock>
-                <TextBlock Text="密罐" FontWeight="Bold" FontSize="32" Margin="0,2" CharacterSpacing="48"/>
-                <TextBlock Text="界面和功能均已翻新" FontSize="14" Margin="0,4,0,4" CharacterSpacing="96" Opacity="0.7"/>
-                <TextBlock Text="数据存储更加可靠" FontSize="14" CharacterSpacing="96" Opacity="0.7"/>
+                <TextBlock Text="密罐" FontWeight="Bold" FontSize="32" Margin="0,2"/>
+                <TextBlock Text="界面和功能均已翻新" FontSize="14" Margin="0,4,0,4" Opacity="0.7"/>
+                <TextBlock Text="数据存储更加可靠" FontSize="14" Opacity="0.7"/>
                 <StackPanel Orientation="Horizontal" Margin="0,16,0,0" Spacing="8">
                     <Button Style="{ThemeResource AccentButtonStyle}" Content="立即迁移数据" FontSize="14" Click="OnClickMigrate"/>
                     <HyperlinkButton Content="稍后在&quot;设置&quot;中进行" Click="OnClickDismiss"/>
@@ -59,8 +59,8 @@
                     </Image.Source>
                 </Image>
                 <StackPanel Grid.Column="1" Orientation="Vertical" Margin="32,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <TextBlock Text="正在迁移数据" FontWeight="Bold" FontSize="24" Margin="0,2" CharacterSpacing="48" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{x:Bind _viewModel.MigratingHint,Mode=OneWay}" FontSize="14" Margin="0,4,0,12" TextTrimming="CharacterEllipsis" CharacterSpacing="96" Opacity="0.7" HorizontalAlignment="Left"/>
+                    <TextBlock Text="正在迁移数据" FontWeight="Bold" FontSize="24" Margin="0,2" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{x:Bind _viewModel.MigratingHint,Mode=OneWay}" FontSize="14" Margin="0,4,0,12" TextTrimming="CharacterEllipsis" Opacity="0.7" HorizontalAlignment="Left"/>
                     <ProgressBar HorizontalAlignment="Left" Width="176" Maximum="{x:Bind _viewModel.CountToMigrate,Mode=OneWay}" Value="{x:Bind _viewModel.CountMigrated,Mode=OneWay}"
                              IsIndeterminate="{x:Bind _viewModel.MigrateState,Mode=OneWay,Converter={StaticResource Eql2Bool},ConverterParameter=ReadingFile}"
                              ShowError="{x:Bind _viewModel.MigrateState,Mode=OneWay,Converter={StaticResource Eql2Bool},ConverterParameter=Failed}"/>
@@ -73,7 +73,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{x:Bind _viewModel.MigratingHint,Mode=OneWay}" FontWeight="Bold" FontSize="14" TextWrapping="Wrap" CharacterSpacing="48" HorizontalAlignment="Left"/>
+                <TextBlock Text="{x:Bind _viewModel.MigratingHint,Mode=OneWay}" FontWeight="Bold" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Left"/>
                 <TextBox Grid.Row="1" Margin="0,16" IsReadOnly="True" TextWrapping="Wrap" Text="{x:Bind _viewModel.MigrateFailedContent,Mode=OneWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <Button Grid.Row="2" Content="我已记录上述内容，进入密罐" FontSize="16" Click="OnClickFinishMigrate" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
             </Grid>
