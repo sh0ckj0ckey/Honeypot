@@ -28,8 +28,8 @@
 		<SelfContained>true</SelfContained>
 		<StartupObject>Honeypot.Program</StartupObject>
 		<PackageCertificateKeyFile>Honeypot_TemporaryKey.pfx</PackageCertificateKeyFile>
-		<AppxBundlePlatforms>arm64</AppxBundlePlatforms>
-		<AppxPackageDir>C:\Users\HUYA\Desktop\Arm64</AppxPackageDir>
+		<AppxBundlePlatforms>x64</AppxBundlePlatforms>
+		<AppxPackageDir>C:\Users\HUYA\Desktop\x64\</AppxPackageDir>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Remove="Assets\Icon\icon_github_dark.png" />
