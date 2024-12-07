@@ -11,8 +11,8 @@
 - 数据存放在本地，由你自己保管
 - 密码生成工具，生成随机密码
 
-<a href="https://apps.microsoft.com/store/detail/9NLZPBCS0F5C?launch=true&mode=full">
-	<img src="https://get.microsoft.com/images/zh-CN%20dark.svg" height="64"/>
+<a href="https://apps.microsoft.com/detail/9nlzpbcs0f5c?mode=full">
+	<img src="https://get.microsoft.com/images/zh-cn%20dark.svg" width="200"/>
 </a>
 
 ![截图](ARCHIVE/screenshot.png)
