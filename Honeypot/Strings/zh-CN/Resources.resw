@@ -397,7 +397,7 @@
     <value>妥善保存蜜码</value>
   </data>
   <data name="SettingsRateTextBlock.Text" xml:space="preserve">
-    <value>给个好评</value>
+    <value>打分评价</value>
   </data>
   <data name="SettingsPersonalizationTextBlock.Text" xml:space="preserve">
     <value>个性化</value>
