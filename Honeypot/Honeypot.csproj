@@ -45,7 +45,6 @@
 		<None Remove="Assets\Icon\img_blank_light.png" />
 		<None Remove="Assets\Icon\img_default.png" />
 		<None Remove="Assets\Icon\img_empty.png" />
-		<None Remove="Assets\Icon\img_empty_alt.png" />
 		<None Remove="Assets\Icon\img_feedback_qq.jpg" />
 		<None Remove="Assets\Icon\img_feedback_wechat.jpg" />
 		<None Remove="Assets\Icon\img_logo.png" />
