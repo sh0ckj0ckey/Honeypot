@@ -113,6 +113,8 @@ namespace Honeypot.Views
                 AddingFavoriteCheckBox.IsChecked = false;
 
                 CopiedInfoBar.IsOpen = false;
+
+                AddingScrollViewer.ChangeView(null, 0, null);
             }
             catch (Exception ex)
             {
@@ -224,8 +226,8 @@ namespace Honeypot.Views
                 MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, logoFilePath);
 
                 AddingSuccessBorder.Visibility = Visibility.Visible;
-                await Task.Delay(600);
                 ResetPage();
+                await Task.Delay(600);
                 AddingSuccessBorder.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
