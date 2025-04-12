@@ -40,6 +40,7 @@ namespace Honeypot.Views
             _editPasswordDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
                 Title = resourceLoader.GetString("DialogTitleEdit"),
                 Content = _editingPasswordControl,
                 Padding = new Thickness(0, 0, 0, 0),

@@ -36,6 +36,7 @@ namespace Honeypot.Views
             _createCategoryDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
                 Title = "",
                 Content = _createCategoryControl,
                 PrimaryButtonText = "",
@@ -46,6 +47,7 @@ namespace Honeypot.Views
             _deleteConfirmDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
                 Title = resourceLoader.GetString("DialogTitleConfirmDelete"),
                 Content = resourceLoader.GetString("DialogContentConfirmDelete"),
                 PrimaryButtonText = resourceLoader.GetString("DialogButtonConfirm"),

@@ -47,6 +47,7 @@ namespace Honeypot.Views
             _setImageContentDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
                 Title = resourceLoader.GetString("DialogTitleCropImage"),
                 Content = _cropImageControl,
                 PrimaryButtonText = resourceLoader.GetString("DialogButtonConfirm"),
@@ -57,6 +58,7 @@ namespace Honeypot.Views
             _textEmptyDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
                 CloseButtonText = resourceLoader.GetString("DialogButtonGotIt"),
                 DefaultButton = ContentDialogButton.Close
             };

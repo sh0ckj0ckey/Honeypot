@@ -47,6 +47,7 @@ namespace Honeypot.Views
             _tipsContentDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
                 Title = "",
                 Content = "",
                 CloseButtonText = resourceLoader.GetString("DialogButtonGotIt")

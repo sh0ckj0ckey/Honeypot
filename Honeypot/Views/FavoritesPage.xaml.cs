@@ -33,6 +33,7 @@ namespace Honeypot.Views
             _favoriteDetailDialog = new ContentDialog
             {
                 XamlRoot = this.XamlRoot,
+                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
                 Content = new PasswordDetailControl(),
                 Padding = new Thickness(0, 0, 0, 0),
                 PrimaryButtonText = resourceLoader.GetString("DialogButtonRemoveFavorite"),
