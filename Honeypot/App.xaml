@@ -28,34 +28,34 @@
                                 <ControlTemplate TargetType="ListViewHeaderItem">
                                     <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" BackgroundSizing="{TemplateBinding BackgroundSizing}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
                                         <ContentPresenter x:Name="ContentPresenter" 
-                                                  Margin="{TemplateBinding Padding}" 
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
-                                                  Content="{TemplateBinding Content}" 
-                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                  Foreground="{TemplateBinding Foreground}"/>
+                                                          Margin="{TemplateBinding Padding}" 
+                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                          Content="{TemplateBinding Content}" 
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                          Foreground="{TemplateBinding Foreground}"/>
                                         <VisualStateManager.VisualStateGroups>
                                             <VisualStateGroup x:Name="CommonStates">
                                                 <VisualState x:Name="Normal">
                                                     <Storyboard>
                                                         <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" To="1"/>
                                                         <ColorAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" 
-                                                                Duration="0:0:0.1" To="Transparent"/>
+                                                                        Duration="0:0:0.1" To="Transparent"/>
                                                     </Storyboard>
                                                 </VisualState>
                                                 <VisualState x:Name="PointerOver">
                                                     <Storyboard>
                                                         <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" To="1"/>
                                                         <ColorAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" 
-                                                                Duration="0:0:0.1" To="{ThemeResource SystemFillColorNeutralBackground}"/>
+                                                                        Duration="0:0:0.1" To="{ThemeResource SystemFillColorNeutralBackground}"/>
                                                     </Storyboard>
                                                 </VisualState>
                                                 <VisualState x:Name="Pressed">
                                                     <Storyboard>
                                                         <DoubleAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Opacity" Duration="0:0:0.1" To="0.7"/>
                                                         <ColorAnimation Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)" 
-                                                                Duration="0:0:0.1" To="{ThemeResource SystemFillColorNeutralBackground}"/>
+                                                                        Duration="0:0:0.1" To="{ThemeResource SystemFillColorNeutralBackground}"/>
                                                     </Storyboard>
                                                 </VisualState>
                                             </VisualStateGroup>

@@ -55,7 +55,6 @@ namespace Honeypot.ViewModels
 
         /// <summary>
         /// 当前的分类图标，默认为空
-        /// 这个属性一方面用于ViewModel去筛选特定分类的密码列表，另一方面也用于定位侧边导航栏的选中项
         /// </summary>
         private string _passwordsTitleIcon = string.Empty;
         public string PasswordsTitleIcon
@@ -97,7 +96,6 @@ namespace Honeypot.ViewModels
                     _passwordsDict.Clear();
                     AllPasswords.Clear();
                     SelectedPassword = null;
-                    _allPasswords.Clear();
 
                     var passwords = PasswordsDataAccess.GetPasswords();
                     foreach (var item in passwords)
@@ -124,7 +122,7 @@ namespace Honeypot.ViewModels
 
                     ActNoticeUserToBackup?.Invoke(AllPasswords.Count);
 
-                    UpdatePasswords(PasswordsCategoryId);
+                    UpdatePasswordsList(PasswordsCategoryId);
                     UpdateFavorites();
 
                     foreach (var password in AllPasswords)
@@ -151,7 +149,7 @@ namespace Honeypot.ViewModels
         /// 更新密码列表
         /// </summary>
         /// <param name="categoryId"></param>
-        public void UpdatePasswords(int categoryId, int keepSelectId = -1)
+        public void UpdatePasswordsList(int categoryId, int keepSelectId = -1)
         {
             Debug.WriteLine($"Updateing Passwords, CategoryId = {categoryId}");
 
@@ -293,7 +291,7 @@ namespace Honeypot.ViewModels
                 passwordItem.NormalLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Medium);
                 passwordItem.LargeLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Large);
 
-                UpdatePasswords(PasswordsCategoryId, passwordItem.Id);
+                UpdatePasswordsList(PasswordsCategoryId, passwordItem.Id);
                 UpdateFavorites();
             }
             catch (Exception ex)

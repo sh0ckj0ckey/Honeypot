@@ -154,7 +154,7 @@ namespace Honeypot.Views
                     string allPasswordsPageTag = _pages.FirstOrDefault(p => p.Page == typeof(PasswordsPage)).Tag;
                     if (navItemTag == allPasswordsPageTag)
                     {
-                        MainViewModel.Instance.UpdatePasswords(-1);
+                        MainViewModel.Instance.UpdatePasswordsList(-1);
                     }
                     if (navItemTag.StartsWith(HoneypotConsts.CategoryPageTagPrefix))
                     {
@@ -162,7 +162,7 @@ namespace Honeypot.Views
                         if (int.TryParse(navItemTag.Replace(HoneypotConsts.CategoryPageTagPrefix, ""), out int categoryId))
                         {
                             navItemTag = allPasswordsPageTag;
-                            MainViewModel.Instance.UpdatePasswords(categoryId);
+                            MainViewModel.Instance.UpdatePasswordsList(categoryId);
                         }
                     }
 

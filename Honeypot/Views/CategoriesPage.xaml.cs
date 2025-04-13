@@ -65,7 +65,7 @@ namespace Honeypot.Views
         {
             if (sender is Button btn && btn.DataContext is CategoryModel category)
             {
-                MainViewModel.Instance.UpdatePasswords(category.Id);
+                MainViewModel.Instance.UpdatePasswordsList(category.Id);
                 MainViewModel.Instance.ActNavigatePage?.Invoke(NavigatePageEnum.Passwords);
             }
         }
