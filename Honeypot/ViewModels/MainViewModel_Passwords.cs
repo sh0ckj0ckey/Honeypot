@@ -6,16 +6,20 @@ using System.Linq;
 using Honeypot.Data;
 using Honeypot.Helpers;
 using Honeypot.Models;
-using Windows.ApplicationModel.Search.Core;
 
 namespace Honeypot.ViewModels
 {
     public partial class MainViewModel
     {
         /// <summary>
+        /// 所有密码ID与密码信息的映射
+        /// </summary>
+        private Dictionary<int, PasswordModel> _passwordsDict = new Dictionary<int, PasswordModel>();
+
+        /// <summary>
         /// 所有密码列表
         /// </summary>
-        private List<PasswordModel> _allPasswords { get; set; } = new List<PasswordModel>();
+        public ObservableCollection<PasswordModel> AllPasswords { get; set; } = new();
 
         /// <summary>
         /// 当前显示的密码列表（根据分类ID过滤）
@@ -71,6 +75,17 @@ namespace Honeypot.ViewModels
         }
 
         /// <summary>
+        /// 根据密码ID获取密码信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public PasswordModel GetPasswordById(int id)
+        {
+            _passwordsDict.TryGetValue(id, out PasswordModel password);
+            return password;
+        }
+
+        /// <summary>
         /// 重新从数据库加载所有密码列表
         /// </summary>
         private async void LoadPasswordsTable()
@@ -79,6 +94,8 @@ namespace Honeypot.ViewModels
             {
                 if (PasswordsDataAccess.IsDatabaseConnected())
                 {
+                    _passwordsDict.Clear();
+                    AllPasswords.Clear();
                     SelectedPassword = null;
                     _allPasswords.Clear();
 
@@ -101,15 +118,16 @@ namespace Honeypot.ViewModels
                             LogoFileName = item.Logo,
                         };
 
-                        _allPasswords.Insert(0, password);
+                        _passwordsDict[password.Id] = password;
+                        AllPasswords.Insert(0, password);
                     }
 
-                    ActNoticeUserToBackup?.Invoke(_allPasswords.Count);
+                    ActNoticeUserToBackup?.Invoke(AllPasswords.Count);
 
                     UpdatePasswords(PasswordsCategoryId);
                     UpdateFavorites();
 
-                    foreach (var password in _allPasswords)
+                    foreach (var password in AllPasswords)
                     {
                         password.NormalLogoImage = await LogoImageHelper.GetLogoImage(password.LogoFileName, LogoSizeEnum.Medium);
                         password.LargeLogoImage = await LogoImageHelper.GetLogoImage(password.LogoFileName, LogoSizeEnum.Large);
@@ -149,7 +167,7 @@ namespace Honeypot.ViewModels
             if (PasswordsCategoryId <= 0)
             {
                 // 按照添加顺序排列
-                foreach (var item in _allPasswords)
+                foreach (var item in AllPasswords)
                 {
                     Passwords.Add(item);
 
@@ -161,7 +179,7 @@ namespace Honeypot.ViewModels
 
                 // 按照首字母分组
                 var orderedList =
-                    (from item in _allPasswords
+                    (from item in AllPasswords
                      group item by item.FirstLetter into newItems
                      select
                      new PasswordsGroupModel
@@ -178,7 +196,7 @@ namespace Honeypot.ViewModels
             else
             {
                 // 按照添加顺序排列
-                foreach (var item in _allPasswords)
+                foreach (var item in AllPasswords)
                 {
                     if (item.CategoryId == PasswordsCategoryId)
                     {
@@ -193,7 +211,7 @@ namespace Honeypot.ViewModels
 
                 // 按照首字母分组
                 var orderedList =
-                    (from item in _allPasswords
+                    (from item in AllPasswords
                      where item.CategoryId == PasswordsCategoryId
                      group item by item.FirstLetter into newItems
                      select

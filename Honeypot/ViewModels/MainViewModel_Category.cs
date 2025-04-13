@@ -62,8 +62,8 @@ namespace Honeypot.ViewModels
         /// <returns></returns>
         public CategoryModel GetCategoryById(int id)
         {
-            _categoriesDict.TryGetValue(id, out CategoryModel value);
-            return value;
+            _categoriesDict.TryGetValue(id, out CategoryModel category);
+            return category;
         }
 
         /// <summary>
@@ -78,6 +78,7 @@ namespace Honeypot.ViewModels
                     _categoriesDict.Clear();
                     Categoryies.Clear();
                     CategoriesOnNav.Clear();
+
                     var categories = PasswordsDataAccess.GetCategories();
                     foreach (var item in categories)
                     {
@@ -143,7 +144,7 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 编辑分类信息
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="category"></param>
         /// <param name="title"></param>
         /// <param name="icon"></param>
         public void EditCategory(CategoryModel category, string title, string icon)
@@ -177,8 +178,7 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 将分类移到最前
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="ticksAsOrder"></param>
+        /// <param name="category"></param>
         public void MoveCategory(CategoryModel category)
         {
             try

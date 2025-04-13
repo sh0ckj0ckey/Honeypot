@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Honeypot.Data;
-using Honeypot.Helpers;
 using Honeypot.Models;
 
 namespace Honeypot.ViewModels
@@ -37,7 +33,7 @@ namespace Honeypot.ViewModels
 
             // 收藏夹
             var orderedFavoriteList =
-                (from item in _allPasswords
+                (from item in AllPasswords
                  where item.Favorite
                  group item by item.CategoryId into newItems
                  select

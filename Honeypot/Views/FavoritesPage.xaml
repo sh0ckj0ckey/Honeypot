@@ -44,9 +44,10 @@
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate x:DataType="models:FavoritesGroupModel">
-                                        <StackPanel Margin="0,4,0,-4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                                            <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,-1" Glyph="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock FontSize="14" Opacity="0.9" Text="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                        <StackPanel Margin="0,4,0,-4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                                    DataContext="{x:Bind Key,Mode=OneWay,Converter={StaticResource Id2Category}}">
+                                            <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,-1" Glyph="{Binding Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            <TextBlock FontSize="14" Opacity="0.9" Text="{Binding Title,Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
@@ -176,8 +177,9 @@
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="ICollectionViewGroup">
                                 <FontIcon FontSize="16" Margin="0,0,0,0" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                          Glyph="{x:Bind Group.(models:FavoritesGroupModel.Key),Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Icon}" 
-                                          ToolTipService.ToolTip="{x:Bind Group.(models:FavoritesGroupModel.Key),Mode=OneWay,Converter={StaticResource Id2Category},ConverterParameter=Title}"/>
+                                          DataContext="{x:Bind Group.(models:FavoritesGroupModel.Key),Converter={StaticResource Id2Category}}"
+                                          Glyph="{Binding Icon,Mode=OneWay}" 
+                                          ToolTipService.ToolTip="{Binding Title,Mode=OneWay}"/>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
