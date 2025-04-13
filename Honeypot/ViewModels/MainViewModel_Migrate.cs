@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.IO;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Linq;
+using Honeypot.Core;
 using Honeypot.Helpers;
 using Honeypot.Models;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Storage.Streams;
-using Windows.Storage;
 using Windows.Graphics.Imaging;
-using System.IO;
-using Honeypot.Core;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Honeypot.ViewModels
 {
@@ -81,8 +79,11 @@ namespace Honeypot.ViewModels
             try
             {
                 var json = await MigrateHelper.GetLegacyJson();
+                if (!string.IsNullOrWhiteSpace(json))
+                {
                 var passwords = System.Text.Json.JsonSerializer.Deserialize<List<Models.LegacyPasswordItem>>(json);
                 ShowMigrater = passwords.Count > 0;
+            }
             }
             catch (Exception ex)
             {
