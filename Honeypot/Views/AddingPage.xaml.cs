@@ -109,6 +109,7 @@ namespace Honeypot.Views
                 AddingPasswordTextBox.Text = "";
                 AddingWebsiteTextBox.Text = "";
                 AddingNoteTextBox.Text = "";
+                AddingThirdPartyLoginComboBox.SelectedIndex = -1;
                 AddingCategoryComboBox.SelectedIndex = -1;
                 AddingFavoriteCheckBox.IsChecked = false;
 
@@ -161,7 +162,7 @@ namespace Honeypot.Views
                 bool number = NumberCheckBox.IsChecked == true;
                 bool symbol = SymbolCheckBox.IsChecked == true;
                 int length = (int)PasswordLengthNumberBox.Value;
-                
+
                 string password = RandomPasswordGenerator.GeneratePassword(letter, number, symbol, length);
                 AddingPasswordTextBox.Text = password;
 
@@ -179,6 +180,26 @@ namespace Honeypot.Views
             {
                 Debug.WriteLine(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// 点击清除第三方账号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickClearThirdPartyAccount(object sender, RoutedEventArgs e)
+        {
+            AddingThirdPartyLoginComboBox.SelectedIndex = -1;
+        }
+
+        /// <summary>
+        /// 点击清除分类
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickClearCategory(object sender, RoutedEventArgs e)
+        {
+            AddingCategoryComboBox.SelectedIndex = -1;
         }
 
         /// <summary>
@@ -202,28 +223,29 @@ namespace Honeypot.Views
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(AddingAccountTextBox.Text) && string.IsNullOrWhiteSpace(AddingPasswordTextBox.Text))
-                {
-                    _textEmptyDialog.Title = resourceLoader.GetString("DialogTitleNotEnough");
-                    _textEmptyDialog.Content = resourceLoader.GetString("DialogContentCompleteAccountOrPassword");
-                    _textEmptyDialog.XamlRoot = this.XamlRoot;
-                    _textEmptyDialog.RequestedTheme = this.ActualTheme;
-                    await _textEmptyDialog.ShowAsync();
-                    return;
-                }
+                //if (string.IsNullOrWhiteSpace(AddingAccountTextBox.Text) && string.IsNullOrWhiteSpace(AddingPasswordTextBox.Text))
+                //{
+                //    _textEmptyDialog.Title = resourceLoader.GetString("DialogTitleNotEnough");
+                //    _textEmptyDialog.Content = resourceLoader.GetString("DialogContentCompleteAccountOrPassword");
+                //    _textEmptyDialog.XamlRoot = this.XamlRoot;
+                //    _textEmptyDialog.RequestedTheme = this.ActualTheme;
+                //    await _textEmptyDialog.ShowAsync();
+                //    return;
+                //}
 
                 var name = AddingNameTextBox.Text;
                 var account = AddingAccountTextBox.Text;
                 var password = AddingPasswordTextBox.Text;
                 var website = AddingWebsiteTextBox.Text;
                 var note = AddingNoteTextBox.Text;
-                var category = (AddingCategoryComboBox.SelectedItem as CategoryModel)?.Id ?? -1;
+                var thirdPartyLoginId = (AddingThirdPartyLoginComboBox.SelectedItem as PasswordModel)?.Id ?? -1;
+                var categoryId = (AddingCategoryComboBox.SelectedItem as CategoryModel)?.Id ?? -1;
                 var favorite = AddingFavoriteCheckBox.IsChecked == true;
 
                 string logoFilePath = DateTime.Now.Ticks.ToString();
                 bool result = await LogoImageHelper.SaveLogoImage(logoFilePath, _croppedWriteableBitmap);
 
-                MainViewModel.Instance.AddPassword(category, account, password, name, website, note, favorite, logoFilePath);
+                MainViewModel.Instance.AddPassword(categoryId, account, password, thirdPartyLoginId, name, website, note, favorite, logoFilePath);
 
                 AddingSuccessBorder.Visibility = Visibility.Visible;
                 ResetPage();

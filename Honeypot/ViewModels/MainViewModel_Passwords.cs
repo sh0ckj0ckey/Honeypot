@@ -113,6 +113,7 @@ namespace Honeypot.ViewModels
                             Note = item.Note,
                             Favorite = item.Favorite != 0,
                             CategoryId = item.CategoryId,
+                            ThirdPartyId = item.ThirdPartyId,
                             LogoFileName = item.Logo,
                         };
 
@@ -240,7 +241,7 @@ namespace Honeypot.ViewModels
         /// <param name="favorite"></param>
         /// <param name="logoFilePath"></param>
         /// <param name="date"></param>
-        public void AddPassword(int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath, string date = "")
+        public void AddPassword(int categoryId, string account, string password, int thirdPartyLoginId, string name, string website, string note, bool favorite, string logoFilePath, string date = "")
         {
             string firstLetter = PinyinHelper.GetFirstSpell(name.Trim()).ToString();
             if (string.IsNullOrWhiteSpace(date))
@@ -248,7 +249,7 @@ namespace Honeypot.ViewModels
                 date = DateTime.Now.ToString("yyyy/MM/dd");
             }
 
-            PasswordsDataAccess.AddPassword(categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
+            PasswordsDataAccess.AddPassword(categoryId, account, password, thirdPartyLoginId, firstLetter, name, date, website, note, favorite, logoFilePath);
             LoadPasswordsTable();
         }
 
@@ -264,7 +265,7 @@ namespace Honeypot.ViewModels
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="logoFilePath"></param>
-        public async void EditPassword(PasswordModel passwordItem, int categoryId, string account, string password, string name, string website, string note, bool favorite, string logoFilePath)
+        public async void EditPassword(PasswordModel passwordItem, int categoryId, string account, string password, int thirdPartyLoginId, string name, string website, string note, bool favorite, string logoFilePath)
         {
             try
             {
@@ -275,10 +276,12 @@ namespace Honeypot.ViewModels
 
                 string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
                 string date = DateTime.Now.ToString("yyyy/MM/dd");
-                PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryId, account, password, firstLetter, name, date, website, note, favorite, logoFilePath);
+
+                PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryId, account, password, thirdPartyLoginId, firstLetter, name, date, website, note, favorite, logoFilePath);
 
                 passwordItem.Account = account;
                 passwordItem.Password = password;
+                passwordItem.ThirdPartyId = thirdPartyLoginId;
                 passwordItem.FirstLetter = firstLetter[0];
                 passwordItem.Name = name;
                 passwordItem.EditDate = date;

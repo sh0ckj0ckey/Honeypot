@@ -77,6 +77,13 @@ namespace Honeypot.Models
             set => SetProperty(ref _categoryId, value);
         }
 
+        private int _thirdPartyId = -1;
+        public int ThirdPartyId
+        {
+            get => _thirdPartyId;
+            set => SetProperty(ref _thirdPartyId, value);
+        }
+
         public string LogoFileName { get; set; } = string.Empty;
 
         private BitmapImage _normalLogoImage = null;

@@ -97,6 +97,26 @@ namespace Honeypot.Views
             }
         }
 
+        /// <summary>
+        /// 点击跳转到关联的第三方登录账号
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickThirdPartyAccount(object sender, RoutedEventArgs e)
+        {
+            if (MainViewModel.Instance.SelectedPassword.ThirdPartyId > 0)
+            {
+                var thirdPartyAccount = PasswordsGetter.GetPasswordById(MainViewModel.Instance.SelectedPassword.ThirdPartyId);
+                if (thirdPartyAccount != null)
+                {
+                    MainViewModel.Instance.SelectedPassword = thirdPartyAccount;
+
+                    GroupedPasswordsList.ScrollIntoView(thirdPartyAccount);
+                    TimeOrderPasswordsList.ScrollIntoView(thirdPartyAccount);
+                }
+            }
+        }
+
         [GeneratedRegex("^https?:\\/\\/", RegexOptions.IgnoreCase)]
         private static partial Regex _urlSchemeRegex();
 
@@ -186,6 +206,7 @@ namespace Honeypot.Views
                     editing.Id,
                     editing.Account,
                     editing.Password,
+                    editing.ThirdPartyId,
                     editing.Name,
                     editing.Website,
                     editing.Note,
@@ -201,6 +222,7 @@ namespace Honeypot.Views
                     int id = _editingPasswordControl.GetModifiedInfo(
                                  out string account,
                                  out string password,
+                                 out int thirdPartyId,
                                  out string name,
                                  out string website,
                                  out string note,
@@ -222,7 +244,7 @@ namespace Honeypot.Views
 
                     if (id == editing.Id)
                     {
-                        MainViewModel.Instance.EditPassword(editing, categoryId, account, password, name, website, note, editing.Favorite, logoFilePath);
+                        MainViewModel.Instance.EditPassword(editing, categoryId, account, password, thirdPartyId, name, website, note, editing.Favorite, logoFilePath);
                     }
                 }
 
@@ -370,5 +392,6 @@ namespace Honeypot.Views
                 Debug.WriteLine(ex.Message);
             }
         }
+
     }
 }

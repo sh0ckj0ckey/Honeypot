@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using Honeypot.Core;
@@ -81,9 +80,9 @@ namespace Honeypot.ViewModels
                 var json = await MigrateHelper.GetLegacyJson();
                 if (!string.IsNullOrWhiteSpace(json))
                 {
-                var passwords = System.Text.Json.JsonSerializer.Deserialize<List<Models.LegacyPasswordItem>>(json);
-                ShowMigrater = passwords.Count > 0;
-            }
+                    var passwords = System.Text.Json.JsonSerializer.Deserialize<List<Models.LegacyPasswordItem>>(json);
+                    ShowMigrater = passwords.Count > 0;
+                }
             }
             catch (Exception ex)
             {
@@ -161,6 +160,7 @@ namespace Honeypot.ViewModels
                                 -1,
                                 item.sAccount,
                                 item.sPassword,
+                                -1,
                                 item.sName,
                                 item.sWebsite,
                                 item.sNote,

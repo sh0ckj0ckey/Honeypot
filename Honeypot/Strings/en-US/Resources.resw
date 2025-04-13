@@ -129,11 +129,11 @@
   <data name="AppNameTextBlock.Text" xml:space="preserve">
     <value>Honeypot</value>
   </data>
-  <data name="UnlockTextBlock.Text" xml:space="preserve">
-    <value>Click to unlock with Windows Hello</value>
-  </data>
   <data name="LockedTextBlock.Text" xml:space="preserve">
     <value>Honeypot is Locked</value>
+  </data>
+  <data name="UnlockTextBlock.Text" xml:space="preserve">
+    <value>Click to unlock with Windows Hello</value>
   </data>
   <data name="UnknownCategoryTitle" xml:space="preserve">
     <value>Uncategorized</value>
@@ -376,7 +376,7 @@
     <value>Are you sure you want to delete</value>
   </data>
   <data name="PasswordsDetailDeleteTextBlockRun2.Text" xml:space="preserve">
-    <value>?</value>
+    <value>? The association of third-party login between this account and other accounts will also be cleared.</value>
   </data>
   <data name="PasswordsDetailDeleteConfirmButton.Content" xml:space="preserve">
     <value>Confirm</value>
@@ -680,5 +680,20 @@
   </data>
   <data name="TipsWhyNoIconContentTextBlock.Text" xml:space="preserve">
     <value>The icons for categories come from the built-in Windows 11 font, Segoe Fluent Icons. This font is usually pre-installed on your device. If this font is deleted, "Honeypot" will not be able to retrieve the icon list, and you will be unable to select icons for your categories.</value>
+  </data>
+  <data name="AddingThirdPartyLoginTextBlock.Text" xml:space="preserve">
+    <value>Third-party login</value>
+  </data>
+  <data name="AddingThirdPartyLoginComboBox.PlaceholderText" xml:space="preserve">
+    <value>Select Account</value>
+  </data>
+  <data name="PasswordsDetailThirdPartyTextBlock.Text" xml:space="preserve">
+    <value>Third-party login</value>
+  </data>
+  <data name="EditingThirdPartyComboBox.PlaceholderText" xml:space="preserve">
+    <value>Select Account</value>
+  </data>
+  <data name="EditingThirdPartyRemoveButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Remove Third-party Account</value>
   </data>
 </root>

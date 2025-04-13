@@ -376,7 +376,7 @@
     <value>确认要删除</value>
   </data>
   <data name="PasswordsDetailDeleteTextBlockRun2.Text" xml:space="preserve">
-    <value>吗，删除后将无法恢复哦。</value>
+    <value>吗，删除后将无法恢复，其它账号与此账号的第三方登录关联也会被清除。</value>
   </data>
   <data name="PasswordsDetailDeleteConfirmButton.Content" xml:space="preserve">
     <value>确认删除</value>
@@ -680,5 +680,20 @@
   </data>
   <data name="TipsWhyNoIconContentTextBlock.Text" xml:space="preserve">
     <value>分类的图标来自 Windows 11 内置字体 Segoe Fluent Icons，这个字体通常会内置在您的设备上。如果这个字体被删除，"密罐" 就获取不到相应的图标列表，也就无法供您选择分类的图标了。</value>
+  </data>
+  <data name="AddingThirdPartyLoginTextBlock.Text" xml:space="preserve">
+    <value>第三方登录</value>
+  </data>
+  <data name="AddingThirdPartyLoginComboBox.PlaceholderText" xml:space="preserve">
+    <value>选择账号</value>
+  </data>
+  <data name="PasswordsDetailThirdPartyTextBlock.Text" xml:space="preserve">
+    <value>第三方登录</value>
+  </data>
+  <data name="EditingThirdPartyComboBox.PlaceholderText" xml:space="preserve">
+    <value>选择账号</value>
+  </data>
+  <data name="EditingThirdPartyRemoveButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>取消关联</value>
   </data>
 </root>

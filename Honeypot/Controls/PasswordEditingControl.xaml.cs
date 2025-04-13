@@ -161,6 +161,7 @@ namespace Honeypot.Controls
             PasswordTextBox.Text = "";
             WebsiteTextBox.Text = "";
             NoteTextBox.Text = "";
+            ThirdPartyComboBox.SelectedIndex = -1;
             CategoryComboBox.SelectedIndex = -1;
 
             LogoImageCropper.Source = null;
@@ -197,6 +198,16 @@ namespace Honeypot.Controls
             {
                 Debug.WriteLine(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// 取消第三方登录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnClickRemoveThirdParty(object sender, RoutedEventArgs e)
+        {
+            ThirdPartyComboBox.SelectedIndex = -1;
         }
 
         /// <summary>
