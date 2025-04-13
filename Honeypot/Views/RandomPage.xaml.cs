@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using Honeypot.Helpers;
 using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;

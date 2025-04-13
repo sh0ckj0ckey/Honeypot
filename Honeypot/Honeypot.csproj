@@ -48,7 +48,6 @@
 		<None Remove="Assets\Icon\img_feedback_qq.jpg" />
 		<None Remove="Assets\Icon\img_feedback_wechat.jpg" />
 		<None Remove="Assets\Icon\img_logo.png" />
-		<None Remove="Assets\Icon\img_logo_origin.png" />
 		<None Remove="Assets\Icon\img_logo2.png" />
 		<None Remove="Assets\Icon\img_manypasswords.png" />
 		<None Remove="Assets\BuildInIcon\Alipay.jpg" />

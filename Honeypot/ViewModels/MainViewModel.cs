@@ -4,7 +4,6 @@ using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Honeypot.Core;
 using Honeypot.Data;
-using Honeypot.Helpers;
 using Honeypot.Models;
 using Windows.Storage;
 

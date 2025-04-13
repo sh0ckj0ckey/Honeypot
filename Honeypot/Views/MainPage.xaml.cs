@@ -95,7 +95,7 @@ namespace Honeypot.Views
             MainViewModel.Instance.ActInvokeMigrater = (show) =>
             {
                 MigrateSmokeGrid.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
-                
+
                 if (_migrater is null)
                 {
                     _migrater = new MigrateControl();
