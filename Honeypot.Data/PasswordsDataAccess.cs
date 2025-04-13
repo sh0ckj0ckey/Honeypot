@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Honeypot.Data.Models;
 using Microsoft.Data.Sqlite;
 using Windows.Storage;
-using WinRT;
 
 namespace Honeypot.Data
 {
@@ -30,7 +25,7 @@ namespace Honeypot.Data
                     "title TEXT," +
                     "icon TEXT," +
                     "timeorder INTEGER);";
-            SqliteCommand createCategoryTable = new SqliteCommand(categoryTableCommand, _passwordsDb);
+            using SqliteCommand createCategoryTable = new SqliteCommand(categoryTableCommand, _passwordsDb);
             createCategoryTable.ExecuteNonQuery();
 
             string passwordsTableCommand =
@@ -48,6 +43,7 @@ namespace Honeypot.Data
                     "favorite INTEGER DEFAULT 0," +
                     "logo TEXT);";
             SqliteCommand createPasswordsTable = new SqliteCommand(passwordsTableCommand, _passwordsDb);
+            using SqliteCommand createPasswordsTable = new SqliteCommand(passwordsTableCommand, _passwordsDb);
             createPasswordsTable.ExecuteNonQuery();
         }
 
@@ -78,19 +74,15 @@ namespace Honeypot.Data
         public static List<PasswordDataModel> GetPasswords(int categoryId = -1)
         {
             List<PasswordDataModel> results = new List<PasswordDataModel>();
-            SqliteCommand selectCommand = null;
 
+            using SqliteCommand selectCommand = _passwordsDb.CreateCommand();
+            selectCommand.CommandText = categoryId > 0 ? @"SELECT * FROM passwords WHERE categoryid=$categoryid" : @"SELECT * FROM passwords";
             if (categoryId > 0)
             {
-                selectCommand = new($"SELECT * FROM passwords WHERE categoryid=$categoryid", _passwordsDb);
                 selectCommand.Parameters.AddWithValue("$categoryid", categoryId);
             }
-            else
-            {
-                selectCommand = new($"SELECT * FROM passwords", _passwordsDb);
-            }
 
-            using SqliteDataReader query = selectCommand?.ExecuteReader();
+            using SqliteDataReader query = selectCommand.ExecuteReader();
             while (query?.Read() == true)
             {
                 PasswordDataModel item = new PasswordDataModel();
@@ -109,6 +101,7 @@ namespace Honeypot.Data
                 item.FirstLetter = (string.IsNullOrWhiteSpace(firstLetter) || firstLetter.Length <= 0) ? '#' : firstLetter[0];
                 results.Add(item);
             }
+
             return results;
         }
 
@@ -121,14 +114,13 @@ namespace Honeypot.Data
         /// <param name="firstLetter"></param>
         /// <param name="name"></param>
         /// <param name="createDate"></param>
-        /// <param name="editDate"></param>
         /// <param name="website"></param>
         /// <param name="note"></param>
         /// <param name="favorite"></param>
-        /// <param name="image"></param>
+        /// <param name="logo"></param>
         public static void AddPassword(int categoryid, string account, string password, string firstLetter, string name, string createDate, string website, string note, bool favorite, string logo)
         {
-            SqliteCommand insertCommand = _passwordsDb.CreateCommand();
+            using SqliteCommand insertCommand = _passwordsDb.CreateCommand();
             insertCommand.CommandText =
             @"
                     INSERT INTO passwords(categoryid,account,password,firstletter,name,createdate,website,note,favorite,logo) 
@@ -162,7 +154,7 @@ namespace Honeypot.Data
         /// <param name="website"></param>
         /// <param name="note"></param>
         /// <param name="favorite"></param>
-        /// <param name="image"></param>
+        /// <param name="logo"></param>
         public static void UpdatePassword(long id, int categoryid, string account, string password, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
         {
             SqliteCommand insertCommand = new SqliteCommand(
@@ -189,12 +181,12 @@ namespace Honeypot.Data
         /// <param name="favorite"></param>
         public static void FavoritePassword(long id, bool favorite)
         {
-            SqliteCommand insertCommand = new SqliteCommand(
-                $"UPDATE passwords SET favorite=$favorite WHERE id=$id;",
-                _passwordsDb);
-            insertCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
-            insertCommand.Parameters.AddWithValue("$id", id);
-            insertCommand?.ExecuteNonQuery();
+            using SqliteCommand updateCommand = _passwordsDb.CreateCommand();
+            updateCommand.CommandText = @"UPDATE passwords SET favorite=$favorite WHERE id=$id;";
+
+            updateCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
+            updateCommand.Parameters.AddWithValue("$id", id);
+            updateCommand.ExecuteNonQuery();
         }
 
 
@@ -204,9 +196,11 @@ namespace Honeypot.Data
         /// <param name="id"></param>
         public static void DeletePassword(long id)
         {
-            SqliteCommand deleteWordsCommand = new SqliteCommand($"DELETE FROM passwords WHERE id=$id;", _passwordsDb);
-            deleteWordsCommand.Parameters.AddWithValue("$id", id);
-            deleteWordsCommand?.ExecuteNonQuery();
+            using SqliteCommand deleteCommand = _passwordsDb.CreateCommand();
+            deleteCommand.CommandText = @"DELETE FROM passwords WHERE id=$id;";
+
+            deleteCommand.Parameters.AddWithValue("$id", id);
+            deleteCommand.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -216,8 +210,11 @@ namespace Honeypot.Data
         public static List<CategoryDataModel> GetCategories()
         {
             List<CategoryDataModel> results = new List<CategoryDataModel>();
-            SqliteCommand selectCommand = new SqliteCommand($"SELECT * FROM passwordCategories ORDER BY timeorder ASC", _passwordsDb);
-            using SqliteDataReader query = selectCommand?.ExecuteReader();
+
+            using SqliteCommand selectCommand = _passwordsDb.CreateCommand();
+            selectCommand.CommandText = @"SELECT * FROM passwordCategories ORDER BY timeorder ASC;";
+
+            using SqliteDataReader query = selectCommand.ExecuteReader();
             while (query?.Read() == true)
             {
                 CategoryDataModel item = new CategoryDataModel();
@@ -227,6 +224,7 @@ namespace Honeypot.Data
                 item.Order = query.IsDBNull(3) ? 0 : query.GetInt64(3);
                 results.Add(item);
             }
+
             return results;
         }
 
@@ -237,7 +235,9 @@ namespace Honeypot.Data
         /// <param name="icon"></param>
         public static void AddCategory(string title, string icon, long ticksAsOrder)
         {
-            SqliteCommand insertCommand = new SqliteCommand($"INSERT INTO passwordCategories(title, icon, timeorder) VALUES($title, $icon, $order);", _passwordsDb);
+            using SqliteCommand insertCommand = _passwordsDb.CreateCommand();
+            insertCommand.CommandText = @"INSERT INTO passwordCategories(title, icon, timeorder) VALUES($title, $icon, $order);";
+
             insertCommand.Parameters.AddWithValue("$title", title);
             insertCommand.Parameters.AddWithValue("$icon", icon);
             insertCommand.Parameters.AddWithValue("$order", ticksAsOrder);
@@ -251,27 +251,33 @@ namespace Honeypot.Data
         /// <param name="icon"></param>
         public static void UpdateCategory(int id, string title, string icon, long ticksAsOrder)
         {
-            SqliteCommand updateCommand = new SqliteCommand($"UPDATE passwordCategories SET title=$title, icon=$icon, timeorder=$order WHERE id=$id;", _passwordsDb);
+            using SqliteCommand updateCommand = _passwordsDb.CreateCommand();
+            updateCommand.CommandText = @"UPDATE passwordCategories SET title=$title, icon=$icon, timeorder=$order WHERE id=$id;";
+
             updateCommand.Parameters.AddWithValue("$title", title);
             updateCommand.Parameters.AddWithValue("$icon", icon);
-            updateCommand.Parameters.AddWithValue("$id", id);
             updateCommand.Parameters.AddWithValue("$order", ticksAsOrder);
+            updateCommand.Parameters.AddWithValue("$id", id);
             updateCommand.ExecuteNonQuery();
         }
 
         /// <summary>
-        /// 一个分类，并将passwords表中所有属于该分类的密码分类改为空
+        /// 删除一个分类，并将passwords表中所有属于该分类的密码分类改为空
         /// </summary>
         /// <param name="id"></param>
         public static void DeleteCategory(int id)
         {
-            SqliteCommand deleteCommand = new SqliteCommand($"DELETE FROM passwordCategories WHERE id=$id;", _passwordsDb);
-            deleteCommand.Parameters.AddWithValue("$id", id);
-            SqliteDataReader query = deleteCommand?.ExecuteReader();
+            using SqliteCommand deleteCommand = _passwordsDb.CreateCommand();
+            deleteCommand.CommandText = @"DELETE FROM passwordCategories WHERE id=$id;";
 
-            SqliteCommand deleteWordsCommand = new SqliteCommand($"UPDATE passwords SET categoryid=-1 WHERE categoryid=$id;", _passwordsDb);
-            deleteWordsCommand.Parameters.AddWithValue("$id", id);
-            deleteWordsCommand.ExecuteNonQuery();
+            deleteCommand.Parameters.AddWithValue("$id", id);
+            deleteCommand.ExecuteNonQuery();
+
+            SqliteCommand updateCommand = _passwordsDb.CreateCommand();
+            updateCommand.CommandText = @"UPDATE passwords SET categoryid=-1 WHERE categoryid=$id;";
+
+            updateCommand.Parameters.AddWithValue("$id", id);
+            updateCommand.ExecuteNonQuery();
         }
     }
 }
