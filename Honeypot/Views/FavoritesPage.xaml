@@ -44,11 +44,13 @@
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
                                     <DataTemplate x:DataType="models:FavoritesGroupModel">
-                                        <StackPanel Margin="0,4,0,-4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                                                    DataContext="{x:Bind Key,Converter={StaticResource Id2Category}}">
-                                            <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,-1" Glyph="{Binding Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                            <TextBlock FontSize="14" Opacity="0.9" Text="{Binding Title,Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                                        </StackPanel>
+                                        <Border>
+                                            <StackPanel Margin="0,4,0,-4" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                                        DataContext="{x:Bind Key,Converter={StaticResource Id2Category}}">
+                                                <FontIcon FontSize="14" Opacity="0.9" Margin="0,0,8,-1" Glyph="{Binding Icon,Mode=OneWay}" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                                <TextBlock FontSize="14" Opacity="0.9" Text="{Binding Title,Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
                                     </DataTemplate>
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
@@ -176,10 +178,12 @@
                               SelectionMode="None" IsItemClickEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="ICollectionViewGroup">
-                                <FontIcon FontSize="16" Margin="0,0,0,0" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"
-                                          DataContext="{x:Bind Group.(models:FavoritesGroupModel.Key),Converter={StaticResource Id2Category}}"
-                                          Glyph="{Binding Icon,Mode=OneWay}" 
-                                          ToolTipService.ToolTip="{Binding Title,Mode=OneWay}"/>
+                                <Border>
+                                    <FontIcon FontSize="16" Margin="0,0,0,0" FontFamily="{ThemeResource SymbolThemeFontFamily}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                              DataContext="{x:Bind Group.(models:FavoritesGroupModel.Key),Converter={StaticResource Id2Category}}"
+                                              Glyph="{Binding Icon,Mode=OneWay}" 
+                                              ToolTipService.ToolTip="{Binding Title,Mode=OneWay}"/>
+                                </Border>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>
