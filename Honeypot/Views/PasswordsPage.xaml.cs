@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Honeypot.Controls;
@@ -53,6 +54,22 @@ namespace Honeypot.Views
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             SearchAutoSuggestBox.Text = "";
+        }
+
+        /// <summary>
+        /// 密码列表选中项改变
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnSelectedPasswordChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems?.FirstOrDefault() is PasswordModel password && password is not null)
+            {
+                if (MainViewModel.Instance.SelectedPassword != password)
+                {
+                    MainViewModel.Instance.SelectedPassword = password;
+                }
+            }
         }
 
         /// <summary>
