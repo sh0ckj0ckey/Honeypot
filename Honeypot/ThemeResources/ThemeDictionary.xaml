@@ -9,6 +9,8 @@
                     <Color x:Key="APPLICATION_ITEM_BK">#08FFFFFF</Color>
                     <Color x:Key="APPLICATION_LINE_BK">#16FFFFFF</Color>
 
+                    <Color x:Key="CONTENTDIALOG_BK">#2B2B2B</Color>
+
                     <BitmapImage x:Key="APPLICATION_BLANK_IMG" UriSource="ms-appx:///Assets/Icon/img_blank_dark.png" DecodePixelWidth="800" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/img_empty.png" DecodePixelHeight="384" DecodePixelType="Logical"/>
 
@@ -26,6 +28,8 @@
                     <Color x:Key="APPLICATION_ITEM_BK">#06000000</Color>
                     <Color x:Key="APPLICATION_LINE_BK">#10000000</Color>
 
+                    <Color x:Key="CONTENTDIALOG_BK">#FFFFFF</Color>
+                    
                     <BitmapImage x:Key="APPLICATION_BLANK_IMG" UriSource="ms-appx:///Assets/Icon/img_blank_light.png" DecodePixelWidth="800" DecodePixelType="Logical"/>
                     <BitmapImage x:Key="APPLICATION_EMPTY_IMG" UriSource="ms-appx:///Assets/Icon/img_empty.png" DecodePixelHeight="384" DecodePixelType="Logical"/>
 
