@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Honeypot.Core;
+using Honeypot.Helpers;
 using Honeypot.Data;
 using Honeypot.Models;
 using Windows.Storage;

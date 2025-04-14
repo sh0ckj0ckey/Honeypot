@@ -44,12 +44,13 @@ namespace Honeypot.Controls
         /// <param name="id"></param>
         /// <param name="account"></param>
         /// <param name="password"></param>
+        /// <param name="thirdPartyId"></param>
         /// <param name="name"></param>
         /// <param name="website"></param>
         /// <param name="note"></param>
         /// <param name="categoryId"></param>
         /// <param name="logoFile"></param>
-        public async void SetOriginInfo(int id, string account, string password, string name, string website, string note, int categoryId, string logoFile)
+        public async void SetOriginInfo(int id, string account, string password, int thirdPartyId, string name, string website, string note, int categoryId, string logoFile)
         {
             _editingId = id;
             _changedLogoImage = false;
@@ -62,20 +63,19 @@ namespace Honeypot.Controls
             WebsiteTextBox.Text = website;
             NoteTextBox.Text = note;
 
+            if (thirdPartyId > 0)
+            {
+                ThirdPartyComboBox.SelectedItem = PasswordsGetter.GetPasswordById(thirdPartyId);
+            }
+
             if (categoryId > 0)
             {
-                foreach (var item in MainViewModel.Instance.Categoryies)
-                {
-                    if (item.Id == categoryId)
-                    {
-                        CategoryComboBox.SelectedItem = item;
-                        break;
-                    }
-                }
+                CategoryComboBox.SelectedItem = PasswordsGetter.GetCategoryById(categoryId);
             }
 
             var imageLogoFile = await LogoImageHelper.GetLogoImageFile(logoFile);
             await LogoImageCropper.LoadImageFromFile(imageLogoFile);
+            
             // 保存原始的裁剪范围
             _originalCropRect = LogoImageCropper.CroppedRegion;
         }
@@ -85,19 +85,21 @@ namespace Honeypot.Controls
         /// </summary>
         /// <param name="account"></param>
         /// <param name="password"></param>
+        /// <param name="thirdPartyId"></param>
         /// <param name="name"></param>
         /// <param name="website"></param>
         /// <param name="note"></param>
         /// <param name="categoryId"></param>
-        /// <param name="logoFile"></param>
+        /// <param name="logoModified"></param>
         /// <returns></returns>
-        public int GetModifiedInfo(out string account, out string password, out string name, out string website, out string note, out int categoryId, out bool logoModified)
+        public int GetModifiedInfo(out string account, out string password, out int thirdPartyId, out string name, out string website, out string note, out int categoryId, out bool logoModified)
         {
             name = "";
             account = "";
             password = "";
             website = "";
             note = "";
+            thirdPartyId = -1;
             categoryId = -1;
 
             logoModified = _changedLogoImage || _originalCropRect != LogoImageCropper.CroppedRegion;
@@ -110,9 +112,14 @@ namespace Honeypot.Controls
                 website = WebsiteTextBox.Text;
                 note = NoteTextBox.Text;
 
-                if (CategoryComboBox?.SelectedItem is CategoryModel category && category is not null)
+                if (ThirdPartyComboBox?.SelectedItem is PasswordModel passwordModel && passwordModel is not null)
                 {
-                    categoryId = category.Id;
+                    thirdPartyId = passwordModel.Id;
+                }
+
+                if (CategoryComboBox?.SelectedItem is CategoryModel categoryModel && categoryModel is not null)
+                {
+                    categoryId = categoryModel.Id;
                 }
             }
             catch (Exception ex)

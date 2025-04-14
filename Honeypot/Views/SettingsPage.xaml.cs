@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using Honeypot.Core.Utils;
 using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -26,7 +25,24 @@ namespace Honeypot.Views
             this.InitializeComponent();
 
             _viewModel = MainViewModel.Instance;
-            _appVersion = $"{AppVersionUtil.GetAppVersion()}";
+            _appVersion = $"{GetAppVersion()}";
+        }
+
+        /// <summary>
+        /// 获取应用程序的版本号
+        /// </summary>
+        /// <returns></returns>
+        private string GetAppVersion()
+        {
+            try
+            {
+                Package package = Package.Current;
+                PackageId packageId = package.Id;
+                PackageVersion version = packageId.Version;
+                return string.Format("{0}.{1}.{2}", version.Major, version.Minor, version.Build);
+            }
+            catch (Exception) { }
+            return "";
         }
 
         /// <summary>

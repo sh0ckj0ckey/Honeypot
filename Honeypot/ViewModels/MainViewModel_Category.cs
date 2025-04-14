@@ -30,8 +30,8 @@ namespace Honeypot.ViewModels
         /// <summary>
         /// 本机 Segoe Fluent Icons 字体的所有字符
         /// </summary>
-        private ObservableCollection<Character> _allIcons = null;
-        public ObservableCollection<Character> AllIcons
+        private List<Character> _allIcons = null;
+        public List<Character> AllIcons
         {
             get => _allIcons;
             set => SetProperty(ref _allIcons, value);
@@ -44,7 +44,7 @@ namespace Honeypot.ViewModels
         {
             if (AllIcons is null)
             {
-                AllIcons = new ObservableCollection<Character>();
+                AllIcons = new List<Character>();
                 var icons = FontHelper.GetAllSegoeFluentIcons();
                 foreach (var icon in icons)
                 {

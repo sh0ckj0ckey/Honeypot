@@ -26,7 +26,7 @@ namespace Honeypot.Data
                     "icon TEXT," +
                     "timeorder INTEGER);";
             using SqliteCommand createCategoryTable = new SqliteCommand(categoryTableCommand, _passwordsDb);
-            createCategoryTable.ExecuteNonQuery();
+            await createCategoryTable.ExecuteNonQueryAsync();
 
             string passwordsTableCommand =
                 "CREATE TABLE IF NOT EXISTS passwords (" +
@@ -44,10 +44,10 @@ namespace Honeypot.Data
                     "logo TEXT," +
                     "thirdpartyid INTEGER DEFAULT -1);";
             using SqliteCommand createPasswordsTable = new SqliteCommand(passwordsTableCommand, _passwordsDb);
-            createPasswordsTable.ExecuteNonQuery();
+            await createPasswordsTable.ExecuteNonQueryAsync();
 
             // 给现有的表添加字段
-            EnsureColumnExists("passwords", "thirdpartyid", "INTEGER DEFAULT -1");
+            await EnsureColumnExists("passwords", "thirdpartyid", "INTEGER DEFAULT -1");
         }
 
         public static bool IsDatabaseConnected()
@@ -76,12 +76,12 @@ namespace Honeypot.Data
         /// <param name="tableName">表名</param>
         /// <param name="columnName">字段名</param>
         /// <param name="columnDefinition">字段定义（类型和默认值）</param>
-        private static void EnsureColumnExists(string tableName, string columnName, string columnDefinition)
+        private static async Task EnsureColumnExists(string tableName, string columnName, string columnDefinition)
         {
             // 查询表结构
             string pragmaCommand = $"PRAGMA table_info({tableName});";
             using SqliteCommand pragmaCmd = new SqliteCommand(pragmaCommand, _passwordsDb);
-            using SqliteDataReader reader = pragmaCmd.ExecuteReader();
+            using SqliteDataReader reader = await pragmaCmd.ExecuteReaderAsync();
 
             // 检查字段是否存在
             bool columnExists = false;
@@ -100,7 +100,7 @@ namespace Honeypot.Data
             {
                 string alterTableCommand = $"ALTER TABLE {tableName} ADD COLUMN {columnName} {columnDefinition};";
                 using SqliteCommand alterCmd = new SqliteCommand(alterTableCommand, _passwordsDb);
-                alterCmd.ExecuteNonQuery();
+                await alterCmd.ExecuteNonQueryAsync();
             }
         }
 
@@ -124,7 +124,7 @@ namespace Honeypot.Data
             {
                 PasswordDataModel item = new PasswordDataModel();
                 item.Id = query.IsDBNull(0) ? -1 : query.GetInt32(0);
-                item.CategoryId = query.IsDBNull(0) ? -1 : query.GetInt32(1);
+                item.CategoryId = query.IsDBNull(1) ? -1 : query.GetInt32(1);
                 item.Account = query.IsDBNull(2) ? string.Empty : query.GetString(2);
                 item.Password = query.IsDBNull(3) ? string.Empty : query.GetString(3);
                 item.Name = query.IsDBNull(5) ? string.Empty : query.GetString(5);
@@ -149,7 +149,7 @@ namespace Honeypot.Data
         /// <param name="categoryid"></param>
         /// <param name="account"></param>
         /// <param name="password"></param>
-        /// <param name="thirdPartyLoginId"></param>
+        /// <param name="thirdPartyId"></param>
         /// <param name="firstLetter"></param>
         /// <param name="name"></param>
         /// <param name="createDate"></param>
@@ -157,7 +157,7 @@ namespace Honeypot.Data
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="logo"></param>
-        public static void AddPassword(int categoryid, string account, string password, int thirdPartyLoginId, string firstLetter, string name, string createDate, string website, string note, bool favorite, string logo)
+        public static void AddPassword(int categoryid, string account, string password, int thirdPartyId, string firstLetter, string name, string createDate, string website, string note, bool favorite, string logo)
         {
             using SqliteCommand insertCommand = _passwordsDb.CreateCommand();
             insertCommand.CommandText =
@@ -176,7 +176,7 @@ namespace Honeypot.Data
             insertCommand.Parameters.AddWithValue("$note", note);
             insertCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
             insertCommand.Parameters.AddWithValue("$logo", logo);
-            insertCommand.Parameters.AddWithValue("$thirdpartyid", thirdPartyLoginId);
+            insertCommand.Parameters.AddWithValue("$thirdpartyid", thirdPartyId);
             insertCommand.ExecuteNonQuery();
         }
 
@@ -187,7 +187,7 @@ namespace Honeypot.Data
         /// <param name="categoryid"></param>
         /// <param name="account"></param>
         /// <param name="password"></param>
-        /// <param name="thirdPartyLoginId"></param>
+        /// <param name="thirdPartyId"></param>
         /// <param name="firstLetter"></param>
         /// <param name="name"></param>
         /// <param name="editDate"></param>
@@ -195,7 +195,7 @@ namespace Honeypot.Data
         /// <param name="note"></param>
         /// <param name="favorite"></param>
         /// <param name="logo"></param>
-        public static void UpdatePassword(long id, int categoryid, string account, string password, int thirdPartyLoginId, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
+        public static void UpdatePassword(long id, int categoryid, string account, string password, int thirdPartyId, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
         {
             using SqliteCommand updateCommand = _passwordsDb.CreateCommand();
             updateCommand.CommandText = @"UPDATE passwords SET categoryid=$categoryid,account=$account,password=$password,firstletter=$firstletter,name=$name,editdate=$editdate,website=$website,note=$note,favorite=$favorite,logo=$logo,thirdpartyid=$thirdpartyid WHERE id=$id;";
@@ -210,7 +210,7 @@ namespace Honeypot.Data
             updateCommand.Parameters.AddWithValue("$note", note);
             updateCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
             updateCommand.Parameters.AddWithValue("$logo", logo);
-            updateCommand.Parameters.AddWithValue("$thirdpartyid", thirdPartyLoginId);
+            updateCommand.Parameters.AddWithValue("$thirdpartyid", thirdPartyId);
             updateCommand.Parameters.AddWithValue("$id", id);
             updateCommand.ExecuteNonQuery();
         }

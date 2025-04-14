@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Honeypot.Core;
 using Honeypot.Helpers;
 using Honeypot.Models;
 using Microsoft.UI.Xaml.Media.Imaging;
