@@ -188,7 +188,7 @@
                         </StackPanel>
                     </Button>
                 </controls:SettingsCard>
-                <TextBlock Text="© NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="13" Margin="4,4,0,8"/>
+                <TextBlock Text="©2025 NoMewing." Opacity="0.5" FontFamily="Consolas" FontSize="13" Margin="4,4,0,8"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
