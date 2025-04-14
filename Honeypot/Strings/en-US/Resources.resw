@@ -694,6 +694,6 @@
     <value>Select Account</value>
   </data>
   <data name="EditingThirdPartyRemoveButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Remove Third-party Account</value>
+    <value>Remove third-party account</value>
   </data>
 </root>

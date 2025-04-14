@@ -75,7 +75,7 @@ namespace Honeypot.Controls
 
             var imageLogoFile = await LogoImageHelper.GetLogoImageFile(logoFile);
             await LogoImageCropper.LoadImageFromFile(imageLogoFile);
-            
+
             // 保存原始的裁剪范围
             _originalCropRect = LogoImageCropper.CroppedRegion;
         }
