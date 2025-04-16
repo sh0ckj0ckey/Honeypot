@@ -63,11 +63,18 @@ namespace Honeypot.Views
         /// <param name="e"></param>
         private void OnSelectedPasswordChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems?.FirstOrDefault() is PasswordModel password && password is not null)
+            if (e.AddedItems?.FirstOrDefault() is PasswordModel addedPassword && addedPassword is not null)
             {
-                if (MainViewModel.Instance.SelectedPassword != password)
+                if (MainViewModel.Instance.SelectedPassword != addedPassword)
                 {
-                    MainViewModel.Instance.SelectedPassword = password;
+                    MainViewModel.Instance.SelectedPassword = addedPassword;
+                }
+            }
+            else if (e.RemovedItems?.FirstOrDefault() is PasswordModel removedPassword && removedPassword is not null)
+            {
+                if (MainViewModel.Instance.SelectedPassword == removedPassword)
+                {
+                    MainViewModel.Instance.SelectedPassword = null;
                 }
             }
         }
