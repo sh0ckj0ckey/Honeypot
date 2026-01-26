@@ -21,6 +21,12 @@ Still using a paper notebook to record your passwords? Try this app instead! In 
 > - 数据存放在本地，由你自己保管
 > - 密码生成工具，生成随机密码
 
+#### TODO
+
+- [ ] 支持 2FA 功能
+- [ ] 增加类似 Microsoft Edge 的导出明文密码为 csv 文件的功能
+- [ ] 增加支持导入来自浏览器的 csv 密码导出文件的功能
+
 <a href="https://apps.microsoft.com/detail/9nlzpbcs0f5c?mode=full">
 	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
 </a>
