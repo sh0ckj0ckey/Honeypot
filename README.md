@@ -47,4 +47,4 @@ Please use this app only if this storage model is acceptable to you.
 
 ## Screenshots
 
-![Screenshot](ARCHIVE/screenshot.png)
+![Screenshot](Assets/screenshot.png)
