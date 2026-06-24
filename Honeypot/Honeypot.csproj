@@ -1,220 +1,246 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
-		<TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
-		<RootNamespace>Honeypot</RootNamespace>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
-		<Platforms>x86;x64;ARM64</Platforms>
-		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &gt;= 8">win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetFrameworkVersion('$(TargetFramework)')) &lt; 8">win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-		<PublishProfile>win-$(Platform).pubxml</PublishProfile>
-		<UseWinUI>true</UseWinUI>
-		<EnableMsixTooling>true</EnableMsixTooling>
-		<AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-		<DefaultLanguage>en-US</DefaultLanguage>
-		<SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
-		<ApplicationIcon>Assets\Icon\Honeypot.ico</ApplicationIcon>
-		<AppxBundle>Always</AppxBundle>
-		<GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-		<DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-		<GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-		<AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-		<AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-		<AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-		<GenerateTestArtifacts>True</GenerateTestArtifacts>
-		<HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-		<SelfContained>true</SelfContained>
-		<StartupObject>Honeypot.Program</StartupObject>
-		<PackageCertificateKeyFile>Honeypot_TemporaryKey.pfx</PackageCertificateKeyFile>
-		<AppxBundlePlatforms>arm64</AppxBundlePlatforms>
-		<AppxPackageDir>C:\Users\Shock Jockey\Desktop\Honeypot\ARM64\</AppxPackageDir>
-	</PropertyGroup>
-	<ItemGroup>
-		<None Remove="Assets\Icon\icon_github_dark.png" />
-		<None Remove="Assets\Icon\icon_github_light.png" />
-		<None Remove="Assets\Icon\icon_mail.png" />
-		<None Remove="Assets\Icon\icon_manypasswords.png" />
-		<None Remove="Assets\Icon\icon_qq.png" />
-		<None Remove="Assets\Icon\icon_random.png" />
-		<None Remove="Assets\Icon\icon_random_small.png" />
-		<None Remove="Assets\Icon\icon_wechat.png" />
-		<None Remove="Assets\Icon\icon_zhuque.png" />
-		<None Remove="Assets\Icon\img_blank_dark.png" />
-		<None Remove="Assets\Icon\img_blank_light.png" />
-		<None Remove="Assets\Icon\img_default.png" />
-		<None Remove="Assets\Icon\img_empty.png" />
-		<None Remove="Assets\Icon\img_feedback_qq.jpg" />
-		<None Remove="Assets\Icon\img_feedback_wechat.jpg" />
-		<None Remove="Assets\Icon\img_logo.png" />
-		<None Remove="Assets\Icon\img_logo2.png" />
-		<None Remove="Assets\Icon\img_manypasswords.png" />
-		<None Remove="Assets\BuildInIcon\Alipay.jpg" />
-		<None Remove="Assets\BuildInIcon\Apple.jpg" />
-		<None Remove="Assets\BuildInIcon\Baidu.jpg" />
-		<None Remove="Assets\BuildInIcon\BattleNet.jpg" />
-		<None Remove="Assets\BuildInIcon\bilibili.jpg" />
-		<None Remove="Assets\BuildInIcon\default.jpg" />
-		<None Remove="Assets\BuildInIcon\douyin.jpg" />
-		<None Remove="Assets\BuildInIcon\Douyu.jpg" />
-		<None Remove="Assets\BuildInIcon\Facebook.jpg" />
-		<None Remove="Assets\BuildInIcon\GitHub.jpg" />
-		<None Remove="Assets\BuildInIcon\Google.jpg" />
-		<None Remove="Assets\BuildInIcon\Huya.jpg" />
-		<None Remove="Assets\BuildInIcon\Instagram.jpg" />
-		<None Remove="Assets\BuildInIcon\iQIYI.jpg" />
-		<None Remove="Assets\BuildInIcon\ITHome.jpg" />
-		<None Remove="Assets\BuildInIcon\JD.jpg" />
-		<None Remove="Assets\BuildInIcon\Line.jpg" />
-		<None Remove="Assets\BuildInIcon\LinkedIn.jpg" />
-		<None Remove="Assets\BuildInIcon\Microsoft.jpg" />
-		<None Remove="Assets\BuildInIcon\Naver.jpg" />
-		<None Remove="Assets\BuildInIcon\NetEase.jpg" />
-		<None Remove="Assets\BuildInIcon\paypal.jpg" />
-		<None Remove="Assets\BuildInIcon\Pinterest.jpg" />
-		<None Remove="Assets\BuildInIcon\pixiv.jpg" />
-		<None Remove="Assets\BuildInIcon\PSN.jpg" />
-		<None Remove="Assets\BuildInIcon\Reddit.jpg" />
-		<None Remove="Assets\BuildInIcon\Snapchat.jpg" />
-		<None Remove="Assets\BuildInIcon\Spotify.jpg" />
-		<None Remove="Assets\BuildInIcon\Steam.jpg" />
-		<None Remove="Assets\BuildInIcon\Taobao.jpg" />
-		<None Remove="Assets\BuildInIcon\Tencent.jpg" />
-		<None Remove="Assets\BuildInIcon\Twitch.jpg" />
-		<None Remove="Assets\BuildInIcon\Twitter.jpg" />
-		<None Remove="Assets\BuildInIcon\WeChat.jpg" />
-		<None Remove="Assets\BuildInIcon\Weibo.jpg" />
-		<None Remove="Assets\BuildInIcon\Whatsapp.jpg" />
-		<None Remove="Assets\BuildInIcon\Yahoo.jpg" />
-		<None Remove="Assets\BuildInIcon\Zhihu.jpg" />
-		<None Remove="Assets\Tips\img_tips_dbfile_dark.png" />
-		<None Remove="Assets\Tips\img_tips_dbfile_light.png" />
-		<None Remove="Assets\Tips\img_tips_nofont_dark.png" />
-		<None Remove="Assets\Tips\img_tips_nofont_light.png" />
-		<None Remove="Controls\CreateCategoryControl.xaml" />
-		<None Remove="Controls\CropImageControl.xaml" />
-		<None Remove="Controls\MigrateControl.xaml" />
-		<None Remove="Controls\PasswordDetailControl.xaml" />
-		<None Remove="Controls\PasswordEditingControl.xaml" />
-		<None Remove="Fonts\ZhuqueFangsong-Regular.ttf" />
-		<None Remove="ThemeResources\ThemeDictionary.xaml" />
-		<None Remove="Views\AddingPage.xaml" />
-		<None Remove="Views\CategoriesPage.xaml" />
-		<None Remove="Views\FavoritesPage.xaml" />
-		<None Remove="Views\MainPage.xaml" />
-		<None Remove="Views\PasswordsPage.xaml" />
-		<None Remove="Views\RandomPage.xaml" />
-		<None Remove="Views\SettingsPage.xaml" />
-		<None Remove="Views\TipsPage.xaml" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include="Fonts\ZhuqueFangsong-Regular.ttf" />
-	</ItemGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+        <TargetPlatformMinVersion>10.0.22000.0</TargetPlatformMinVersion>
+        <SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
+        <RootNamespace>Honeypot</RootNamespace>
+        <Nullable>enable</Nullable>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+        <ApplicationIcon>Assets\Icon\Honeypot.ico</ApplicationIcon>
+        <DefaultLanguage>en-US</DefaultLanguage>
 
-	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-		<PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.250402" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.2.250402" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250402" />
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
-		<PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.2.250402" />
-		<PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
-		<PackageReference Include="MinecraftLaunch.PinyinConverter" Version="1.0.0" />
-		<PackageReference Include="NPinyin.Core" Version="3.0.0" />
-		<PackageReference Include="SharpDX" Version="4.2.0" />
-		<PackageReference Include="SharpDX.Direct2D1" Version="4.2.0" />
-		<PackageReference Include="SharpDX.DXGI" Version="4.2.0" />
-		<PackageReference Include="System.Text.Json" Version="9.0.4" />
-		<PackageReference Include="WinUIEx" Version="2.5.1" />
-		<Manifest Include="$(ApplicationManifest)" />
-	</ItemGroup>
+        <Platforms>x86;x64;ARM64</Platforms>
+        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <PublishProfile>win-$(Platform).pubxml</PublishProfile>
 
-	<!-- 
+        <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+        <StartupObject>Honeypot.Program</StartupObject>
+
+        <UseWinUI>true</UseWinUI>
+        <WinUISDKReferences>false</WinUISDKReferences>
+
+        <PublishTrimmed>True</PublishTrimmed>
+        <PublishAot>True</PublishAot>
+        <IsAotCompatible>true</IsAotCompatible>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <CsWinRTAotOptimizerEnabled>true</CsWinRTAotOptimizerEnabled>
+        <CsWinRTAotWarningLevel>2</CsWinRTAotWarningLevel>
+
+        <!--https://learn.microsoft.com/en-us/windows/uwp/app-resources/build-resources-into-app-package-->
+        <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
+        <AppxDefaultResourceQualifiers>Language=en-US;zh-Hans</AppxDefaultResourceQualifiers>
+
+        <SelfContained>true</SelfContained>
+        <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+        <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+        <EnableMsixTooling>true</EnableMsixTooling>
+        <AppxBundle>Always</AppxBundle>
+        <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
+        <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+        <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+        <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+        <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+        <GenerateTestArtifacts>True</GenerateTestArtifacts>
+        <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+        <PackageCertificateKeyFile>Honeypot_TemporaryKey.pfx</PackageCertificateKeyFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Remove="Assets\Icon\icon_github_dark.png" />
+        <None Remove="Assets\Icon\icon_github_light.png" />
+        <None Remove="Assets\Icon\icon_mail.png" />
+        <None Remove="Assets\Icon\icon_manypasswords.png" />
+        <None Remove="Assets\Icon\icon_qq.png" />
+        <None Remove="Assets\Icon\icon_random.png" />
+        <None Remove="Assets\Icon\icon_random_small.png" />
+        <None Remove="Assets\Icon\icon_wechat.png" />
+        <None Remove="Assets\Icon\icon_zhuque.png" />
+        <None Remove="Assets\Icon\img_blank_dark.png" />
+        <None Remove="Assets\Icon\img_blank_light.png" />
+        <None Remove="Assets\Icon\img_default.png" />
+        <None Remove="Assets\Icon\img_empty.png" />
+        <None Remove="Assets\Icon\img_feedback_qq.jpg" />
+        <None Remove="Assets\Icon\img_feedback_wechat.jpg" />
+        <None Remove="Assets\Icon\img_logo.png" />
+        <None Remove="Assets\Icon\img_logo2.png" />
+        <None Remove="Assets\Icon\img_manypasswords.png" />
+        <None Remove="Assets\BuildInIcon\Alipay.jpg" />
+        <None Remove="Assets\BuildInIcon\Apple.jpg" />
+        <None Remove="Assets\BuildInIcon\Baidu.jpg" />
+        <None Remove="Assets\BuildInIcon\BattleNet.jpg" />
+        <None Remove="Assets\BuildInIcon\bilibili.jpg" />
+        <None Remove="Assets\BuildInIcon\default.jpg" />
+        <None Remove="Assets\BuildInIcon\douyin.jpg" />
+        <None Remove="Assets\BuildInIcon\Douyu.jpg" />
+        <None Remove="Assets\BuildInIcon\Facebook.jpg" />
+        <None Remove="Assets\BuildInIcon\GitHub.jpg" />
+        <None Remove="Assets\BuildInIcon\Google.jpg" />
+        <None Remove="Assets\BuildInIcon\Huya.jpg" />
+        <None Remove="Assets\BuildInIcon\Instagram.jpg" />
+        <None Remove="Assets\BuildInIcon\iQIYI.jpg" />
+        <None Remove="Assets\BuildInIcon\ITHome.jpg" />
+        <None Remove="Assets\BuildInIcon\JD.jpg" />
+        <None Remove="Assets\BuildInIcon\Line.jpg" />
+        <None Remove="Assets\BuildInIcon\LinkedIn.jpg" />
+        <None Remove="Assets\BuildInIcon\Microsoft.jpg" />
+        <None Remove="Assets\BuildInIcon\Naver.jpg" />
+        <None Remove="Assets\BuildInIcon\NetEase.jpg" />
+        <None Remove="Assets\BuildInIcon\paypal.jpg" />
+        <None Remove="Assets\BuildInIcon\Pinterest.jpg" />
+        <None Remove="Assets\BuildInIcon\pixiv.jpg" />
+        <None Remove="Assets\BuildInIcon\PSN.jpg" />
+        <None Remove="Assets\BuildInIcon\Reddit.jpg" />
+        <None Remove="Assets\BuildInIcon\Snapchat.jpg" />
+        <None Remove="Assets\BuildInIcon\Spotify.jpg" />
+        <None Remove="Assets\BuildInIcon\Steam.jpg" />
+        <None Remove="Assets\BuildInIcon\Taobao.jpg" />
+        <None Remove="Assets\BuildInIcon\Tencent.jpg" />
+        <None Remove="Assets\BuildInIcon\Twitch.jpg" />
+        <None Remove="Assets\BuildInIcon\Twitter.jpg" />
+        <None Remove="Assets\BuildInIcon\WeChat.jpg" />
+        <None Remove="Assets\BuildInIcon\Weibo.jpg" />
+        <None Remove="Assets\BuildInIcon\Whatsapp.jpg" />
+        <None Remove="Assets\BuildInIcon\Yahoo.jpg" />
+        <None Remove="Assets\BuildInIcon\Zhihu.jpg" />
+        <None Remove="Assets\Tips\img_tips_dbfile_dark.png" />
+        <None Remove="Assets\Tips\img_tips_dbfile_light.png" />
+        <None Remove="Assets\Tips\img_tips_nofont_dark.png" />
+        <None Remove="Assets\Tips\img_tips_nofont_light.png" />
+        <None Remove="Fonts\ZhuqueFangsong-Regular.ttf" />
+        <None Remove="Controls\CreateCategoryControl.xaml" />
+        <None Remove="Controls\CropImageControl.xaml" />
+        <None Remove="Controls\MigrateControl.xaml" />
+        <None Remove="Controls\PasswordDetailControl.xaml" />
+        <None Remove="Controls\PasswordEditingControl.xaml" />
+        <None Remove="ThemeResources\ThemeDictionary.xaml" />
+        <None Remove="Views\AddingPage.xaml" />
+        <None Remove="Views\CategoriesPage.xaml" />
+        <None Remove="Views\FavoritesPage.xaml" />
+        <None Remove="Views\MainPage.xaml" />
+        <None Remove="Views\PasswordsPage.xaml" />
+        <None Remove="Views\RandomPage.xaml" />
+        <None Remove="Views\SettingsPage.xaml" />
+        <None Remove="Views\TipsPage.xaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Fonts\ZhuqueFangsong-Regular.ttf" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Manifest Include="$(ApplicationManifest)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.251219" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.ImageCropper" Version="8.2.250402" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250402" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
+        <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.2.250402" />
+        <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
+        <PackageReference Include="MinecraftLaunch.PinyinConverter" Version="1.0.0" />
+        <PackageReference Include="NPinyin.Core" Version="3.0.0" />
+        <PackageReference Include="NoMewing.SegoeFluentIcons" Version="0.1.1" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.1.3" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
+        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.275">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Honeypot.Data\Honeypot.Data.csproj" />
+    </ItemGroup>
+
+    <!-- 
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
     Tools extension to be activated for this project even if the Windows App SDK Nuget
     package has not yet been restored.
   -->
-	<ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<ProjectCapability Include="Msix" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Honeypot.Data\Honeypot.Data.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Controls\MigrateControl.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Controls\PasswordEditingControl.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Controls\PasswordDetailControl.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Controls\CropImageControl.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Views\TipsPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Views\AddingPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Views\SettingsPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Views\RandomPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Views\CategoriesPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Views\FavoritesPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Views\PasswordsPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Views\MainPage.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Page Update="Controls\CreateCategoryControl.xaml">
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
+    <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+        <ProjectCapability Include="Msix" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Page Update="Controls\MigrateControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\PasswordEditingControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\PasswordDetailControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\CropImageControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Controls\CreateCategoryControl.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Views\TipsPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Views\AddingPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Views\SettingsPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Views\RandomPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Views\CategoriesPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Views\FavoritesPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Views\PasswordsPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="Views\MainPage.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
+    <ItemGroup>
+        <Page Update="ThemeResources\ThemeDictionary.xaml">
+            <Generator>MSBuild:Compile</Generator>
+        </Page>
+    </ItemGroup>
 
-	<!-- 
+    <!-- 
     Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
     Explorer "Package and Publish" context menu entry to be enabled for this project even if 
     the Windows App SDK Nuget package has not yet been restored.
   -->
-	<PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
-		<HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
-	</PropertyGroup>
+    <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+        <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+    </PropertyGroup>
 </Project>
