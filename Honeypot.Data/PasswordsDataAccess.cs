@@ -3,66 +3,73 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Honeypot.Data.Models;
 using Microsoft.Data.Sqlite;
-using Windows.Storage;
 
 namespace Honeypot.Data
 {
     public static class PasswordsDataAccess
     {
-        private static SqliteConnection _passwordsDb = null;
+        private static SqliteConnection? _passwordsDb;
 
-        public static async Task LoadDatabase(StorageFolder folder)
+        /// <summary>
+        /// Opens the password database and creates required tables if they do not exist.
+        /// </summary>
+        /// <param name="dbFilePath">The full path of the SQLite database file.</param>
+        public static void LoadDatabase(string dbFilePath)
         {
-            var file = await folder.CreateFileAsync("Honeypot.db", CreationCollisionOption.OpenIfExists);
+            ArgumentException.ThrowIfNullOrWhiteSpace(dbFilePath);
 
-            string dbpath = file.Path;
-            _passwordsDb = new SqliteConnection($"Filename={dbpath}");
-            _passwordsDb.Open();
-
-            string categoryTableCommand =
-                "CREATE TABLE IF NOT EXISTS passwordCategories (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                    "title TEXT," +
-                    "icon TEXT," +
-                    "timeorder INTEGER);";
-            using SqliteCommand createCategoryTable = new SqliteCommand(categoryTableCommand, _passwordsDb);
-            await createCategoryTable.ExecuteNonQueryAsync();
-
-            string passwordsTableCommand =
-                "CREATE TABLE IF NOT EXISTS passwords (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE," +
-                    "categoryid INTEGER DEFAULT -1," +
-                    "account TEXT," +
-                    "password TEXT," +
-                    "firstletter TEXT," +
-                    "name TEXT," +
-                    "createdate TEXT," +
-                    "editdate TEXT," +
-                    "website TEXT," +
-                    "note TEXT," +
-                    "favorite INTEGER DEFAULT 0," +
-                    "logo TEXT," +
-                    "thirdpartyid INTEGER DEFAULT -1);";
-            using SqliteCommand createPasswordsTable = new SqliteCommand(passwordsTableCommand, _passwordsDb);
-            await createPasswordsTable.ExecuteNonQueryAsync();
-
-            // 给现有的表添加字段
-            await EnsureColumnExists("passwords", "thirdpartyid", "INTEGER DEFAULT -1");
-        }
-
-        public static bool IsDatabaseConnected()
-        {
-            if (_passwordsDb?.State == System.Data.ConnectionState.Open ||
-                _passwordsDb?.State == System.Data.ConnectionState.Executing ||
-                _passwordsDb?.State == System.Data.ConnectionState.Connecting ||
-                _passwordsDb?.State == System.Data.ConnectionState.Fetching)
+            if (_passwordsDb is not null)
             {
-                return true;
+                return;
             }
 
-            return false;
+            SqliteConnectionStringBuilder builder = new()
+            {
+                DataSource = dbFilePath,
+                Mode = SqliteOpenMode.ReadWriteCreate
+            };
+
+            _passwordsDb = new SqliteConnection(builder.ToString());
+            _passwordsDb.Open();
+
+            using SqliteCommand createCategoryTable = _passwordsDb.CreateCommand();
+            createCategoryTable.CommandText =
+                """
+                CREATE TABLE IF NOT EXISTS passwordCategories (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                    title TEXT,
+                    icon TEXT,
+                    timeorder INTEGER);
+                """;
+            createCategoryTable.ExecuteNonQuery();
+
+            using SqliteCommand createPasswordsTable = _passwordsDb.CreateCommand();
+            createPasswordsTable.CommandText =
+                """
+                CREATE TABLE IF NOT EXISTS passwords (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+                    categoryid INTEGER DEFAULT -1,
+                    account TEXT,
+                    password TEXT,
+                    firstletter TEXT,
+                    name TEXT,
+                    createdate TEXT,
+                    editdate TEXT,
+                    website TEXT,
+                    note TEXT,
+                    favorite INTEGER DEFAULT 0,
+                    logo TEXT,
+                    thirdpartyid INTEGER DEFAULT -1);
+                """;
+            createPasswordsTable.ExecuteNonQuery();
+
+            // Add this column for old databases created by earlier versions.
+            EnsureColumnExists("passwords", "thirdpartyid", "INTEGER DEFAULT -1");
         }
 
+        /// <summary>
+        /// Closes the current database connection.
+        /// </summary>
         public static void CloseDatabase()
         {
             _passwordsDb?.Close();
@@ -71,48 +78,65 @@ namespace Honeypot.Data
         }
 
         /// <summary>
-        /// 确保指定表中存在某个字段，如果不存在则添加
+        /// Adds a column to a table if the column does not exist.
         /// </summary>
-        /// <param name="tableName">表名</param>
-        /// <param name="columnName">字段名</param>
-        /// <param name="columnDefinition">字段定义（类型和默认值）</param>
-        private static async Task EnsureColumnExists(string tableName, string columnName, string columnDefinition)
+        /// <param name="tableName">The table name to check.</param>
+        /// <param name="columnName">The column name to add.</param>
+        /// <param name="columnDefinition">The SQLite column definition, including type and default value.</param>
+        private static void EnsureColumnExists(string tableName, string columnName, string columnDefinition)
         {
-            // 查询表结构
-            string pragmaCommand = $"PRAGMA table_info({tableName});";
-            using SqliteCommand pragmaCmd = new SqliteCommand(pragmaCommand, _passwordsDb);
-            using SqliteDataReader reader = await pragmaCmd.ExecuteReaderAsync();
-
-            // 检查字段是否存在
-            bool columnExists = false;
-            while (reader.Read())
+            if (tableName is not "passwords" and not "passwordCategories")
             {
-                string existingColumnName = reader.GetString(1); // 第2列是字段名
-                if (existingColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                throw new ArgumentException("Unknown table name.", nameof(tableName));
+            }
+
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
+
+            bool columnExists = false;
+
+            {
+                using SqliteCommand pragmaCommand = connection.CreateCommand();
+                pragmaCommand.CommandText = $"PRAGMA table_info(\"{tableName}\");";
+                using SqliteDataReader reader = pragmaCommand.ExecuteReader();
+
+                while (reader.Read())
                 {
-                    columnExists = true;
-                    break;
+                    string existingColumnName = reader.GetString(1);
+                    if (existingColumnName.Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        columnExists = true;
+                        break;
+                    }
                 }
             }
 
-            // 如果字段不存在，则添加
-            if (!columnExists)
+            if (columnExists)
             {
-                string alterTableCommand = $"ALTER TABLE {tableName} ADD COLUMN {columnName} {columnDefinition};";
-                using SqliteCommand alterCmd = new SqliteCommand(alterTableCommand, _passwordsDb);
-                await alterCmd.ExecuteNonQueryAsync();
+                return;
             }
+
+            using SqliteCommand alterCommand = connection.CreateCommand();
+            alterCommand.CommandText =
+                $"""
+                ALTER TABLE "{tableName}"
+                ADD COLUMN "{columnName}" {columnDefinition};
+                """;
+            alterCommand.ExecuteNonQuery();
         }
 
         /// <summary>
-        /// 获取所有的密码列表
+        /// Gets passwords. If categoryId is greater than 0, only passwords in that category are returned.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="categoryId">The category id used to filter passwords. Use -1 to get all passwords.</param>
+        /// <returns>A list of passwords.</returns>
         public static List<PasswordDataModel> GetPasswords(int categoryId = -1)
         {
-            List<PasswordDataModel> results = new List<PasswordDataModel>();
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
+
+            List<PasswordDataModel> results = [];
 
             using SqliteCommand selectCommand = _passwordsDb.CreateCommand();
+
             selectCommand.CommandText = categoryId > 0 ? @"SELECT * FROM passwords WHERE categoryid=$categoryid" : @"SELECT * FROM passwords";
             if (categoryId > 0)
             {
