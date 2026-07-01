@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Honeypot.Data.Models;
 using Microsoft.Data.Sqlite;
 
@@ -39,7 +38,8 @@ namespace Honeypot.Data
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
                     title TEXT,
                     icon TEXT,
-                    timeorder INTEGER);
+                    timeorder INTEGER
+                );
                 """;
             createCategoryTable.ExecuteNonQuery();
 
@@ -59,7 +59,8 @@ namespace Honeypot.Data
                     note TEXT,
                     favorite INTEGER DEFAULT 0,
                     logo TEXT,
-                    thirdpartyid INTEGER DEFAULT -1);
+                    thirdpartyid INTEGER DEFAULT -1
+                );
                 """;
             createPasswordsTable.ExecuteNonQuery();
 
@@ -97,6 +98,7 @@ namespace Honeypot.Data
             {
                 using SqliteCommand pragmaCommand = connection.CreateCommand();
                 pragmaCommand.CommandText = $"PRAGMA table_info(\"{tableName}\");";
+
                 using SqliteDataReader reader = pragmaCommand.ExecuteReader();
 
                 while (reader.Read())
@@ -135,62 +137,77 @@ namespace Honeypot.Data
 
             List<PasswordDataModel> results = [];
 
-            using SqliteCommand selectCommand = _passwordsDb.CreateCommand();
+            using SqliteCommand selectCommand = connection.CreateCommand();
 
-            selectCommand.CommandText = categoryId > 0 ? @"SELECT * FROM passwords WHERE categoryid=$categoryid" : @"SELECT * FROM passwords";
+            selectCommand.CommandText = categoryId > 0
+                ? """
+                  SELECT id, categoryid, account, password, firstletter, name, createdate, editdate, website, note, favorite, logo, thirdpartyid 
+                  FROM passwords 
+                  WHERE categoryid = $categoryid;
+                  """
+                : """
+                  SELECT id, categoryid, account, password, firstletter, name, createdate, editdate, website, note, favorite, logo, thirdpartyid 
+                  FROM passwords;
+                  """;
             if (categoryId > 0)
             {
                 selectCommand.Parameters.AddWithValue("$categoryid", categoryId);
             }
 
-            using SqliteDataReader query = selectCommand.ExecuteReader();
-            while (query?.Read() == true)
+            using SqliteDataReader reader = selectCommand.ExecuteReader();
+
+            while (reader.Read())
             {
-                PasswordDataModel item = new PasswordDataModel();
-                item.Id = query.IsDBNull(0) ? -1 : query.GetInt32(0);
-                item.CategoryId = query.IsDBNull(1) ? -1 : query.GetInt32(1);
-                item.Account = query.IsDBNull(2) ? string.Empty : query.GetString(2);
-                item.Password = query.IsDBNull(3) ? string.Empty : query.GetString(3);
-                item.Name = query.IsDBNull(5) ? string.Empty : query.GetString(5);
-                item.CreateDate = query.IsDBNull(6) ? string.Empty : query.GetString(6);
-                item.EditDate = query.IsDBNull(7) ? string.Empty : query.GetString(7);
-                item.Website = query.IsDBNull(8) ? string.Empty : query.GetString(8);
-                item.Note = query.IsDBNull(9) ? string.Empty : query.GetString(9);
-                item.Favorite = query.IsDBNull(10) ? 0 : query.GetInt32(10);
-                item.Logo = query.IsDBNull(11) ? null : query.GetString(11);
-                var firstLetter = query.IsDBNull(4) ? string.Empty : query.GetString(4);
-                item.FirstLetter = (string.IsNullOrWhiteSpace(firstLetter) || firstLetter.Length <= 0) ? '#' : firstLetter[0];
-                item.ThirdPartyId = query.IsDBNull(12) ? -1 : query.GetInt32(12);
-                results.Add(item);
+                string firstLetter = reader.IsDBNull(4) ? string.Empty : reader.GetString(4);
+
+                results.Add(new PasswordDataModel
+                {
+                    Id = reader.IsDBNull(0) ? -1 : reader.GetInt32(0),
+                    CategoryId = reader.IsDBNull(1) ? -1 : reader.GetInt32(1),
+                    Account = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                    Password = reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
+                    FirstLetter = string.IsNullOrWhiteSpace(firstLetter) ? '#' : firstLetter[0],
+                    Name = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                    CreateDate = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                    EditDate = reader.IsDBNull(7) ? string.Empty : reader.GetString(7),
+                    Website = reader.IsDBNull(8) ? string.Empty : reader.GetString(8),
+                    Note = reader.IsDBNull(9) ? string.Empty : reader.GetString(9),
+                    Favorite = reader.IsDBNull(10) ? 0 : reader.GetInt32(10),
+                    Logo = reader.IsDBNull(11) ? string.Empty : reader.GetString(11),
+                    ThirdPartyId = reader.IsDBNull(12) ? -1 : reader.GetInt32(12)
+                });
             }
 
             return results;
         }
 
         /// <summary>
-        /// 添加一个密码
+        /// Adds a password.
         /// </summary>
-        /// <param name="categoryid"></param>
-        /// <param name="account"></param>
-        /// <param name="password"></param>
-        /// <param name="thirdPartyId"></param>
-        /// <param name="firstLetter"></param>
-        /// <param name="name"></param>
-        /// <param name="createDate"></param>
-        /// <param name="website"></param>
-        /// <param name="note"></param>
-        /// <param name="favorite"></param>
-        /// <param name="logo"></param>
-        public static void AddPassword(int categoryid, string account, string password, int thirdPartyId, string firstLetter, string name, string createDate, string website, string note, bool favorite, string logo)
+        /// <param name="categoryId">The category id of the password. Use -1 if it has no category.</param>
+        /// <param name="account">The account name or login name.</param>
+        /// <param name="password">The password text to store.</param>
+        /// <param name="thirdPartyId">The related third-party login password id. Use -1 if it has none.</param>
+        /// <param name="firstLetter">The first letter used for grouping or sorting.</param>
+        /// <param name="name">The display name of the password item.</param>
+        /// <param name="createDate">The creation date string.</param>
+        /// <param name="website">The related website.</param>
+        /// <param name="note">The note text.</param>
+        /// <param name="favorite">Whether this password is marked as favorite.</param>
+        /// <param name="logo">The logo path or logo key.</param>
+        /// <returns>The id of the newly added password.</returns>
+        public static long AddPassword(int categoryId, string account, string password, int thirdPartyId, string firstLetter, string name, string createDate, string website, string note, bool favorite, string logo)
         {
-            using SqliteCommand insertCommand = _passwordsDb.CreateCommand();
-            insertCommand.CommandText =
-            @"
-                    INSERT INTO passwords(categoryid,account,password,firstletter,name,createdate,website,note,favorite,logo,thirdpartyid) 
-                    VALUES($categoryid,$account,$password,$firstletter,$name,$createdate,$website,$note,$favorite,$logo,$thirdpartyid);
-                ";
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
-            insertCommand.Parameters.AddWithValue("$categoryid", categoryid);
+            using SqliteCommand insertCommand = connection.CreateCommand();
+            insertCommand.CommandText =
+                """
+                INSERT INTO passwords (categoryid, account, password, firstletter, name, createdate, website, note, favorite, logo, thirdpartyid)
+                VALUES ($categoryid, $account, $password, $firstletter, $name, $createdate, $website, $note, $favorite, $logo, $thirdpartyid);
+                SELECT last_insert_rowid();
+                """;
+            insertCommand.Parameters.AddWithValue("$categoryid", categoryId);
             insertCommand.Parameters.AddWithValue("$account", account);
             insertCommand.Parameters.AddWithValue("$password", password);
             insertCommand.Parameters.AddWithValue("$firstletter", firstLetter);
@@ -201,30 +218,49 @@ namespace Honeypot.Data
             insertCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
             insertCommand.Parameters.AddWithValue("$logo", logo);
             insertCommand.Parameters.AddWithValue("$thirdpartyid", thirdPartyId);
-            insertCommand.ExecuteNonQuery();
+
+            return (long)(insertCommand.ExecuteScalar() ?? -1L);
         }
 
         /// <summary>
-        /// 更新指定ID的密码的信息
+        /// Updates a password by id.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="categoryid"></param>
-        /// <param name="account"></param>
-        /// <param name="password"></param>
-        /// <param name="thirdPartyId"></param>
-        /// <param name="firstLetter"></param>
-        /// <param name="name"></param>
-        /// <param name="editDate"></param>
-        /// <param name="website"></param>
-        /// <param name="note"></param>
-        /// <param name="favorite"></param>
-        /// <param name="logo"></param>
-        public static void UpdatePassword(long id, int categoryid, string account, string password, int thirdPartyId, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
+        /// <param name="id">The password id to update.</param>
+        /// <param name="categoryId">The new category id. Use -1 if it has no category.</param>
+        /// <param name="account">The new account name or login name.</param>
+        /// <param name="password">The new password text to store.</param>
+        /// <param name="thirdPartyId">The new related third-party login password id. Use -1 if it has none.</param>
+        /// <param name="firstLetter">The new first letter used for grouping or sorting.</param>
+        /// <param name="name">The new display name.</param>
+        /// <param name="editDate">The edit date string.</param>
+        /// <param name="website">The new related website.</param>
+        /// <param name="note">The new note text.</param>
+        /// <param name="favorite">Whether this password is marked as favorite.</param>
+        /// <param name="logo">The new logo path or logo key.</param>
+        /// <returns>The number of rows updated.</returns>
+        public static int UpdatePassword(long id, int categoryId, string account, string password, int thirdPartyId, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
         {
-            using SqliteCommand updateCommand = _passwordsDb.CreateCommand();
-            updateCommand.CommandText = @"UPDATE passwords SET categoryid=$categoryid,account=$account,password=$password,firstletter=$firstletter,name=$name,editdate=$editdate,website=$website,note=$note,favorite=$favorite,logo=$logo,thirdpartyid=$thirdpartyid WHERE id=$id;";
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
-            updateCommand.Parameters.AddWithValue("$categoryid", categoryid);
+            using SqliteCommand updateCommand = connection.CreateCommand();
+            updateCommand.CommandText =
+                """
+                UPDATE passwords
+                SET
+                    categoryid = $categoryid,
+                    account = $account,
+                    password = $password,
+                    firstletter = $firstletter,
+                    name = $name,
+                    editdate = $editdate,
+                    website = $website,
+                    note = $note,
+                    favorite = $favorite,
+                    logo = $logo,
+                    thirdpartyid = $thirdpartyid
+                WHERE id = $id;
+                """;
+            updateCommand.Parameters.AddWithValue("$categoryid", categoryId);
             updateCommand.Parameters.AddWithValue("$account", account);
             updateCommand.Parameters.AddWithValue("$password", password);
             updateCommand.Parameters.AddWithValue("$firstletter", firstLetter);
@@ -236,41 +272,65 @@ namespace Honeypot.Data
             updateCommand.Parameters.AddWithValue("$logo", logo);
             updateCommand.Parameters.AddWithValue("$thirdpartyid", thirdPartyId);
             updateCommand.Parameters.AddWithValue("$id", id);
-            updateCommand.ExecuteNonQuery();
+
+            return updateCommand.ExecuteNonQuery();
         }
 
         /// <summary>
-        /// 收藏/取消收藏密码
+        /// Marks a password as favorite or not favorite.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="favorite"></param>
-        public static void FavoritePassword(long id, bool favorite)
+        /// <param name="id">The password id to update.</param>
+        /// <param name="favorite">True to mark it as favorite, or false to remove it from favorites.</param>
+        /// <returns>The number of rows updated.</returns>
+        public static int FavoritePassword(long id, bool favorite)
         {
-            using SqliteCommand updateCommand = _passwordsDb.CreateCommand();
-            updateCommand.CommandText = @"UPDATE passwords SET favorite=$favorite WHERE id=$id;";
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
+            using SqliteCommand updateCommand = connection.CreateCommand();
+            updateCommand.CommandText =
+                """
+                UPDATE passwords
+                SET favorite = $favorite
+                WHERE id = $id;
+                """;
             updateCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
             updateCommand.Parameters.AddWithValue("$id", id);
-            updateCommand.ExecuteNonQuery();
+
+            return updateCommand.ExecuteNonQuery();
         }
 
         /// <summary>
-        /// 删除指定ID的密码，并将passwords表中所有设置了该密码ID的第三方登录ID改为-1
+        /// Deletes a password and clears third-party login links that point to it.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">The password id to delete.</param>
         public static void DeletePassword(long id)
         {
-            using SqliteCommand deleteCommand = _passwordsDb.CreateCommand();
-            deleteCommand.CommandText = @"DELETE FROM passwords WHERE id=$id;";
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
+            using SqliteTransaction transaction = connection.BeginTransaction();
+
+            using SqliteCommand updateCommand = connection.CreateCommand();
+            updateCommand.Transaction = transaction;
+            updateCommand.CommandText =
+                """
+                UPDATE passwords
+                SET thirdpartyid = -1
+                WHERE thirdpartyid = $id;
+                """;
+            updateCommand.Parameters.AddWithValue("$id", id);
+            updateCommand.ExecuteNonQuery();
+
+            using SqliteCommand deleteCommand = connection.CreateCommand();
+            deleteCommand.Transaction = transaction;
+            deleteCommand.CommandText =
+                """
+                DELETE FROM passwords
+                WHERE id = $id;
+                """;
             deleteCommand.Parameters.AddWithValue("$id", id);
             deleteCommand.ExecuteNonQuery();
 
-            SqliteCommand updateCommand = _passwordsDb.CreateCommand();
-            updateCommand.CommandText = @"UPDATE passwords SET thirdpartyid=-1 WHERE thirdpartyid=$id;";
-
-            updateCommand.Parameters.AddWithValue("$id", id);
-            updateCommand.ExecuteNonQuery();
+            transaction.Commit();
         }
 
         /// <summary>
