@@ -127,9 +127,9 @@ namespace Honeypot.Data
         }
 
         /// <summary>
-        /// Gets passwords. If categoryId is greater than 0, only passwords in that category are returned.
+        /// Gets passwords. If categoryId is less than 0, all passwords are returned. Otherwise, only passwords in the specified category are returned.
         /// </summary>
-        /// <param name="categoryId">The category id used to filter passwords. Use -1 to get all passwords.</param>
+        /// <param name="categoryId">The category id used to filter passwords. Use a negative value to get all passwords.</param>
         /// <returns>A list of passwords.</returns>
         public static List<PasswordDataModel> GetPasswords(int categoryId = -1)
         {
@@ -139,7 +139,7 @@ namespace Honeypot.Data
 
             using SqliteCommand selectCommand = connection.CreateCommand();
 
-            selectCommand.CommandText = categoryId > 0
+            selectCommand.CommandText = categoryId >= 0
                 ? """
                   SELECT id, categoryid, account, password, firstletter, name, createdate, editdate, website, note, favorite, logo, thirdpartyid 
                   FROM passwords 
@@ -149,7 +149,7 @@ namespace Honeypot.Data
                   SELECT id, categoryid, account, password, firstletter, name, createdate, editdate, website, note, favorite, logo, thirdpartyid 
                   FROM passwords;
                   """;
-            if (categoryId > 0)
+            if (categoryId >= 0)
             {
                 selectCommand.Parameters.AddWithValue("$categoryid", categoryId);
             }
@@ -219,7 +219,9 @@ namespace Honeypot.Data
             insertCommand.Parameters.AddWithValue("$logo", logo);
             insertCommand.Parameters.AddWithValue("$thirdpartyid", thirdPartyId);
 
-            return (long)(insertCommand.ExecuteScalar() ?? -1L);
+            var result = insertCommand.ExecuteScalar() ?? throw new InvalidOperationException("Failed to get the id of the newly added password.");
+
+            return Convert.ToInt64(result);
         }
 
         /// <summary>
@@ -237,8 +239,8 @@ namespace Honeypot.Data
         /// <param name="note">The new note text.</param>
         /// <param name="favorite">Whether this password is marked as favorite.</param>
         /// <param name="logo">The new logo path or logo key.</param>
-        /// <returns>The number of rows updated.</returns>
-        public static int UpdatePassword(long id, int categoryId, string account, string password, int thirdPartyId, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
+        /// <returns><see langword="true"/> if the password was updated; otherwise, <see langword="false"/>.</returns>
+        public static bool UpdatePassword(long id, int categoryId, string account, string password, int thirdPartyId, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
         {
             SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
@@ -273,37 +275,15 @@ namespace Honeypot.Data
             updateCommand.Parameters.AddWithValue("$thirdpartyid", thirdPartyId);
             updateCommand.Parameters.AddWithValue("$id", id);
 
-            return updateCommand.ExecuteNonQuery();
-        }
-
-        /// <summary>
-        /// Marks a password as favorite or not favorite.
-        /// </summary>
-        /// <param name="id">The password id to update.</param>
-        /// <param name="favorite">True to mark it as favorite, or false to remove it from favorites.</param>
-        /// <returns>The number of rows updated.</returns>
-        public static int FavoritePassword(long id, bool favorite)
-        {
-            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
-
-            using SqliteCommand updateCommand = connection.CreateCommand();
-            updateCommand.CommandText =
-                """
-                UPDATE passwords
-                SET favorite = $favorite
-                WHERE id = $id;
-                """;
-            updateCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
-            updateCommand.Parameters.AddWithValue("$id", id);
-
-            return updateCommand.ExecuteNonQuery();
+            return updateCommand.ExecuteNonQuery() > 0;
         }
 
         /// <summary>
         /// Deletes a password and clears third-party login links that point to it.
         /// </summary>
         /// <param name="id">The password id to delete.</param>
-        public static void DeletePassword(long id)
+        /// <returns><see langword="true"/> if the password was deleted; otherwise, <see langword="false"/>.</returns>
+        public static bool DeletePassword(long id)
         {
             SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
@@ -328,86 +308,162 @@ namespace Honeypot.Data
                 WHERE id = $id;
                 """;
             deleteCommand.Parameters.AddWithValue("$id", id);
-            deleteCommand.ExecuteNonQuery();
+            int deletedRows = deleteCommand.ExecuteNonQuery();
 
             transaction.Commit();
+
+            return deletedRows > 0;
         }
 
         /// <summary>
-        /// 获取所有的密码分类列表
+        /// Marks a password as favorite or not favorite.
         /// </summary>
-        /// <returns></returns>
+        /// <param name="id">The password id to update.</param>
+        /// <param name="favorite">True to mark it as favorite, or false to remove it from favorites.</param>
+        /// <returns><see langword="true"/> if the password was updated; otherwise, <see langword="false"/>.</returns>
+        public static bool SetPasswordFavorite(long id, bool favorite)
+        {
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
+
+            using SqliteCommand updateCommand = connection.CreateCommand();
+            updateCommand.CommandText =
+                """
+                UPDATE passwords
+                SET favorite = $favorite
+                WHERE id = $id;
+                """;
+            updateCommand.Parameters.AddWithValue("$favorite", favorite ? 1 : 0);
+            updateCommand.Parameters.AddWithValue("$id", id);
+
+            return updateCommand.ExecuteNonQuery() > 0;
+        }
+
+        /// <summary>
+        /// Gets all password categories ordered by their stored order value.
+        /// </summary>
+        /// <returns>A list of password categories.</returns>
         public static List<CategoryDataModel> GetCategories()
         {
-            List<CategoryDataModel> results = new List<CategoryDataModel>();
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
-            using SqliteCommand selectCommand = _passwordsDb.CreateCommand();
-            selectCommand.CommandText = @"SELECT * FROM passwordCategories ORDER BY timeorder ASC;";
+            List<CategoryDataModel> results = [];
 
-            using SqliteDataReader query = selectCommand.ExecuteReader();
-            while (query?.Read() == true)
+            using SqliteCommand selectCommand = connection.CreateCommand();
+            selectCommand.CommandText =
+                """
+                SELECT id, title, icon, timeorder
+                FROM passwordCategories
+                ORDER BY timeorder ASC;
+                """;
+
+            using SqliteDataReader reader = selectCommand.ExecuteReader();
+
+            while (reader.Read())
             {
-                CategoryDataModel item = new CategoryDataModel();
-                item.Id = query.IsDBNull(0) ? -1 : query.GetInt32(0);
-                item.Title = query.IsDBNull(1) ? string.Empty : query.GetString(1);
-                item.Icon = query.IsDBNull(2) ? string.Empty : query.GetString(2);
-                item.Order = query.IsDBNull(3) ? 0 : query.GetInt64(3);
-                results.Add(item);
+                results.Add(new CategoryDataModel
+                {
+                    Id = reader.IsDBNull(0) ? -1 : reader.GetInt32(0),
+                    Title = reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
+                    Icon = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                    Order = reader.IsDBNull(3) ? 0 : reader.GetInt64(3)
+                });
             }
 
             return results;
         }
 
         /// <summary>
-        /// 添加一个分类
+        /// Adds a password category.
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="icon"></param>
-        public static void AddCategory(string title, string icon, long ticksAsOrder)
+        /// <param name="title">The category title.</param>
+        /// <param name="icon">The category icon path or icon key.</param>
+        /// <param name="ticksAsOrder">The custom order value, usually based on ticks.</param>
+        /// <returns>The id of the newly added category.</returns>
+        public static long AddCategory(string title, string icon, long ticksAsOrder)
         {
-            using SqliteCommand insertCommand = _passwordsDb.CreateCommand();
-            insertCommand.CommandText = @"INSERT INTO passwordCategories(title, icon, timeorder) VALUES($title, $icon, $order);";
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
+            using SqliteCommand insertCommand = connection.CreateCommand();
+            insertCommand.CommandText =
+                """
+                INSERT INTO passwordCategories (title, icon, timeorder)
+                VALUES ($title, $icon, $order);
+                SELECT last_insert_rowid();
+                """;
             insertCommand.Parameters.AddWithValue("$title", title);
             insertCommand.Parameters.AddWithValue("$icon", icon);
             insertCommand.Parameters.AddWithValue("$order", ticksAsOrder);
-            insertCommand.ExecuteNonQuery();
+
+            var result = insertCommand.ExecuteScalar() ?? throw new InvalidOperationException("Failed to get the id of the newly added category.");
+
+            return Convert.ToInt64(result);
         }
 
         /// <summary>
-        /// 修改分类的属性
+        /// Updates a password category by id.
         /// </summary>
-        /// <param name="title"></param>
-        /// <param name="icon"></param>
-        public static void UpdateCategory(int id, string title, string icon, long ticksAsOrder)
+        /// <param name="id">The category id to update.</param>
+        /// <param name="title">The new category title.</param>
+        /// <param name="icon">The new category icon path or icon key.</param>
+        /// <param name="ticksAsOrder">The new custom order value.</param>
+        /// <returns><see langword="true"/> if the category was updated; otherwise, <see langword="false"/>.</returns>
+        public static bool UpdateCategory(int id, string title, string icon, long ticksAsOrder)
         {
-            using SqliteCommand updateCommand = _passwordsDb.CreateCommand();
-            updateCommand.CommandText = @"UPDATE passwordCategories SET title=$title, icon=$icon, timeorder=$order WHERE id=$id;";
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
+            using SqliteCommand updateCommand = connection.CreateCommand();
+            updateCommand.CommandText =
+                """
+                UPDATE passwordCategories
+                SET
+                    title = $title,
+                    icon = $icon,
+                    timeorder = $order
+                WHERE id = $id;
+                """;
             updateCommand.Parameters.AddWithValue("$title", title);
             updateCommand.Parameters.AddWithValue("$icon", icon);
             updateCommand.Parameters.AddWithValue("$order", ticksAsOrder);
             updateCommand.Parameters.AddWithValue("$id", id);
-            updateCommand.ExecuteNonQuery();
+
+            return updateCommand.ExecuteNonQuery() > 0;
         }
 
         /// <summary>
-        /// 删除一个分类，并将passwords表中所有属于该分类的密码分类改为空
+        /// Deletes a category and moves its passwords to the uncategorized group.
         /// </summary>
-        /// <param name="id"></param>
-        public static void DeleteCategory(int id)
+        /// <param name="id">The category id to delete.</param>
+        /// <returns><see langword="true"/> if the category was deleted; otherwise, <see langword="false"/>.</returns>
+        public static bool DeleteCategory(int id)
         {
-            using SqliteCommand deleteCommand = _passwordsDb.CreateCommand();
-            deleteCommand.CommandText = @"DELETE FROM passwordCategories WHERE id=$id;";
+            SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
-            deleteCommand.Parameters.AddWithValue("$id", id);
-            deleteCommand.ExecuteNonQuery();
+            using SqliteTransaction transaction = connection.BeginTransaction();
 
-            SqliteCommand updateCommand = _passwordsDb.CreateCommand();
-            updateCommand.CommandText = @"UPDATE passwords SET categoryid=-1 WHERE categoryid=$id;";
-
+            using SqliteCommand updateCommand = connection.CreateCommand();
+            updateCommand.Transaction = transaction;
+            updateCommand.CommandText =
+                """
+                UPDATE passwords
+                SET categoryid = -1
+                WHERE categoryid = $id;
+                """;
             updateCommand.Parameters.AddWithValue("$id", id);
             updateCommand.ExecuteNonQuery();
+
+            using SqliteCommand deleteCommand = connection.CreateCommand();
+            deleteCommand.Transaction = transaction;
+            deleteCommand.CommandText =
+                """
+                DELETE FROM passwordCategories
+                WHERE id = $id;
+                """;
+            deleteCommand.Parameters.AddWithValue("$id", id);
+            int deletedRows = deleteCommand.ExecuteNonQuery();
+
+            transaction.Commit();
+
+            return deletedRows > 0;
         }
     }
 }
