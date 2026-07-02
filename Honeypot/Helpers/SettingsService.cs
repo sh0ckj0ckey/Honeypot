@@ -2,288 +2,256 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.Storage;
 
-namespace Honeypot.Helpers
+namespace Honeypot.Helpers;
+
+public partial class SettingsService : ObservableObject
 {
-    public class SettingsService : ObservableObject
+    private const string SettingsAppearance = "AppearanceIndex";
+    private const string SettingsBackdrop = "BackdropIndex";
+    private const string SettingsLockWithWindowsHello = "EnableLock";
+    private const string SettingsPasswordsSortMode = "PasswordsOrderMode";
+    private const string SettingsHidePasswordOnDetailPage = "HidePasswordAtEnter";
+    private const string SettingsDoNotShowRandomPasswordTipAgainOnAddingPage = "NoRandomTipAtAdding";
+    private const string SettingsDoNotShowRandomPasswordTipAgainOnGeneratorPage = "NoRandomTipAtRandom";
+
+    private readonly ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
+
+    private int _appearanceIndex = -1;
+
+    private int _backdropIndex = -1;
+
+    private bool? _lockWithWindowsHello = null;
+
+    private int _passwordsSortMode = -1;
+
+    private bool? _hidePasswordOnDetailPage = null;
+
+    private bool? _doNotShowRandomPasswordTipAgainOnAddingPage = null;
+
+    private bool? _doNotShowRandomPasswordTipAgainOnGeneratorPage = null;
+
+    /// <summary>
+    /// Occurs when the appearance setting changes.
+    /// </summary>
+    public event EventHandler<int>? AppearanceSettingChanged;
+
+    /// <summary>
+    /// Occurs when the backdrop setting changes.
+    /// </summary>
+    public event EventHandler<int>? BackdropSettingChanged;
+
+    /// <summary>
+    /// Gets or sets the app theme. 0 = System, 1 = Dark, 2 = Light.
+    /// </summary>
+    public int AppearanceIndex
     {
-        private const string SETTING_NAME_APPEARANCE_INDEX = "AppearanceIndex";
-        private const string SETTING_NAME_BACKDROP_INDEX = "BackdropIndex";
-        private const string SETTING_NAME_ENABLE_LOCK = "EnableLock";
-
-        private const string SETTING_NAME_ORDER_MODE = "PasswordsOrderMode";
-
-        private const string SETTING_NAME_HIDE_PASSWORD = "HidePasswordAtEnter";
-
-        private const string SETTING_NAME_NO_RANDOM_TIP_AT_ADDING = "NoRandomTipAtAdding";
-        private const string SETTING_NAME_NO_RANDOM_TIP_AT_RANDOM = "NoRandomTipAtRandom";
-
-
-        private ApplicationDataContainer _localSettings = ApplicationData.Current.LocalSettings;
-
-        public Action<int> OnAppearanceSettingChanged { get; set; } = null;
-        public Action<int> OnBackdropSettingChanged { get; set; } = null;
-
-        // 设置的应用程序的主题 0-System 1-Dark 2-Light
-        private int _appearanceIndex = -1;
-        public int AppearanceIndex
+        get
         {
-            get
+            if (!IsAllowedValue(_appearanceIndex, 0, 1, 2))
             {
-                try
-                {
-                    if (_appearanceIndex < 0)
-                    {
-                        if (_localSettings.Values[SETTING_NAME_APPEARANCE_INDEX] == null)
-                        {
-                            _appearanceIndex = 0;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCE_INDEX]?.ToString() == "0")
-                        {
-                            _appearanceIndex = 0;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCE_INDEX]?.ToString() == "1")
-                        {
-                            _appearanceIndex = 1;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_APPEARANCE_INDEX]?.ToString() == "2")
-                        {
-                            _appearanceIndex = 2;
-                        }
-                        else
-                        {
-                            _appearanceIndex = 0;
-                        }
-                    }
-                }
-                catch { }
-                if (_appearanceIndex < 0) _appearanceIndex = 0;
-                return _appearanceIndex < 0 ? 0 : _appearanceIndex;
+                _appearanceIndex = ReadIntSetting(SettingsAppearance, 0, 0, 1, 2);
             }
-            set
+
+            return _appearanceIndex;
+        }
+        set
+        {
+            SetProperty(ref _appearanceIndex, value);
+            _localSettings.Values[SettingsAppearance] = _appearanceIndex;
+            AppearanceSettingChanged?.Invoke(this, this.AppearanceIndex);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the app backdrop material. 0 = Mica, 1 = MicaAlt, 2 = Acrylic.
+    /// </summary>
+    public int BackdropIndex
+    {
+        get
+        {
+            if (!IsAllowedValue(_backdropIndex, 0, 1, 2))
             {
-                SetProperty(ref _appearanceIndex, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_APPEARANCE_INDEX] = _appearanceIndex;
-                OnAppearanceSettingChanged?.Invoke(_appearanceIndex);
+                _backdropIndex = ReadIntSetting(SettingsBackdrop, 0, 0, 1, 2);
+            }
+
+            return _backdropIndex;
+        }
+        set
+        {
+            SetProperty(ref _backdropIndex, value);
+            _localSettings.Values[SettingsBackdrop] = _backdropIndex;
+            BackdropSettingChanged?.Invoke(this, this.BackdropIndex);
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the app is locked with Windows Hello on startup.
+    /// </summary>
+    public bool LockWithWindowsHello
+    {
+        get
+        {
+            _lockWithWindowsHello ??= ReadBoolSetting(SettingsLockWithWindowsHello, false);
+            return _lockWithWindowsHello.Value;
+        }
+        set
+        {
+            SetProperty(ref _lockWithWindowsHello, value);
+            _localSettings.Values[SettingsLockWithWindowsHello] = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the password list sort mode. 0 = First letter, 1 = Time.
+    /// </summary>
+    public int PasswordsSortMode
+    {
+        get
+        {
+            if (!IsAllowedValue(_passwordsSortMode, 0, 1))
+            {
+                _passwordsSortMode = ReadIntSetting(SettingsPasswordsSortMode, 0, 0, 1);
+            }
+
+            return _passwordsSortMode;
+        }
+        set
+        {
+            SetProperty(ref _passwordsSortMode, value);
+            _localSettings.Values[SettingsPasswordsSortMode] = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the password is hidden by default on the detail page.
+    /// </summary>
+    public bool HidePasswordOnDetailPage
+    {
+        get
+        {
+            _hidePasswordOnDetailPage ??= ReadBoolSetting(SettingsHidePasswordOnDetailPage, false);
+            return _hidePasswordOnDetailPage.Value;
+        }
+        set
+        {
+            SetProperty(ref _hidePasswordOnDetailPage, value);
+            _localSettings.Values[SettingsHidePasswordOnDetailPage] = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the random password tip is hidden on the add password page.
+    /// </summary>
+    public bool DoNotShowRandomPasswordTipAgainOnAddingPage
+    {
+        get
+        {
+            _doNotShowRandomPasswordTipAgainOnAddingPage ??= ReadBoolSetting(SettingsDoNotShowRandomPasswordTipAgainOnAddingPage, false);
+            return _doNotShowRandomPasswordTipAgainOnAddingPage.Value;
+        }
+        set
+        {
+            SetProperty(ref _doNotShowRandomPasswordTipAgainOnAddingPage, value);
+            _localSettings.Values[SettingsDoNotShowRandomPasswordTipAgainOnAddingPage] = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the random password tip is hidden on the password generator page.
+    /// </summary>
+    public bool DoNotShowRandomPasswordTipAgainOnGeneratorPage
+    {
+        get
+        {
+            _doNotShowRandomPasswordTipAgainOnGeneratorPage ??= ReadBoolSetting(SettingsDoNotShowRandomPasswordTipAgainOnGeneratorPage, false);
+            return _doNotShowRandomPasswordTipAgainOnGeneratorPage.Value;
+        }
+        set
+        {
+            SetProperty(ref _doNotShowRandomPasswordTipAgainOnGeneratorPage, value);
+            _localSettings.Values[SettingsDoNotShowRandomPasswordTipAgainOnGeneratorPage] = value;
+        }
+    }
+
+    /// <summary>
+    /// Reads an integer setting and returns the default value if the stored value is missing or invalid.
+    /// </summary>
+    /// <param name="key">The local settings key.</param>
+    /// <param name="defaultValue">The default value to use when the stored value is missing or invalid.</param>
+    /// <param name="allowedValues">The allowed values for this setting.</param>
+    /// <returns>The stored integer value if it is valid; otherwise, the default value.</returns>
+    private int ReadIntSetting(string key, int defaultValue, params int[] allowedValues)
+    {
+        try
+        {
+            object? value = _localSettings.Values[key];
+
+            if (value is null)
+            {
+                return defaultValue;
+            }
+
+            if (!int.TryParse(value.ToString(), out int parsedValue))
+            {
+                return defaultValue;
+            }
+
+            return IsAllowedValue(parsedValue, allowedValues) ? parsedValue : defaultValue;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.WriteLine(ex);
+            return defaultValue;
+        }
+    }
+
+    /// <summary>
+    /// Reads a boolean setting and returns the default value if the stored value is missing or invalid.
+    /// </summary>
+    /// <param name="key">The local settings key.</param>
+    /// <param name="defaultValue">The default value to use when the stored value is missing or invalid.</param>
+    /// <returns>The stored boolean value if it is valid; otherwise, the default value.</returns>
+    private bool ReadBoolSetting(string key, bool defaultValue)
+    {
+        try
+        {
+            object? value = _localSettings.Values[key];
+
+            if (value is null)
+            {
+                return defaultValue;
+            }
+
+            if (!bool.TryParse(value.ToString(), out bool parsedValue))
+            {
+                return defaultValue;
+            }
+
+            return parsedValue;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.WriteLine(ex);
+            return defaultValue;
+        }
+    }
+
+    /// <summary>
+    /// Determines whether an integer value is contained in the allowed values list.
+    /// </summary>
+    /// <param name="value">The value to check.</param>
+    /// <param name="allowedValues">The allowed values.</param>
+    /// <returns><see langword="true"/> if the value is allowed; otherwise, <see langword="false"/>.</returns>
+    private static bool IsAllowedValue(int value, params int[] allowedValues)
+    {
+        foreach (int allowedValue in allowedValues)
+        {
+            if (value == allowedValue)
+            {
+                return true;
             }
         }
 
-        // 设置的应用程序的背景材质 0-Mica 1-Acrylic
-        private int _backdropIndex = -1;
-        public int BackdropIndex
-        {
-            get
-            {
-                try
-                {
-                    if (_backdropIndex < 0)
-                    {
-                        if (_localSettings.Values[SETTING_NAME_BACKDROP_INDEX] == null)
-                        {
-                            _backdropIndex = 0;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_BACKDROP_INDEX]?.ToString() == "0")
-                        {
-                            _backdropIndex = 0;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_BACKDROP_INDEX]?.ToString() == "1")
-                        {
-                            _backdropIndex = 1;
-                        }
-                        else
-                        {
-                            _backdropIndex = 0;
-                        }
-                    }
-                }
-                catch { }
-                if (_backdropIndex < 0) _backdropIndex = 0;
-                return _backdropIndex < 0 ? 0 : _backdropIndex;
-            }
-            set
-            {
-                SetProperty(ref _backdropIndex, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_BACKDROP_INDEX] = _backdropIndex;
-                OnBackdropSettingChanged?.Invoke(_backdropIndex);
-            }
-        }
-
-        // 是否使用Windows Hello锁定
-        private bool? _enableLock = null;
-        public bool EnableLock
-        {
-            get
-            {
-                try
-                {
-                    if (_enableLock is null)
-                    {
-                        if (_localSettings.Values[SETTING_NAME_ENABLE_LOCK] == null)
-                        {
-                            _enableLock = false;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_ENABLE_LOCK]?.ToString() == "True")
-                        {
-                            _enableLock = true;
-                        }
-                        else
-                        {
-                            _enableLock = false;
-                        }
-                    }
-                }
-                catch { }
-                _enableLock ??= false;
-                return _enableLock == true;
-            }
-            set
-            {
-                SetProperty(ref _enableLock, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ENABLE_LOCK] = _enableLock;
-            }
-        }
-
-        // 密码列表的排序方式 0-首字母 1-时间
-        private int _passwordsOrderMode = -1;
-        public int PasswordsOrderMode
-        {
-            get
-            {
-                try
-                {
-                    if (_passwordsOrderMode < 0)
-                    {
-                        if (_localSettings.Values[SETTING_NAME_ORDER_MODE] == null)
-                        {
-                            _passwordsOrderMode = 0;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_ORDER_MODE]?.ToString() == "0")
-                        {
-                            _passwordsOrderMode = 0;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_ORDER_MODE]?.ToString() == "1")
-                        {
-                            _passwordsOrderMode = 1;
-                        }
-                        else
-                        {
-                            _passwordsOrderMode = 0;
-                        }
-                    }
-                }
-                catch { }
-                if (_passwordsOrderMode < 0) _passwordsOrderMode = 0;
-                return _passwordsOrderMode < 0 ? 0 : _passwordsOrderMode;
-            }
-            set
-            {
-                SetProperty(ref _passwordsOrderMode, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_ORDER_MODE] = _passwordsOrderMode;
-            }
-        }
-
-        // 是否在详情页默认隐藏密码
-        private bool? _hidePassword = null;
-        public bool HidePassword
-        {
-            get
-            {
-                try
-                {
-                    if (_hidePassword is null)
-                    {
-                        if (_localSettings.Values[SETTING_NAME_HIDE_PASSWORD] == null)
-                        {
-                            _hidePassword = false;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_HIDE_PASSWORD]?.ToString() == "True")
-                        {
-                            _hidePassword = true;
-                        }
-                        else
-                        {
-                            _hidePassword = false;
-                        }
-                    }
-                }
-                catch { }
-                _hidePassword ??= false;
-                return _hidePassword == true;
-            }
-            set
-            {
-                SetProperty(ref _hidePassword, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_HIDE_PASSWORD] = _hidePassword;
-            }
-        }
-
-        // 是否隐藏在创建密码页面点击随机密码时，已复制的提示
-        private bool? _noTipAtAdding = null;
-        public bool NoTipAtAdding
-        {
-            get
-            {
-                try
-                {
-                    if (_noTipAtAdding is null)
-                    {
-                        if (_localSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_ADDING] == null)
-                        {
-                            _noTipAtAdding = false;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_ADDING]?.ToString() == "True")
-                        {
-                            _noTipAtAdding = true;
-                        }
-                        else
-                        {
-                            _noTipAtAdding = false;
-                        }
-                    }
-                }
-                catch { }
-                _noTipAtAdding ??= false;
-                return _noTipAtAdding == true;
-            }
-            set
-            {
-                SetProperty(ref _noTipAtAdding, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_ADDING] = _noTipAtAdding;
-            }
-        }
-
-        // 是否隐藏在随机生成页面点击随机密码时，已复制的提示
-        private bool? _noTipAtRandom = null;
-        public bool NoTipAtRandom
-        {
-            get
-            {
-                try
-                {
-                    if (_noTipAtRandom is null)
-                    {
-                        if (_localSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_RANDOM] == null)
-                        {
-                            _noTipAtRandom = false;
-                        }
-                        else if (_localSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_RANDOM]?.ToString() == "True")
-                        {
-                            _noTipAtRandom = true;
-                        }
-                        else
-                        {
-                            _noTipAtRandom = false;
-                        }
-                    }
-                }
-                catch { }
-                _noTipAtRandom ??= false;
-                return _noTipAtRandom == true;
-            }
-            set
-            {
-                SetProperty(ref _noTipAtRandom, value);
-                ApplicationData.Current.LocalSettings.Values[SETTING_NAME_NO_RANDOM_TIP_AT_RANDOM] = _noTipAtRandom;
-            }
-        }
+        return false;
     }
 }
