@@ -11,96 +11,95 @@ using Microsoft.UI.Xaml.Media.Animation;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Honeypot.Views
+namespace Honeypot.Views;
+
+/// <summary>
+/// An empty page that can be used on its own or navigated to within a Frame.
+/// </summary>
+public sealed partial class FavoritesPage : Page
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class FavoritesPage : Page
+    private MainViewModel MainViewModel = null;
+
+    private ContentDialog _favoriteDetailDialog = null;
+
+    public FavoritesPage()
     {
-        private MainViewModel MainViewModel = null;
+        this.InitializeComponent();
 
-        private ContentDialog _favoriteDetailDialog = null;
+        MainViewModel = MainViewModel.Instance;
 
-        public FavoritesPage()
+        var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+
+        _favoriteDetailDialog = new ContentDialog
         {
-            this.InitializeComponent();
+            XamlRoot = this.XamlRoot,
+            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
+            Content = new PasswordDetailControl(),
+            Padding = new Thickness(0, 0, 0, 0),
+            PrimaryButtonText = resourceLoader.GetString("DialogButtonRemoveFavorite"),
+            CloseButtonText = resourceLoader.GetString("DialogButtonClose"),
+            DefaultButton = ContentDialogButton.Close
+        };
+    }
 
-            MainViewModel = MainViewModel.Instance;
-
-            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-
-            _favoriteDetailDialog = new ContentDialog
-            {
-                XamlRoot = this.XamlRoot,
-                Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-                Content = new PasswordDetailControl(),
-                Padding = new Thickness(0, 0, 0, 0),
-                PrimaryButtonText = resourceLoader.GetString("DialogButtonRemoveFavorite"),
-                CloseButtonText = resourceLoader.GetString("DialogButtonClose"),
-                DefaultButton = ContentDialogButton.Close
-            };
-        }
-
-        /// <summary>
-        /// 点击查看收藏的密码
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void OnClickFavoritePassword(object sender, RoutedEventArgs e)
+    /// <summary>
+    /// 点击查看收藏的密码
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private async void OnClickFavoritePassword(object sender, RoutedEventArgs e)
+    {
+        try
         {
-            try
+            if (sender is Button btn && btn.DataContext is PasswordModel passwordModel)
             {
-                if (sender is Button btn && btn.DataContext is PasswordModel passwordModel)
+                MainViewModel.Instance.SelectedFavoritePassword = passwordModel;
+                _favoriteDetailDialog.XamlRoot = this.XamlRoot;
+                _favoriteDetailDialog.RequestedTheme = this.ActualTheme;
+                ContentDialogResult result = await _favoriteDetailDialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
                 {
-                    MainViewModel.Instance.SelectedFavoritePassword = passwordModel;
-                    _favoriteDetailDialog.XamlRoot = this.XamlRoot;
-                    _favoriteDetailDialog.RequestedTheme = this.ActualTheme;
-                    ContentDialogResult result = await _favoriteDetailDialog.ShowAsync();
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        MainViewModel.Instance.FavoritePassword(passwordModel);
-                    }
-
-                    MainViewModel.Instance.SelectedFavoritePassword = null;
+                    MainViewModel.Instance.FavoritePassword(passwordModel);
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
+
+                MainViewModel.Instance.SelectedFavoritePassword = null;
             }
         }
-
-        private void OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        catch (Exception ex)
         {
-            try
+            Debug.WriteLine(ex.Message);
+        }
+    }
+
+    private void OnPointerEntered(object sender, PointerRoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is Button btn)
             {
-                if (sender is Button btn)
-                {
-                    Storyboard sb = btn.Resources["PointerEnterStoryboard"] as Storyboard;
-                    sb.Begin();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
+                Storyboard sb = btn.Resources["PointerEnterStoryboard"] as Storyboard;
+                sb.Begin();
             }
         }
-
-        private void OnPointerExited(object sender, PointerRoutedEventArgs e)
+        catch (Exception ex)
         {
-            try
+            Debug.WriteLine(ex.Message);
+        }
+    }
+
+    private void OnPointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is Button btn)
             {
-                if (sender is Button btn)
-                {
-                    Storyboard sb = btn.Resources["PointerLeaveStoryboard"] as Storyboard;
-                    sb.Begin();
-                }
+                Storyboard sb = btn.Resources["PointerLeaveStoryboard"] as Storyboard;
+                sb.Begin();
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
         }
     }
 }

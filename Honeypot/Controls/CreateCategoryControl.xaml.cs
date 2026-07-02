@@ -1,6 +1,5 @@
 using System;
 using CommunityToolkit.WinUI;
-using Honeypot.Helpers;
 using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,76 +7,75 @@ using Microsoft.UI.Xaml.Controls;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Honeypot.Controls
+namespace Honeypot.Controls;
+
+public sealed partial class CreateCategoryControl : UserControl
 {
-    public sealed partial class CreateCategoryControl : UserControl
+    private MainViewModel MainViewModel = null;
+
+    public CreateCategoryControl()
     {
-        private MainViewModel MainViewModel = null;
+        this.InitializeComponent();
 
-        public CreateCategoryControl()
+        MainViewModel = MainViewModel.Instance;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        MainViewModel.Instance.LoadSegoeFluentIcons();
+    }
+
+    /// <summary>
+    /// 选择了一个图标后，更新图标预览
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void OnSelectIcon(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is GridView gv && gv.SelectedItem is Character character)
         {
-            this.InitializeComponent();
+            AddingCategoryIconPreview.Glyph = character.Char;
+        }
+    }
 
-            MainViewModel = MainViewModel.Instance;
+    /// <summary>
+    /// 重置页面的方法，将会清空创建分类时的输入，并返回到列表界面
+    /// </summary>
+    public void ResetView(string title = "", string icon = "\uE72E")
+    {
+        if (AddingCategoryIconPreview is not null)
+        {
+            AddingCategoryIconPreview.Glyph = icon;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        if (AddingCategoryNameTextBox is not null)
         {
-            MainViewModel.Instance.LoadSegoeFluentIcons();
+            AddingCategoryNameTextBox.Text = title;
         }
 
-        /// <summary>
-        /// 选择了一个图标后，更新图标预览
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnSelectIcon(object sender, SelectionChangedEventArgs e)
+        if (AddingCategoryIconGridView is not null)
         {
-            if (sender is GridView gv && gv.SelectedItem is Character character)
-            {
-                AddingCategoryIconPreview.Glyph = character.Char;
-            }
-        }
+            AddingCategoryIconGridView.SelectedIndex = -1;
 
-        /// <summary>
-        /// 重置页面的方法，将会清空创建分类时的输入，并返回到列表界面
-        /// </summary>
-        public void ResetView(string title = "", string icon = "\uE72E")
-        {
-            if (AddingCategoryIconPreview is not null)
-            {
-                AddingCategoryIconPreview.Glyph = icon;
-            }
-
-            if (AddingCategoryNameTextBox is not null)
-            {
-                AddingCategoryNameTextBox.Text = title;
-            }
-
-            if (AddingCategoryIconGridView is not null)
-            {
-                AddingCategoryIconGridView.SelectedIndex = -1;
-
-                try
-                {
-                    AddingCategoryIconGridView.SmoothScrollIntoViewWithIndexAsync(0, disableAnimation: true);
-                }
-                catch { }
-            }
-        }
-
-        public Tuple<string, string> GetCategoryInfo()
-        {
             try
             {
-                string title = AddingCategoryNameTextBox?.Text;
-                string icon = AddingCategoryIconPreview?.Glyph;
-
-                return Tuple.Create(title, icon);
+                AddingCategoryIconGridView.SmoothScrollIntoViewWithIndexAsync(0, disableAnimation: true);
             }
             catch { }
-            return null;
         }
-
     }
+
+    public Tuple<string, string> GetCategoryInfo()
+    {
+        try
+        {
+            string title = AddingCategoryNameTextBox?.Text;
+            string icon = AddingCategoryIconPreview?.Glyph;
+
+            return Tuple.Create(title, icon);
+        }
+        catch { }
+        return null;
+    }
+
 }

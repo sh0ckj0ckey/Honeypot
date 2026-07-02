@@ -1,13 +1,12 @@
-﻿namespace Honeypot.Models
+﻿namespace Honeypot.Models;
+
+public enum NavigatePageEnum
 {
-    public enum NavigatePageEnum
-    {
-        Passwords,
-        Favorites,
-        Adding,
-        Category,
-        Random,
-        Tips,
-        Settings,
-    }
+    Passwords,
+    Favorites,
+    Adding,
+    Category,
+    Random,
+    Tips,
+    Settings,
 }

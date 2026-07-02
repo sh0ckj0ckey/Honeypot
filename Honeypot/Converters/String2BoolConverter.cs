@@ -1,31 +1,30 @@
 ﻿using System;
 using Microsoft.UI.Xaml.Data;
 
-namespace Honeypot.Converters
+namespace Honeypot.Converters;
+
+internal partial class String2BoolConverter : IValueConverter
 {
-    internal class String2BoolConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, string language)
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        try
         {
-            try
+            if (parameter == null && value != null)
             {
-                if (parameter == null && value != null)
-                {
-                    return !string.IsNullOrWhiteSpace(value?.ToString());
-                }
-
-                if (parameter != null && value != null && parameter.ToString() == "-")
-                {
-                    return string.IsNullOrWhiteSpace(value?.ToString());
-                }
+                return !string.IsNullOrWhiteSpace(value?.ToString());
             }
-            catch { }
-            return false;
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return null;
+            if (parameter != null && value != null && parameter.ToString() == "-")
+            {
+                return string.IsNullOrWhiteSpace(value?.ToString());
+            }
         }
+        catch { }
+        return false;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        return null;
     }
 }

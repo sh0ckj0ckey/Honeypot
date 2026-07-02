@@ -9,74 +9,73 @@ using Windows.Win32.Foundation;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Honeypot
+namespace Honeypot;
+
+/// <summary>
+/// Provides application-specific behavior to supplement the default Application class.
+/// </summary>
+public partial class App : Application
 {
+    private readonly Microsoft.UI.Dispatching.DispatcherQueue _dispatcherQueue;
+
+    private static string? _launchArguments = null;
+
+    internal static MainWindow? MainWindow { get; private set; } = null;
+
+    internal static Helpers.SettingsService Settings { get; } = new Helpers.SettingsService();
+
     /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
+    /// Initializes the singleton application object.  This is the first line of authored code
+    /// executed, and as such is the logical equivalent of main() or WinMain().
     /// </summary>
-    public partial class App : Application
+    public App()
     {
-        private readonly Microsoft.UI.Dispatching.DispatcherQueue _dispatcherQueue;
+        _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 
-        private static string? _launchArguments = null;
+        this.InitializeComponent();
 
-        internal static MainWindow? MainWindow { get; private set; } = null;
-
-        internal static Helpers.SettingsService Settings { get; } = new Helpers.SettingsService();
-
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
-        public App()
+        UnhandledException += (s, e) =>
         {
-            _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+            e.Handled = true;
 
-            this.InitializeComponent();
+            var notification = new AppNotificationBuilder()
+            .AddText("An exception was thrown.")
+            .AddText($"Type: {e.Exception.GetType()}")
+            .AddText($"Message: {e.Message}\r\n" +
+                     $"HResult: {e.Exception.HResult}")
+            .BuildNotification();
 
-            UnhandledException += (s, e) =>
-            {
-                e.Handled = true;
+            AppNotificationManager.Default.Show(notification);
+        };
+    }
 
-                var notification = new AppNotificationBuilder()
-                .AddText("An exception was thrown.")
-                .AddText($"Type: {e.Exception.GetType()}")
-                .AddText($"Message: {e.Message}\r\n" +
-                         $"HResult: {e.Exception.HResult}")
-                .BuildNotification();
-
-                AppNotificationManager.Default.Show(notification);
-            };
+    /// <summary>
+    /// Invoked when the application is launched.
+    /// </summary>
+    /// <param name="args">Details about the launch request and process.</param>
+    protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+    {
+        var activationArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+        if (activationArgs is not null && activationArgs.Kind == ExtendedActivationKind.Launch && activationArgs.Data is ILaunchActivatedEventArgs launchArgs)
+        {
+            _launchArguments = launchArgs.Arguments?.Trim();
         }
 
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-        {
-            var activationArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
-            if (activationArgs is not null && activationArgs.Kind == ExtendedActivationKind.Launch && activationArgs.Data is ILaunchActivatedEventArgs launchArgs)
-            {
-                _launchArguments = launchArgs.Arguments?.Trim();
-            }
+        MainWindow ??= new MainWindow();
+        MainWindow.Activate();
+    }
 
+    internal void HandleRedirectedActivation(AppActivationArguments args)
+    {
+        _dispatcherQueue.TryEnqueue(() =>
+        {
             MainWindow ??= new MainWindow();
+
+            HWND hWnd = new(WinRT.Interop.WindowNative.GetWindowHandle(MainWindow));
+            PInvoke.ShowWindow(hWnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
+            PInvoke.SetForegroundWindow(hWnd);
+
             MainWindow.Activate();
-        }
-
-        internal void HandleRedirectedActivation(AppActivationArguments args)
-        {
-            _dispatcherQueue.TryEnqueue(() =>
-            {
-                MainWindow ??= new MainWindow();
-
-                HWND hWnd = new(WinRT.Interop.WindowNative.GetWindowHandle(MainWindow));
-                PInvoke.ShowWindow(hWnd, Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD.SW_RESTORE);
-                PInvoke.SetForegroundWindow(hWnd);
-
-                MainWindow.Activate();
-            });
-        }
+        });
     }
 }

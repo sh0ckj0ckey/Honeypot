@@ -2,31 +2,30 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 
-namespace Honeypot.Converters
+namespace Honeypot.Converters;
+
+internal partial class Bool2VisibilityConverter : IValueConverter
 {
-    internal class Bool2VisibilityConverter : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, string language)
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        try
         {
-            try
+            if (parameter == null && value != null)
             {
-                if (parameter == null && value != null)
-                {
-                    return bool.Parse(value?.ToString() ?? "False") ? Visibility.Visible : Visibility.Collapsed;
-                }
-
-                if (parameter != null && value != null && parameter.ToString() == "-")
-                {
-                    return !bool.Parse(value?.ToString() ?? "True") ? Visibility.Visible : Visibility.Collapsed;
-                }
+                return bool.Parse(value?.ToString() ?? "False") ? Visibility.Visible : Visibility.Collapsed;
             }
-            catch { }
-            return Visibility.Collapsed;
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return null;
+            if (parameter != null && value != null && parameter.ToString() == "-")
+            {
+                return !bool.Parse(value?.ToString() ?? "True") ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
+        catch { }
+        return Visibility.Collapsed;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        return null;
     }
 }

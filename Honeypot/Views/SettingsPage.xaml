@@ -26,11 +26,14 @@
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>
                         <StackPanel Orientation="Horizontal">
-                            <Image Height="64" Width="64">
-                                <Image.Source>
-                                    <BitmapImage DecodePixelHeight="128" DecodePixelType="Logical" UriSource="/Assets/Icon/img_logo.png"/>
-                                </Image.Source>
-                            </Image>
+                            <Grid>
+                                <Ellipse Height="8" Width="48" Fill="#8C444444" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                                <Image Width="64">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="/Assets/Icon/img_logo.png" DecodePixelType="Logical" DecodePixelHeight="128"/>
+                                    </Image.Source>
+                                </Image>
+                            </Grid>
                             <StackPanel Margin="16,6,0,-6" Spacing="0" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAppNameTextBlock" FontSize="16" FontWeight="Bold"/>
                                 <TextBlock x:Uid="SettingsAppSloganTextBlock" FontSize="12" Opacity="0.7"/>

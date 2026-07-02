@@ -1,33 +1,32 @@
 ﻿using System;
 using Microsoft.UI.Xaml.Data;
 
-namespace Honeypot.Converters
+namespace Honeypot.Converters;
+
+internal partial class LineBreaksRemover : IValueConverter
 {
-    internal class LineBreaksRemover : IValueConverter
+    public object Convert(object value, Type targetType, object parameter, string language)
     {
-        public object Convert(object value, Type targetType, object parameter, string language)
+        try
         {
-            try
+            if (value is string)
             {
-                if (value is string)
+                string text = value.ToString();
+                if (!string.IsNullOrWhiteSpace(text))
                 {
-                    string text = value.ToString();
-                    if (!string.IsNullOrWhiteSpace(text))
-                    {
-                        text = text.Trim();
-                        text.Replace("\r\n", "   ");
-                        text = text.Replace("\n", "   ");
-                        return text;
-                    }
+                    text = text.Trim();
+                    text.Replace("\r\n", "   ");
+                    text = text.Replace("\n", "   ");
+                    return text;
                 }
             }
-            catch { }
-            return value;
         }
+        catch { }
+        return value;
+    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            return null;
-        }
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        return null;
     }
 }

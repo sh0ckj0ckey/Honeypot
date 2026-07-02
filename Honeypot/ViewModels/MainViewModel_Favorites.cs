@@ -2,73 +2,71 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using Honeypot.Data;
 using Honeypot.Models;
 
-namespace Honeypot.ViewModels
+namespace Honeypot.ViewModels;
+
+public partial class MainViewModel
 {
-    public partial class MainViewModel
+    /// <summary>
+    /// 收藏夹分组列表
+    /// </summary>
+    public ObservableCollection<FavoritesGroupModel> FavoritePasswordsGroups { get; set; } = new();
+
+    /// <summary>
+    /// 当前选中查看的收藏的密码
+    /// </summary>
+    private PasswordModel _selectedFavoritePassword = null;
+    public PasswordModel SelectedFavoritePassword
     {
-        /// <summary>
-        /// 收藏夹分组列表
-        /// </summary>
-        public ObservableCollection<FavoritesGroupModel> FavoritePasswordsGroups { get; set; } = new();
+        get => _selectedFavoritePassword;
+        set => SetProperty(ref _selectedFavoritePassword, value);
+    }
 
-        /// <summary>
-        /// 当前选中查看的收藏的密码
-        /// </summary>
-        private PasswordModel _selectedFavoritePassword = null;
-        public PasswordModel SelectedFavoritePassword
+    /// <summary>
+    /// 更新收藏夹列表
+    /// </summary>
+    private void UpdateFavorites()
+    {
+        FavoritePasswordsGroups.Clear();
+
+        // 收藏夹
+        var orderedFavoriteList =
+            (from item in AllPasswords
+             where item.Favorite
+             group item by item.CategoryId into newItems
+             select
+             new FavoritesGroupModel
+             {
+                 Key = newItems.Key,
+                 Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
+             }).OrderBy(x => x.Key).ToList();
+
+        foreach (var item in orderedFavoriteList)
         {
-            get => _selectedFavoritePassword;
-            set => SetProperty(ref _selectedFavoritePassword, value);
+            FavoritePasswordsGroups.Add(item);
         }
+    }
 
-        /// <summary>
-        /// 更新收藏夹列表
-        /// </summary>
-        private void UpdateFavorites()
+    /// <summary>
+    /// 收藏/取消收藏密码
+    /// </summary>
+    /// <param name="passwordItem"></param>
+    public void FavoritePassword(PasswordModel passwordItem)
+    {
+        try
         {
-            FavoritePasswordsGroups.Clear();
+            passwordItem.Favorite = !passwordItem.Favorite;
+            PasswordsDataAccess.FavoritePassword(passwordItem.Id, passwordItem.Favorite);
 
-            // 收藏夹
-            var orderedFavoriteList =
-                (from item in AllPasswords
-                 where item.Favorite
-                 group item by item.CategoryId into newItems
-                 select
-                 new FavoritesGroupModel
-                 {
-                     Key = newItems.Key,
-                     Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
-                 }).OrderBy(x => x.Key).ToList();
-
-            foreach (var item in orderedFavoriteList)
-            {
-                FavoritePasswordsGroups.Add(item);
-            }
+            UpdateFavorites();
         }
-
-        /// <summary>
-        /// 收藏/取消收藏密码
-        /// </summary>
-        /// <param name="passwordItem"></param>
-        public void FavoritePassword(PasswordModel passwordItem)
+        catch (Exception ex)
         {
-            try
-            {
-                passwordItem.Favorite = !passwordItem.Favorite;
-                PasswordsDataAccess.FavoritePassword(passwordItem.Id, passwordItem.Favorite);
+            Debug.WriteLine(ex.Message);
 
-                UpdateFavorites();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-                var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-                ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddFavorite")}: {ex.Message}");
-            }
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddFavorite")}: {ex.Message}");
         }
     }
 }

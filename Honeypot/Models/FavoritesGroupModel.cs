@@ -1,11 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Honeypot.Models
-{
-    public class FavoritesGroupModel
-    {
-        public int Key { get; set; }
+namespace Honeypot.Models;
 
-        public ObservableCollection<PasswordModel> Passwords { get; set; }
-    }
+public class FavoritesGroupModel
+{
+    public int Key { get; set; }
+
+    public ObservableCollection<PasswordModel> Passwords { get; set; }
 }

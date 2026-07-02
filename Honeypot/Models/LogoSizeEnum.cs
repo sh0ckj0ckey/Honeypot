@@ -1,9 +1,8 @@
-﻿namespace Honeypot.Models
+﻿namespace Honeypot.Models;
+
+public enum LogoSizeEnum
 {
-    public enum LogoSizeEnum
-    {
-        Small,
-        Medium,
-        Large
-    }
+    Small,
+    Medium,
+    Large
 }
