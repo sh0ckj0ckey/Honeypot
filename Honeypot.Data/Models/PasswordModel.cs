@@ -1,6 +1,6 @@
 ﻿namespace Honeypot.Data.Models
 {
-    public class PasswordDataModel
+    public class PasswordModel
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }

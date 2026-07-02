@@ -1,6 +1,6 @@
 ﻿namespace Honeypot.Data.Models
 {
-    public class CategoryDataModel
+    public class CategoryModel
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;

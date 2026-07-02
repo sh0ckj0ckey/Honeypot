@@ -131,11 +131,11 @@ namespace Honeypot.Data
         /// </summary>
         /// <param name="categoryId">The category id used to filter passwords. Use a negative value to get all passwords.</param>
         /// <returns>A list of passwords.</returns>
-        public static List<PasswordDataModel> GetPasswords(int categoryId = -1)
+        public static List<PasswordModel> GetPasswords(int categoryId = -1)
         {
             SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
-            List<PasswordDataModel> results = [];
+            List<PasswordModel> results = [];
 
             using SqliteCommand selectCommand = connection.CreateCommand();
 
@@ -160,7 +160,7 @@ namespace Honeypot.Data
             {
                 string firstLetter = reader.IsDBNull(4) ? string.Empty : reader.GetString(4);
 
-                results.Add(new PasswordDataModel
+                results.Add(new PasswordModel
                 {
                     Id = reader.IsDBNull(0) ? -1 : reader.GetInt32(0),
                     CategoryId = reader.IsDBNull(1) ? -1 : reader.GetInt32(1),
@@ -342,11 +342,11 @@ namespace Honeypot.Data
         /// Gets all password categories ordered by their stored order value.
         /// </summary>
         /// <returns>A list of password categories.</returns>
-        public static List<CategoryDataModel> GetCategories()
+        public static List<CategoryModel> GetCategories()
         {
             SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
-            List<CategoryDataModel> results = [];
+            List<CategoryModel> results = [];
 
             using SqliteCommand selectCommand = connection.CreateCommand();
             selectCommand.CommandText =
@@ -360,7 +360,7 @@ namespace Honeypot.Data
 
             while (reader.Read())
             {
-                results.Add(new CategoryDataModel
+                results.Add(new CategoryModel
                 {
                     Id = reader.IsDBNull(0) ? -1 : reader.GetInt32(0),
                     Title = reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
@@ -379,7 +379,7 @@ namespace Honeypot.Data
         /// <param name="icon">The category icon path or icon key.</param>
         /// <param name="ticksAsOrder">The custom order value, usually based on ticks.</param>
         /// <returns>The id of the newly added category.</returns>
-        public static long AddCategory(string title, string icon, long ticksAsOrder)
+        public static long AddCategory(string title, string icon, long sortOrder)
         {
             SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
@@ -392,7 +392,7 @@ namespace Honeypot.Data
                 """;
             insertCommand.Parameters.AddWithValue("$title", title);
             insertCommand.Parameters.AddWithValue("$icon", icon);
-            insertCommand.Parameters.AddWithValue("$order", ticksAsOrder);
+            insertCommand.Parameters.AddWithValue("$order", sortOrder);
 
             var result = insertCommand.ExecuteScalar() ?? throw new InvalidOperationException("Failed to get the id of the newly added category.");
 
@@ -405,9 +405,9 @@ namespace Honeypot.Data
         /// <param name="id">The category id to update.</param>
         /// <param name="title">The new category title.</param>
         /// <param name="icon">The new category icon path or icon key.</param>
-        /// <param name="ticksAsOrder">The new custom order value.</param>
+        /// <param name="sortOrder">The new custom order value.</param>
         /// <returns><see langword="true"/> if the category was updated; otherwise, <see langword="false"/>.</returns>
-        public static bool UpdateCategory(int id, string title, string icon, long ticksAsOrder)
+        public static bool UpdateCategory(int id, string title, string icon, long sortOrder)
         {
             SqliteConnection connection = _passwordsDb ?? throw new InvalidOperationException("Database is not loaded.");
 
@@ -423,7 +423,7 @@ namespace Honeypot.Data
                 """;
             updateCommand.Parameters.AddWithValue("$title", title);
             updateCommand.Parameters.AddWithValue("$icon", icon);
-            updateCommand.Parameters.AddWithValue("$order", ticksAsOrder);
+            updateCommand.Parameters.AddWithValue("$order", sortOrder);
             updateCommand.Parameters.AddWithValue("$id", id);
 
             return updateCommand.ExecuteNonQuery() > 0;
