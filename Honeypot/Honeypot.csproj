@@ -7,7 +7,7 @@
         <RootNamespace>Honeypot</RootNamespace>
         <Nullable>enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <ApplicationIcon>Assets\Icon\Honeypot.ico</ApplicationIcon>
+        <ApplicationIcon>Assets\Honeypot.ico</ApplicationIcon>
         <DefaultLanguage>en-US</DefaultLanguage>
 
         <Platforms>x86;x64;ARM64</Platforms>
