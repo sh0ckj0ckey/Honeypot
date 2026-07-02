@@ -12,7 +12,7 @@
 /// returned as their uppercase first letter. If no suitable letter can be
 /// determined, <c>#</c> is returned.
 /// </remarks>
-public static class InitialHelper
+public static class GroupingInitialHelper
 {
     /// <summary>
     /// Gets a grouping initial from the specified text.
