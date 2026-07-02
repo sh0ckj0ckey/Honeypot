@@ -2,63 +2,62 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-  IgnorableNamespaces="uap rescap mp">
+  IgnorableNamespaces="uap rescap">
 
-	<Identity
-	  Name="22189NoMewing.Pass.Note"
-	  Publisher="CN=E6D8FAFA-3EF4-4E47-B885-52144C67BFF5"
-	  Version="3.3.3.0" />
+    <Identity
+        Name="22189NoMewing.Pass.Note"
+        Publisher="CN=E6D8FAFA-3EF4-4E47-B885-52144C67BFF5"
+        Version="4.0.0.0" />
 
-	<Properties>
-		<DisplayName>ms-resource:DisplayName</DisplayName>
-		<PublisherDisplayName>No Mewing</PublisherDisplayName>
-		<Logo>Assets\Manifest\StoreLogo.png</Logo>
-	</Properties>
+    <mp:PhoneIdentity PhoneProductId="8d83ae7b-1aef-4df6-b23b-01fdac4b3d1c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
-	<Dependencies>
-		<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-		<TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-	</Dependencies>
+    <Properties>
+        <DisplayName>ms-resource:DisplayName</DisplayName>
+        <PublisherDisplayName>No Mewing</PublisherDisplayName>
+        <Logo>Assets\Manifest\StoreLogo.png</Logo>
+    </Properties>
 
-	<Resources>
-		<Resource Language="x-generate"/>
-		<Resource Language="en-US" />
-		<Resource Language="zh-CN" />
-	</Resources>
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26226.0" />
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26226.0" />
+    </Dependencies>
 
-	<Applications>
-		<Application Id="App"
-		  Executable="$targetnametoken$.exe"
-		  EntryPoint="$targetentrypoint$">
-			<uap:VisualElements
-			  DisplayName="ms-resource:DisplayName"
-			  Description="ms-resource:DisplayDesc"
-			  BackgroundColor="transparent"
-			  Square150x150Logo="Assets\Manifest\Square150x150Logo.png" Square44x44Logo="Assets\Manifest\Square44x44Logo.png">
-				<uap:DefaultTile Wide310x150Logo="Assets\Manifest\Wide310x150Logo.png"  ShortName="ms-resource:DisplayName" Square71x71Logo="Assets\Manifest\SmallTile.png" Square310x310Logo="Assets\Manifest\LargeTile.png">
-					<uap:ShowNameOnTiles>
-						<uap:ShowOn Tile="square150x150Logo"/>
-						<uap:ShowOn Tile="wide310x150Logo"/>
-						<uap:ShowOn Tile="square310x310Logo"/>
-					</uap:ShowNameOnTiles>
-				</uap:DefaultTile >
-				<uap:SplashScreen Image="Assets\Manifest\SplashScreen.png"  BackgroundColor="transparent"/>
-				<uap:InitialRotationPreference>
-					<uap:Rotation Preference="landscape"/>
-					<uap:Rotation Preference="portrait"/>
-					<uap:Rotation Preference="landscapeFlipped"/>
-					<uap:Rotation Preference="portraitFlipped"/>
-				</uap:InitialRotationPreference>
-			</uap:VisualElements>
-		</Application>
-	</Applications>
+    <Resources>
+        <Resource Language="x-generate"/>
+    </Resources>
 
-	<Capabilities>
-		<rescap:Capability Name="runFullTrust" />
-	</Capabilities>
+    <Applications>
+        <Application Id="App"
+          Executable="$targetnametoken$.exe"
+          EntryPoint="$targetentrypoint$">
+            <uap:VisualElements
+              DisplayName="ms-resource:DisplayName"
+              Description="ms-resource:DisplayDesc"
+              BackgroundColor="transparent"
+              Square150x150Logo="Assets\Manifest\Square150x150Logo.png"
+              Square44x44Logo="Assets\Manifest\Square44x44Logo.png">
+                <uap:DefaultTile Wide310x150Logo="Assets\Manifest\Wide310x150Logo.png" ShortName="ms-resource:DisplayName" Square71x71Logo="Assets\Manifest\SmallTile.png" Square310x310Logo="Assets\Manifest\LargeTile.png">
+                    <uap:ShowNameOnTiles>
+                        <uap:ShowOn Tile="square150x150Logo"/>
+                        <uap:ShowOn Tile="wide310x150Logo"/>
+                        <uap:ShowOn Tile="square310x310Logo"/>
+                    </uap:ShowNameOnTiles>
+                </uap:DefaultTile >
+                <uap:SplashScreen Image="Assets\Manifest\SplashScreen.png"  BackgroundColor="transparent"/>
+                <uap:InitialRotationPreference>
+                    <uap:Rotation Preference="landscape"/>
+                    <uap:Rotation Preference="portrait"/>
+                    <uap:Rotation Preference="landscapeFlipped"/>
+                    <uap:Rotation Preference="portraitFlipped"/>
+                </uap:InitialRotationPreference>
+            </uap:VisualElements>
+        </Application>
+    </Applications>
 
-	<mp:PhoneIdentity PhoneProductId="8d83ae7b-1aef-4df6-b23b-01fdac4b3d1c" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+    <Capabilities>
+        <rescap:Capability Name="runFullTrust" />
+    </Capabilities>
 </Package>
