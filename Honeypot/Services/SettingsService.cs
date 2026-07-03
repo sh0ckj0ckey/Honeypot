@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.Storage;
 
-namespace Honeypot.Helpers;
+namespace Honeypot.Services;
 
 public partial class SettingsService : ObservableObject
 {
