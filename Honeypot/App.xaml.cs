@@ -22,7 +22,7 @@ public partial class App : Application
 
     internal static MainWindow? MainWindow { get; private set; } = null;
 
-    internal static Helpers.SettingsService Settings { get; } = new Helpers.SettingsService();
+    internal static Services.SettingsService Settings { get; } = new Services.SettingsService();
 
     /// <summary>
     /// Initializes the singleton application object.  This is the first line of authored code
@@ -65,7 +65,7 @@ public partial class App : Application
         MainWindow.Activate();
     }
 
-    internal void HandleRedirectedActivation(AppActivationArguments args)
+    internal void HandleRedirectedActivation()
     {
         _dispatcherQueue.TryEnqueue(() =>
         {

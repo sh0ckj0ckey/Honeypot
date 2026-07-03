@@ -50,6 +50,6 @@ public static class Program
 
     private static void Program_Activated(object? sender, AppActivationArguments args)
     {
-        _app?.HandleRedirectedActivation(args);
+        _app?.HandleRedirectedActivation();
     }
 }
