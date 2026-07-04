@@ -3,23 +3,23 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Honeypot.Converters;
 
-internal partial class Equal2BoolConverter : IValueConverter
+internal partial class IntToBoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        try
+        int intValue = value is int i ? i : 0;
+        bool result = intValue > 0;
+
+        if (parameter?.ToString() == "!")
         {
-            if (value != null && parameter != null)
-            {
-                return value.ToString().ToLower() == parameter.ToString().ToLower();
-            }
+            result = !result;
         }
-        catch { }
-        return false;
+
+        return result;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        return null;
+        throw new NotImplementedException();
     }
 }

@@ -3,23 +3,15 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Honeypot.Converters;
 
-internal partial class IsExpanded2OpacityConverter : IValueConverter
+internal partial class BoolNegationConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        try
-        {
-            if (value != null)
-            {
-                return bool.Parse(value?.ToString() ?? "False") ? 0.3 : 0.7;
-            }
-        }
-        catch { }
-        return 0.7;
+        return !(value is bool b && b);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        return null;
+        throw new NotImplementedException();
     }
 }

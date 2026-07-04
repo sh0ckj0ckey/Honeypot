@@ -3,23 +3,15 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Honeypot.Converters;
 
-internal partial class BoolReverseConverter : IValueConverter
+internal partial class UnequalToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        try
-        {
-            if (value != null)
-            {
-                return bool.Parse(value?.ToString() ?? "True") ? false : true;
-            }
-        }
-        catch { }
-        return false;
+        return value?.ToString() != parameter?.ToString() ? Microsoft.UI.Xaml.Visibility.Visible : Microsoft.UI.Xaml.Visibility.Collapsed;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
-        return null;
+        throw new NotImplementedException();
     }
 }
