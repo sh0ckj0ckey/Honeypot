@@ -1,7 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Honeypot.Data.Models;
-using Honeypot.Services;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Honeypot.ViewModels;
@@ -15,27 +14,27 @@ public partial class PasswordItemViewModel : ObservableObject
 
     private int _categoryId = -1;
 
-    private string _account;
+    private string _account = string.Empty;
 
-    private string _password;
+    private string _password = string.Empty;
 
     private int _thirdPartyId = -1;
 
     private char _firstLetter = '#';
 
-    private string _name;
+    private string _name = string.Empty;
 
-    private string _createDate;
+    private string _createDate = string.Empty;
 
-    private string _editDate;
+    private string _editDate = string.Empty;
 
-    private string _website;
+    private string _website = string.Empty;
 
-    private string _note;
+    private string _note = string.Empty;
 
     private bool _favorite = false;
 
-    private string _logoImageFileName;
+    private string _logoImageFileName = string.Empty;
 
     private BitmapImage? _logoImage = null;
 
@@ -133,6 +132,8 @@ public partial class PasswordItemViewModel : ObservableObject
 
     public PasswordItemViewModel(PasswordModel passwordModel)
     {
+        ArgumentNullException.ThrowIfNull(passwordModel);
+
         _id = passwordModel.Id;
         _categoryId = passwordModel.CategoryId;
         _account = passwordModel.Account;
