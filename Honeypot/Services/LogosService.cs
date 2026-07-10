@@ -22,7 +22,7 @@ public enum LogoImageSize
 /// <summary>
 /// Provides file and cache operations for account logo images.
 /// </summary>
-public static class LogoService
+public static class LogosService
 {
     private const string DefaultLogoUri = "ms-appx:///Assets/Icon/img_default.png";
     private const string DefaultLogoCacheKey = "__default_logo__";
