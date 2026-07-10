@@ -131,7 +131,7 @@ public static class HoneypotDataAccess
     /// </summary>
     /// <param name="categoryId">The category id used to filter passwords. Use a negative value to get all passwords.</param>
     /// <returns>A list of passwords.</returns>
-    public static List<PasswordModel> GetPasswords(int categoryId = -1)
+    public static List<PasswordModel> GetPasswords(long categoryId = -1)
     {
         SqliteConnection connection = _databaseConnection ?? throw new InvalidOperationException("Database is not loaded.");
 
@@ -196,7 +196,7 @@ public static class HoneypotDataAccess
     /// <param name="favorite">Whether this password is marked as favorite.</param>
     /// <param name="logo">The logo path or logo key.</param>
     /// <returns>The id of the newly added password.</returns>
-    public static long AddPassword(int categoryId, string account, string password, int thirdPartyId, string firstLetter, string name, string createDate, string website, string note, bool favorite, string logo)
+    public static long AddPassword(long categoryId, string account, string password, long thirdPartyId, string firstLetter, string name, string createDate, string website, string note, bool favorite, string logo)
     {
         SqliteConnection connection = _databaseConnection ?? throw new InvalidOperationException("Database is not loaded.");
 
@@ -240,7 +240,7 @@ public static class HoneypotDataAccess
     /// <param name="favorite">Whether this password is marked as favorite.</param>
     /// <param name="logo">The new logo path or logo key.</param>
     /// <returns><see langword="true"/> if the password was updated; otherwise, <see langword="false"/>.</returns>
-    public static bool UpdatePassword(long id, int categoryId, string account, string password, int thirdPartyId, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
+    public static bool UpdatePassword(long id, long categoryId, string account, string password, long thirdPartyId, string firstLetter, string name, string editDate, string website, string note, bool favorite, string logo)
     {
         SqliteConnection connection = _databaseConnection ?? throw new InvalidOperationException("Database is not loaded.");
 
@@ -407,7 +407,7 @@ public static class HoneypotDataAccess
     /// <param name="icon">The new category icon path or icon key.</param>
     /// <param name="sortOrder">The new custom order value.</param>
     /// <returns><see langword="true"/> if the category was updated; otherwise, <see langword="false"/>.</returns>
-    public static bool UpdateCategory(int id, string title, string icon, long sortOrder)
+    public static bool UpdateCategory(long id, string title, string icon, long sortOrder)
     {
         SqliteConnection connection = _databaseConnection ?? throw new InvalidOperationException("Database is not loaded.");
 
@@ -434,7 +434,7 @@ public static class HoneypotDataAccess
     /// </summary>
     /// <param name="id">The category id to delete.</param>
     /// <returns><see langword="true"/> if the category was deleted; otherwise, <see langword="false"/>.</returns>
-    public static bool DeleteCategory(int id)
+    public static bool DeleteCategory(long id)
     {
         SqliteConnection connection = _databaseConnection ?? throw new InvalidOperationException("Database is not loaded.");
 
