@@ -9,7 +9,7 @@ namespace Honeypot.ViewModels;
 /// </summary>
 public partial class CategoryItemViewModel : ObservableObject
 {
-    private int _id = -1;
+    private long _id = -1;
 
     private string _title = string.Empty;
 
@@ -17,7 +17,7 @@ public partial class CategoryItemViewModel : ObservableObject
 
     private long _order;
 
-    public int Id
+    public long Id
     {
         get => _id;
         set => SetProperty(ref _id, value);

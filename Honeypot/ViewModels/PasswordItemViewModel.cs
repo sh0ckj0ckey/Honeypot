@@ -10,15 +10,15 @@ namespace Honeypot.ViewModels;
 /// </summary>
 public partial class PasswordItemViewModel : ObservableObject
 {
-    private int _id = -1;
+    private long _id = -1;
 
-    private int _categoryId = -1;
+    private long _categoryId = -1;
 
     private string _account = string.Empty;
 
     private string _password = string.Empty;
 
-    private int _thirdPartyId = -1;
+    private long _thirdPartyId = -1;
 
     private char _firstLetter = '#';
 
@@ -40,13 +40,13 @@ public partial class PasswordItemViewModel : ObservableObject
 
     private BitmapImage? _largeLogoImage = null;
 
-    public int Id
+    public long Id
     {
         get => _id;
         set => SetProperty(ref _id, value);
     }
 
-    public int CategoryId
+    public long CategoryId
     {
         get => _categoryId;
         set => SetProperty(ref _categoryId, value);
@@ -64,7 +64,7 @@ public partial class PasswordItemViewModel : ObservableObject
         set => SetProperty(ref _password, value);
     }
 
-    public int ThirdPartyId
+    public long ThirdPartyId
     {
         get => _thirdPartyId;
         set => SetProperty(ref _thirdPartyId, value);

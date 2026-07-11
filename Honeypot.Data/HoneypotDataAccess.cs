@@ -28,12 +28,17 @@ public static class HoneypotDataAccess
             Mode = SqliteOpenMode.ReadWriteCreate
         };
 
-        _databaseConnection = new SqliteConnection(builder.ToString());
-        _databaseConnection.Open();
+        SqliteConnection connection = new(builder.ToString());
 
-        using SqliteCommand createCategoryTable = _databaseConnection.CreateCommand();
-        createCategoryTable.CommandText =
-            """
+        try
+        {
+            connection.Open();
+
+            _databaseConnection = connection;
+
+            using SqliteCommand createCategoryTable = _databaseConnection.CreateCommand();
+            createCategoryTable.CommandText =
+                """
                 CREATE TABLE IF NOT EXISTS passwordCategories (
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
                     title TEXT,
@@ -41,11 +46,11 @@ public static class HoneypotDataAccess
                     timeorder INTEGER
                 );
                 """;
-        createCategoryTable.ExecuteNonQuery();
+            createCategoryTable.ExecuteNonQuery();
 
-        using SqliteCommand createPasswordsTable = _databaseConnection.CreateCommand();
-        createPasswordsTable.CommandText =
-            """
+            using SqliteCommand createPasswordsTable = _databaseConnection.CreateCommand();
+            createPasswordsTable.CommandText =
+                """
                 CREATE TABLE IF NOT EXISTS passwords (
                     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
                     categoryid INTEGER DEFAULT -1,
@@ -62,10 +67,17 @@ public static class HoneypotDataAccess
                     thirdpartyid INTEGER DEFAULT -1
                 );
                 """;
-        createPasswordsTable.ExecuteNonQuery();
+            createPasswordsTable.ExecuteNonQuery();
 
-        // Add this column for old databases created by earlier versions.
-        EnsureColumnExists("passwords", "thirdpartyid", "INTEGER DEFAULT -1");
+            // Add this column for old databases created by earlier versions.
+            EnsureColumnExists("passwords", "thirdpartyid", "INTEGER DEFAULT -1");
+        }
+        catch
+        {
+            connection.Dispose();
+            _databaseConnection = null;
+            throw;
+        }
     }
 
     /// <summary>
@@ -162,8 +174,8 @@ public static class HoneypotDataAccess
 
             results.Add(new PasswordModel
             {
-                Id = reader.IsDBNull(0) ? -1 : reader.GetInt32(0),
-                CategoryId = reader.IsDBNull(1) ? -1 : reader.GetInt32(1),
+                Id = reader.IsDBNull(0) ? -1 : reader.GetInt64(0),
+                CategoryId = reader.IsDBNull(1) ? -1 : reader.GetInt64(1),
                 Account = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
                 Password = reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
                 FirstLetter = string.IsNullOrWhiteSpace(firstLetter) ? '#' : firstLetter[0],
@@ -174,7 +186,7 @@ public static class HoneypotDataAccess
                 Note = reader.IsDBNull(9) ? string.Empty : reader.GetString(9),
                 Favorite = reader.IsDBNull(10) ? 0 : reader.GetInt32(10),
                 Logo = reader.IsDBNull(11) ? string.Empty : reader.GetString(11),
-                ThirdPartyId = reader.IsDBNull(12) ? -1 : reader.GetInt32(12)
+                ThirdPartyId = reader.IsDBNull(12) ? -1 : reader.GetInt64(12)
             });
         }
 
@@ -362,7 +374,7 @@ public static class HoneypotDataAccess
         {
             results.Add(new CategoryModel
             {
-                Id = reader.IsDBNull(0) ? -1 : reader.GetInt32(0),
+                Id = reader.IsDBNull(0) ? -1 : reader.GetInt64(0),
                 Title = reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
                 Icon = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
                 Order = reader.IsDBNull(3) ? 0 : reader.GetInt64(3)

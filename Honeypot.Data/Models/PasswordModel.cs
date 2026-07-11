@@ -2,11 +2,11 @@
 
 public class PasswordModel
 {
-    public int Id { get; set; }
-    public int CategoryId { get; set; }
+    public long Id { get; set; }
+    public long CategoryId { get; set; }
     public string Account { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public int ThirdPartyId { get; set; }
+    public long ThirdPartyId { get; set; }
     public char FirstLetter { get; set; }
     public string Name { get; set; } = string.Empty;
     public string CreateDate { get; set; } = string.Empty;
