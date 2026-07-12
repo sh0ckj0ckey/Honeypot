@@ -21,8 +21,6 @@ public sealed partial class MainPage : Page
 {
     private MainViewModel MainViewModel = null;
 
-    private MigrateControl _migrater = null;
-
     // 导航栏项的Tag对应的Page
     private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
     {
@@ -90,36 +88,6 @@ public sealed partial class MainPage : Page
             }
             catch { }
         };
-
-        MainViewModel.Instance.ActInvokeMigrater = (show) =>
-        {
-            MigrateSmokeGrid.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
-
-            if (_migrater is null)
-            {
-                _migrater = new MigrateControl();
-                MigrateControl.Children.Add(_migrater);
-            }
-
-            _migrater.ResetView();
-        };
-    }
-
-    private async void OnPageLoaded(object sender, RoutedEventArgs e)
-    {
-        // 首次启动检测是否需要迁移数据
-        await MainViewModel.Instance.CheckShouldMigrate();
-
-        var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-        if (localSettings.Values["noticedMigrate"] == null)
-        {
-            localSettings.Values["noticedMigrate"] = true;
-
-            if (MainViewModel.Instance.ShowMigrater)
-            {
-                MainViewModel.Instance.ActInvokeMigrater?.Invoke(true);
-            }
-        }
     }
 
     private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)
@@ -297,14 +265,4 @@ public sealed partial class MainPage : Page
     }
 
     #endregion
-
-    /// <summary>
-    /// 点击解锁应用程序
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void OnClickUnlock(object sender, RoutedEventArgs e)
-    {
-        MainViewModel.Instance.UnlockApp();
-    }
 }

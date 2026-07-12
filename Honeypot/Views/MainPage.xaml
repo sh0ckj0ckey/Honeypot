@@ -123,23 +123,6 @@
             </Grid>
         </Grid>
 
-        <!--锁定遮罩-->
-        <Grid x:Name="LockedMaskGrid" Visibility="{x:Bind MainViewModel.IsLocked,Mode=OneWay,Converter={StaticResource Bool2Vis}}">
-            <Grid.Background>
-                <AcrylicBrush TintColor="Transparent" TintOpacity="0" TintLuminosityOpacity="0" FallbackColor="{ThemeResource SolidBackgroundFillColorBase}"/>
-            </Grid.Background>
-            <animations:Implicit.HideAnimations>
-                <animations:OpacityAnimation To="0" Duration="0:0:0.2"/>
-            </animations:Implicit.HideAnimations>
-            <Button Background="Transparent" Padding="0" BorderThickness="0" Click="OnClickUnlock" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}" Glyph="&#xE25B;" FontSize="36"/>
-                    <TextBlock x:Uid="LockedTextBlock" FontWeight="Bold" FontSize="18" Margin="0,12,0,0" HorizontalAlignment="Center"/>
-                    <TextBlock x:Uid="UnlockTextBlock" FontSize="14" Opacity="0.9" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-        </Grid>
-        
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>

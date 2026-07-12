@@ -292,7 +292,14 @@ public sealed partial class MainWindow : Window
     {
         this.UpdateAppTheme();
 
-        MainFrame.Navigate(typeof(Views.MainPage));
+        if (App.Settings.LockWithWindowsHello)
+        {
+            MainFrame.Navigate(typeof(Views.LockedPage));
+        }
+        else
+        {
+            MainFrame.Navigate(typeof(Views.MainPage));
+        }
 
         this.SetWindowMinSize(680, 460);
 

@@ -78,6 +78,7 @@
         <None Remove="Views\AddingPage.xaml" />
         <None Remove="Views\CategoriesPage.xaml" />
         <None Remove="Views\FavoritesPage.xaml" />
+        <None Remove="Views\LockedPage.xaml" />
         <None Remove="Views\MainPage.xaml" />
         <None Remove="Views\PasswordsPage.xaml" />
         <None Remove="Views\RandomPage.xaml" />
@@ -123,6 +124,11 @@
   -->
     <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
         <ProjectCapability Include="Msix" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Views\LockedPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
         <Page Update="Controls\PasswordEditingControl.xaml">
