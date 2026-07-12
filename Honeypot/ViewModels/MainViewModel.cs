@@ -75,49 +75,4 @@ public partial class MainViewModel : ObservableObject
             ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongConnectToDb")}: {ex.Message}");
         }
     }
-
-    /// <summary>
-    /// 解锁应用程序
-    /// </summary>
-    public async void UnlockApp()
-    {
-        try
-        {
-            if (AppSettings.LockWithWindowsHello == false)
-            {
-                IsLocked = false;
-                return;
-            }
-
-            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-
-            switch (await Windows.Security.Credentials.UI.UserConsentVerifier.RequestVerificationAsync(resourceLoader.GetString("UnlockAppUnlockingMessage")))
-            {
-                case Windows.Security.Credentials.UI.UserConsentVerificationResult.Verified:
-                    IsLocked = false;
-                    break;
-                case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceNotPresent:
-                case Windows.Security.Credentials.UI.UserConsentVerificationResult.NotConfiguredForUser:
-                case Windows.Security.Credentials.UI.UserConsentVerificationResult.DisabledByPolicy:
-                    ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppDeviceUnavailable"));
-                    break;
-                case Windows.Security.Credentials.UI.UserConsentVerificationResult.DeviceBusy:
-                    ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppDeviceBusy"));
-                    break;
-                case Windows.Security.Credentials.UI.UserConsentVerificationResult.RetriesExhausted:
-                    ShowTipsContentDialog(resourceLoader.GetString("UnlockAppUnlockFailed"), resourceLoader.GetString("UnlockAppRetriesExhausted"));
-                    break;
-                case Windows.Security.Credentials.UI.UserConsentVerificationResult.Canceled:
-                    break;
-                default:
-                    break;
-            }
-        }
-        catch (Exception ex)
-        {
-            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-            ShowTipsContentDialog(resourceLoader.GetString("UnlockAppError"), $"{ex.Message}");
-        }
-    }
-
 }

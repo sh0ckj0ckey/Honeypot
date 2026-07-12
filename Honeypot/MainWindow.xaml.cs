@@ -4,7 +4,6 @@ using Honeypot.Services;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using WinRT;
@@ -323,8 +322,14 @@ public sealed partial class MainWindow : Window
 
     private void Window_Closed(object sender, WindowEventArgs args)
     {
+        if (this.Content is FrameworkElement rootElement && rootElement.XamlRoot is not null)
+        {
+            rootElement.XamlRoot.Changed -= RootGridXamlRoot_Changed;
+        }
+
         var placement = this.GetCurrentWindowPlacement();
         _windowPlacementService.Save(placement);
+
         ContentDialogService.Uninitialize();
 
         Application.Current.Exit();
