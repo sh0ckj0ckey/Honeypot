@@ -326,7 +326,6 @@ public sealed partial class MainWindow : Window
         var placement = this.GetCurrentWindowPlacement();
         _windowPlacementService.Save(placement);
         ContentDialogService.Uninitialize();
-        PasswordsService.Close();
 
         Application.Current.Exit();
     }
