@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Honeypot.Helpers;
 using Honeypot.Models;
 using Honeypot.ViewModels;
 using Microsoft.UI.Xaml;
@@ -38,28 +39,6 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         MainViewModel = MainViewModel.Instance;
-
-        var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-
-        _tipsContentDialog = new ContentDialog
-        {
-            XamlRoot = this.XamlRoot,
-            Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style,
-            Title = "",
-            Content = "",
-            CloseButtonText = resourceLoader.GetString("DialogButtonGotIt")
-        };
-
-        MainViewModel.Instance.ActShowTipDialog = async (title, content) =>
-        {
-            _tipsContentDialog.Title = title;
-            _tipsContentDialog.Content = content;
-            _tipsContentDialog.XamlRoot = this.XamlRoot;
-            _tipsContentDialog.RequestedTheme = this.ActualTheme;
-            await _tipsContentDialog.ShowAsync();
-        };
-
-        MainViewModel.Instance.UnlockApp();
 
         this.InitializeComponent();
 

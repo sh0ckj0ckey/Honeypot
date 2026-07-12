@@ -15,8 +15,18 @@ public sealed partial class LockedPage : Page
         InitializeComponent();
     }
 
+    private void Page_Loaded(object sender, RoutedEventArgs e)
+    {
+        UnlockApp();
+    }
+
     private void Button_Click(object sender, RoutedEventArgs e)
     {
-        // MainViewModel.Instance.UnlockApp();
+        UnlockApp();
+    }
+
+    private void UnlockApp()
+    {
+
     }
 }

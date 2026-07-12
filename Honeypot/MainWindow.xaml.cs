@@ -292,6 +292,18 @@ public sealed partial class MainWindow : Window
     {
         this.UpdateAppTheme();
 
+        if (sender is FrameworkElement rootGrid && rootGrid.XamlRoot is not null)
+        {
+            ContentDialogService.Initialize(rootGrid.XamlRoot, () => rootGrid.ActualTheme);
+
+            rootGrid.XamlRoot.Changed -= RootGridXamlRoot_Changed;
+            rootGrid.XamlRoot.Changed += RootGridXamlRoot_Changed;
+        }
+        else
+        {
+            System.Diagnostics.Trace.WriteLine("Failed to initialize ContentDialogService because XamlRoot is null.");
+        }
+
         if (App.Settings.LockWithWindowsHello)
         {
             MainFrame.Navigate(typeof(Views.LockedPage));
@@ -302,12 +314,6 @@ public sealed partial class MainWindow : Window
         }
 
         this.SetWindowMinSize(680, 460);
-
-        if (sender is FrameworkElement rootGrid && rootGrid.XamlRoot is not null)
-        {
-            rootGrid.XamlRoot.Changed -= RootGridXamlRoot_Changed;
-            rootGrid.XamlRoot.Changed += RootGridXamlRoot_Changed;
-        }
     }
 
     private void RootGridXamlRoot_Changed(XamlRoot sender, XamlRootChangedEventArgs args)
@@ -319,6 +325,8 @@ public sealed partial class MainWindow : Window
     {
         var placement = this.GetCurrentWindowPlacement();
         _windowPlacementService.Save(placement);
+        ContentDialogService.Uninitialize();
+        PasswordsService.Close();
 
         Application.Current.Exit();
     }
