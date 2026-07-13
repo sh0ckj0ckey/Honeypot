@@ -21,8 +21,8 @@
         <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0</CornerRadius>
         <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
 
-        <models:MenuItemTemplateSelector x:Key="menuTemplateSelector">
-            <models:MenuItemTemplateSelector.ItemTemplate>
+        <models:NavigationItemTemplateSelector x:Key="menuTemplateSelector">
+            <models:NavigationItemTemplateSelector.ItemTemplate>
                 <DataTemplate x:DataType="models:MainNavigationItem">
                     <muxc:NavigationViewItem Tag="{x:Bind Tag}" IsExpanded="True" ToolTipService.ToolTip="{x:Bind Name}" MenuItemsSource="{x:Bind Children,Mode=OneWay}" 
                                              FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
@@ -34,18 +34,18 @@
                         </muxc:NavigationViewItem.Content>
                     </muxc:NavigationViewItem>
                 </DataTemplate>
-            </models:MenuItemTemplateSelector.ItemTemplate>
-            <models:MenuItemTemplateSelector.HeaderTemplate>
+            </models:NavigationItemTemplateSelector.ItemTemplate>
+            <models:NavigationItemTemplateSelector.HeaderTemplate>
                 <DataTemplate x:DataType="models:MainNavigationHeader">
                     <muxc:NavigationViewItemHeader Content="{x:Bind Name}"/>
                 </DataTemplate>
-            </models:MenuItemTemplateSelector.HeaderTemplate>
-            <models:MenuItemTemplateSelector.SeparatorTemplate>
+            </models:NavigationItemTemplateSelector.HeaderTemplate>
+            <models:NavigationItemTemplateSelector.SeparatorTemplate>
                 <DataTemplate x:DataType="models:MainNavigationSeparator">
                     <muxc:NavigationViewItemSeparator/>
                 </DataTemplate>
-            </models:MenuItemTemplateSelector.SeparatorTemplate>
-            <models:MenuItemTemplateSelector.SettingItemTemplate>
+            </models:NavigationItemTemplateSelector.SeparatorTemplate>
+            <models:NavigationItemTemplateSelector.SettingItemTemplate>
                 <DataTemplate x:DataType="models:MainNavigationSettingItem">
                     <muxc:NavigationViewItem Content="{x:Bind Name}" Tag="settings" FocusVisualPrimaryThickness="0" FocusVisualSecondaryThickness="0">
                         <muxc:NavigationViewItem.Icon>
@@ -60,8 +60,8 @@
                         </muxc:NavigationViewItem.Icon>
                     </muxc:NavigationViewItem>
                 </DataTemplate>
-            </models:MenuItemTemplateSelector.SettingItemTemplate>
-        </models:MenuItemTemplateSelector>
+            </models:NavigationItemTemplateSelector.SettingItemTemplate>
+        </models:NavigationItemTemplateSelector>
 
     </Page.Resources>
 

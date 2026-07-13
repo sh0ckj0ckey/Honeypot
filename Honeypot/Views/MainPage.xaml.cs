@@ -28,7 +28,7 @@ public sealed partial class MainPage : Page
         ("passwords", typeof(PasswordsPage)),
         ("favorites", typeof(FavoritesPage)),
         ("adding", typeof(AddingPage)),
-        ("category", typeof(CategoriesPage)),
+        ("categories", typeof(CategoriesPage)),
         ("random", typeof(RandomPage)),
         ("tips", typeof(TipsPage)),
         ("settings", typeof(SettingsPage)),
@@ -51,9 +51,9 @@ public sealed partial class MainPage : Page
                 string tag = page switch
                 {
                     NavigatePageEnum.Passwords => "passwords",
-                    NavigatePageEnum.Favorites => "favorite",
+                    NavigatePageEnum.Favorites => "favorites",
                     NavigatePageEnum.Adding => "adding",
-                    NavigatePageEnum.Category => "category",
+                    NavigatePageEnum.Category => "categories",
                     NavigatePageEnum.Random => "random",
                     NavigatePageEnum.Tips => "tips",
                     NavigatePageEnum.Settings => "settings",
@@ -131,12 +131,12 @@ public sealed partial class MainPage : Page
                 string tag = (_pages.FirstOrDefault(p => p.Page == e.SourcePageType)).Tag;
 
                 // 遍历侧栏找到匹配的选项，将侧栏的选中项对应到当前页面
-                MainNavigationBase select = null;
+                NavigationBase select = null;
                 if (select is null)
                 {
                     foreach (var menuItem in MainViewModel.Instance.MainNavigationItems)
                     {
-                        if (menuItem is MainNavigationItem menu && menu?.Tag?.Equals(tag) == true)
+                        if (menuItem is NavigationItem menu && menu?.Tag?.Equals(tag) == true)
                         {
                             select = menuItem;
                             break;
@@ -152,7 +152,7 @@ public sealed partial class MainPage : Page
                             select = footerMenuItem;
                             break;
                         }
-                        else if (footerMenuItem is MainNavigationItem footer && footer?.Tag?.Equals(tag) == true)
+                        else if (footerMenuItem is NavigationItem footer && footer?.Tag?.Equals(tag) == true)
                         {
                             select = footerMenuItem;
                             break;
@@ -169,7 +169,7 @@ public sealed partial class MainPage : Page
                         string categoryIdTag = $"{HoneypotConsts.CategoryPageTagPrefix}{MainViewModel.Instance.PasswordsCategoryId}";
                         foreach (var menuItem in MainViewModel.Instance.CategoriesOnNav)
                         {
-                            if (menuItem is MainNavigationItem menu && menu?.Tag?.Equals(categoryIdTag) == true)
+                            if (menuItem is NavigationItem menu && menu?.Tag?.Equals(categoryIdTag) == true)
                             {
                                 select = menuItem;
                                 break;

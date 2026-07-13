@@ -30,24 +30,9 @@ public partial class MainViewModel : ObservableObject
         set => SetProperty(ref _isLocked, value);
     }
 
-    public ObservableCollection<MainNavigationBase> MainNavigationItems = new ObservableCollection<MainNavigationBase>();
-
-    public ObservableCollection<MainNavigationBase> MainNavigationFooterItems = new ObservableCollection<MainNavigationBase>();
 
     public MainViewModel()
     {
-        var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-
-        MainNavigationItems.Add(new MainNavigationItem(HoneypotConsts.AllPasswordsPageTitle, "passwords", "\uE8D7"));
-        MainNavigationItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemFavorites"), "favorites", "\uEB51"));
-        MainNavigationItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemAdd"), "adding", "\uE109"));
-        MainNavigationItems.Add(new MainNavigationSeparator());
-        MainNavigationItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemCategories"), "category", "\uE74C", CategoriesOnNav));
-        MainNavigationFooterItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemGenerator"), "random", "\uF439"));
-        MainNavigationFooterItems.Add(new MainNavigationSeparator());
-        MainNavigationFooterItems.Add(new MainNavigationItem(resourceLoader.GetString("NavigationItemTips"), "tips", "\uE82F"));
-        MainNavigationFooterItems.Add(new MainNavigationSettingItem(resourceLoader.GetString("NavigationItemSettings")));
-
         InitPasswordsDataBase();
     }
 

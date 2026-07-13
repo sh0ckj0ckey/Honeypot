@@ -18,11 +18,6 @@ public partial class MainViewModel
     /// </summary>
     public ObservableCollection<CategoryModel> Categoryies { get; set; } = new ObservableCollection<CategoryModel>();
 
-    /// <summary>
-    /// 显示在侧边导航栏的分类列表，与Categories同步变更
-    /// </summary>
-    public ObservableCollection<MainNavigationItem> CategoriesOnNav { get; set; } = new ObservableCollection<MainNavigationItem>();
-
     #region 分类图标列表
 
     /// <summary>
