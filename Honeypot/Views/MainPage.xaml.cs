@@ -41,32 +41,6 @@ public sealed partial class MainPage : Page
         MainViewModel = MainViewModel.Instance;
 
         this.InitializeComponent();
-
-        MainViewModel.Instance.ActSwitchAppTheme?.Invoke();
-
-        MainViewModel.Instance.ActNavigatePage = (page) =>
-        {
-            try
-            {
-                string tag = page switch
-                {
-                    NavigatePageEnum.Passwords => "passwords",
-                    NavigatePageEnum.Favorites => "favorites",
-                    NavigatePageEnum.Adding => "adding",
-                    NavigatePageEnum.Category => "categories",
-                    NavigatePageEnum.Random => "random",
-                    NavigatePageEnum.Tips => "tips",
-                    NavigatePageEnum.Settings => "settings",
-                    _ => ""
-                };
-
-                if (!string.IsNullOrWhiteSpace(tag))
-                {
-                    MainFramNavigateToPage(tag);
-                }
-            }
-            catch { }
-        };
     }
 
     private void MainNavigationView_Loaded(object sender, RoutedEventArgs e)

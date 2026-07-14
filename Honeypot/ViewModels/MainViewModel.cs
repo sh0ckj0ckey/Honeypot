@@ -11,25 +11,9 @@ namespace Honeypot.ViewModels;
 public partial class MainViewModel : ObservableObject
 {
     /// <summary>
-    /// 控制MainFrame导航页面
-    /// </summary>
-    public Action<NavigatePageEnum> ActNavigatePage { get; set; } = null;
-
-    /// <summary>
     /// 在密码列表页显示一个提示，提醒用户定期备份数据
     /// </summary>
     public Action<int> ActNoticeUserToBackup { get; set; } = null;
-
-    /// <summary>
-    /// 应用程序是否被锁定
-    /// </summary>
-    private bool _isLocked = true;
-    public bool IsLocked
-    {
-        get => _isLocked;
-        set => SetProperty(ref _isLocked, value);
-    }
-
 
     public MainViewModel()
     {

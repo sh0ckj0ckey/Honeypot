@@ -18,27 +18,6 @@ public partial class MainViewModel
     /// </summary>
     public ObservableCollection<CategoryModel> Categoryies { get; set; } = new ObservableCollection<CategoryModel>();
 
-    #region 分类图标列表
-
-    /// <summary>
-    /// 本机 Segoe Fluent Icons 字体的所有字符
-    /// </summary>
-    public ObservableCollection<Character> AllIcons { get; set; } = new ObservableCollection<Character>();
-
-    /// <summary>
-    /// 加载本机 Segoe Fluent Icons 字体内的所有图标
-    /// </summary>
-    public void LoadSegoeFluentIcons()
-    {
-        if (AllIcons.Count <= 0)
-        {
-            var icons = FontHelper.GetAllSegoeFluentIcons();
-            icons.ForEach(AllIcons.Add);
-        }
-    }
-
-    #endregion
-
     /// <summary>
     /// 根据分类ID获取分类信息
     /// </summary>
