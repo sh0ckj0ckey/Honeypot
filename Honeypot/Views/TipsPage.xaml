@@ -6,7 +6,7 @@
     xmlns:local="using:Honeypot.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" NavigationCacheMode="Required">
+    mc:Ignorable="d">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -44,7 +44,7 @@
                                     <LineBreak/><Run x:Uid="TipsWhereIsMyDataContentTextBlockRun2" FontWeight="Bold" Foreground="#DD0000"/>
                                     <LineBreak/><Run x:Uid="TipsWhereIsMyDataContentTextBlockRun3"/>
                                 </TextBlock>
-                                <HyperlinkButton x:Uid="TipsWhereIsMyDataViewFileButton" Grid.Row="1" Margin="-10,4,0,0" Click="OnClickDbFile" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                <HyperlinkButton x:Uid="TipsWhereIsMyDataViewFileButton" Grid.Row="1" Margin="-10,4,0,0" Click="HyperlinkButton_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                             </Grid>
                             <Border Grid.Column="1" CornerRadius="8" Width="365" Height="169" Margin="20,0,0,0" BorderThickness="1" BorderBrush="{ThemeResource APPLICATION_LINE_BK}">
                                 <Border.Background>

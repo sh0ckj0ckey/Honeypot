@@ -19,16 +19,19 @@ public sealed partial class TipsPage : Page
         this.InitializeComponent();
     }
 
-    private async void OnClickDbFile(object sender, RoutedEventArgs e)
+    private async void HyperlinkButton_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            string folderPath = UserDataPaths.GetDefault().Documents;
-            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(folderPath);
-            var dbNoMewingFolder = await folder.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
-            var dbFolder = await dbNoMewingFolder.CreateFolderAsync("Honeypot", CreationCollisionOption.OpenIfExists);
-            await Launcher.LaunchFolderAsync(dbFolder);
+            string documentsFolderPath = UserDataPaths.GetDefault().Documents;
+            StorageFolder documentsFolder = await StorageFolder.GetFolderFromPathAsync(documentsFolderPath);
+            StorageFolder noMewingFolder = await documentsFolder.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
+            StorageFolder honeypotFolder = await noMewingFolder.CreateFolderAsync("Honeypot", CreationCollisionOption.OpenIfExists);
+            await Launcher.LaunchFolderAsync(honeypotFolder);
         }
-        catch { }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.WriteLine(ex);
+        }
     }
 }
