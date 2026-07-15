@@ -12,13 +12,13 @@ public partial class PasswordItemViewModel : ObservableObject
 {
     private long _id = -1;
 
-    private long _categoryId = -1;
+    private CategoryItemViewModel? _category = null;
 
     private string _account = string.Empty;
 
     private string _password = string.Empty;
 
-    private long _thirdPartyId = -1;
+    private PasswordItemViewModel? _thirdParty = null;
 
     private char _firstLetter = '#';
 
@@ -46,10 +46,10 @@ public partial class PasswordItemViewModel : ObservableObject
         set => SetProperty(ref _id, value);
     }
 
-    public long CategoryId
+    public CategoryItemViewModel? Category
     {
-        get => _categoryId;
-        set => SetProperty(ref _categoryId, value);
+        get => _category;
+        set => SetProperty(ref _category, value);
     }
 
     public string Account
@@ -64,10 +64,10 @@ public partial class PasswordItemViewModel : ObservableObject
         set => SetProperty(ref _password, value);
     }
 
-    public long ThirdPartyId
+    public PasswordItemViewModel? ThirdParty
     {
-        get => _thirdPartyId;
-        set => SetProperty(ref _thirdPartyId, value);
+        get => _thirdParty;
+        set => SetProperty(ref _thirdParty, value);
     }
 
     public char FirstLetter
@@ -135,10 +135,8 @@ public partial class PasswordItemViewModel : ObservableObject
         ArgumentNullException.ThrowIfNull(passwordModel);
 
         _id = passwordModel.Id;
-        _categoryId = passwordModel.CategoryId;
         _account = passwordModel.Account;
         _password = passwordModel.Password;
-        _thirdPartyId = passwordModel.ThirdPartyId;
         _firstLetter = passwordModel.FirstLetter;
         _name = passwordModel.Name;
         _createDate = passwordModel.CreateDate;
