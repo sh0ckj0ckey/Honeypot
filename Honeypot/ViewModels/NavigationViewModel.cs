@@ -24,7 +24,7 @@ public class NavigationViewModel
         this.FooterItems.Add(new NavigationItem("NavigationItemGenerator".GetLocalized(), "random", "\uF439"));
         this.FooterItems.Add(new NavigationSeparator());
         this.FooterItems.Add(new NavigationItem("NavigationItemTips".GetLocalized(), "tips", "\uE82F"));
-        this.FooterItems.Add(new NavigationSettingsItem("NavigationItemSettings".GetLocalized()));
+        this.FooterItems.Add(new NavigationSettingsItem("NavigationItemSettings".GetLocalized(), "settings"));
     }
 
     public void UpdateCategories(IEnumerable<CategoryItemViewModel> categories)

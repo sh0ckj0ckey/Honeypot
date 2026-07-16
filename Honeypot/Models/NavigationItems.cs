@@ -30,9 +30,11 @@ public sealed class NavigationSeparator : NavigationBase
 
 }
 
-public sealed class NavigationSettingsItem(string name) : NavigationBase
+public sealed class NavigationSettingsItem(string name, string tag) : NavigationBase
 {
     public string Name { get; } = name;
+
+    public string Tag { get; } = tag;
 }
 
 public partial class NavigationItemTemplateSelector : DataTemplateSelector

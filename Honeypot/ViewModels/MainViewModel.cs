@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
-using Honeypot.Helpers;
-using Honeypot.Models;
+using Honeypot.Data.Models;
 using Windows.Storage;
 
 namespace Honeypot.ViewModels;
@@ -38,10 +37,28 @@ public partial class MainViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
+            System.Diagnostics.Trace.WriteLine(ex.Message);
 
             var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
             ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongConnectToDb")}: {ex.Message}");
         }
+    }
+
+    public ReadOnlyCollection<PasswordModel> Search(string keyword)
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                var suggests = Passwords.Where(p => p.Name.StartsWith(keyword, StringComparison.CurrentCultureIgnoreCase) || p.Account.StartsWith(keyword, StringComparison.CurrentCultureIgnoreCase));
+                return suggests;
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.WriteLine(ex.Message);
+        }
+
+        return [];
     }
 }

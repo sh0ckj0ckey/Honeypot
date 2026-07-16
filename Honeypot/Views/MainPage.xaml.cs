@@ -20,11 +20,10 @@ namespace Honeypot.Views;
 /// </summary>
 public sealed partial class MainPage : Page
 {
-    private MainViewModel MainViewModel = null;
+    public MainViewModel ViewModel { get; } = new();
 
-    // 导航栏项的Tag对应的Page
-    private readonly List<(string Tag, Type Page)> _pages = new List<(string Tag, Type Page)>
-    {
+    private readonly List<(string Tag, Type Page)> _pages =
+    [
         ("passwords", typeof(PasswordsPage)),
         ("favorites", typeof(FavoritesPage)),
         ("adding", typeof(AddingPage)),
@@ -32,14 +31,10 @@ public sealed partial class MainPage : Page
         ("random", typeof(RandomPage)),
         ("tips", typeof(TipsPage)),
         ("settings", typeof(SettingsPage)),
-    };
-
-    private ContentDialog _tipsContentDialog = null;
+    ];
 
     public MainPage()
     {
-        MainViewModel = MainViewModel.Instance;
-
         this.InitializeComponent();
     }
 
