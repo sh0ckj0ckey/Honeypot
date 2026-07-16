@@ -17,7 +17,7 @@
     <Properties>
         <DisplayName>ms-resource:DisplayName</DisplayName>
         <PublisherDisplayName>No Mewing</PublisherDisplayName>
-        <Logo>Assets\Manifest\StoreLogo.png</Logo>
+        <Logo>Assets\Tiles\StoreLogo.png</Logo>
     </Properties>
 
     <Dependencies>
@@ -37,16 +37,16 @@
               DisplayName="ms-resource:DisplayName"
               Description="ms-resource:DisplayDesc"
               BackgroundColor="transparent"
-              Square150x150Logo="Assets\Manifest\Square150x150Logo.png"
-              Square44x44Logo="Assets\Manifest\Square44x44Logo.png">
-                <uap:DefaultTile Wide310x150Logo="Assets\Manifest\Wide310x150Logo.png" ShortName="ms-resource:DisplayName" Square71x71Logo="Assets\Manifest\SmallTile.png" Square310x310Logo="Assets\Manifest\LargeTile.png">
+              Square150x150Logo="Assets\Tiles\Square150x150Logo.png"
+              Square44x44Logo="Assets\Tiles\Square44x44Logo.png">
+                <uap:DefaultTile Wide310x150Logo="Assets\Tiles\Wide310x150Logo.png" ShortName="ms-resource:DisplayName" Square71x71Logo="Assets\Tiles\SmallTile.png" Square310x310Logo="Assets\Tiles\LargeTile.png">
                     <uap:ShowNameOnTiles>
                         <uap:ShowOn Tile="square150x150Logo"/>
                         <uap:ShowOn Tile="wide310x150Logo"/>
                         <uap:ShowOn Tile="square310x310Logo"/>
                     </uap:ShowNameOnTiles>
                 </uap:DefaultTile >
-                <uap:SplashScreen Image="Assets\Manifest\SplashScreen.png"  BackgroundColor="transparent"/>
+                <uap:SplashScreen Image="Assets\Tiles\SplashScreen.png"  BackgroundColor="transparent"/>
                 <uap:InitialRotationPreference>
                     <uap:Rotation Preference="landscape"/>
                     <uap:Rotation Preference="portrait"/>
