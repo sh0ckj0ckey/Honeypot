@@ -66,8 +66,8 @@
     <Grid Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <NavigationView x:Name="MainNavigationView" Background="Transparent" PaneDisplayMode="Left" OpenPaneLength="220" 
                         IsBackButtonVisible="Collapsed" IsPaneToggleButtonVisible="False" IsSettingsVisible="False" IsTitleBarAutoPaddingEnabled="False"
-                        MenuItemsSource="{x:Bind ViewModel.MainNavigationItems,Mode=OneWay}" 
-                        FooterMenuItemsSource="{x:Bind ViewModel.MainNavigationFooterItems,Mode=OneWay}"
+                        MenuItemsSource="{x:Bind ViewModel.Navigation.Items, Mode=OneWay}" 
+                        FooterMenuItemsSource="{x:Bind ViewModel.Navigation.FooterItems, Mode=OneWay}"
                         MenuItemTemplateSelector="{StaticResource NavigationItemTemplateSelector}" 
                         Loaded="MainNavigationView_Loaded" ItemInvoked="MainNavigationView_ItemInvoked">
             <NavigationView.PaneCustomContent>

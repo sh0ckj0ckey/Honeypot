@@ -11,67 +11,6 @@ namespace Honeypot.ViewModels;
 public partial class MainViewModel
 {
     /// <summary>
-    /// 所有密码ID与密码信息的映射
-    /// </summary>
-    private Dictionary<int, PasswordModel> _passwordsDict = new Dictionary<int, PasswordModel>();
-
-    /// <summary>
-    /// 所有密码列表
-    /// </summary>
-    public ObservableCollection<PasswordModel> AllPasswords { get; set; } = new();
-
-    /// <summary>
-    /// 当前显示的密码列表（根据分类ID过滤）
-    /// </summary>
-    public ObservableCollection<PasswordModel> Passwords { get; set; } = new();
-
-    /// <summary>
-    /// 当前显示的分组的密码列表（根据分类ID过滤）
-    /// </summary>
-    public ObservableCollection<PasswordsGroupModel> PasswordsGroups { get; set; } = new();
-
-    /// <summary>
-    /// 当前的分类ID， -1为全部密码
-    /// 这个属性一方面用于ViewModel去筛选特定分类的密码列表，另一方面也用于定位侧边导航栏的选中项
-    /// </summary>
-    private int _passwordsCategoryId = -1;
-    public int PasswordsCategoryId
-    {
-        get => _passwordsCategoryId;
-        private set => SetProperty(ref _passwordsCategoryId, value);
-    }
-
-    /// <summary>
-    /// 当前的分类名称， 默认为“所有账号”
-    /// </summary>
-    private string _passwordsTitleText = HoneypotConsts.AllPasswordsPageTitle;
-    public string PasswordsTitleText
-    {
-        get => _passwordsTitleText;
-        private set => SetProperty(ref _passwordsTitleText, value);
-    }
-
-    /// <summary>
-    /// 当前的分类图标，默认为空
-    /// </summary>
-    private string _passwordsTitleIcon = string.Empty;
-    public string PasswordsTitleIcon
-    {
-        get => _passwordsTitleIcon;
-        private set => SetProperty(ref _passwordsTitleIcon, value);
-    }
-
-    /// <summary>
-    /// 当前选中查看的密码
-    /// </summary>
-    private PasswordModel _selectedPassword = null;
-    public PasswordModel SelectedPassword
-    {
-        get => _selectedPassword;
-        set => SetProperty(ref _selectedPassword, value);
-    }
-
-    /// <summary>
     /// 根据密码ID获取密码信息
     /// </summary>
     /// <param name="id"></param>
@@ -118,8 +57,6 @@ public partial class MainViewModel
                     _passwordsDict[password.Id] = password;
                     AllPasswords.Insert(0, password);
                 }
-
-                ActNoticeUserToBackup?.Invoke(AllPasswords.Count);
 
                 UpdatePasswordsList(PasswordsCategoryId);
                 UpdateFavorites();
