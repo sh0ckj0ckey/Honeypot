@@ -86,6 +86,8 @@ public partial class MainViewModel : ObservableObject
 
             List<CategoryItemViewModel> categories = [];
             List<PasswordItemViewModel> passwords = [];
+            Dictionary<long, long> passwordToCategory = [];
+            Dictionary<long, long> passwordToThirdParty = [];
 
             await Task.Run(async () =>
             {
@@ -111,6 +113,9 @@ public partial class MainViewModel : ObservableObject
                         continue;
                     }
 
+                    passwordToCategory[passwordModel.Id] = passwordModel.CategoryId;
+                    passwordToThirdParty[passwordModel.Id] = passwordModel.ThirdPartyId;
+
                     passwords.Add(new PasswordItemViewModel(passwordModel));
                 }
 
@@ -130,15 +135,19 @@ public partial class MainViewModel : ObservableObject
             {
                 _passwordsById[password.Id] = password;
                 this.AllPasswords.Add(password);
-
-                if (password.Favorite)
-                {
-
-                }
             }
+
+            foreach (var password in passwords)
+            {
+
+            }
+
+            this.UpdateFavorites();
 
             // Update the navigation view with the loaded categories
             this.Navigation.UpdateCategories(this.AllCategories);
+
+            _isLoaded = true;
         }
         catch (Exception ex)
         {
@@ -170,6 +179,26 @@ public partial class MainViewModel : ObservableObject
     }
 
 
+    private void UpdateFavorites()
+    {
+        this.FavoritePasswordGroups.Clear();
+
+        var orderedFavoriteList =
+            (from item in this.AllPasswords
+             where item.Favorite
+             group item by item.Category into newItems
+             select
+             new FavoritesGroupModel
+             {
+                 Key = newItems.Key,
+                 Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
+             }).OrderBy(x => x.Key).ToList();
+
+        foreach (var item in orderedFavoriteList)
+        {
+            FavoritePasswordsGroups.Add(item);
+        }
+    }
 
 
 
@@ -214,31 +243,6 @@ public partial class MainViewModel : ObservableObject
         }
 
         return [];
-    }
-
-    /// <summary>
-    /// 更新收藏夹列表
-    /// </summary>
-    private void UpdateFavorites()
-    {
-        FavoritePasswordsGroups.Clear();
-
-        // 收藏夹
-        var orderedFavoriteList =
-            (from item in AllPasswords
-             where item.Favorite
-             group item by item.CategoryId into newItems
-             select
-             new FavoritesGroupModel
-             {
-                 Key = newItems.Key,
-                 Passwords = new ObservableCollection<PasswordModel>(newItems.ToList())
-             }).OrderBy(x => x.Key).ToList();
-
-        foreach (var item in orderedFavoriteList)
-        {
-            FavoritePasswordsGroups.Add(item);
-        }
     }
 
     /// <summary>
