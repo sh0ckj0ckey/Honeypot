@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -221,7 +222,25 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
+        var filteredPasswords = this.SelectedCategory is null
+            ? this.AllPasswords : this.AllPasswords.Where(password => password.Category?.Id == this.SelectedCategory.Id);
 
+        foreach (var item in filteredPasswords.OrderByDescending(password => password.Id))
+        {
+            this.CurrentPasswordItems.Add(item);
+        }
+
+        var passwordGroups = filteredPasswords
+            .GroupBy(password => password.FirstLetter)
+            .OrderBy(group => group.Key)
+            .Select(group => new PasswordGroupViewModel(
+                group.Key.ToString(),
+                new ObservableCollection<PasswordItemViewModel>(group.OrderByDescending(password => password.Id))));
+
+        foreach (var group in passwordGroups)
+        {
+            this.CurrentPasswordGroups.Add(group);
+        }
 
         // Load logo images for current password items
         foreach (var password in this.CurrentPasswordItems)
@@ -242,8 +261,8 @@ public partial class MainViewModel : ObservableObject
         var favoriteGroups = this.AllPasswords
             .Where(password => password.Favorite)
             .GroupBy(password => password.Category)
-            .OrderBy(group => group.Key?.Order ?? long.MaxValue)
-            .ThenBy(group => group.Key?.Title ?? string.Empty)
+            .OrderByDescending(group => group.Key?.Order ?? long.MaxValue)
+            .ThenByDescending(group => group.Key?.Id ?? long.MaxValue)
             .Select(group => new PasswordGroupViewModel(
                 group.Key?.Title ?? "UncategorizedCategoryTitle".GetLocalized(),
                 new ObservableCollection<PasswordItemViewModel>(group.OrderByDescending(password => password.Id))));
@@ -327,6 +346,214 @@ public partial class MainViewModel : ObservableObject
 
             var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
             ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddFavorite")}: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 添加密码
+    /// </summary>
+    /// <param name="categoryId"></param>
+    /// <param name="account"></param>
+    /// <param name="password"></param>
+    /// <param name="name"></param>
+    /// <param name="website"></param>
+    /// <param name="note"></param>
+    /// <param name="favorite"></param>
+    /// <param name="logoFilePath"></param>
+    /// <param name="date"></param>
+    public void AddPassword(int categoryId, string account, string password, int thirdPartyId, string name, string website, string note, bool favorite, string logoFilePath, string date = "")
+    {
+        string firstLetter = PinyinHelper.GetFirstSpell(name.Trim()).ToString();
+        if (string.IsNullOrWhiteSpace(date))
+        {
+            date = DateTime.Now.ToString("yyyy/MM/dd");
+        }
+
+        PasswordsDataAccess.AddPassword(categoryId, account, password, thirdPartyId, firstLetter, name, date, website, note, favorite, logoFilePath);
+        LoadPasswordsTable();
+    }
+
+    /// <summary>
+    /// 编辑密码
+    /// </summary>
+    /// <param name="passwordItem"></param>
+    /// <param name="categoryId"></param>
+    /// <param name="account"></param>
+    /// <param name="password"></param>
+    /// <param name="name"></param>
+    /// <param name="website"></param>
+    /// <param name="note"></param>
+    /// <param name="favorite"></param>
+    /// <param name="logoFilePath"></param>
+    public async void EditPassword(PasswordModel passwordItem, int categoryId, string account, string password, int thirdPartyId, string name, string website, string note, bool favorite, string logoFilePath)
+    {
+        try
+        {
+            if (logoFilePath != passwordItem.LogoFileName)
+            {
+                LogoImageHelper.DeleteLogoImage(passwordItem.LogoFileName);
+            }
+
+            string firstLetter = PinyinHelper.GetFirstSpell(name).ToString();
+            string date = DateTime.Now.ToString("yyyy/MM/dd");
+
+            PasswordsDataAccess.UpdatePassword(passwordItem.Id, categoryId, account, password, thirdPartyId, firstLetter, name, date, website, note, favorite, logoFilePath);
+
+            passwordItem.Account = account;
+            passwordItem.Password = password;
+            passwordItem.ThirdPartyId = thirdPartyId;
+            passwordItem.FirstLetter = firstLetter[0];
+            passwordItem.Name = name;
+            passwordItem.EditDate = date;
+            passwordItem.Website = website;
+            passwordItem.Note = note;
+            passwordItem.Favorite = favorite;
+            passwordItem.CategoryId = categoryId;
+            passwordItem.LogoFileName = logoFilePath;
+
+            passwordItem.NormalLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Medium);
+            passwordItem.LargeLogoImage = await LogoImageHelper.GetLogoImage(logoFilePath, LogoSizeEnum.Large);
+
+            UpdatePasswordsList(PasswordsCategoryId, passwordItem.Id);
+            UpdateFavorites();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongEditPasswords")}: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 删除密码
+    /// </summary>
+    /// <param name="passwordItem"></param>
+    public void DeletePassword(PasswordModel passwordItem)
+    {
+        try
+        {
+            LogoImageHelper.DeleteLogoImage(passwordItem.LogoFileName);
+            PasswordsDataAccess.DeletePassword(passwordItem.Id);
+
+            LoadPasswordsTable();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongDeletePasswords")}: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 添加分类
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="icon"></param>
+    public void CreateCategory(string title, string icon)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                title = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader().GetString("UnknownCategoryTitle");
+            }
+
+            if (string.IsNullOrWhiteSpace(icon))
+            {
+                icon = "\uE72E";
+            }
+
+            PasswordsDataAccess.AddCategory(title, icon, DateTime.Now.Ticks);
+
+            LoadCategoriesTable();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddCategories")}: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 编辑分类信息
+    /// </summary>
+    /// <param name="category"></param>
+    /// <param name="title"></param>
+    /// <param name="icon"></param>
+    public void EditCategory(CategoryModel category, string title, string icon)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                title = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader().GetString("UnknownCategoryTitle");
+            }
+
+            if (string.IsNullOrWhiteSpace(icon))
+            {
+                icon = "\uE72E";
+            }
+
+            PasswordsDataAccess.UpdateCategory(category.Id, title, icon, category.Order);
+
+            LoadPasswordsTable();
+            LoadCategoriesTable();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongEditCategories")}: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 将分类移到最前
+    /// </summary>
+    /// <param name="category"></param>
+    public void MoveCategory(CategoryModel category)
+    {
+        try
+        {
+            PasswordsDataAccess.UpdateCategory(category.Id, category.Title, category.Icon, DateTime.Now.Ticks);
+
+            LoadCategoriesTable();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongMoveCategories")}: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// 删除分类
+    /// </summary>
+    /// <param name="id"></param>
+    public void DeleteCategory(int id)
+    {
+        try
+        {
+            PasswordsDataAccess.DeleteCategory(id);
+
+            LoadPasswordsTable();
+            LoadCategoriesTable();
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+
+            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
+            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongDeleteCategories")}: {ex.Message}");
         }
     }
 }
