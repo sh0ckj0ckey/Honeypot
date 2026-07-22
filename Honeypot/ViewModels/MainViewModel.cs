@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Honeypot.Data.Models;
 using Honeypot.Helpers;
 using Honeypot.Services;
-using Windows.Storage;
 
 namespace Honeypot.ViewModels;
 
@@ -27,7 +25,7 @@ public partial class MainViewModel : ObservableObject
     private PasswordItemViewModel? _selectedPassword;
 
     /// <summary>
-    /// Gets the view model that provides navigation items for the main navigation view.
+    /// Gets the view model that provides items for the main navigation view.
     /// </summary>
     public NavigationViewModel Navigation { get; } = new();
 
@@ -43,12 +41,12 @@ public partial class MainViewModel : ObservableObject
     public ObservableCollection<PasswordItemViewModel> AllPasswords { get; } = [];
 
     /// <summary>
-    /// Gets the current filtered password items sorted by added time.
+    /// Gets the password items in the currently selected category, ordered from newest to oldest.
     /// </summary>
     public ObservableCollection<PasswordItemViewModel> CurrentPasswordItems { get; } = [];
 
     /// <summary>
-    /// Gets the current filtered password items grouped by first letter.
+    /// Gets the password items in the currently selected category, grouped by first letter.
     /// </summary>
     public ObservableCollection<PasswordGroupViewModel> CurrentPasswordGroups { get; } = [];
 
@@ -58,33 +56,42 @@ public partial class MainViewModel : ObservableObject
     public ObservableCollection<PasswordGroupViewModel> FavoritePasswordGroups { get; } = [];
 
     /// <summary>
-    /// Gets or sets whether the main view model is currently loading data.
+    /// Gets a value indicating whether the main view model is currently loading data.
     /// </summary>
     public bool IsLoading
     {
         get => _isLoading;
-        set => SetProperty(ref _isLoading, value);
+        private set => SetProperty(ref _isLoading, value);
     }
 
     /// <summary>
-    /// Gets or sets the category currently used to filter the password list.
-    /// A <see langword="null"/> value means all passwords are shown.
+    /// Gets the category currently used to filter the password collections.
+    /// A <see langword="null"/> value means that all passwords are included.
     /// </summary>
     public CategoryItemViewModel? SelectedCategory
     {
         get => _selectedCategory;
-        set => SetProperty(ref _selectedCategory, value);
+        private set => SetProperty(ref _selectedCategory, value);
     }
 
     /// <summary>
-    /// Gets or sets the password item currently selected in the password list.
+    /// Gets the password item currently selected in the password list.
     /// </summary>
     public PasswordItemViewModel? SelectedPassword
     {
         get => _selectedPassword;
-        set => SetProperty(ref _selectedPassword, value);
+        internal set => SetProperty(ref _selectedPassword, value);
     }
 
+    /// <summary>
+    /// Loads categories and passwords from the password service and rebuilds the navigation, current-password, and favorite-password collections.
+    /// This method has no effect when the data has already been loaded or a load operation is currently in progress.
+    /// </summary>
+    /// <remarks>
+    /// The password service must be initialized before this method is called.
+    /// Logo image loading is started in the background and may continue after this method has completed.
+    /// </remarks>
+    /// <returns>A task that represents the data-loading operation.</returns>
     public async Task LoadAsync()
     {
         if (_isLoaded || this.IsLoading)
@@ -94,25 +101,17 @@ public partial class MainViewModel : ObservableObject
 
         try
         {
+            this.Clear();
+
             this.IsLoading = true;
-
-            this.SelectedCategory = null;
-            this.SelectedPassword = null;
-
-            _categoriesById.Clear();
-            _passwordsById.Clear();
-            this.AllCategories.Clear();
-            this.AllPasswords.Clear();
 
             List<CategoryItemViewModel> categories = [];
             List<PasswordItemViewModel> passwords = [];
             Dictionary<long, long> passwordToCategory = [];
             Dictionary<long, long> passwordToThirdParty = [];
 
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
-                await PasswordsService.InitializeAsync();
-
                 var categoryModels = PasswordsService.GetCategories();
                 var passwordModels = PasswordsService.GetPasswords();
 
@@ -145,8 +144,8 @@ public partial class MainViewModel : ObservableObject
                     passwords.Add(new PasswordItemViewModel(passwordModel));
                 }
 
-                categories.Sort((x, y) => x.Order.CompareTo(y.Order));
-                passwords.Sort((x, y) => x.Id.CompareTo(y.Id));
+                categories.Sort((x, y) => y.Order.CompareTo(x.Order));
+                passwords.Sort((x, y) => y.Id.CompareTo(x.Id));
             });
 
             // Load categories into the view model
@@ -176,17 +175,17 @@ public partial class MainViewModel : ObservableObject
                 }
             }
 
-            _ = this.UpdateCurrentPasswordsAsync();
-            _ = this.UpdateFavoritePasswordsAsync();
+            _isLoaded = true;
+
+            this.UpdateCurrentPasswords();
+            this.UpdateFavoritePasswords();
 
             // Update the navigation view with the loaded categories
             this.Navigation.UpdateCategories(this.AllCategories);
-
-            _isLoaded = true;
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Trace.WriteLine(ex.Message);
+            System.Diagnostics.Trace.WriteLine(ex);
         }
         finally
         {
@@ -194,6 +193,10 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Clears all loaded categories, passwords, derived collections, and current selections,
+    /// and resets the view model to its unloaded state.
+    /// </summary>
     public void Clear()
     {
         this.SelectedCategory = null;
@@ -212,7 +215,14 @@ public partial class MainViewModel : ObservableObject
         _isLoaded = false;
     }
 
-    private async Task UpdateCurrentPasswordsAsync()
+    /// <summary>
+    /// Rebuilds the current password item and group collections for the specified category
+    /// and starts loading normal logo images in the background.
+    /// </summary>
+    /// <param name="filterCategoryId">
+    /// The category ID used to filter passwords. A negative value includes all passwords.
+    /// </param>
+    private void UpdateCurrentPasswords(long filterCategoryId = -1)
     {
         this.CurrentPasswordItems.Clear();
         this.CurrentPasswordGroups.Clear();
@@ -222,15 +232,17 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        var filteredPasswords = this.SelectedCategory is null
-            ? this.AllPasswords : this.AllPasswords.Where(password => password.Category?.Id == this.SelectedCategory.Id);
+        IReadOnlyList<PasswordItemViewModel> filteredPasswords = filterCategoryId < 0
+            ? [.. this.AllPasswords]
+            : [.. this.AllPasswords.Where(password => password.Category?.Id == filterCategoryId)];
 
         foreach (var item in filteredPasswords.OrderByDescending(password => password.Id))
         {
             this.CurrentPasswordItems.Add(item);
         }
 
-        var passwordGroups = filteredPasswords
+        var passwordGroups =
+            filteredPasswords
             .GroupBy(password => password.FirstLetter)
             .OrderBy(group => group.Key)
             .Select(group => new PasswordGroupViewModel(
@@ -243,13 +255,26 @@ public partial class MainViewModel : ObservableObject
         }
 
         // Load logo images for current password items
-        foreach (var password in this.CurrentPasswordItems)
+        _ = LoadLogoImagesAsync(filteredPasswords);
+
+        static async Task LoadLogoImagesAsync(IReadOnlyList<PasswordItemViewModel> passwords)
         {
-            password.LogoImage ??= await LogosService.GetLogoImageAsync(password.LogoImageFileName, LogoImageSize.Medium);
+            foreach (var password in passwords)
+            {
+                try
+                {
+                    password.LogoImage ??= await LogosService.GetLogoImageAsync(password.LogoImageFileName, LogoImageSize.Medium);
+                }
+                catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
+            }
         }
     }
 
-    private async Task UpdateFavoritePasswordsAsync()
+    /// <summary>
+    /// Rebuilds the favorite password groups by category
+    /// and starts loading large logo images in the background.
+    /// </summary>
+    private void UpdateFavoritePasswords()
     {
         this.FavoritePasswordGroups.Clear();
 
@@ -258,8 +283,10 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
-        var favoriteGroups = this.AllPasswords
-            .Where(password => password.Favorite)
+        IReadOnlyList<PasswordItemViewModel> favoritePasswords = [.. this.AllPasswords.Where(password => password.Favorite)];
+
+        var favoriteGroups =
+            favoritePasswords
             .GroupBy(password => password.Category)
             .OrderByDescending(group => group.Key?.Order ?? long.MaxValue)
             .ThenByDescending(group => group.Key?.Id ?? long.MaxValue)
@@ -273,59 +300,89 @@ public partial class MainViewModel : ObservableObject
         }
 
         // Load logo images for favorite password items
-        foreach (var group in this.FavoritePasswordGroups)
+        _ = LoadLogoImagesAsync(favoritePasswords);
+
+        static async Task LoadLogoImagesAsync(IReadOnlyList<PasswordItemViewModel> passwords)
         {
-            foreach (var item in group.Passwords)
+            foreach (var item in passwords)
             {
-                item.LargeLogoImage ??= await LogosService.GetLogoImageAsync(item.LogoImageFileName, LogoImageSize.Large);
+                try
+                {
+                    item.LargeLogoImage ??= await LogosService.GetLogoImageAsync(item.LogoImageFileName, LogoImageSize.Large);
+                }
+                catch (Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
             }
         }
     }
-
-
 
     /// <summary>
-    /// 加载数据库
+    /// Selects a category, rebuilds the current password collections,
+    /// and restores the previously selected password when it remains in the resulting collection.
     /// </summary>
-    public async void InitPasswordsDataBase()
+    /// <param name="categoryId">
+    /// The category ID to select. A negative value selects all passwords.
+    /// </param>
+    /// <returns>
+    /// <see langword="true"/> if the all-passwords view or an existing category was selected;
+    /// otherwise, <see langword="false"/> if the view model is not loaded or the specified category does not exist.
+    /// </returns>
+    public bool SelectCategory(long categoryId)
     {
-        try
+        if (!_isLoaded)
         {
-            StorageFolder documentsFolder = await StorageFolder.GetFolderFromPathAsync(UserDataPaths.GetDefault().Documents);
-            var noMewingFolder = await documentsFolder.CreateFolderAsync("NoMewing", CreationCollisionOption.OpenIfExists);
-            var dbFolder = await noMewingFolder.CreateFolderAsync("Honeypot", CreationCollisionOption.OpenIfExists);
-            PasswordsDataAccess.CloseDatabase();
-            await PasswordsDataAccess.LoadDatabase(dbFolder);
-
-            LoadPasswordsTable();
-            LoadCategoriesTable();
+            return false;
         }
-        catch (Exception ex)
+
+        long selectedPasswordId = this.SelectedPassword?.Id ?? -1;
+
+        if (categoryId < 0)
         {
-            System.Diagnostics.Trace.WriteLine(ex.Message);
-
-            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongConnectToDb")}: {ex.Message}");
+            this.SelectedCategory = null;
+            this.SelectedPassword = null;
+            this.UpdateCurrentPasswords();
         }
+        else if (_categoriesById.TryGetValue(categoryId, out var category))
+        {
+            this.SelectedCategory = category;
+            this.SelectedPassword = null;
+            this.UpdateCurrentPasswords(categoryId);
+        }
+        else
+        {
+            return false;
+        }
+
+        if (selectedPasswordId > 0)
+        {
+            this.SelectedPassword = this.CurrentPasswordItems.FirstOrDefault(password => password.Id == selectedPasswordId);
+        }
+
+        return true;
     }
 
-    public ReadOnlyCollection<PasswordModel> Search(string keyword)
+    /// <summary>
+    /// Searches the current password collection for items whose name or account starts with the specified keyword.
+    /// </summary>
+    /// <param name="keyword">
+    /// The keyword used to search password names and accounts.
+    /// </param>
+    /// <returns>
+    /// A snapshot containing the matching password items. 
+    /// The collection is empty when <paramref name="keyword"/> is <see langword="null"/>, empty, or consists only of white-space characters.
+    /// </returns>
+    public IReadOnlyList<PasswordItemViewModel> SearchCurrentPasswords(string keyword)
     {
-        try
+        if (string.IsNullOrWhiteSpace(keyword))
         {
-            if (!string.IsNullOrWhiteSpace(keyword))
-            {
-                var suggests = Passwords.Where(p => p.Name.StartsWith(keyword, StringComparison.CurrentCultureIgnoreCase) || p.Account.StartsWith(keyword, StringComparison.CurrentCultureIgnoreCase));
-                return suggests;
-            }
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Trace.WriteLine(ex.Message);
+            return [];
         }
 
-        return [];
+        return [.. this.CurrentPasswordItems.Where(p =>
+            p.Name.StartsWith(keyword, StringComparison.CurrentCultureIgnoreCase) ||
+            p.Account.StartsWith(keyword, StringComparison.CurrentCultureIgnoreCase))];
     }
+
+
 
     /// <summary>
     /// 收藏/取消收藏密码
