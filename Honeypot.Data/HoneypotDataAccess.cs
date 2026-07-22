@@ -365,7 +365,7 @@ public static class HoneypotDataAccess
             """
                 SELECT id, title, icon, timeorder
                 FROM passwordCategories
-                ORDER BY timeorder ASC;
+                ORDER BY timeorder DESC;
                 """;
 
         using SqliteDataReader reader = selectCommand.ExecuteReader();
