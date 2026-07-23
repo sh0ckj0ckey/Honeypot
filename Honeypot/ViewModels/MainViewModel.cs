@@ -292,6 +292,7 @@ public partial class MainViewModel : ObservableObject
             .ThenByDescending(group => group.Key?.Id ?? long.MaxValue)
             .Select(group => new PasswordGroupViewModel(
                 group.Key?.Title ?? "UncategorizedCategoryTitle".GetLocalized(),
+                group.Key?.Icon ?? "\uEA3A",
                 new ObservableCollection<PasswordItemViewModel>(group.OrderByDescending(password => password.Id))));
 
         foreach (var group in favoriteGroups)
