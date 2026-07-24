@@ -383,29 +383,195 @@ public partial class MainViewModel : ObservableObject
             p.Account.StartsWith(keyword, StringComparison.CurrentCultureIgnoreCase))];
     }
 
-
-
     /// <summary>
-    /// 收藏/取消收藏密码
+    /// Adds a new password category.
     /// </summary>
-    /// <param name="passwordItem"></param>
-    public void FavoritePassword(PasswordModel passwordItem)
+    /// <param name="title">The category title.</param>
+    /// <param name="icon">The category icon.</param>
+    /// <returns>
+    /// <see langword="true"/> if the category was added; otherwise, <see langword="false"/>.
+    /// </returns>
+    public async Task<bool> AddCategoryAsync(string title, string icon)
     {
+        if (!_isLoaded)
+        {
+            return false;
+        }
+
+        title = string.IsNullOrWhiteSpace(title) ? "UnknownCategoryTitle".GetLocalized() : title.Trim();
+        icon = string.IsNullOrWhiteSpace(icon) ? "\uE72E" : icon.Trim();
+
         try
         {
-            passwordItem.Favorite = !passwordItem.Favorite;
-            PasswordsDataAccess.FavoritePassword(passwordItem.Id, passwordItem.Favorite);
+            long order = DateTime.Now.Ticks;
+            long categoryId = PasswordsService.AddCategory(title, icon, order);
 
-            UpdateFavorites();
+            if (categoryId <= 0)
+            {
+                return false;
+            }
+
+            CategoryItemViewModel category = new(new CategoryModel
+            {
+                Id = categoryId,
+                Title = title,
+                Icon = icon,
+                Order = order
+            });
+
+            _categoriesById.Add(categoryId, category);
+            this.AllCategories.Insert(0, category);
+
+            this.Navigation.UpdateCategories(this.AllCategories);
+
+            return true;
         }
         catch (Exception ex)
         {
-            Debug.WriteLine(ex.Message);
-
-            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddFavorite")}: {ex.Message}");
+            System.Diagnostics.Trace.WriteLine(ex);
+            await ContentDialogService.ShowAsync("DialogTitleOops".GetLocalized(), $"{"DialogContentWrongAddCategories".GetLocalized()}: {ex.Message}");
+            return false;
         }
     }
+
+    /// <summary>
+    /// Updates the title and icon of an existing password category.
+    /// </summary>
+    /// <param name="categoryId">The ID of the category to update.</param>
+    /// <param name="title">The new category title.</param>
+    /// <param name="icon">The new category icon.</param>
+    /// <returns>
+    /// <see langword="true"/> if the category was updated; otherwise, <see langword="false"/>.
+    /// </returns>
+    public async Task<bool> UpdateCategoryAsync(long categoryId, string title, string icon)
+    {
+        if (!_isLoaded || !_categoriesById.TryGetValue(categoryId, out var category))
+        {
+            return false;
+        }
+
+        title = string.IsNullOrWhiteSpace(title) ? "UnknownCategoryTitle".GetLocalized() : title.Trim();
+        icon = string.IsNullOrWhiteSpace(icon) ? "\uE72E" : icon.Trim();
+
+        try
+        {
+            if (!PasswordsService.UpdateCategory(categoryId, title, icon, category.Order))
+            {
+                return false;
+            }
+
+            category.Title = title;
+            category.Icon = icon;
+
+            this.Navigation.UpdateCategories(this.AllCategories);
+            this.UpdateFavoritePasswords();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.WriteLine(ex);
+            await ContentDialogService.ShowAsync("DialogTitleOops".GetLocalized(), $"{"DialogContentWrongEditCategories".GetLocalized()}: {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Moves an existing password category to the beginning of the category list.
+    /// </summary>
+    /// <param name="categoryId">The ID of the category to move.</param>
+    /// <returns>
+    /// <see langword="true"/> if the category was moved; otherwise, <see langword="false"/>.
+    /// </returns>
+    public async Task<bool> MoveCategoryAsync(long categoryId)
+    {
+        if (!_isLoaded || !_categoriesById.TryGetValue(categoryId, out var category))
+        {
+            return false;
+        }
+
+        try
+        {
+            long order = DateTime.Now.Ticks;
+
+            if (!PasswordsService.UpdateCategory(categoryId, category.Title, category.Icon, order))
+            {
+                return false;
+            }
+
+            category.Order = order;
+
+            int categoryIndex = this.AllCategories.IndexOf(category);
+            if (categoryIndex > 0)
+            {
+                this.AllCategories.Move(categoryIndex, 0);
+            }
+
+            this.Navigation.UpdateCategories(this.AllCategories);
+            this.UpdateFavoritePasswords();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.WriteLine(ex);
+            await ContentDialogService.ShowAsync("DialogTitleOops".GetLocalized(), $"{"DialogContentWrongMoveCategories".GetLocalized()}: {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Deletes a password category and moves its passwords to the uncategorized group.
+    /// </summary>
+    /// <param name="categoryId">The ID of the category to delete.</param>
+    /// <returns>
+    /// <see langword="true"/> if the category was deleted; otherwise, <see langword="false"/>.
+    /// </returns>
+    public async Task<bool> DeleteCategoryAsync(long categoryId)
+    {
+        if (!_isLoaded || !_categoriesById.TryGetValue(categoryId, out var category))
+        {
+            return false;
+        }
+
+        try
+        {
+            if (!PasswordsService.DeleteCategory(categoryId))
+            {
+                return false;
+            }
+
+            foreach (var password in this.AllPasswords)
+            {
+                if (password.Category?.Id == categoryId)
+                {
+                    password.Category = null;
+                }
+            }
+
+            _categoriesById.Remove(categoryId);
+            this.AllCategories.Remove(category);
+
+            if (this.SelectedCategory?.Id == categoryId)
+            {
+                this.SelectedCategory = null;
+                this.SelectedPassword = null;
+                this.UpdateCurrentPasswords();
+            }
+
+            this.Navigation.UpdateCategories(this.AllCategories);
+            this.UpdateFavoritePasswords();
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Trace.WriteLine(ex);
+            await ContentDialogService.ShowAsync("DialogTitleOops".GetLocalized(), $"{"DialogContentWrongDeleteCategories".GetLocalized()}: {ex.Message}");
+            return false;
+        }
+    }
+
 
     /// <summary>
     /// 添加密码
@@ -443,7 +609,7 @@ public partial class MainViewModel : ObservableObject
     /// <param name="note"></param>
     /// <param name="favorite"></param>
     /// <param name="logoFilePath"></param>
-    public async void EditPassword(PasswordModel passwordItem, int categoryId, string account, string password, int thirdPartyId, string name, string website, string note, bool favorite, string logoFilePath)
+    public async void UpdatePassword(PasswordModel passwordItem, int categoryId, string account, string password, int thirdPartyId, string name, string website, string note, bool favorite, string logoFilePath)
     {
         try
         {
@@ -507,111 +673,25 @@ public partial class MainViewModel : ObservableObject
     }
 
     /// <summary>
-    /// 添加分类
+    /// 收藏/取消收藏密码
     /// </summary>
-    /// <param name="title"></param>
-    /// <param name="icon"></param>
-    public void CreateCategory(string title, string icon)
+    /// <param name="passwordItem"></param>
+    public void SetPasswordFavorite(PasswordModel passwordItem)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                title = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader().GetString("UnknownCategoryTitle");
-            }
+            passwordItem.Favorite = !passwordItem.Favorite;
+            PasswordsDataAccess.FavoritePassword(passwordItem.Id, passwordItem.Favorite);
 
-            if (string.IsNullOrWhiteSpace(icon))
-            {
-                icon = "\uE72E";
-            }
-
-            PasswordsDataAccess.AddCategory(title, icon, DateTime.Now.Ticks);
-
-            LoadCategoriesTable();
+            UpdateFavorites();
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
 
             var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddCategories")}: {ex.Message}");
+            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongAddFavorite")}: {ex.Message}");
         }
     }
 
-    /// <summary>
-    /// 编辑分类信息
-    /// </summary>
-    /// <param name="category"></param>
-    /// <param name="title"></param>
-    /// <param name="icon"></param>
-    public void EditCategory(CategoryModel category, string title, string icon)
-    {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                title = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader().GetString("UnknownCategoryTitle");
-            }
-
-            if (string.IsNullOrWhiteSpace(icon))
-            {
-                icon = "\uE72E";
-            }
-
-            PasswordsDataAccess.UpdateCategory(category.Id, title, icon, category.Order);
-
-            LoadPasswordsTable();
-            LoadCategoriesTable();
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-
-            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongEditCategories")}: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// 将分类移到最前
-    /// </summary>
-    /// <param name="category"></param>
-    public void MoveCategory(CategoryModel category)
-    {
-        try
-        {
-            PasswordsDataAccess.UpdateCategory(category.Id, category.Title, category.Icon, DateTime.Now.Ticks);
-
-            LoadCategoriesTable();
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-
-            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongMoveCategories")}: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// 删除分类
-    /// </summary>
-    /// <param name="id"></param>
-    public void DeleteCategory(int id)
-    {
-        try
-        {
-            PasswordsDataAccess.DeleteCategory(id);
-
-            LoadPasswordsTable();
-            LoadCategoriesTable();
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-
-            var resourceLoader = new Microsoft.Windows.ApplicationModel.Resources.ResourceLoader();
-            ShowTipsContentDialog(resourceLoader.GetString("DialogTitleOops"), $"{resourceLoader.GetString("DialogContentWrongDeleteCategories")}: {ex.Message}");
-        }
-    }
 }
